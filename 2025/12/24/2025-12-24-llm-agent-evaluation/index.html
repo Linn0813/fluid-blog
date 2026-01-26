@@ -1,0 +1,989 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, Evaluation, Metrics, 评估, 指标体系, 性能评估, 避坑指南">
+  
+    <meta name="description" content="深入解析 Agent 评估：从指标体系、性能评估到避坑指南，掌握如何评估和优化 Agent 的性能，避免常见问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📊 主题15｜Agent 评估：指标体系与避坑指南">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/24/2025-12-24-llm-agent-evaluation/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 Agent 评估：从指标体系、性能评估到避坑指南，掌握如何评估和优化 Agent 的性能，避免常见问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-evaluation.png">
+<meta property="article:published_time" content="2025-12-24T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.635Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Evaluation">
+<meta property="article:tag" content="Metrics">
+<meta property="article:tag" content="评估">
+<meta property="article:tag" content="指标体系">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-evaluation.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>📊 主题15｜Agent 评估：指标体系与避坑指南 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="📊 主题15｜Agent 评估：指标体系与避坑指南"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-24 18:00" pubdate>
+          2025年12月24日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">📊 主题15｜Agent 评估：指标体系与避坑指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 15 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们深入解析了多 Agent 协作，掌握了如何让多个 Agent 像团队一样工作。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将聚焦 Agent 评估，探讨如何评估和优化 Agent 的性能，避免常见问题。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-让-Agent-性能可衡量"><a href="#🚀-导言-—-让-Agent-性能可衡量" class="headerlink" title="🚀 导言 — 让 Agent 性能可衡量"></a>🚀 导言 — 让 Agent 性能可衡量</h2><p>在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-23-llm-agent-multi-agent-collaboration/">第14篇</a>中，我们掌握了多 Agent 协作。但 Agent 的性能如何评估？如何知道 Agent 是否达到了预期？</p>
+<p>但关键问题是：</p>
+<blockquote>
+<p><strong>如何评估 Agent 的性能？</strong><br><strong>Agent 评估的指标体系是什么？</strong><br><strong>如何避免常见问题？</strong></p>
+</blockquote>
+<p><strong>Agent 评估</strong>是 Agent 系统优化的重要环节，通过建立指标体系，评估 Agent 的性能，识别问题并优化。</p>
+<h3 id="🤔-先理解几个基础概念"><a href="#🤔-先理解几个基础概念" class="headerlink" title="🤔 先理解几个基础概念"></a>🤔 先理解几个基础概念</h3><p><strong>1. 评估指标（Evaluation Metrics）</strong></p>
+<blockquote>
+<p>简单理解：用来衡量 Agent 性能的”尺子”。</p>
+<p>例如：</p>
+<ul>
+<li><strong>成功率</strong>：Agent 成功完成任务的百分比</li>
+<li><strong>响应时间</strong>：Agent 完成任务的平均时间</li>
+<li><strong>工具调用次数</strong>：Agent 调用工具的平均次数</li>
+</ul>
+</blockquote>
+<p><strong>2. 基准测试（Benchmark）</strong></p>
+<blockquote>
+<p>简单理解：用来测试 Agent 性能的”标准题目”。</p>
+<p>例如：</p>
+<ul>
+<li>标准任务集：100 个标准任务</li>
+<li>评估标准：成功率、准确率等</li>
+</ul>
+</blockquote>
+<p><strong>3. 避坑指南（Best Practices）</strong></p>
+<blockquote>
+<p>简单理解：避免常见问题的”经验总结”。</p>
+<p>例如：</p>
+<ul>
+<li>避免工具滥用</li>
+<li>避免无限循环</li>
+<li>避免上下文溢出</li>
+</ul>
+</blockquote>
+<h3 id="💡-为什么需要-Agent-评估？"><a href="#💡-为什么需要-Agent-评估？" class="headerlink" title="💡 为什么需要 Agent 评估？"></a>💡 为什么需要 Agent 评估？</h3><p><strong>问题1：性能不可知</strong></p>
+<blockquote>
+<p>不知道 Agent 的性能如何，是否达到了预期。</p>
+</blockquote>
+<p><strong>问题2：问题难发现</strong></p>
+<blockquote>
+<p>没有评估，难以发现 Agent 的问题。</p>
+</blockquote>
+<p><strong>问题3：优化无方向</strong></p>
+<blockquote>
+<p>不知道如何优化 Agent，优化方向不明确。</p>
+</blockquote>
+<p><strong>解决方案：Agent 评估系统</strong></p>
+<blockquote>
+<ul>
+<li><strong>建立指标体系</strong>：定义评估指标</li>
+<li><strong>基准测试</strong>：使用标准任务集测试</li>
+<li><strong>持续监控</strong>：持续监控 Agent 性能</li>
+<li><strong>优化迭代</strong>：根据评估结果优化</li>
+</ul>
+</blockquote>
+<h3 id="📋-本篇学习目标"><a href="#📋-本篇学习目标" class="headerlink" title="📋 本篇学习目标"></a>📋 本篇学习目标</h3><p>本篇将从<strong>实践</strong>的角度，帮你掌握：</p>
+<ol>
+<li><strong>指标体系</strong>：Agent 评估的核心指标</li>
+<li><strong>评估方法</strong>：如何评估 Agent 的性能？</li>
+<li><strong>避坑指南</strong>：如何避免常见问题？</li>
+<li><strong>优化实践</strong>：如何根据评估结果优化 Agent？</li>
+</ol>
+<blockquote>
+<p>💡 <strong>提示</strong>：Agent 评估是 Agent 系统优化的重要环节，理解它有助于构建更可靠的 Agent 系统。</p>
+</blockquote>
+<hr>
+<h2 id="📊-一、评估指标体系"><a href="#📊-一、评估指标体系" class="headerlink" title="📊 一、评估指标体系"></a>📊 一、评估指标体系</h2><h3 id="1-1-核心指标"><a href="#1-1-核心指标" class="headerlink" title="1.1 核心指标"></a>1.1 核心指标</h3><p><strong>1. 成功率（Success Rate）</strong></p>
+<blockquote>
+<p>Agent 成功完成任务的百分比。</p>
+</blockquote>
+<p><strong>2. 准确率（Accuracy）</strong></p>
+<blockquote>
+<p>Agent 输出结果的准确程度。</p>
+</blockquote>
+<p><strong>3. 响应时间（Response Time）</strong></p>
+<blockquote>
+<p>Agent 完成任务的平均时间。</p>
+</blockquote>
+<p><strong>4. 工具调用效率（Tool Call Efficiency）</strong></p>
+<blockquote>
+<p>Agent 调用工具的效率。</p>
+</blockquote>
+<p><strong>5. 成本（Cost）</strong></p>
+<blockquote>
+<p>Agent 运行的成本（Token 消耗、API 调用等）。</p>
+</blockquote>
+<h3 id="1-2-指标计算"><a href="#1-2-指标计算" class="headerlink" title="1.2 指标计算"></a>1.2 指标计算</h3><p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 评估指标计算（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AgentEvaluator</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>metrics <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"total_tasks"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"successful_tasks"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"failed_tasks"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"total_response_time"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"total_tool_calls"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"total_cost"</span><span class="token punctuation">:</span> <span class="token number">0</span>
+        <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">evaluate_task</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> task<span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""评估单个任务"""</span>
+        self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tasks"</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+        
+        <span class="token keyword">if</span> result<span class="token punctuation">[</span><span class="token string">"success"</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"successful_tasks"</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"failed_tasks"</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+        
+        self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_response_time"</span><span class="token punctuation">]</span> <span class="token operator">+=</span> result<span class="token punctuation">[</span><span class="token string">"response_time"</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tool_calls"</span><span class="token punctuation">]</span> <span class="token operator">+=</span> result<span class="token punctuation">[</span><span class="token string">"tool_call_count"</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_cost"</span><span class="token punctuation">]</span> <span class="token operator">+=</span> result<span class="token punctuation">[</span><span class="token string">"cost"</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">get_metrics</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""获取评估指标"""</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"success_rate"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+                self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"successful_tasks"</span><span class="token punctuation">]</span> <span class="token operator">/</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tasks"</span><span class="token punctuation">]</span>
+                <span class="token keyword">if</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tasks"</span><span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">0</span> <span class="token keyword">else</span> <span class="token number">0</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">"average_response_time"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+                self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_response_time"</span><span class="token punctuation">]</span> <span class="token operator">/</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tasks"</span><span class="token punctuation">]</span>
+                <span class="token keyword">if</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tasks"</span><span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">0</span> <span class="token keyword">else</span> <span class="token number">0</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">"average_tool_calls"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+                self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tool_calls"</span><span class="token punctuation">]</span> <span class="token operator">/</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tasks"</span><span class="token punctuation">]</span>
+                <span class="token keyword">if</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tasks"</span><span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">0</span> <span class="token keyword">else</span> <span class="token number">0</span>
+            <span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">"average_cost"</span><span class="token punctuation">:</span> <span class="token punctuation">(</span>
+                self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_cost"</span><span class="token punctuation">]</span> <span class="token operator">/</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tasks"</span><span class="token punctuation">]</span>
+                <span class="token keyword">if</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_tasks"</span><span class="token punctuation">]</span> <span class="token operator">></span> <span class="token number">0</span> <span class="token keyword">else</span> <span class="token number">0</span>
+            <span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="⚠️-二、常见问题与避坑指南"><a href="#⚠️-二、常见问题与避坑指南" class="headerlink" title="⚠️ 二、常见问题与避坑指南"></a>⚠️ 二、常见问题与避坑指南</h2><h3 id="2-1-工具滥用"><a href="#2-1-工具滥用" class="headerlink" title="2.1 工具滥用"></a>2.1 工具滥用</h3><p><strong>问题</strong>：</p>
+<blockquote>
+<p>Agent 过度调用工具，导致成本高、效率低。</p>
+</blockquote>
+<p><strong>解决方案</strong>：</p>
+<blockquote>
+<ul>
+<li>限制工具调用次数</li>
+<li>优化工具选择逻辑</li>
+<li>缓存工具调用结果</li>
+</ul>
+</blockquote>
+<h3 id="2-2-无限循环"><a href="#2-2-无限循环" class="headerlink" title="2.2 无限循环"></a>2.2 无限循环</h3><p><strong>问题</strong>：</p>
+<blockquote>
+<p>Agent 陷入无限循环，无法完成任务。</p>
+</blockquote>
+<p><strong>解决方案</strong>：</p>
+<blockquote>
+<ul>
+<li>设置最大迭代次数</li>
+<li>检测循环模式</li>
+<li>超时机制</li>
+</ul>
+</blockquote>
+<h3 id="2-3-上下文溢出"><a href="#2-3-上下文溢出" class="headerlink" title="2.3 上下文溢出"></a>2.3 上下文溢出</h3><p><strong>问题</strong>：</p>
+<blockquote>
+<p>Context Window 溢出，导致任务失败。</p>
+</blockquote>
+<p><strong>解决方案</strong>：</p>
+<blockquote>
+<ul>
+<li>使用记忆管理（见第8篇）</li>
+<li>压缩上下文</li>
+<li>摘要历史记录</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔍-总结：Agent-评估指导优化方向"><a href="#🔍-总结：Agent-评估指导优化方向" class="headerlink" title="🔍 总结：Agent 评估指导优化方向"></a>🔍 总结：Agent 评估指导优化方向</h2><h3 id="💡-快速回顾：你学到了什么？"><a href="#💡-快速回顾：你学到了什么？" class="headerlink" title="💡 快速回顾：你学到了什么？"></a>💡 快速回顾：你学到了什么？</h3><ol>
+<li><strong>评估指标体系</strong>：成功率、准确率、响应时间等核心指标</li>
+<li><strong>评估方法</strong>：如何评估 Agent 的性能</li>
+<li><strong>避坑指南</strong>：如何避免常见问题</li>
+<li><strong>优化实践</strong>：如何根据评估结果优化 Agent</li>
+</ol>
+<h3 id="Agent-评估的核心指标"><a href="#Agent-评估的核心指标" class="headerlink" title="Agent 评估的核心指标"></a>Agent 评估的核心指标</h3><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>说明</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>成功率</strong></td>
+<td>Agent 成功完成任务的百分比</td>
+<td>100 个任务，成功 90 个，成功率 90%</td>
+</tr>
+<tr>
+<td><strong>准确率</strong></td>
+<td>Agent 输出结果的准确程度</td>
+<td>输出结果正确的比例</td>
+</tr>
+<tr>
+<td><strong>响应时间</strong></td>
+<td>Agent 完成任务的平均时间</td>
+<td>平均需要多长时间</td>
+</tr>
+<tr>
+<td><strong>工具调用效率</strong></td>
+<td>Agent 调用工具的效率</td>
+<td>调用工具的次数和效果</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>Agent 运行的成本</td>
+<td>Token 消耗、API 调用费用</td>
+</tr>
+</tbody></table>
+<p><strong>生活化理解</strong>：</p>
+<blockquote>
+<p>就像评估员工：</p>
+<ul>
+<li><strong>成功率</strong>：员工完成任务的成功率</li>
+<li><strong>准确率</strong>：工作结果的准确程度</li>
+<li><strong>响应时间</strong>：完成任务的速度</li>
+<li><strong>效率</strong>：工作效率如何</li>
+<li><strong>成本</strong>：人力成本</li>
+</ul>
+</blockquote>
+<h3 id="常见问题与解决方案"><a href="#常见问题与解决方案" class="headerlink" title="常见问题与解决方案"></a>常见问题与解决方案</h3><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>原因</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>工具滥用</strong></td>
+<td>Agent 过度调用工具</td>
+<td>限制调用次数，优化选择逻辑</td>
+</tr>
+<tr>
+<td><strong>无限循环</strong></td>
+<td>Agent 陷入循环</td>
+<td>设置最大迭代次数，检测循环</td>
+</tr>
+<tr>
+<td><strong>上下文溢出</strong></td>
+<td>Context Window 溢出</td>
+<td>使用记忆管理，压缩上下文</td>
+</tr>
+</tbody></table>
+<h3 id="实战建议"><a href="#实战建议" class="headerlink" title="实战建议"></a>实战建议</h3><ol>
+<li><strong>建立指标体系</strong>：根据项目需求建立评估指标</li>
+<li><strong>持续监控</strong>：持续监控 Agent 性能，及时发现问题</li>
+<li><strong>定期评估</strong>：定期进行性能评估，识别优化点</li>
+<li><strong>迭代优化</strong>：根据评估结果持续优化 Agent</li>
+</ol>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：<br>Agent 评估是 Agent 系统优化的重要环节，通过建立指标体系，评估 Agent 的性能，识别问题并优化，让 Agent 系统更可靠、更高效。</p>
+<p>就像产品优化一样，好的 Agent 评估能让 Agent 系统持续改进，不断提升性能和可靠性。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读"><a href="#📚-延伸阅读" class="headerlink" title="📚 延伸阅读"></a>📚 延伸阅读</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.langchain.com/docs/evaluation/"><strong>Agent Evaluation Best Practices</strong></a>：Agent 评估最佳实践</li>
+<li><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/evaluation/metrics"><strong>LLM Evaluation Metrics</strong></a>：LLM 评估指标</li>
+</ul>
+<hr>
+<h2 id="🎉-系列总结"><a href="#🎉-系列总结" class="headerlink" title="🎉 系列总结"></a>🎉 系列总结</h2><p>恭喜你完成了《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》系列的学习！</p>
+<p>通过这 15 篇文章，你已经系统掌握了：</p>
+<ul>
+<li>LLM 的工作原理和 Prompt 工程</li>
+<li>Agent 的核心架构和决策机制</li>
+<li>RAG、记忆管理、工具系统等关键技术</li>
+<li>框架选型、安全治理、多 Agent 协作等实践</li>
+</ul>
+<p>希望这个系列能帮助你从”会用”真正迈向”理解原理”，从”能跑 Demo”进阶到”能做项目”。</p>
+<p>继续探索，持续学习，让 AI 技术真正为你所用！🚀</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/Evaluation/" class="print-no-link">#Evaluation</a>
+      
+        <a href="/fluid-blog/tags/Metrics/" class="print-no-link">#Metrics</a>
+      
+        <a href="/fluid-blog/tags/%E8%AF%84%E4%BC%B0/" class="print-no-link">#评估</a>
+      
+        <a href="/fluid-blog/tags/%E6%8C%87%E6%A0%87%E4%BD%93%E7%B3%BB/" class="print-no-link">#指标体系</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>📊 主题15｜Agent 评估：指标体系与避坑指南</div>
+      <div>https://linn0813.github.io/2025/12/24/2025-12-24-llm-agent-evaluation/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/25/2025-12-25-fiddler-to-charles-migration-guide/" title="从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/23/2025-12-23-llm-agent-multi-agent-collaboration/" title="👥 主题14｜多 Agent 协作：像团队一样工作的一群智能体">
+                        <span class="hidden-mobile">👥 主题14｜多 Agent 协作：像团队一样工作的一群智能体</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

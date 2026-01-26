@@ -1,0 +1,1087 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, Spec, Schema, JSON Schema, Pydantic, 结构化输出, 输出规范">
+  
+    <meta name="description" content="深入解析 Agent Spec 设计：从 JSON Schema 到 Pydantic，掌握如何用 Schema 限制 Agent 输出，提升稳定性和可控性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/21/2025-12-21-llm-agent-spec-design/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 Agent Spec 设计：从 JSON Schema 到 Pydantic，掌握如何用 Schema 限制 Agent 输出，提升稳定性和可控性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-spec-design.png">
+<meta property="article:published_time" content="2025-12-21T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.634Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Pydantic">
+<meta property="article:tag" content="Schema">
+<meta property="article:tag" content="Spec">
+<meta property="article:tag" content="JSON Schema">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-spec-design.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-21 18:00" pubdate>
+          2025年12月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 12 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们对比了主流 Agent 框架，掌握了如何选择合适的框架。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将深入 Spec 设计，探讨如何用 Schema 限制 Agent 输出，提升稳定性和可控性。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-让-Agent-输出更稳定"><a href="#🚀-导言-—-让-Agent-输出更稳定" class="headerlink" title="🚀 导言 — 让 Agent 输出更稳定"></a>🚀 导言 — 让 Agent 输出更稳定</h2><p>在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-20-llm-agent-framework-comparison/">第11篇</a>中，我们掌握了如何选择合适的框架。但 Agent 还有一个关键问题：</p>
+<blockquote>
+<p><strong>Agent 的输出不稳定怎么办？</strong><br><strong>如何确保 Agent 输出符合预期格式？</strong><br><strong>如何提升 Agent 输出的可控性？</strong></p>
+</blockquote>
+<p><strong>Spec 设计</strong>是解决这些问题的关键，它通过 Schema 限制 Agent 的输出格式，确保输出的稳定性和可控性。</p>
+<h3 id="🤔-先理解几个基础概念"><a href="#🤔-先理解几个基础概念" class="headerlink" title="🤔 先理解几个基础概念"></a>🤔 先理解几个基础概念</h3><p><strong>1. Spec（规范）</strong></p>
+<blockquote>
+<p>简单理解：定义 Agent 输出应该是什么样子。</p>
+<p>例如：</p>
+<ul>
+<li>输出格式：JSON</li>
+<li>字段要求：必须有 <code>name</code>、<code>age</code> 字段</li>
+<li>类型要求：<code>age</code> 必须是数字</li>
+</ul>
+</blockquote>
+<p><strong>2. Schema（模式）</strong></p>
+<blockquote>
+<p>简单理解：描述数据结构的”模板”。</p>
+<p>例如：</p>
+<ul>
+<li>JSON Schema：描述 JSON 数据的结构</li>
+<li>Pydantic：Python 的数据验证库</li>
+</ul>
+</blockquote>
+<p><strong>3. 结构化输出（Structured Output）</strong></p>
+<blockquote>
+<p>简单理解：让 Agent 输出固定格式的数据，而不是自由文本。</p>
+<p>例如：</p>
+<ul>
+<li>❌ 自由文本：”用户是张三，25岁”</li>
+<li>✅ 结构化输出：<code>&#123;&quot;name&quot;: &quot;张三&quot;, &quot;age&quot;: 25&#125;</code></li>
+</ul>
+</blockquote>
+<h3 id="💡-为什么需要-Spec-设计？"><a href="#💡-为什么需要-Spec-设计？" class="headerlink" title="💡 为什么需要 Spec 设计？"></a>💡 为什么需要 Spec 设计？</h3><p><strong>问题1：输出不稳定</strong></p>
+<blockquote>
+<p>Agent 的输出格式不固定，难以解析和处理。</p>
+</blockquote>
+<p><strong>问题2：字段缺失</strong></p>
+<blockquote>
+<p>Agent 可能不输出某些必需字段。</p>
+</blockquote>
+<p><strong>问题3：类型错误</strong></p>
+<blockquote>
+<p>Agent 可能输出错误的数据类型。</p>
+</blockquote>
+<p><strong>解决方案：Spec 设计</strong></p>
+<blockquote>
+<ul>
+<li><strong>定义 Schema</strong>：明确输出格式</li>
+<li><strong>强制验证</strong>：确保输出符合 Schema</li>
+<li><strong>错误处理</strong>：处理不符合 Schema 的输出</li>
+</ul>
+</blockquote>
+<h3 id="📋-本篇学习目标"><a href="#📋-本篇学习目标" class="headerlink" title="📋 本篇学习目标"></a>📋 本篇学习目标</h3><p>本篇将从<strong>实践</strong>的角度，帮你掌握：</p>
+<ol>
+<li><strong>JSON Schema</strong>：如何用 JSON Schema 定义输出格式？</li>
+<li><strong>Pydantic</strong>：如何用 Pydantic 验证输出？</li>
+<li><strong>最佳实践</strong>：Spec 设计的最佳实践</li>
+<li><strong>工程实践</strong>：如何在实际项目中应用 Spec 设计？</li>
+</ol>
+<blockquote>
+<p>💡 <strong>提示</strong>：Spec 设计是提升 Agent 输出稳定性的关键，理解它有助于构建更可靠的 Agent 系统。</p>
+</blockquote>
+<hr>
+<h2 id="📐-一、JSON-Schema：定义输出格式"><a href="#📐-一、JSON-Schema：定义输出格式" class="headerlink" title="📐 一、JSON Schema：定义输出格式"></a>📐 一、JSON Schema：定义输出格式</h2><p><strong>JSON Schema</strong> 是定义 JSON 数据结构的标准，可以用来限制 Agent 的输出格式。</p>
+<h3 id="1-1-JSON-Schema-基础"><a href="#1-1-JSON-Schema-基础" class="headerlink" title="1.1 JSON Schema 基础"></a>1.1 JSON Schema 基础</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>JSON Schema 就像”表格模板”，定义数据应该有哪些字段，每个字段是什么类型。</p>
+</blockquote>
+<p><strong>基本语法</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+  <span class="token property">"properties"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"name"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+      <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"用户姓名"</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token property">"age"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"integer"</span><span class="token punctuation">,</span>
+      <span class="token property">"description"</span><span class="token operator">:</span> <span class="token string">"用户年龄"</span><span class="token punctuation">,</span>
+      <span class="token property">"minimum"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token property">"maximum"</span><span class="token operator">:</span> <span class="token number">150</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token property">"required"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token string">"age"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># JSON Schema 示例（伪代码）</span>
+
+user_schema <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+    <span class="token string">"properties"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+            <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"用户姓名"</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token string">"age"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"integer"</span><span class="token punctuation">,</span>
+            <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"用户年龄"</span><span class="token punctuation">,</span>
+            <span class="token string">"minimum"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"maximum"</span><span class="token punctuation">:</span> <span class="token number">150</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+            <span class="token string">"format"</span><span class="token punctuation">:</span> <span class="token string">"email"</span><span class="token punctuation">,</span>
+            <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"用户邮箱"</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token string">"required"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token string">"age"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 在 Prompt 中使用</span>
+prompt <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"""
+请输出用户信息，格式必须符合以下 JSON Schema：
+
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>user_schema<span class="token punctuation">,</span> indent<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">
+
+用户输入：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>user_input<span class="token punctuation">&#125;</span></span><span class="token string">
+"""</span></span>
+
+<span class="token comment"># LLM 输出会被 Schema 限制</span>
+response <span class="token operator">=</span> llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="1-2-复杂-Schema-示例"><a href="#1-2-复杂-Schema-示例" class="headerlink" title="1.2 复杂 Schema 示例"></a>1.2 复杂 Schema 示例</h3><p><strong>嵌套对象</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+  <span class="token property">"properties"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"user"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+      <span class="token property">"properties"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">"name"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token property">"age"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"integer"</span><span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+      <span class="token property">"required"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token string">"age"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token property">"address"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+      <span class="token property">"properties"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">"city"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token property">"street"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token property">"required"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"user"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>数组</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+  <span class="token property">"properties"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"users"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"array"</span><span class="token punctuation">,</span>
+      <span class="token property">"items"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+        <span class="token property">"properties"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+          <span class="token property">"name"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+          <span class="token property">"age"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"integer"</span><span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token property">"required"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token string">"age"</span><span class="token punctuation">]</span>
+      <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token property">"required"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"users"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🐍-二、Pydantic：Python-的数据验证"><a href="#🐍-二、Pydantic：Python-的数据验证" class="headerlink" title="🐍 二、Pydantic：Python 的数据验证"></a>🐍 二、Pydantic：Python 的数据验证</h2><p><strong>Pydantic</strong> 是 Python 的数据验证库，可以用来验证 Agent 的输出。</p>
+<h3 id="2-1-Pydantic-基础"><a href="#2-1-Pydantic-基础" class="headerlink" title="2.1 Pydantic 基础"></a>2.1 Pydantic 基础</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>Pydantic 就像”数据检查员”，检查数据是否符合要求。</p>
+</blockquote>
+<p><strong>基本用法</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Pydantic 示例</span>
+
+<span class="token keyword">from</span> pydantic <span class="token keyword">import</span> BaseModel<span class="token punctuation">,</span> Field<span class="token punctuation">,</span> validator
+
+<span class="token keyword">class</span> <span class="token class-name">User</span><span class="token punctuation">(</span>BaseModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> description<span class="token operator">=</span><span class="token string">"用户姓名"</span><span class="token punctuation">)</span>
+    age<span class="token punctuation">:</span> <span class="token builtin">int</span> <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> ge<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> le<span class="token operator">=</span><span class="token number">150</span><span class="token punctuation">,</span> description<span class="token operator">=</span><span class="token string">"用户年龄"</span><span class="token punctuation">)</span>
+    email<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> description<span class="token operator">=</span><span class="token string">"用户邮箱"</span><span class="token punctuation">)</span>
+    
+    <span class="token decorator annotation punctuation">@validator</span><span class="token punctuation">(</span><span class="token string">'email'</span><span class="token punctuation">)</span>
+    <span class="token keyword">def</span> <span class="token function">validate_email</span><span class="token punctuation">(</span>cls<span class="token punctuation">,</span> v<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token string">'@'</span> <span class="token keyword">not</span> <span class="token keyword">in</span> v<span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> ValueError<span class="token punctuation">(</span><span class="token string">'邮箱格式不正确'</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> v
+
+<span class="token comment"># 使用 Pydantic 验证</span>
+<span class="token keyword">try</span><span class="token punctuation">:</span>
+    user <span class="token operator">=</span> User<span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">"张三"</span><span class="token punctuation">,</span> age<span class="token operator">=</span><span class="token number">25</span><span class="token punctuation">,</span> email<span class="token operator">=</span><span class="token string">"zhangsan@example.com"</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">except</span> ValidationError <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"验证失败：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>e<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-2-Pydantic-与-Agent-集成"><a href="#2-2-Pydantic-与-Agent-集成" class="headerlink" title="2.2 Pydantic 与 Agent 集成"></a>2.2 Pydantic 与 Agent 集成</h3><p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Pydantic 与 Agent 集成（伪代码）</span>
+
+<span class="token keyword">from</span> pydantic <span class="token keyword">import</span> BaseModel<span class="token punctuation">,</span> Field
+
+<span class="token keyword">class</span> <span class="token class-name">TaskResult</span><span class="token punctuation">(</span>BaseModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""任务结果模型"""</span>
+    success<span class="token punctuation">:</span> <span class="token builtin">bool</span> <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> description<span class="token operator">=</span><span class="token string">"是否成功"</span><span class="token punctuation">)</span>
+    result<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> description<span class="token operator">=</span><span class="token string">"结果内容"</span><span class="token punctuation">)</span>
+    error<span class="token punctuation">:</span> <span class="token builtin">str</span> <span class="token operator">=</span> Field<span class="token punctuation">(</span><span class="token boolean">None</span><span class="token punctuation">,</span> description<span class="token operator">=</span><span class="token string">"错误信息"</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">validate_agent_output</span><span class="token punctuation">(</span>output<span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">,</span> schema<span class="token punctuation">:</span> BaseModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""验证 Agent 输出"""</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token comment"># 解析 JSON</span>
+        data <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>output<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 验证 Schema</span>
+        result <span class="token operator">=</span> schema<span class="token punctuation">(</span><span class="token operator">**</span>data<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"data"</span><span class="token punctuation">:</span> result<span class="token punctuation">&#125;</span>
+    <span class="token keyword">except</span> json<span class="token punctuation">.</span>JSONDecodeError <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"JSON 解析失败：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>e<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">except</span> ValidationError <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"Schema 验证失败：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>e<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 使用示例</span>
+agent_output <span class="token operator">=</span> <span class="token string">'&#123;"success": true, "result": "任务完成"&#125;'</span>
+schema <span class="token operator">=</span> TaskResult
+
+validation_result <span class="token operator">=</span> validate_agent_output<span class="token punctuation">(</span>agent_output<span class="token punctuation">,</span> schema<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔧-三、Spec-设计最佳实践"><a href="#🔧-三、Spec-设计最佳实践" class="headerlink" title="🔧 三、Spec 设计最佳实践"></a>🔧 三、Spec 设计最佳实践</h2><h3 id="3-1-设计原则"><a href="#3-1-设计原则" class="headerlink" title="3.1 设计原则"></a>3.1 设计原则</h3><p><strong>原则1：明确性</strong></p>
+<blockquote>
+<p>Schema 定义要明确，不要有歧义。</p>
+</blockquote>
+<p><strong>原则2：完整性</strong></p>
+<blockquote>
+<p>定义所有必需的字段，不要遗漏。</p>
+</blockquote>
+<p><strong>原则3：可扩展性</strong></p>
+<blockquote>
+<p>Schema 要易于扩展，支持未来需求。</p>
+</blockquote>
+<p><strong>原则4：可验证性</strong></p>
+<blockquote>
+<p>Schema 要可以验证，确保输出符合要求。</p>
+</blockquote>
+<h3 id="3-2-常见模式"><a href="#3-2-常见模式" class="headerlink" title="3.2 常见模式"></a>3.2 常见模式</h3><p><strong>模式1：结果包装</strong></p>
+<blockquote>
+<p>用统一的格式包装结果。</p>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+  <span class="token property">"properties"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"success"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"boolean"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token property">"error"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"string"</span><span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token property">"required"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"success"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>模式2：分页结果</strong></p>
+<blockquote>
+<p>支持分页的结果格式。</p>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+  <span class="token property">"properties"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"items"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+      <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"array"</span><span class="token punctuation">,</span>
+      <span class="token property">"items"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"object"</span><span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token property">"total"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"integer"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token property">"page"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"integer"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token property">"page_size"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"integer"</span><span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token property">"required"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"items"</span><span class="token punctuation">,</span> <span class="token string">"total"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔍-总结：Spec-设计提升-Agent-输出稳定性"><a href="#🔍-总结：Spec-设计提升-Agent-输出稳定性" class="headerlink" title="🔍 总结：Spec 设计提升 Agent 输出稳定性"></a>🔍 总结：Spec 设计提升 Agent 输出稳定性</h2><h3 id="💡-快速回顾：你学到了什么？"><a href="#💡-快速回顾：你学到了什么？" class="headerlink" title="💡 快速回顾：你学到了什么？"></a>💡 快速回顾：你学到了什么？</h3><ol>
+<li><strong>JSON Schema</strong>：定义输出格式的标准</li>
+<li><strong>Pydantic</strong>：Python 的数据验证库</li>
+<li><strong>最佳实践</strong>：Spec 设计的原则和模式</li>
+<li><strong>工程实践</strong>：如何在实际项目中应用 Spec 设计</li>
+</ol>
+<h3 id="Spec-设计的核心作用"><a href="#Spec-设计的核心作用" class="headerlink" title="Spec 设计的核心作用"></a>Spec 设计的核心作用</h3><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>JSON Schema</strong></td>
+<td>定义输出格式</td>
+<td>告诉 Agent 输出应该是什么样子</td>
+</tr>
+<tr>
+<td><strong>Pydantic</strong></td>
+<td>验证输出数据</td>
+<td>检查输出是否符合要求</td>
+</tr>
+<tr>
+<td><strong>错误处理</strong></td>
+<td>处理不符合 Schema 的输出</td>
+<td>当输出不符合时如何处理</td>
+</tr>
+</tbody></table>
+<p><strong>生活化理解</strong>：</p>
+<blockquote>
+<p>就像填表格：</p>
+<ul>
+<li><strong>JSON Schema</strong>：表格模板，定义哪些字段必填，字段类型是什么</li>
+<li><strong>Pydantic</strong>：表格检查员，检查填写的内容是否符合要求</li>
+<li><strong>错误处理</strong>：如果填写错误，提示用户修正</li>
+</ul>
+</blockquote>
+<h3 id="设计原则总结"><a href="#设计原则总结" class="headerlink" title="设计原则总结"></a>设计原则总结</h3><table>
+<thead>
+<tr>
+<th>原则</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>明确性</strong></td>
+<td>Schema 定义要明确</td>
+<td>✅ 字段类型、必填项都明确<br>❌ 模糊的定义</td>
+</tr>
+<tr>
+<td><strong>完整性</strong></td>
+<td>定义所有必需字段</td>
+<td>✅ 所有必需字段都定义<br>❌ 遗漏必需字段</td>
+</tr>
+<tr>
+<td><strong>可扩展性</strong></td>
+<td>Schema 易于扩展</td>
+<td>✅ 支持可选字段<br>❌ 固定结构</td>
+</tr>
+<tr>
+<td><strong>可验证性</strong></td>
+<td>Schema 可以验证</td>
+<td>✅ 可以用工具验证<br>❌ 无法验证</td>
+</tr>
+</tbody></table>
+<h3 id="实战建议"><a href="#实战建议" class="headerlink" title="实战建议"></a>实战建议</h3><ol>
+<li><strong>从简单开始</strong>：先定义简单的 Schema，再逐步完善</li>
+<li><strong>重视验证</strong>：使用 Pydantic 等工具验证输出</li>
+<li><strong>错误处理</strong>：处理不符合 Schema 的输出，不要直接失败</li>
+<li><strong>持续优化</strong>：根据实际使用情况优化 Schema</li>
+</ol>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：<br>Spec 设计是提升 Agent 输出稳定性的关键，通过 Schema 限制输出格式，确保输出的可控性和可解析性。</p>
+<p>就像 API 设计一样，好的 Spec 设计能让 Agent 的输出更稳定、更可靠，便于后续处理和使用。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读"><a href="#📚-延伸阅读" class="headerlink" title="📚 延伸阅读"></a>📚 延伸阅读</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://json-schema.org/"><strong>JSON Schema 官方文档</strong></a>：JSON Schema 的官方文档</li>
+<li><a target="_blank" rel="noopener" href="https://docs.pydantic.dev/"><strong>Pydantic 官方文档</strong></a>：Pydantic 的官方文档</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>Spec 设计让 Agent 输出更稳定，但 Agent 的行为需要监控和管理。</p>
+<p><strong>第 13 篇将深入安全治理</strong>：</p>
+<blockquote>
+<p><strong>《主题13｜Agent 安全治理：日志、审计、可观测性与安全审计》</strong></p>
+</blockquote>
+<ul>
+<li>如何监控 Agent 的行为？</li>
+<li>如何记录和分析 Agent 的执行日志？</li>
+<li>如何实现 Agent 的可观测性？</li>
+<li>Agent 安全审计的最佳实践</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/Pydantic/" class="print-no-link">#Pydantic</a>
+      
+        <a href="/fluid-blog/tags/Schema/" class="print-no-link">#Schema</a>
+      
+        <a href="/fluid-blog/tags/Spec/" class="print-no-link">#Spec</a>
+      
+        <a href="/fluid-blog/tags/JSON-Schema/" class="print-no-link">#JSON Schema</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性</div>
+      <div>https://linn0813.github.io/2025/12/21/2025-12-21-llm-agent-spec-design/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/22/2025-12-22-llm-agent-security-governance/" title="🔒 主题13｜Agent 安全治理：日志、审计、可观测性与安全审计">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🔒 主题13｜Agent 安全治理：日志、审计、可观测性与安全审计</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/20/2025-12-20-llm-agent-framework-comparison/" title="🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析">
+                        <span class="hidden-mobile">🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

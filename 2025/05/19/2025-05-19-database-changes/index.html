@@ -1,0 +1,754 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="数据库维护, MySQL, 新增字段, 调整唯一约束, 自动化测试平台">
+  
+    <meta name="description" content="以实际项目为例，详细介绍自动化测试平台数据库新增 &#96;is_del&#96; 字段、调整 &#96;username&#96; 唯一约束的全流程，包含需求分析、SQL 操作步骤、应用代码修改及测试验证。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手把手教你：数据库新增字段与调整唯一约束实战指南 📚">
+<meta property="og:url" content="https://linn0813.github.io/2025/05/19/2025-05-19-database-changes/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="以实际项目为例，详细介绍自动化测试平台数据库新增 &#96;is_del&#96; 字段、调整 &#96;username&#96; 唯一约束的全流程，包含需求分析、SQL 操作步骤、应用代码修改及测试验证。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/database-changes.png">
+<meta property="article:published_time" content="2025-05-19T09:47:59.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.865Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="自动化测试平台">
+<meta property="article:tag" content="数据库维护">
+<meta property="article:tag" content="字段新增">
+<meta property="article:tag" content="唯一约束调整">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/database-changes.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>手把手教你：数据库新增字段与调整唯一约束实战指南 📚 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="手把手教你：数据库新增字段与调整唯一约束实战指南 📚"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-19 17:47" pubdate>
+          2025年5月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">手把手教你：数据库新增字段与调整唯一约束实战指南 📚</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="手把手教你：数据库新增字段与调整唯一约束实战指南-📚"><a href="#手把手教你：数据库新增字段与调整唯一约束实战指南-📚" class="headerlink" title="手把手教你：数据库新增字段与调整唯一约束实战指南 📚"></a>手把手教你：数据库新增字段与调整唯一约束实战指南 📚</h1><p>在数据库的日常维护和功能扩展中，我们常常会遇到需要新增字段和调整唯一约束的情况。就像我最近在自动化测试平台项目中就碰到了这样的问题，现在我就把整个解决过程分享给大家，希望能帮助大家在遇到类似场景时顺利应对。</p>
+<h2 id="一、新增-is-del-字段：为用户权限管理添砖加瓦-🧱"><a href="#一、新增-is-del-字段：为用户权限管理添砖加瓦-🧱" class="headerlink" title="一、新增 is_del 字段：为用户权限管理添砖加瓦 🧱"></a>一、新增 <code>is_del</code> 字段：为用户权限管理添砖加瓦 🧱</h2><h3 id="需求背景：灵活控制用户权限的钥匙-🔑"><a href="#需求背景：灵活控制用户权限的钥匙-🔑" class="headerlink" title="需求背景：灵活控制用户权限的钥匙 🔑"></a>需求背景：灵活控制用户权限的钥匙 🔑</h3><p>在我们的自动化测试平台里，有这样一个需求：要能够灵活地收回用户的权限，但又不想直接删除用户数据。这就好比我们有一个房间，虽然暂时不想让某些人进去，但又不想把他们的信息从入住记录里完全删掉。这时候，添加一个 <code>is_del</code> 字段到用户表（<code>users</code>）中就成了一个很好的解决方案。通过设置这个字段的值，比如 0 表示正常，1 表示权限已收回，我们就可以轻松地控制用户的访问权限，就像给房间的门装了一把灵活的锁。</p>
+<h3 id="操作步骤：SQL-语句实现字段添加-💻"><a href="#操作步骤：SQL-语句实现字段添加-💻" class="headerlink" title="操作步骤：SQL 语句实现字段添加 💻"></a>操作步骤：SQL 语句实现字段添加 💻</h3><p>在 MySQL 中，我们可以使用 <code>ALTER TABLE</code> 语句来完成这个操作。具体的 SQL 语句如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 在 users 表中添加 is_del 字段，初始值为 0 表示正常</span>
+<span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> users
+<span class="token keyword">ADD</span> <span class="token keyword">COLUMN</span> is_del <span class="token keyword">TINYINT</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">DEFAULT</span> <span class="token number">0</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<h4 id="代码解释-📝"><a href="#代码解释-📝" class="headerlink" title="代码解释 📝"></a>代码解释 📝</h4><ul>
+<li><code>ALTER TABLE users</code>：告诉数据库我们要对 <code>users</code> 表进行修改。</li>
+<li><code>ADD COLUMN is_del</code>：表示我们要在这个表中添加一个名为 <code>is_del</code> 的字段。</li>
+<li><code>TINYINT(1)</code>：指定了 <code>is_del</code> 字段的数据类型为 <code>TINYINT</code>，括号里的 1 表示这个字段占用 1 个字节的存储空间，通常用来存储布尔值或者小整数。</li>
+<li><code>DEFAULT 0</code>：设置该字段的默认值为 0，也就是说新添加的用户默认处于正常状态。</li>
+<li><code>NOT NULL</code>：表示这个字段不能为空，确保每条记录都有一个明确的 <code>is_del</code> 值。</li>
+</ul>
+<h4 id="可能遇到的问题及解决办法-❓"><a href="#可能遇到的问题及解决办法-❓" class="headerlink" title="可能遇到的问题及解决办法 ❓"></a>可能遇到的问题及解决办法 ❓</h4><ul>
+<li><strong>权限问题</strong>：如果执行这条 SQL 语句时提示没有足够的权限，你需要联系数据库管理员，让他们给你分配相应的权限。</li>
+<li><strong>表结构冲突</strong>：如果表中已经存在名为 <code>is_del</code> 的字段，就会出现冲突。这时你需要先检查并删除或者重命名已有的字段。</li>
+</ul>
+<h2 id="二、调整-username-唯一约束：解决注册与权限管理的矛盾-🤝"><a href="#二、调整-username-唯一约束：解决注册与权限管理的矛盾-🤝" class="headerlink" title="二、调整 username 唯一约束：解决注册与权限管理的矛盾 🤝"></a>二、调整 <code>username</code> 唯一约束：解决注册与权限管理的矛盾 🤝</h2><h3 id="问题分析：唯一约束带来的注册难题-🚧"><a href="#问题分析：唯一约束带来的注册难题-🚧" class="headerlink" title="问题分析：唯一约束带来的注册难题 🚧"></a>问题分析：唯一约束带来的注册难题 🚧</h3><p>在之前的数据库设计中，为了确保每个用户名在系统中是唯一的，我们把 <code>username</code> 字段设置成了唯一约束。但当我们添加了 <code>is_del</code> 字段用于标识用户权限状态后，就出现了一个问题：已删除用户的用户名在重新注册时无法使用。这就好比一个人退房后，他的房间号就不能再被其他人使用了，显然这不符合我们的业务需求。所以，我们需要对 <code>username</code> 唯一约束进行调整。</p>
+<h3 id="操作步骤：取消-username-唯一约束-💾"><a href="#操作步骤：取消-username-唯一约束-💾" class="headerlink" title="操作步骤：取消 username 唯一约束 💾"></a>操作步骤：取消 <code>username</code> 唯一约束 💾</h3><p>在 MySQL 中，我们可以使用 <code>ALTER TABLE</code> 语句来取消 <code>username</code> 字段的唯一约束。具体的 SQL 语句如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 取消 users 表中 username 字段的唯一约束</span>
+<span class="token keyword">ALTER</span> <span class="token keyword">TABLE</span> users
+<span class="token keyword">DROP</span> <span class="token keyword">INDEX</span> username<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<h4 id="代码解释-📝-1"><a href="#代码解释-📝-1" class="headerlink" title="代码解释 📝"></a>代码解释 📝</h4><ul>
+<li><code>ALTER TABLE users</code>：同样是告诉数据库我们要对 <code>users</code> 表进行修改。</li>
+<li><code>DROP INDEX username</code>：表示要删除 <code>username</code> 字段上的唯一索引，也就是取消它的唯一约束。</li>
+</ul>
+<h4 id="可能遇到的问题及解决办法-❓-1"><a href="#可能遇到的问题及解决办法-❓-1" class="headerlink" title="可能遇到的问题及解决办法 ❓"></a>可能遇到的问题及解决办法 ❓</h4><ul>
+<li><strong>索引不存在</strong>：如果执行这条语句时提示索引不存在，可能是之前没有为 <code>username</code> 字段创建唯一索引，或者索引名称不是 <code>username</code>。你需要先确认索引的实际名称。</li>
+<li><strong>数据一致性问题</strong>：取消唯一约束后，可能会出现重复的用户名。为了保证正常用户的用户名仍然唯一，我们需要在应用程序层面进行额外的逻辑处理。</li>
+</ul>
+<h3 id="应用程序代码修改：确保数据一致性-🖥️"><a href="#应用程序代码修改：确保数据一致性-🖥️" class="headerlink" title="应用程序代码修改：确保数据一致性 🖥️"></a>应用程序代码修改：确保数据一致性 🖥️</h3><p>取消 <code>username</code> 唯一约束后，我们要在应用程序里添加一些逻辑来保证正常用户的用户名唯一性。以下是一些示例代码：</p>
+<h4 id="1-用户表结构更新（新增角色和软删除字段）-📄"><a href="#1-用户表结构更新（新增角色和软删除字段）-📄" class="headerlink" title="1. 用户表结构更新（新增角色和软删除字段） 📄"></a>1. 用户表结构更新（新增角色和软删除字段） 📄</h4><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 修改用户表结构，增加 role 和 is_del 字段</span>
+CREATE TABLE users <span class="token punctuation">(</span>
+    <span class="token builtin">id</span> INT AUTO_INCREMENT PRIMARY KEY<span class="token punctuation">,</span>
+    username VARCHAR<span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> NOT NULL<span class="token punctuation">,</span>
+    password VARCHAR<span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> NOT NULL<span class="token punctuation">,</span>
+    role VARCHAR<span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">,</span>              <span class="token operator">-</span><span class="token operator">-</span> 角色字段，默认为 Normal
+    is_del TINYINT<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span> DEFAULT <span class="token number">0</span>    <span class="token operator">-</span><span class="token operator">-</span> 软删除标志，默认未删除
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h4 id="代码解释-📝-2"><a href="#代码解释-📝-2" class="headerlink" title="代码解释 📝"></a>代码解释 📝</h4><p>这里我们不仅添加了 <code>is_del</code> 字段，还新增了 <code>role</code> 字段，用于标识用户的角色。这样可以让我们对用户进行更细致的管理。</p>
+<h4 id="2-注册用户时默认插入角色和软删除状态-📝"><a href="#2-注册用户时默认插入角色和软删除状态-📝" class="headerlink" title="2. 注册用户时默认插入角色和软删除状态 📝"></a>2. 注册用户时默认插入角色和软删除状态 📝</h4><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 在注册用户时，默认插入角色为 "Normal"，is_del 为 0（未删除）</span>
+cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">'INSERT INTO users (username, password, role, is_del) VALUES (%s, %s, %s, %s)'</span><span class="token punctuation">,</span> 
+               <span class="token punctuation">(</span>username<span class="token punctuation">,</span> hashed<span class="token punctuation">,</span> <span class="token string">"Normal"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<h4 id="代码解释-📝-3"><a href="#代码解释-📝-3" class="headerlink" title="代码解释 📝"></a>代码解释 📝</h4><p>在用户注册时，我们将用户的角色默认设置为 “Normal”，并将 <code>is_del</code> 字段的值设置为 0，表示用户处于正常状态。这样可以保证新注册的用户有一个明确的角色和状态。</p>
+<h4 id="3-查询用户时增加软删除判断-🔎"><a href="#3-查询用户时增加软删除判断-🔎" class="headerlink" title="3. 查询用户时增加软删除判断 🔎"></a>3. 查询用户时增加软删除判断 🔎</h4><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 查询用户时过滤掉已软删除的记录</span>
+cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">'SELECT * FROM users WHERE username = %s AND is_del = 0'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>username<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<h4 id="代码解释-📝-4"><a href="#代码解释-📝-4" class="headerlink" title="代码解释 📝"></a>代码解释 📝</h4><p>在查询用户信息时，我们增加了对 <code>is_del</code> 字段的判断，只返回 <code>is_del</code> 为 0 的用户记录，即正常状态的用户。这样可以确保我们查询到的用户都是有效的。</p>
+<h2 id="三、测试与验证：确保修改万无一失-✅"><a href="#三、测试与验证：确保修改万无一失-✅" class="headerlink" title="三、测试与验证：确保修改万无一失 ✅"></a>三、测试与验证：确保修改万无一失 ✅</h2><p>在完成数据库表结构的修改和应用程序代码的修改后，我们需要进行全面的测试和验证，以确保这些修改的正确性和稳定性。以下是一些可以进行的测试：</p>
+<h3 id="1-新用户注册测试-🆕"><a href="#1-新用户注册测试-🆕" class="headerlink" title="1. 新用户注册测试 🆕"></a>1. 新用户注册测试 🆕</h3><p>注册一个新用户，验证用户名是否唯一（仅检查 <code>is_del</code> 为 0 的用户）。如果注册成功，说明我们在应用程序层面的逻辑处理起到了作用，保证了正常用户的用户名唯一性。</p>
+<h3 id="2-已删除用户用户名重新注册测试-🗑️"><a href="#2-已删除用户用户名重新注册测试-🗑️" class="headerlink" title="2. 已删除用户用户名重新注册测试 🗑️"></a>2. 已删除用户用户名重新注册测试 🗑️</h3><p>注册一个已删除用户的用户名，验证是否可以成功注册。如果可以成功注册，说明我们取消 <code>username</code> 唯一约束的操作达到了预期效果。</p>
+<h3 id="3-用户登录测试-🔑"><a href="#3-用户登录测试-🔑" class="headerlink" title="3. 用户登录测试 🔑"></a>3. 用户登录测试 🔑</h3><p>登录不同状态的用户，验证登录逻辑是否正确。确保正常用户可以顺利登录，而权限已收回的用户无法登录。</p>
+<p>通过以上这些步骤和测试，我们就可以在数据库中成功新增字段和调整唯一约束，解决实际业务中遇到的问题。希望大家在遇到类似场景时，能够参考这个指南，轻松应对。 🚀</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%92%A1-%E7%81%B5%E6%84%9F%E9%9A%8F%E7%AC%94%E4%B8%8E%E7%94%9F%E6%B4%BB%E7%A2%8E%E7%89%87/" class="category-chain-item">💡 灵感随笔与生活碎片</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%92%A1-%E7%81%B5%E6%84%9F%E9%9A%8F%E7%AC%94%E4%B8%8E%E7%94%9F%E6%B4%BB%E7%A2%8E%E7%89%87/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/" class="category-chain-item">自动化测试与工具开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/MySQL/" class="print-no-link">#MySQL</a>
+      
+        <a href="/fluid-blog/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0/" class="print-no-link">#自动化测试平台</a>
+      
+        <a href="/fluid-blog/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%BB%B4%E6%8A%A4/" class="print-no-link">#数据库维护</a>
+      
+        <a href="/fluid-blog/tags/%E5%AD%97%E6%AE%B5%E6%96%B0%E5%A2%9E/" class="print-no-link">#字段新增</a>
+      
+        <a href="/fluid-blog/tags/%E5%94%AF%E4%B8%80%E7%BA%A6%E6%9D%9F%E8%B0%83%E6%95%B4/" class="print-no-link">#唯一约束调整</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>手把手教你：数据库新增字段与调整唯一约束实战指南 📚</div>
+      <div>https://linn0813.github.io/2025/05/19/2025-05-19-database-changes/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/20/2025-05-20-SACA-chapter1/" title="SA分析师认证课程 - 第一章 走进数据分析📊">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SA分析师认证课程 - 第一章 走进数据分析📊</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/18/2025-05-18-postman/" title="📨 Postman 使用指南 —— 测试工程师的快乐源泉">
+                        <span class="hidden-mobile">📨 Postman 使用指南 —— 测试工程师的快乐源泉</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

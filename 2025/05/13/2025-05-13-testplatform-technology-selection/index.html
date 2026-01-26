@@ -1,0 +1,809 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="测试工具平台, 技术选型, 前端技术, 后端技术">
+  
+    <meta name="description" content="以实际项目为例，探讨搭建前后端分离测试工具平台时，前端和后端的技术选型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="测试工具平台技术选型调研 🕵️‍♂️">
+<meta property="og:url" content="https://linn0813.github.io/2025/05/13/2025-05-13-testplatform-technology-selection/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="以实际项目为例，探讨搭建前后端分离测试工具平台时，前端和后端的技术选型。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/testplatform-technology-selection.jpg">
+<meta property="article:published_time" content="2025-05-13T09:13:58.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.609Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="技术选型">
+<meta property="article:tag" content="测试工具平台">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/testplatform-technology-selection.jpg">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>测试工具平台技术选型调研 🕵️‍♂️ - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="测试工具平台技术选型调研 🕵️‍♂️"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-13 17:13" pubdate>
+          2025年5月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">测试工具平台技术选型调研 🕵️‍♂️</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="测试工具平台技术选型调研-🕵️‍♂️"><a href="#测试工具平台技术选型调研-🕵️‍♂️" class="headerlink" title="测试工具平台技术选型调研 🕵️‍♂️"></a>测试工具平台技术选型调研 🕵️‍♂️</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在软件开发这个大舞台上，测试就像是一位严谨的“质检员”，确保项目质量万无一失。</p>
+<p>而一个功能完备的测试工具平台，就如同质检员手中的“神器”，能大大提升测试效率，让开发者们可以更专注地在核心业务逻辑的海洋里“遨游”🚀。</p>
+<p>今天，咱就以实际项目为例，唠唠在搭建前后端分离测试工具平台时，前端和后端技术选型的那些事儿🤔。</p>
+<h2 id="前端技术选型"><a href="#前端技术选型" class="headerlink" title="前端技术选型"></a>前端技术选型</h2><h3 id="候选技术分析"><a href="#候选技术分析" class="headerlink" title="候选技术分析"></a>候选技术分析</h3><p>在选择前端技术时，就像在众多“武林高手”中挑选合适的伙伴一起闯荡江湖。我们考虑了 Vue 3、React 和 Angular 这三位“高手”，下面是它们的“武功秘籍”对比👇：</p>
+<table>
+<thead>
+<tr>
+<th>框架</th>
+<th>特点</th>
+<th>优势</th>
+<th>劣势</th>
+<th>社区资源</th>
+<th>学习曲线</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vue 3</td>
+<td>渐进式 JavaScript 框架，自带响应式数据绑定和组件化开发“绝技”</td>
+<td>容易上手，语法简洁，社区资源丰富，适合快速“出招”</td>
+<td>相比 React 和 Angular，“江湖势力”稍小</td>
+<td>丰富</td>
+<td>较平缓</td>
+</tr>
+<tr>
+<td>React</td>
+<td>由 Facebook 这位“大佬”打造的 JavaScript 库，擅长构建用户界面</td>
+<td>灵活度超高，能和其他“门派”的库和框架联手，还有庞大的“江湖帮派”支持</td>
+<td>学习难度较大，得掌握 JSX 这种“神秘功法”</td>
+<td>非常丰富</td>
+<td>较陡峭</td>
+</tr>
+<tr>
+<td>Angular</td>
+<td>由 Google 这位“巨头”推出的完整前端框架，功能齐全</td>
+<td>功能强大，适合大型“战役”，有良好的“门派规矩”和规范</td>
+<td>学习难度大，配置复杂，“出招”速度相对较慢</td>
+<td>丰富</td>
+<td>陡峭</td>
+</tr>
+</tbody></table>
+<h3 id="选择-Vue-3-的理由"><a href="#选择-Vue-3-的理由" class="headerlink" title="选择 Vue 3 的理由"></a>选择 Vue 3 的理由</h3><p>经过一番“比武切磋”，最终我们选择了 Vue 3 这位“高手”，主要是因为以下几点😎：</p>
+<ol>
+<li><p><strong>易于学习和上手</strong>：Vue 3 的语法就像一本简单易懂的“入门秘籍”，对于初学者来说，就像走在平坦的大道上一样轻松🚶。学起来很快就能掌握基本“招式”，开始项目开发，效率那是杠杠的💪。</p>
+</li>
+<li><p><strong>响应式数据绑定</strong>：Vue 3 的响应式数据绑定机制就像有魔法一样✨，数据一变，视图马上就更新了。在开发测试工具平台时，把测试用例数据绑定到页面上，数据一有风吹草动，页面就自动更新，都不用手动刷新，简直太省心啦👏。</p>
+</li>
+<li><p><strong>组件化开发</strong>：Vue 3 的组件化开发模式就像搭积木一样🧩，把页面拆分成多个“小积木”，每个“积木”负责不同的功能。这样在开发和维护的时候就方便多啦，而且还能促进团队协作，不同的“小伙伴”可以负责不同的“积木”开发。</p>
+</li>
+<li><p><strong>社区资源丰富</strong>：Vue 3 有一个庞大的“江湖社区”，里面有各种各样的“秘籍”和“法宝”。在开发过程中遇到问题，就像在社区里找到了“救星”，很容易就能找到解决方案，还能使用各种“法宝”扩展项目的功能。</p>
+</li>
+</ol>
+<h3 id="相关组件库和工具的选择"><a href="#相关组件库和工具的选择" class="headerlink" title="相关组件库和工具的选择"></a>相关组件库和工具的选择</h3><p>选好了 Vue 3 这位“高手”，还得给他配上合适的“武器”。经过一番挑选，我们选择了 Element Plus 作为桌面端组件库，Vue Router 作为路由管理器。</p>
+<ul>
+<li><p><strong>Element Plus</strong>：基于 Vue 3 的桌面端组件库，就像一套精美的“装备”，提供了丰富美观的 UI 组件，能让我们快速搭建用户界面。它的组件风格统一，使用起来就像喝水一样简单，能大大提高开发效率💯。</p>
+</li>
+<li><p><strong>Vue Router</strong>：Vue.js 官方的路由管理器，就像一位“导航大师”，能实现前端页面的路由跳转。它支持多种“导航模式”，如 hash 模式和 history 模式，能满足不同项目的“出行需求”🚗。</p>
+</li>
+</ul>
+<h2 id="后端技术选型"><a href="#后端技术选型" class="headerlink" title="后端技术选型"></a>后端技术选型</h2><h3 id="候选技术分析-1"><a href="#候选技术分析-1" class="headerlink" title="候选技术分析"></a>候选技术分析</h3><p>后端技术的选择也很关键，就像给“大侠”选一把称手的“宝剑”。我们对 Flask、Django 和 Express 这三把“宝剑”进行了调研和分析，下面是它们的“特点介绍”👇：</p>
+<table>
+<thead>
+<tr>
+<th>框架</th>
+<th>特点</th>
+<th>优势</th>
+<th>劣势</th>
+<th>适合场景</th>
+<th>学习曲线</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Flask</td>
+<td>轻量级 Python Web 框架，简洁灵活，就像一把“匕首”</td>
+<td>代码结构简单，容易理解和维护，适合快速“突袭”小型项目</td>
+<td>功能相对较少，需要手动“打造”各种“暗器”</td>
+<td>小型项目、快速原型开发</td>
+<td>较平缓</td>
+</tr>
+<tr>
+<td>Django</td>
+<td>功能强大的 Python Web 框架，提供了丰富的功能和工具，就像一把“大刀”</td>
+<td>内置了数据库管理、用户认证、表单处理等“绝技”，适合大型“战役”</td>
+<td>学习难度大，配置复杂，“挥舞”起来有点费劲</td>
+<td>大型项目、企业级应用</td>
+<td>陡峭</td>
+</tr>
+<tr>
+<td>Express</td>
+<td>基于 Node.js 的轻量级 Web 框架，灵活高效，就像一把“长剑”</td>
+<td>与前端 JavaScript 生态系统“配合默契”，适合构建实时应用和 API 服务</td>
+<td>缺乏内置的“招式”，需要手动实现很多功能</td>
+<td>实时应用、API 服务</td>
+<td>较平缓</td>
+</tr>
+</tbody></table>
+<h3 id="选择-Flask-的理由"><a href="#选择-Flask-的理由" class="headerlink" title="选择 Flask 的理由"></a>选择 Flask 的理由</h3><p>经过一番“试剑”，最终我们选择了 Flask 这把“匕首”，主要是因为以下几点🤩：</p>
+<ol>
+<li><p><strong>简洁灵活</strong>：Flask 的代码结构就像一张简单的“地图”，一看就明白，维护起来也不费劲。可以根据项目的需求，灵活地选择使用不同的“暗器”，快速搭建后端服务。在开发测试工具平台时，能根据实际情况进行“定制化打造”，提高开发效率。</p>
+</li>
+<li><p><strong>快速开发</strong>：Flask 就像一个“百宝箱”，提供了丰富的插件和扩展，能帮助我们快速实现各种功能。在开发测试工具平台时，使用了 Flask - SQLAlchemy 来实现数据库操作，使用了 Flask - RESTful 来实现 RESTful API 接口，开发效率蹭蹭往上涨📈。</p>
+</li>
+<li><p><strong>适合小型项目</strong>：由于测试工具平台是一个小型项目，不需要太复杂的“招式”，所以 Flask 这把“匕首”就非常合适。它能帮助我们快速搭建后端服务，还不会带来太多“负担”。</p>
+</li>
+</ol>
+<h3 id="数据库的选择"><a href="#数据库的选择" class="headerlink" title="数据库的选择"></a>数据库的选择</h3><p>选好了后端框架，还得给它配上合适的“弹药库”。经过调研，我们选择了 MySQL 作为数据库，主要是因为以下几点👍：</p>
+<ul>
+<li><p><strong>开源免费</strong>：MySQL 就像一个免费的“弹药库”，无需支付额外的费用，能降低项目成本，让我们的“钱包”更鼓一点😜。</p>
+</li>
+<li><p><strong>性能稳定</strong>：MySQL 具有较高的性能和稳定性，就像一座坚固的“堡垒”，能满足项目的需求。在处理大量数据时，能保证数据的一致性和完整性，让我们没有后顾之忧。</p>
+</li>
+<li><p><strong>广泛应用</strong>：MySQL 是一个广泛应用的数据库，就像一个热闹的“集市”，拥有庞大的“买家和卖家”，还有丰富的“交易规则”文档。在开发过程中遇到问题，就像在“集市”里找到了“行家”，很容易就能找到解决方案。</p>
+</li>
+</ul>
+<h2 id="过渡到实现篇"><a href="#过渡到实现篇" class="headerlink" title="过渡到实现篇"></a>过渡到实现篇</h2><p>经过前面一番详细的技术选型调研，我们已经为测试工具平台选好了“精兵强将”🛡️。</p>
+<p>接下来，就到了激动人心的“实战环节”啦👏！</p>
+<p>在接下来的博客中，我们将一起见证如何把这些技术选型落地，一步一步搭建起这个测试工具平台，就像看着一座宏伟的城堡从图纸变成现实🏰。让我们拭目以待吧🤗！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/" class="category-chain-item">🏗️ 测试平台开发实战手记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91/" class="category-chain-item">工具与平台开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B/" class="print-no-link">#技术选型</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%E5%B9%B3%E5%8F%B0/" class="print-no-link">#测试工具平台</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>测试工具平台技术选型调研 🕵️‍♂️</div>
+      <div>https://linn0813.github.io/2025/05/13/2025-05-13-testplatform-technology-selection/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/14/2025-05-14-testplatform-implementation/" title="测试工具平台搭建实现 🚧">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">测试工具平台搭建实现 🚧</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/12/2025-05-12-hello-world/" title="✨Hello, 世界！我的测试成长之旅开启啦！🚀">
+                        <span class="hidden-mobile">✨Hello, 世界！我的测试成长之旅开启啦！🚀</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

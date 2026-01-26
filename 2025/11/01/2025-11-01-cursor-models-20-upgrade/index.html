@@ -1,0 +1,908 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="Cursor, Composer, GPT-5 Codex, Grok Code, Sonnet 4.5, AI 编程助手">
+  
+    <meta name="description" content="系统梳理 Cursor 目前可选模型的区别、推荐使用场景，以及 Cursor 2.0 升级带来的核心变化。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🚀 Cursor 模型全解析与 2.0 升级深度解读">
+<meta property="og:url" content="https://linn0813.github.io/2025/11/01/2025-11-01-cursor-models-20-upgrade/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="系统梳理 Cursor 目前可选模型的区别、推荐使用场景，以及 Cursor 2.0 升级带来的核心变化。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/cursor-hack.png">
+<meta property="article:published_time" content="2025-10-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.876Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="Cursor">
+<meta property="article:tag" content="Composer">
+<meta property="article:tag" content="GPT-5 Codex">
+<meta property="article:tag" content="Grok Code">
+<meta property="article:tag" content="Sonnet 4.5">
+<meta property="article:tag" content="AI 编程助手">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/cursor-hack.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🚀 Cursor 模型全解析与 2.0 升级深度解读 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🚀 Cursor 模型全解析与 2.0 升级深度解读"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-01 00:00" pubdate>
+          2025年11月1日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🚀 Cursor 模型全解析与 2.0 升级深度解读</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="一、前言：从「AI-辅助编程」到「协作式开发伙伴」"><a href="#一、前言：从「AI-辅助编程」到「协作式开发伙伴」" class="headerlink" title="一、前言：从「AI 辅助编程」到「协作式开发伙伴」"></a>一、前言：从「AI 辅助编程」到「协作式开发伙伴」</h2><p>自从 <a target="_blank" rel="noopener" href="https://docs.cursor.com/changelog">Cursor</a> 推出后，这款 AI IDE 已不再只是一个”智能补全工具”。<br>它通过 <strong>多模型协作、上下文感知增强、工程级推理能力</strong>，让开发者可以真正实现”AI 与人共写代码”。</p>
+<p>而在 Cursor 中，不同模型的选择，决定了整个开发体验的”风格”和”上限”。<br>本文将系统梳理 Cursor 目前可选模型的区别、推荐使用场景，以及 Cursor 2.0 升级带来的核心变化。</p>
+<hr>
+<h2 id="二、Cursor-可选模型一览（2025-版）"><a href="#二、Cursor-可选模型一览（2025-版）" class="headerlink" title="二、Cursor 可选模型一览（2025 版）"></a>二、Cursor 可选模型一览（2025 版）</h2><h3 id="🧩-1-Auto-模式"><a href="#🧩-1-Auto-模式" class="headerlink" title="🧩 1. Auto 模式"></a>🧩 1. Auto 模式</h3><ul>
+<li><strong>类型</strong>：智能选择模式</li>
+<li><strong>描述</strong>：由 Cursor 自动判断任务复杂度、代码上下文长度、推理难度，动态选择最优模型（如 GPT-5、Composer、Grok Code 等）。</li>
+<li><strong>优点</strong>：简单、稳妥，适合快速开发。</li>
+<li><strong>缺点</strong>：用户无法明确控制模型版本，有时生成结果不一致。</li>
+<li><strong>推荐场景</strong>：日常开发、轻量级脚本、随手修改逻辑。</li>
+<li>📘 参考链接：<a target="_blank" rel="noopener" href="https://docs.cursor.com/models">Cursor Models</a></li>
+</ul>
+<hr>
+<h3 id="⚡️-2-MAX-Mode"><a href="#⚡️-2-MAX-Mode" class="headerlink" title="⚡️ 2. MAX Mode"></a>⚡️ 2. MAX Mode</h3><ul>
+<li><strong>类型</strong>：增强上下文模式</li>
+<li><strong>描述</strong>：启用模型的最大上下文窗口（最长可达 200k tokens），可以分析大型项目或复杂依赖关系。</li>
+<li><strong>优点</strong>：能”一次看完所有代码”，特别适合系统性重构。</li>
+<li><strong>缺点</strong>：响应速度略慢、计算成本高。</li>
+<li><strong>推荐场景</strong>：跨模块调试、测试工具平台分析、代码审查。</li>
+<li>📘 参考链接：<a target="_blank" rel="noopener" href="https://docs.cursor.com/max-mode">MAX Mode</a></li>
+</ul>
+<hr>
+<h3 id="💡-3-Composer-1（Cursor-自研模型）"><a href="#💡-3-Composer-1（Cursor-自研模型）" class="headerlink" title="💡 3. Composer 1（Cursor 自研模型）"></a>💡 3. Composer 1（Cursor 自研模型）</h3><ul>
+<li><p><strong>类型</strong>：Cursor 2.0 新核心模型</p>
+</li>
+<li><p><strong>描述</strong>：由 Cursor 团队自研的多模态生成模型，主打 <strong>高速度（官方称比 GPT 系列快 3~4 倍）</strong> 与 <strong>上下文一致性优化</strong>。</p>
+</li>
+<li><p><strong>优点</strong>：极快响应；在多 Agent 协作与上下文一致性方面表现优异。</p>
+</li>
+<li><p><strong>缺点</strong>：推理深度略低于 GPT-5 Codex，但工程落地效率极高。</p>
+</li>
+<li><p><strong>推荐场景</strong>：</p>
+<ul>
+<li>多 Agent 联动（如测试用例生成、API 文档同步）</li>
+<li>大型项目协作编写</li>
+<li>快速代码生成 + 编辑反馈</li>
+</ul>
+</li>
+<li><p>💬 Cursor 官方社区讨论：<a target="_blank" rel="noopener" href="https://discord.gg/cursor">Discord Community</a></p>
+</li>
+</ul>
+<hr>
+<h3 id="🧠-4-GPT-5-GPT-5-Codex"><a href="#🧠-4-GPT-5-GPT-5-Codex" class="headerlink" title="🧠 4. GPT-5 &amp; GPT-5 Codex"></a>🧠 4. GPT-5 &amp; GPT-5 Codex</h3><ul>
+<li><p><strong>类型</strong>：OpenAI 最新通用与代码专用模型</p>
+</li>
+<li><p><strong>区别</strong>：</p>
+<ul>
+<li><strong>GPT-5</strong>：通用智能更强，逻辑推理与自然语言理解能力领先。</li>
+<li><strong>GPT-5 Codex</strong>：在此基础上强化代码编写、调试与框架兼容性（尤其是 Python &#x2F; TypeScript &#x2F; C++）。</li>
+</ul>
+</li>
+<li><p><strong>优点</strong>：生成质量高、代码结构稳健、上下文理解深。</p>
+</li>
+<li><p><strong>缺点</strong>：相对较慢，资源消耗高。</p>
+</li>
+<li><p><strong>推荐场景</strong>：</p>
+<ul>
+<li>高复杂度算法实现</li>
+<li>测试平台后端逻辑编写</li>
+<li>技术文档 + 代码自动同步</li>
+</ul>
+</li>
+<li><p>📘 参考链接：<a target="_blank" rel="noopener" href="https://openai.com/research/gpt-5">OpenAI GPT-5 Research</a></p>
+</li>
+</ul>
+<hr>
+<h3 id="🪶-5-Sonnet-4-5（Anthropic-Claude-系列）"><a href="#🪶-5-Sonnet-4-5（Anthropic-Claude-系列）" class="headerlink" title="🪶 5. Sonnet 4.5（Anthropic Claude 系列）"></a>🪶 5. Sonnet 4.5（Anthropic Claude 系列）</h3><ul>
+<li><p><strong>类型</strong>：类 Claude 模型</p>
+</li>
+<li><p><strong>描述</strong>：由 Anthropic 提供的 Sonnet 系列模型，擅长语言理解、推理与长文本写作。</p>
+</li>
+<li><p><strong>优点</strong>：文档生成清晰、有条理；适合自然语言到结构化输出任务。</p>
+</li>
+<li><p><strong>缺点</strong>：对代码生成的上下文记忆弱于 GPT-5 Codex。</p>
+</li>
+<li><p><strong>推荐场景</strong>：</p>
+<ul>
+<li>撰写测试用例说明</li>
+<li>功能设计文档、测试策略报告</li>
+<li>研发日志总结与知识沉淀</li>
+</ul>
+</li>
+<li><p>📘 参考链接：<a target="_blank" rel="noopener" href="https://www.anthropic.com/">Anthropic</a></p>
+</li>
+</ul>
+<hr>
+<h3 id="💻-6-Haiku-4-5"><a href="#💻-6-Haiku-4-5" class="headerlink" title="💻 6. Haiku 4.5"></a>💻 6. Haiku 4.5</h3><ul>
+<li><strong>类型</strong>：轻量模型（Claude 系列）</li>
+<li><strong>描述</strong>：速度快、成本低，适合中短任务。</li>
+<li><strong>优点</strong>：响应迅速，适合 chat、指令类任务。</li>
+<li><strong>缺点</strong>：复杂推理能力有限。</li>
+<li><strong>推荐场景</strong>：简短问题咨询、命令生成、轻任务自动化。</li>
+<li>📘 参考链接：<a target="_blank" rel="noopener" href="https://www.anthropic.com/claude">Claude</a></li>
+</ul>
+<hr>
+<h3 id="⚙️-7-Grok-Code"><a href="#⚙️-7-Grok-Code" class="headerlink" title="⚙️ 7. Grok Code"></a>⚙️ 7. Grok Code</h3><ul>
+<li><p><strong>类型</strong>：xAI（Elon Musk 团队）代码专用模型</p>
+</li>
+<li><p><strong>描述</strong>：优化代码生成与上下文衔接，对多语言项目（尤其是前端）有很强的自适应性。</p>
+</li>
+<li><p><strong>优点</strong>：反应快、理解代码语境强；在大型 TypeScript 或 React 项目中表现突出。</p>
+</li>
+<li><p><strong>缺点</strong>：文档推理和多步骤逻辑稍弱。</p>
+</li>
+<li><p><strong>推荐场景</strong>：</p>
+<ul>
+<li>前端开发 &#x2F; 组件重构</li>
+<li>自动生成 UI 逻辑或测试 mock</li>
+<li>快速构建代码片段</li>
+</ul>
+</li>
+<li><p>📘 参考链接：<a target="_blank" rel="noopener" href="https://x.ai/">xAI</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="三、Cursor-2-0-升级亮点"><a href="#三、Cursor-2-0-升级亮点" class="headerlink" title="三、Cursor 2.0 升级亮点"></a>三、Cursor 2.0 升级亮点</h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>描述</th>
+<th>使用价值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🧩 <strong>Composer 模型</strong></td>
+<td>自研核心模型，提升生成速度与上下文一致性</td>
+<td>写代码、改代码更快</td>
+</tr>
+<tr>
+<td>🧠 <strong>Workspace Context</strong></td>
+<td>AI 自动理解整个项目的文件结构、依赖关系、接口定义</td>
+<td>无需复制粘贴上下文</td>
+</tr>
+<tr>
+<td>🔍 <strong>Codebase Search</strong></td>
+<td>全局代码语义搜索，可用自然语言描述意图</td>
+<td>类似”Google your code”</td>
+</tr>
+<tr>
+<td>🤖 <strong>Multi-Agent 协作</strong></td>
+<td>多 AI Agent 协同处理不同开发任务（测试、文档、重构）</td>
+<td>适合团队协作与工具链整合</td>
+</tr>
+<tr>
+<td>⚡ <strong>即时补全优化</strong></td>
+<td>提升 inline completion 准确率与可控性</td>
+<td>减少误补全，提高编辑效率</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💬 Cursor 官方在更新日志中提到：<br>“Cursor 2.0 将 IDE 从单 AI 提示器，提升为一个可理解全项目的智能工程系统。”<br>🔗 <a target="_blank" rel="noopener" href="https://docs.cursor.com/changelog">Cursor Changelog</a></p>
+</blockquote>
+<hr>
+<h2 id="四、实际使用建议"><a href="#四、实际使用建议" class="headerlink" title="四、实际使用建议"></a>四、实际使用建议</h2><table>
+<thead>
+<tr>
+<th>任务类型</th>
+<th>推荐模型</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>测试平台后端逻辑编写</td>
+<td>GPT-5 Codex &#x2F; Composer 1</td>
+<td>稳定的逻辑推理 + 快速上下文感知</td>
+</tr>
+<tr>
+<td>前端组件改造</td>
+<td>Grok Code &#x2F; Composer 1</td>
+<td>快速生成、懂 UI 结构</td>
+</tr>
+<tr>
+<td>自动生成测试用例</td>
+<td>Composer 1 &#x2F; GPT-5</td>
+<td>理解上下文 + 精确生成</td>
+</tr>
+<tr>
+<td>写技术文档</td>
+<td>Sonnet 4.5 &#x2F; GPT-5</td>
+<td>文本质量高，逻辑清晰</td>
+</tr>
+<tr>
+<td>快速问答、指令生成</td>
+<td>Haiku 4.5 &#x2F; Auto</td>
+<td>快、轻、低延迟</td>
+</tr>
+<tr>
+<td>项目全局重构 &#x2F; 审查</td>
+<td>MAX Mode + GPT-5 Codex</td>
+<td>支持大上下文分析</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、结语"><a href="#五、结语" class="headerlink" title="五、结语"></a>五、结语</h2><p>Cursor 2.0 的核心价值不只是”快”与”强”，<br>而在于让开发者从「AI 辅助编程」进入「智能协作开发」的新阶段。</p>
+<p>无论你是想在测试工具开发中提效，<br>还是希望让 AI 真正理解你项目的全貌，<br>合理选择模型，将是发挥 Cursor 实力的关键一步。</p>
+<hr>
+<h3 id="📚-延伸阅读"><a href="#📚-延伸阅读" class="headerlink" title="📚 延伸阅读"></a>📚 延伸阅读</h3><ul>
+<li>官方文档：<a target="_blank" rel="noopener" href="https://docs.cursor.com/">Cursor Docs</a></li>
+<li>更新日志：<a target="_blank" rel="noopener" href="https://docs.cursor.com/changelog">Cursor Changelog</a></li>
+<li>Discord 社区：<a target="_blank" rel="noopener" href="https://discord.gg/cursor">Cursor Discord</a></li>
+<li>Anthropic 官网：<a target="_blank" rel="noopener" href="https://www.anthropic.com/">Anthropic</a></li>
+<li>xAI Grok Code：<a target="_blank" rel="noopener" href="https://x.ai/">xAI</a></li>
+<li>OpenAI GPT-5：<a target="_blank" rel="noopener" href="https://openai.com/research/gpt-5">OpenAI Research</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%9B%A0%EF%B8%8F-%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%EF%BC%9AAI-%E8%B5%8B%E8%83%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/" class="category-chain-item">🛠️ 程序员生产力工具：AI 赋能开发实战</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%9B%A0%EF%B8%8F-%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%EF%BC%9AAI-%E8%B5%8B%E8%83%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/" class="category-chain-item">技术学习与行业趋势</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/Cursor/" class="print-no-link">#Cursor</a>
+      
+        <a href="/fluid-blog/tags/Composer/" class="print-no-link">#Composer</a>
+      
+        <a href="/fluid-blog/tags/GPT-5-Codex/" class="print-no-link">#GPT-5 Codex</a>
+      
+        <a href="/fluid-blog/tags/Grok-Code/" class="print-no-link">#Grok Code</a>
+      
+        <a href="/fluid-blog/tags/Sonnet-4-5/" class="print-no-link">#Sonnet 4.5</a>
+      
+        <a href="/fluid-blog/tags/AI-%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B/" class="print-no-link">#AI 编程助手</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🚀 Cursor 模型全解析与 2.0 升级深度解读</div>
+      <div>https://linn0813.github.io/2025/11/01/2025-11-01-cursor-models-20-upgrade/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/11/15/2025-11-15-uat-acceptance-testing-guide/" title="🌟 UAT 验收是什么？——一次项目流程升级带来的思考与科普">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🌟 UAT 验收是什么？——一次项目流程升级带来的思考与科普</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/10/27/2025-10-27-langchain-framework/" title="🧠 LangChain：让大语言模型真正“动起来”的框架">
+                        <span class="hidden-mobile">🧠 LangChain：让大语言模型真正“动起来”的框架</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1154 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, LangChain, AutoGPT, LlamaIndex, 框架对比, Agent 框架, 框架选型">
+  
+    <meta name="description" content="深入对比主流 Agent 框架：LangChain、AutoGPT、LlamaIndex，掌握各框架的特点、优缺点和适用场景，帮你选择合适的框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/20/2025-12-20-llm-agent-framework-comparison/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入对比主流 Agent 框架：LangChain、AutoGPT、LlamaIndex，掌握各框架的特点、优缺点和适用场景，帮你选择合适的框架">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-framework-comparison.png">
+<meta property="article:published_time" content="2025-12-20T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.634Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="LangChain">
+<meta property="article:tag" content="AutoGPT">
+<meta property="article:tag" content="LlamaIndex">
+<meta property="article:tag" content="框架对比">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-framework-comparison.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-20 18:00" pubdate>
+          2025年12月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 11 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们深入解析了 Agent 的任务规划能力，掌握了如何把复杂任务拆解成可执行步骤。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将对比主流 Agent 框架，帮你选择合适的框架来构建 Agent 系统。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-选择合适的框架"><a href="#🚀-导言-—-选择合适的框架" class="headerlink" title="🚀 导言 — 选择合适的框架"></a>🚀 导言 — 选择合适的框架</h2><p>在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-19-llm-agent-task-planning/">第10篇</a>中，我们掌握了 Agent 的任务规划能力。现在，我们需要选择合适的框架来实现 Agent 系统。</p>
+<p>但关键问题是：</p>
+<blockquote>
+<p><strong>主流 Agent 框架有哪些？</strong><br><strong>如何选择合适的框架？</strong><br><strong>各框架的优缺点是什么？</strong></p>
+</blockquote>
+<p><strong>Agent 框架</strong>提供了构建 Agent 系统的基础设施，包括：</p>
+<ul>
+<li>工具调用机制</li>
+<li>记忆管理</li>
+<li>任务规划</li>
+<li>错误处理</li>
+</ul>
+<p>选择合适的框架，能让开发事半功倍。</p>
+<h3 id="🤔-先理解几个基础概念"><a href="#🤔-先理解几个基础概念" class="headerlink" title="🤔 先理解几个基础概念"></a>🤔 先理解几个基础概念</h3><p><strong>1. Agent 框架（Agent Framework）</strong></p>
+<blockquote>
+<p>简单理解：提供构建 Agent 系统的基础设施和工具库。</p>
+<p>例如：</p>
+<ul>
+<li>LangChain：提供 Agent、工具、记忆等组件</li>
+<li>LlamaIndex：专注于 RAG 和知识管理</li>
+<li>AutoGPT：自动化的 Agent 系统</li>
+</ul>
+</blockquote>
+<p><strong>2. 框架选型（Framework Selection）</strong></p>
+<blockquote>
+<p>简单理解：根据项目需求，选择合适的框架。</p>
+<p>考虑因素：</p>
+<ul>
+<li>项目复杂度</li>
+<li>团队技术栈</li>
+<li>性能要求</li>
+<li>社区支持</li>
+</ul>
+</blockquote>
+<h3 id="💡-为什么需要框架？"><a href="#💡-为什么需要框架？" class="headerlink" title="💡 为什么需要框架？"></a>💡 为什么需要框架？</h3><p><strong>问题1：从零开始开发成本高</strong></p>
+<blockquote>
+<p>自己实现工具调用、记忆管理等功能，开发成本高，容易出错。</p>
+</blockquote>
+<p><strong>问题2：缺乏最佳实践</strong></p>
+<blockquote>
+<p>框架通常包含最佳实践，避免重复造轮子。</p>
+</blockquote>
+<p><strong>问题3：社区支持</strong></p>
+<blockquote>
+<p>使用框架可以获得社区支持，遇到问题更容易解决。</p>
+</blockquote>
+<p><strong>解决方案：选择合适的框架</strong></p>
+<blockquote>
+<ul>
+<li><strong>LangChain</strong>：功能全面，适合复杂项目</li>
+<li><strong>LlamaIndex</strong>：专注 RAG，适合知识管理</li>
+<li><strong>AutoGPT</strong>：自动化程度高，适合快速原型</li>
+</ul>
+</blockquote>
+<h3 id="📋-本篇学习目标"><a href="#📋-本篇学习目标" class="headerlink" title="📋 本篇学习目标"></a>📋 本篇学习目标</h3><p>本篇将从<strong>对比分析</strong>的角度，帮你掌握：</p>
+<ol>
+<li><strong>主流框架特点</strong>：LangChain、AutoGPT、LlamaIndex 的核心特点</li>
+<li><strong>框架对比</strong>：各框架的优缺点和适用场景</li>
+<li><strong>选型指南</strong>：如何根据项目需求选择合适的框架</li>
+<li><strong>实践建议</strong>：框架使用的最佳实践</li>
+</ol>
+<blockquote>
+<p>💡 <strong>提示</strong>：框架选型是 Agent 项目成功的关键，理解各框架的特点有助于做出正确选择。</p>
+</blockquote>
+<hr>
+<h2 id="🏗️-一、LangChain：功能全面的-Agent-框架"><a href="#🏗️-一、LangChain：功能全面的-Agent-框架" class="headerlink" title="🏗️ 一、LangChain：功能全面的 Agent 框架"></a>🏗️ 一、LangChain：功能全面的 Agent 框架</h2><p><strong>LangChain</strong> 是最流行的 Agent 框架之一，提供了完整的 Agent 开发工具链。</p>
+<h3 id="1-1-核心特点"><a href="#1-1-核心特点" class="headerlink" title="1.1 核心特点"></a>1.1 核心特点</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>LangChain 就像”瑞士军刀”，功能全面，什么都能做。</p>
+</blockquote>
+<p><strong>核心组件</strong>：</p>
+<ul>
+<li><strong>Agent</strong>：ReAct、Self-Ask 等多种 Agent 类型</li>
+<li><strong>Tools</strong>：丰富的工具库和工具封装</li>
+<li><strong>Memory</strong>：短期记忆、长期记忆管理</li>
+<li><strong>Chains</strong>：任务链和流程编排</li>
+</ul>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># LangChain 示例（伪代码）</span>
+
+<span class="token keyword">from</span> langchain<span class="token punctuation">.</span>agents <span class="token keyword">import</span> initialize_agent<span class="token punctuation">,</span> Tool
+<span class="token keyword">from</span> langchain<span class="token punctuation">.</span>llms <span class="token keyword">import</span> OpenAI
+
+<span class="token comment"># 1. 定义工具</span>
+tools <span class="token operator">=</span> <span class="token punctuation">[</span>
+    Tool<span class="token punctuation">(</span>
+        name<span class="token operator">=</span><span class="token string">"Search"</span><span class="token punctuation">,</span>
+        func<span class="token operator">=</span>search_function<span class="token punctuation">,</span>
+        description<span class="token operator">=</span><span class="token string">"搜索工具，用于查找信息"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Tool<span class="token punctuation">(</span>
+        name<span class="token operator">=</span><span class="token string">"Calculator"</span><span class="token punctuation">,</span>
+        func<span class="token operator">=</span>calculator_function<span class="token punctuation">,</span>
+        description<span class="token operator">=</span><span class="token string">"计算器工具，用于数学计算"</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">]</span>
+
+<span class="token comment"># 2. 初始化 Agent</span>
+agent <span class="token operator">=</span> initialize_agent<span class="token punctuation">(</span>
+    tools<span class="token operator">=</span>tools<span class="token punctuation">,</span>
+    llm<span class="token operator">=</span>OpenAI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    agent<span class="token operator">=</span><span class="token string">"react-chat"</span><span class="token punctuation">,</span>  <span class="token comment"># 使用 ReAct Agent</span>
+    verbose<span class="token operator">=</span><span class="token boolean">True</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># 3. 运行 Agent</span>
+result <span class="token operator">=</span> agent<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"查询今天的天气，然后计算温度转换"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="1-2-优势与劣势"><a href="#1-2-优势与劣势" class="headerlink" title="1.2 优势与劣势"></a>1.2 优势与劣势</h3><p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>功能全面</strong>：提供完整的 Agent 开发工具链</li>
+<li>✅ <strong>社区活跃</strong>：文档完善，社区支持好</li>
+<li>✅ <strong>灵活性强</strong>：可以自定义各种组件</li>
+<li>✅ <strong>集成丰富</strong>：支持多种 LLM 和工具</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>学习曲线陡</strong>：功能多，需要时间学习</li>
+<li>❌ <strong>性能开销</strong>：功能全面带来一定的性能开销</li>
+<li>❌ <strong>配置复杂</strong>：配置项多，容易出错</li>
+</ul>
+<h3 id="1-3-适用场景"><a href="#1-3-适用场景" class="headerlink" title="1.3 适用场景"></a>1.3 适用场景</h3><ul>
+<li>✅ <strong>复杂项目</strong>：需要完整功能的 Agent 系统</li>
+<li>✅ <strong>企业应用</strong>：需要稳定、可维护的解决方案</li>
+<li>✅ <strong>学习研究</strong>：想深入了解 Agent 机制</li>
+</ul>
+<hr>
+<h2 id="🔍-二、LlamaIndex：专注-RAG-的知识管理框架"><a href="#🔍-二、LlamaIndex：专注-RAG-的知识管理框架" class="headerlink" title="🔍 二、LlamaIndex：专注 RAG 的知识管理框架"></a>🔍 二、LlamaIndex：专注 RAG 的知识管理框架</h2><p><strong>LlamaIndex</strong> 专注于 RAG（检索增强生成）和知识管理，是构建知识库 Agent 的首选。</p>
+<h3 id="2-1-核心特点"><a href="#2-1-核心特点" class="headerlink" title="2.1 核心特点"></a>2.1 核心特点</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>LlamaIndex 就像”图书馆管理员”，专门管理知识库。</p>
+</blockquote>
+<p><strong>核心组件</strong>：</p>
+<ul>
+<li><strong>Index</strong>：向量索引和知识库管理</li>
+<li><strong>Retrievers</strong>：多种检索策略</li>
+<li><strong>Query Engines</strong>：查询引擎和 RAG 流程</li>
+<li><strong>Agents</strong>：基于 RAG 的 Agent</li>
+</ul>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># LlamaIndex 示例（伪代码）</span>
+
+<span class="token keyword">from</span> llama_index <span class="token keyword">import</span> VectorStoreIndex<span class="token punctuation">,</span> SimpleDirectoryReader
+<span class="token keyword">from</span> llama_index<span class="token punctuation">.</span>agents <span class="token keyword">import</span> ReActAgent
+
+<span class="token comment"># 1. 加载文档</span>
+documents <span class="token operator">=</span> SimpleDirectoryReader<span class="token punctuation">(</span><span class="token string">"data"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>load_data<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 2. 创建索引</span>
+index <span class="token operator">=</span> VectorStoreIndex<span class="token punctuation">.</span>from_documents<span class="token punctuation">(</span>documents<span class="token punctuation">)</span>
+
+<span class="token comment"># 3. 创建查询引擎</span>
+query_engine <span class="token operator">=</span> index<span class="token punctuation">.</span>as_query_engine<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 4. 创建 Agent</span>
+agent <span class="token operator">=</span> ReActAgent<span class="token punctuation">.</span>from_tools<span class="token punctuation">(</span>
+    tools<span class="token operator">=</span><span class="token punctuation">[</span>query_engine<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    llm<span class="token operator">=</span>llm<span class="token punctuation">,</span>
+    verbose<span class="token operator">=</span><span class="token boolean">True</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># 5. 运行 Agent</span>
+result <span class="token operator">=</span> agent<span class="token punctuation">.</span>chat<span class="token punctuation">(</span><span class="token string">"查询文档中关于 RAG 的内容"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-2-优势与劣势"><a href="#2-2-优势与劣势" class="headerlink" title="2.2 优势与劣势"></a>2.2 优势与劣势</h3><p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>RAG 专精</strong>：RAG 功能强大，性能优秀</li>
+<li>✅ <strong>知识管理</strong>：知识库管理功能完善</li>
+<li>✅ <strong>检索优化</strong>：多种检索策略，检索效果好</li>
+<li>✅ <strong>易于使用</strong>：API 简洁，上手快</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>功能单一</strong>：主要专注于 RAG，其他功能较少</li>
+<li>❌ <strong>工具支持</strong>：工具调用功能不如 LangChain 丰富</li>
+<li>❌ <strong>社区规模</strong>：社区规模相对较小</li>
+</ul>
+<h3 id="2-3-适用场景"><a href="#2-3-适用场景" class="headerlink" title="2.3 适用场景"></a>2.3 适用场景</h3><ul>
+<li>✅ <strong>知识库应用</strong>：构建知识库问答系统</li>
+<li>✅ <strong>RAG 项目</strong>：需要强大的 RAG 功能</li>
+<li>✅ <strong>文档检索</strong>：文档检索和分析应用</li>
+</ul>
+<hr>
+<h2 id="🤖-三、AutoGPT：自动化的-Agent-系统"><a href="#🤖-三、AutoGPT：自动化的-Agent-系统" class="headerlink" title="🤖 三、AutoGPT：自动化的 Agent 系统"></a>🤖 三、AutoGPT：自动化的 Agent 系统</h2><p><strong>AutoGPT</strong> 是一个自动化的 Agent 系统，能够自主规划和执行任务。</p>
+<h3 id="3-1-核心特点"><a href="#3-1-核心特点" class="headerlink" title="3.1 核心特点"></a>3.1 核心特点</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>AutoGPT 就像”全自动机器人”，能够自主完成任务。</p>
+</blockquote>
+<p><strong>核心组件</strong>：</p>
+<ul>
+<li><strong>自主规划</strong>：自动分解任务</li>
+<li><strong>工具调用</strong>：自动调用工具</li>
+<li><strong>记忆管理</strong>：自动管理记忆</li>
+<li><strong>错误处理</strong>：自动处理错误</li>
+</ul>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># AutoGPT 示例（伪代码）</span>
+
+<span class="token keyword">from</span> autogpt <span class="token keyword">import</span> AutoGPT
+
+<span class="token comment"># 1. 初始化 AutoGPT</span>
+agent <span class="token operator">=</span> AutoGPT<span class="token punctuation">(</span>
+    name<span class="token operator">=</span><span class="token string">"ResearchAgent"</span><span class="token punctuation">,</span>
+    role<span class="token operator">=</span><span class="token string">"研究助手"</span><span class="token punctuation">,</span>
+    goals<span class="token operator">=</span><span class="token punctuation">[</span>
+        <span class="token string">"研究 LLM 的最新进展"</span><span class="token punctuation">,</span>
+        <span class="token string">"生成研究报告"</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    llm<span class="token operator">=</span>llm
+<span class="token punctuation">)</span>
+
+<span class="token comment"># 2. 运行 Agent（自动规划和执行）</span>
+result <span class="token operator">=</span> agent<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"研究 GPT-4 的技术特点"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-2-优势与劣势"><a href="#3-2-优势与劣势" class="headerlink" title="3.2 优势与劣势"></a>3.2 优势与劣势</h3><p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>自动化程度高</strong>：能够自主规划和执行</li>
+<li>✅ <strong>易于使用</strong>：配置简单，上手快</li>
+<li>✅ <strong>快速原型</strong>：适合快速验证想法</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>可控性低</strong>：自动化程度高，但可控性较低</li>
+<li>❌ <strong>资源消耗</strong>：可能需要大量 API 调用</li>
+<li>❌ <strong>稳定性</strong>：可能执行不必要的操作</li>
+</ul>
+<h3 id="3-3-适用场景"><a href="#3-3-适用场景" class="headerlink" title="3.3 适用场景"></a>3.3 适用场景</h3><ul>
+<li>✅ <strong>快速原型</strong>：快速验证 Agent 想法</li>
+<li>✅ <strong>简单任务</strong>：相对简单的自动化任务</li>
+<li>✅ <strong>学习研究</strong>：了解自动化 Agent 的工作原理</li>
+</ul>
+<hr>
+<h2 id="📊-四、框架对比总结"><a href="#📊-四、框架对比总结" class="headerlink" title="📊 四、框架对比总结"></a>📊 四、框架对比总结</h2><h3 id="4-1-功能对比"><a href="#4-1-功能对比" class="headerlink" title="4.1 功能对比"></a>4.1 功能对比</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>LangChain</th>
+<th>LlamaIndex</th>
+<th>AutoGPT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Agent 类型</strong></td>
+<td>⭐⭐⭐⭐⭐ 丰富</td>
+<td>⭐⭐⭐ 基础</td>
+<td>⭐⭐⭐⭐ 自动化</td>
+</tr>
+<tr>
+<td><strong>工具调用</strong></td>
+<td>⭐⭐⭐⭐⭐ 强大</td>
+<td>⭐⭐⭐ 基础</td>
+<td>⭐⭐⭐⭐ 自动</td>
+</tr>
+<tr>
+<td><strong>RAG 功能</strong></td>
+<td>⭐⭐⭐⭐ 良好</td>
+<td>⭐⭐⭐⭐⭐ 专精</td>
+<td>⭐⭐ 基础</td>
+</tr>
+<tr>
+<td><strong>记忆管理</strong></td>
+<td>⭐⭐⭐⭐⭐ 完善</td>
+<td>⭐⭐⭐ 基础</td>
+<td>⭐⭐⭐ 自动</td>
+</tr>
+<tr>
+<td><strong>任务规划</strong></td>
+<td>⭐⭐⭐⭐ 良好</td>
+<td>⭐⭐⭐ 基础</td>
+<td>⭐⭐⭐⭐⭐ 自动</td>
+</tr>
+<tr>
+<td><strong>社区支持</strong></td>
+<td>⭐⭐⭐⭐⭐ 活跃</td>
+<td>⭐⭐⭐⭐ 良好</td>
+<td>⭐⭐⭐ 一般</td>
+</tr>
+<tr>
+<td><strong>学习曲线</strong></td>
+<td>⭐⭐ 陡峭</td>
+<td>⭐⭐⭐⭐ 平缓</td>
+<td>⭐⭐⭐⭐ 平缓</td>
+</tr>
+<tr>
+<td><strong>性能</strong></td>
+<td>⭐⭐⭐ 中等</td>
+<td>⭐⭐⭐⭐ 优秀</td>
+<td>⭐⭐⭐ 中等</td>
+</tr>
+</tbody></table>
+<h3 id="4-2-适用场景对比"><a href="#4-2-适用场景对比" class="headerlink" title="4.2 适用场景对比"></a>4.2 适用场景对比</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>LangChain</th>
+<th>LlamaIndex</th>
+<th>AutoGPT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>复杂 Agent 系统</strong></td>
+<td>✅ 首选</td>
+<td>❌ 不适合</td>
+<td>⚠️ 可能</td>
+</tr>
+<tr>
+<td><strong>知识库问答</strong></td>
+<td>✅ 可以</td>
+<td>✅ 首选</td>
+<td>❌ 不适合</td>
+</tr>
+<tr>
+<td><strong>RAG 应用</strong></td>
+<td>✅ 可以</td>
+<td>✅ 首选</td>
+<td>❌ 不适合</td>
+</tr>
+<tr>
+<td><strong>快速原型</strong></td>
+<td>⚠️ 可以</td>
+<td>✅ 可以</td>
+<td>✅ 首选</td>
+</tr>
+<tr>
+<td><strong>企业应用</strong></td>
+<td>✅ 首选</td>
+<td>✅ 可以</td>
+<td>❌ 不适合</td>
+</tr>
+<tr>
+<td><strong>学习研究</strong></td>
+<td>✅ 首选</td>
+<td>✅ 可以</td>
+<td>✅ 可以</td>
+</tr>
+</tbody></table>
+<h3 id="4-3-选型指南"><a href="#4-3-选型指南" class="headerlink" title="4.3 选型指南"></a>4.3 选型指南</h3><p><strong>选择 LangChain 如果</strong>：</p>
+<ul>
+<li>✅ 需要完整的 Agent 功能</li>
+<li>✅ 项目复杂度高</li>
+<li>✅ 需要灵活定制</li>
+<li>✅ 团队有 Python 经验</li>
+</ul>
+<p><strong>选择 LlamaIndex 如果</strong>：</p>
+<ul>
+<li>✅ 主要做 RAG 和知识管理</li>
+<li>✅ 需要强大的检索功能</li>
+<li>✅ 项目相对简单</li>
+<li>✅ 想要快速上手</li>
+</ul>
+<p><strong>选择 AutoGPT 如果</strong>：</p>
+<ul>
+<li>✅ 需要快速原型验证</li>
+<li>✅ 任务相对简单</li>
+<li>✅ 不需要太多定制</li>
+<li>✅ 想要自动化程度高</li>
+</ul>
+<p><strong>混合使用</strong>：</p>
+<ul>
+<li>✅ <strong>LangChain + LlamaIndex</strong>：LangChain 做 Agent，LlamaIndex 做 RAG</li>
+<li>✅ <strong>LangChain + AutoGPT</strong>：LangChain 做复杂逻辑，AutoGPT 做自动化任务</li>
+</ul>
+<hr>
+<h2 id="🔍-总结：框架选型是项目成功的关键"><a href="#🔍-总结：框架选型是项目成功的关键" class="headerlink" title="🔍 总结：框架选型是项目成功的关键"></a>🔍 总结：框架选型是项目成功的关键</h2><h3 id="💡-快速回顾：你学到了什么？"><a href="#💡-快速回顾：你学到了什么？" class="headerlink" title="💡 快速回顾：你学到了什么？"></a>💡 快速回顾：你学到了什么？</h3><ol>
+<li><strong>LangChain</strong>：功能全面，适合复杂项目</li>
+<li><strong>LlamaIndex</strong>：专注 RAG，适合知识管理</li>
+<li><strong>AutoGPT</strong>：自动化程度高，适合快速原型</li>
+<li><strong>选型指南</strong>：根据项目需求选择合适的框架</li>
+</ol>
+<h3 id="框架选型核心原则"><a href="#框架选型核心原则" class="headerlink" title="框架选型核心原则"></a>框架选型核心原则</h3><table>
+<thead>
+<tr>
+<th>原则</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>需求匹配</strong></td>
+<td>框架功能要匹配项目需求</td>
+<td>RAG 项目选 LlamaIndex</td>
+</tr>
+<tr>
+<td><strong>团队能力</strong></td>
+<td>考虑团队技术栈和学习成本</td>
+<td>Python 团队选 LangChain</td>
+</tr>
+<tr>
+<td><strong>社区支持</strong></td>
+<td>选择社区活跃的框架</td>
+<td>LangChain 社区最活跃</td>
+</tr>
+<tr>
+<td><strong>性能要求</strong></td>
+<td>考虑性能要求</td>
+<td>高性能选 LlamaIndex</td>
+</tr>
+</tbody></table>
+<h3 id="实战建议"><a href="#实战建议" class="headerlink" title="实战建议"></a>实战建议</h3><ol>
+<li><strong>从简单开始</strong>：先用简单的框架验证想法，再逐步优化</li>
+<li><strong>混合使用</strong>：不同场景用不同框架，不要局限于一个</li>
+<li><strong>关注社区</strong>：选择社区活跃的框架，遇到问题更容易解决</li>
+<li><strong>持续学习</strong>：框架在快速发展，保持学习</li>
+</ol>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：<br>框架选型是 Agent 项目成功的关键，选择合适的框架能让开发事半功倍。没有最好的框架，只有最合适的框架。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h2><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h3 id="🏗️-LangChain"><a href="#🏗️-LangChain" class="headerlink" title="🏗️ LangChain"></a>🏗️ LangChain</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/"><strong>LangChain 官方文档（LangChain Official Docs）</strong></a>：LangChain 的官方文档，包含完整的 API 说明和示例。<strong>必读</strong>，适合使用 LangChain 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/agents/"><strong>LangChain Agents（LangChain Agent 文档）</strong></a>：LangChain Agent 的详细文档。适合想深入了解 Agent 的开发者。</p>
+</li>
+</ul>
+<h3 id="🔍-LlamaIndex"><a href="#🔍-LlamaIndex" class="headerlink" title="🔍 LlamaIndex"></a>🔍 LlamaIndex</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/"><strong>LlamaIndex 官方文档（LlamaIndex Official Docs）</strong></a>：LlamaIndex 的官方文档。<strong>必读</strong>，适合使用 LlamaIndex 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/getting_started/concepts/"><strong>LlamaIndex RAG Guide（LlamaIndex RAG 指南）</strong></a>：LlamaIndex RAG 的详细指南。适合想深入了解 RAG 的开发者。</p>
+</li>
+</ul>
+<h3 id="🤖-AutoGPT"><a href="#🤖-AutoGPT" class="headerlink" title="🤖 AutoGPT"></a>🤖 AutoGPT</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/Significant-Gravitas/AutoGPT"><strong>AutoGPT GitHub（AutoGPT 项目）</strong></a>：AutoGPT 的开源项目。适合想了解 AutoGPT 实现的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.agpt.co/"><strong>AutoGPT 文档（AutoGPT Docs）</strong></a>：AutoGPT 的官方文档。适合使用 AutoGPT 的开发者。</p>
+</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>框架选型让 Agent 开发更高效，但 Agent 的输出需要稳定可控。</p>
+<p><strong>第 12 篇将深入 Spec 设计</strong>：</p>
+<blockquote>
+<p><strong>《主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性》</strong></p>
+</blockquote>
+<ul>
+<li>什么是 Spec 设计？</li>
+<li>如何用 Schema 限制 Agent 输出？</li>
+<li>JSON Schema、Pydantic 的使用方法</li>
+<li>Spec 设计的最佳实践</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/LangChain/" class="print-no-link">#LangChain</a>
+      
+        <a href="/fluid-blog/tags/AutoGPT/" class="print-no-link">#AutoGPT</a>
+      
+        <a href="/fluid-blog/tags/LlamaIndex/" class="print-no-link">#LlamaIndex</a>
+      
+        <a href="/fluid-blog/tags/%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/" class="print-no-link">#框架对比</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析</div>
+      <div>https://linn0813.github.io/2025/12/20/2025-12-20-llm-agent-framework-comparison/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/21/2025-12-21-llm-agent-spec-design/" title="📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/19/2025-12-19-llm-agent-task-planning/" title="🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？">
+                        <span class="hidden-mobile">🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

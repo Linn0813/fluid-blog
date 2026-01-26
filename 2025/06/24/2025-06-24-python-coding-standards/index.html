@@ -1,0 +1,865 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="Python, 编码规范, 编程指南">
+  
+    <meta name="description" content="分享Python关键编码规范，涵盖命名、缩进、注释、导入、函数设计等方面，适合初学者和项目开发者参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🐍写好 Python 的第一步：一份通俗易懂又不啰嗦的编码规范指南 ✨">
+<meta property="og:url" content="https://linn0813.github.io/2025/06/24/2025-06-24-python-coding-standards/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="分享Python关键编码规范，涵盖命名、缩进、注释、导入、函数设计等方面，适合初学者和项目开发者参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/python-coding-standards.png">
+<meta property="article:published_time" content="2025-06-24T07:24:11.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.620Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="编码规范">
+<meta property="article:tag" content="编程指南">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/python-coding-standards.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🐍写好 Python 的第一步：一份通俗易懂又不啰嗦的编码规范指南 ✨ - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🐍写好 Python 的第一步：一份通俗易懂又不啰嗦的编码规范指南 ✨"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-24 15:24" pubdate>
+          2025年6月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🐍写好 Python 的第一步：一份通俗易懂又不啰嗦的编码规范指南 ✨</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🐍写好-Python-的第一步：一份通俗易懂又不啰嗦的编码规范指南-✨"><a href="#🐍写好-Python-的第一步：一份通俗易懂又不啰嗦的编码规范指南-✨" class="headerlink" title="🐍写好 Python 的第一步：一份通俗易懂又不啰嗦的编码规范指南 ✨"></a>🐍写好 Python 的第一步：一份通俗易懂又不啰嗦的编码规范指南 ✨</h1><blockquote>
+<p>💡“一份靠谱的代码规范，不仅让团队协作更顺畅，也能帮你未来不被自己写的代码气哭。”</p>
+</blockquote>
+<p>作为一个经历过「昨天写的代码今天看不懂」的 Python 开发者，我深刻体会到什么叫“规范是自由的前提”。今天这篇文章，我想以分享的角度，带你快速了解并掌握 Python 中最关键的编码规范，包括命名、缩进、注释、导入、函数设计等。无论你是初学者，还是正在做项目的开发者，都能从中找到值得优化的地方。</p>
+<hr>
+<h2 id="1️⃣-代码编码格式：请从-UTF-8-开始-👊"><a href="#1️⃣-代码编码格式：请从-UTF-8-开始-👊" class="headerlink" title="1️⃣ 代码编码格式：请从 UTF-8 开始 👊"></a>1️⃣ 代码编码格式：请从 UTF-8 开始 👊</h2><p>Python 默认使用 ASCII 编码，一旦代码中包含中文或特殊字符就很容易报错。因此，一定要在代码开头加上这句：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># -- coding: utf-8 --</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>这不是装饰，这是你代码能跑的保证🔥。</p>
+<hr>
+<h2 id="2️⃣-命名规范：统一风格，读你千遍也不厌倦-🧠"><a href="#2️⃣-命名规范：统一风格，读你千遍也不厌倦-🧠" class="headerlink" title="2️⃣ 命名规范：统一风格，读你千遍也不厌倦 🧠"></a>2️⃣ 命名规范：统一风格，读你千遍也不厌倦 🧠</h2><p>不同类型的对象有不同的命名方式，记住这几条就够用了：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>命名规范</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>项目名 &#x2F; 类名</td>
+<td>大驼峰命名（首字母大写）</td>
+<td><code>TestCase</code></td>
+</tr>
+<tr>
+<td>包名 &#x2F; 模块名</td>
+<td>小写字母 + 下划线</td>
+<td><code>user_manage.py</code></td>
+</tr>
+<tr>
+<td>变量名</td>
+<td>小写字母 + 下划线</td>
+<td><code>file_path</code></td>
+</tr>
+<tr>
+<td>常量</td>
+<td>全部大写 + 下划线</td>
+<td><code>COLOR_WHITE</code></td>
+</tr>
+<tr>
+<td>私有变量</td>
+<td><code>_xxx</code> 或 <code>__xxx</code>（前缀下划线）</td>
+<td><code>_token</code>, <code>__id</code></td>
+</tr>
+<tr>
+<td>专有变量</td>
+<td><code>__xxx__</code></td>
+<td><code>__init__</code>, <code>__doc__</code></td>
+</tr>
+<tr>
+<td>函数名</td>
+<td>小写字母 + 下划线</td>
+<td><code>get_user_name()</code></td>
+</tr>
+</tbody></table>
+<p>📌 Tip：不要随便混用风格，代码风格杂乱是团队协作最大雷区之一。</p>
+<hr>
+<h2 id="3️⃣-缩进规范：靠对齐才能走得更远-🧱"><a href="#3️⃣-缩进规范：靠对齐才能走得更远-🧱" class="headerlink" title="3️⃣ 缩进规范：靠对齐才能走得更远 🧱"></a>3️⃣ 缩进规范：靠对齐才能走得更远 🧱</h2><p>Python 是靠缩进来分清代码结构的，不像 Java 和 C 那样有大括号，所以“对齐”就成了圣旨！</p>
+<ul>
+<li>每层缩进用 <strong>4 个空格</strong></li>
+<li>不要混用 Tab 和空格（会爆炸）</li>
+<li>所有流程控制语句（if、for、def 等）后面记得加冒号 <code>:</code></li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">say_hello</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> name<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Hello, </span><span class="token interpolation"><span class="token punctuation">&#123;</span>name<span class="token punctuation">&#125;</span></span><span class="token string">!"</span></span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>一眼下去，结构清晰；缩进乱了，Bug满天飞🌪️。</p>
+<hr>
+<h2 id="4️⃣-注释规范：未来的你会感谢现在的你-📝"><a href="#4️⃣-注释规范：未来的你会感谢现在的你-📝" class="headerlink" title="4️⃣ 注释规范：未来的你会感谢现在的你 📝"></a>4️⃣ 注释规范：未来的你会感谢现在的你 📝</h2><p>有三种注释方式：</p>
+<h3 id="🔹-行注释（代码后跟注释）"><a href="#🔹-行注释（代码后跟注释）" class="headerlink" title="🔹 行注释（代码后跟注释）"></a>🔹 行注释（代码后跟注释）</h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">count <span class="token operator">+=</span> <span class="token number">1</span>  <span class="token comment"># 计数器加一</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>👉 行内注释和代码之间要有 <strong>两个空格</strong></p>
+<h3 id="🔹-块注释（解释代码段目的）"><a href="#🔹-块注释（解释代码段目的）" class="headerlink" title="🔹 块注释（解释代码段目的）"></a>🔹 块注释（解释代码段目的）</h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 对用户信息进行校验</span>
+<span class="token comment"># 包括用户名、邮箱和密码格式</span>
+check_user_info<span class="token punctuation">(</span>data<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="🔹-文档注释（用于函数、类、模块的说明）"><a href="#🔹-文档注释（用于函数、类、模块的说明）" class="headerlink" title="🔹 文档注释（用于函数、类、模块的说明）"></a>🔹 文档注释（用于函数、类、模块的说明）</h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">login</span><span class="token punctuation">(</span>username<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    登录接口
+    :param username: 用户名
+    :param password: 密码
+    """</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>✍️ 写注释的诀窍是：“解释你为什么这么写”，而不是“你写了什么”。</p>
+<hr>
+<h2 id="5️⃣-空行使用：给代码透透气-🧘‍♀️"><a href="#5️⃣-空行使用：给代码透透气-🧘‍♀️" class="headerlink" title="5️⃣ 空行使用：给代码透透气 🧘‍♀️"></a>5️⃣ 空行使用：给代码透透气 🧘‍♀️</h2><ul>
+<li>顶层函数和类之间空两行</li>
+<li>类中方法之间空一行</li>
+<li>函数内部逻辑上有分隔需求时空一行，但别空太多</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">User</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token keyword">def</span> <span class="token function">login</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>空行 ≠ 空白，空行代表“逻辑的停顿感”，让代码更有节奏🎵。</p>
+<hr>
+<h2 id="6️⃣-引号使用规范：别让引号打架-🗣️"><a href="#6️⃣-引号使用规范：别让引号打架-🗣️" class="headerlink" title="6️⃣ 引号使用规范：别让引号打架 🗣️"></a>6️⃣ 引号使用规范：别让引号打架 🗣️</h2><ul>
+<li>自然语言用 <strong>双引号</strong>，机器标识用 <strong>单引号</strong></li>
+<li>正则表达式也用双引号</li>
+<li>文档注释用 <code>&quot;&quot;&quot; 三个双引号 &quot;&quot;&quot;</code></li>
+</ul>
+<p>保持同文件中风格一致即可，例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">name <span class="token operator">=</span> <span class="token string">"RingConn"</span>
+token <span class="token operator">=</span> <span class="token string">'abc123'</span>
+pattern <span class="token operator">=</span> <span class="token string">r"\d+"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="7️⃣-模块导入：从通用到专用-📦"><a href="#7️⃣-模块导入：从通用到专用-📦" class="headerlink" title="7️⃣ 模块导入：从通用到专用 📦"></a>7️⃣ 模块导入：从通用到专用 📦</h2><p>导入顺序推荐如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 标准库</span>
+<span class="token keyword">import</span> os
+<span class="token keyword">import</span> sys
+
+<span class="token comment"># 第三方库</span>
+<span class="token keyword">import</span> requests
+
+<span class="token comment"># 本地模块</span>
+<span class="token keyword">import</span> my_app<span class="token punctuation">.</span>settings<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>✅ 每个导入独占一行<br>❌ 不推荐：<code>import os, sys</code></p>
+<p>⚠️ 别用 <code>from xxx import *</code>，一看就没读规范手册。</p>
+<hr>
+<h2 id="8️⃣-main-函数：模块自测靠它守门-🚪"><a href="#8️⃣-main-函数：模块自测靠它守门-🚪" class="headerlink" title="8️⃣ main 函数：模块自测靠它守门 🚪"></a>8️⃣ main 函数：模块自测靠它守门 🚪</h2><p>每个可执行脚本都应该包含：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    main<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>这样模块在被导入时不会误执行主逻辑，同时也方便写测试。</p>
+<hr>
+<h2 id="9️⃣-函数设计规范：写出好函数的秘诀🧩"><a href="#9️⃣-函数设计规范：写出好函数的秘诀🧩" class="headerlink" title="9️⃣ 函数设计规范：写出好函数的秘诀🧩"></a>9️⃣ 函数设计规范：写出好函数的秘诀🧩</h2><p>好函数的标准是：<strong>短小、专一、独立</strong>。</p>
+<ul>
+<li>函数尽量控制在一屏之内</li>
+<li>不要嵌套太深（≤3层）</li>
+<li>参数少而清晰，默认值要合理</li>
+<li>使用 return 明确输出</li>
+<li>减少对全局变量的依赖</li>
+</ul>
+<p>一个函数一件事，代码才容易测试、复用、重构，不然写一天，改三天😭。</p>
+<hr>
+<h2 id="🔟-分号不要乱加-🤦‍♀️"><a href="#🔟-分号不要乱加-🤦‍♀️" class="headerlink" title="🔟 分号不要乱加 🤦‍♀️"></a>🔟 分号不要乱加 🤦‍♀️</h2><p>Python 不需要行尾分号。也别把两句代码写在一行，用分号分开，太难读。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 错误示范：</span>
+x <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> y <span class="token operator">=</span> <span class="token number">2</span>
+
+<span class="token comment"># 推荐写法：</span>
+x <span class="token operator">=</span> <span class="token number">1</span>
+y <span class="token operator">=</span> <span class="token number">2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔠-每行不超-80-字：真的不是为了美观"><a href="#🔠-每行不超-80-字：真的不是为了美观" class="headerlink" title="🔠 每行不超 80 字：真的不是为了美观"></a>🔠 每行不超 80 字：真的不是为了美观</h2><ul>
+<li>Python 社区一直推荐 80 字以内一行</li>
+<li>特殊情况除外：比如 URL、长模块导入等</li>
+<li>不要用反斜杠续行，可以使用括号隐式连接</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">result <span class="token operator">=</span> <span class="token punctuation">(</span>
+    long_variable_name_1
+    <span class="token operator">+</span> long_variable_name_2
+    <span class="token operator">+</span> long_variable_name_3
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🧾-总结一句话："><a href="#🧾-总结一句话：" class="headerlink" title="🧾 总结一句话："></a>🧾 总结一句话：</h2><blockquote>
+<p>编码规范是代码的“体面”，也是你在团队中的“标签”。</p>
+</blockquote>
+<p>遵循一套规范，代码更可读、可维护、可扩展。对于个人而言，养成好习惯，对日后的职业发展也是一大助力。</p>
+<hr>
+<p>💬 <strong>最后的话</strong></p>
+<p>欢迎把这份 Python 编码规范收藏在你的工具库，也欢迎分享给你的小伙伴。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">🐍 全栈开发底座：Python 进阶与前后端工程化</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%B7%A5%E5%85%B7/" class="category-chain-item">学习与工具</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/fluid-blog/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" class="print-no-link">#编码规范</a>
+      
+        <a href="/fluid-blog/tags/%E7%BC%96%E7%A8%8B%E6%8C%87%E5%8D%97/" class="print-no-link">#编程指南</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🐍写好 Python 的第一步：一份通俗易懂又不啰嗦的编码规范指南 ✨</div>
+      <div>https://linn0813.github.io/2025/06/24/2025-06-24-python-coding-standards/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/26/2025-06-26-test-indicators/" title="📊 测试指标全景图：如何用一套数据体系提升你的测试价值？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">📊 测试指标全景图：如何用一套数据体系提升你的测试价值？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/23/2025-06-23-cursor-hack/" title="🎉 超全！Cursor Pro 白嫖指南 😎">
+                        <span class="hidden-mobile">🎉 超全！Cursor Pro 白嫖指南 😎</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

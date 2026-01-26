@@ -1,0 +1,832 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="Postman, API测试, 自动化测试, 接口调试, Mock服务, 环境变量, Postman Collection">
+  
+    <meta name="description" content="详细介绍 Postman 这一强大的 API 开发与测试工具，涵盖安装方法、基本使用、进阶功能，如环境变量管理、自动化测试、Postman Collection 等，帮助测试工程师提升工作效率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📨 Postman 使用指南 —— 测试工程师的快乐源泉">
+<meta property="og:url" content="https://linn0813.github.io/2025/05/18/2025-05-18-postman/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="详细介绍 Postman 这一强大的 API 开发与测试工具，涵盖安装方法、基本使用、进阶功能，如环境变量管理、自动化测试、Postman Collection 等，帮助测试工程师提升工作效率。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/postman.png">
+<meta property="article:published_time" content="2025-05-18T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.865Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="API测试">
+<meta property="article:tag" content="自动化测试">
+<meta property="article:tag" content="Postman">
+<meta property="article:tag" content="接口调试">
+<meta property="article:tag" content="Mock服务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/postman.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>📨 Postman 使用指南 —— 测试工程师的快乐源泉 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="📨 Postman 使用指南 —— 测试工程师的快乐源泉"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-18 10:00" pubdate>
+          2025年5月18日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          879 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">📨 Postman 使用指南 —— 测试工程师的快乐源泉</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="📨-Postman-使用指南-——-测试工程师的快乐源泉"><a href="#📨-Postman-使用指南-——-测试工程师的快乐源泉" class="headerlink" title="📨 Postman 使用指南 —— 测试工程师的快乐源泉"></a>📨 Postman 使用指南 —— 测试工程师的快乐源泉</h1><h2 id="🎉-前言"><a href="#🎉-前言" class="headerlink" title="🎉 前言"></a>🎉 前言</h2><p>作为一名测试工程师，我们的日常离不开 <strong>Postman</strong>。它不仅是接口测试的神器，还是 Debug 的利器，甚至能拯救你的加班生活！</p>
+<p>如果你还没用过 Postman，或者用得不够 6，那就跟我一起探索它的魅力吧！</p>
+<hr>
+<h2 id="🤔-什么是-Postman？"><a href="#🤔-什么是-Postman？" class="headerlink" title="🤔 什么是 Postman？"></a>🤔 什么是 Postman？</h2><p>Postman 是一个强大的 <strong>API 开发与测试工具</strong>，它可以帮助开发人员和测试人员更高效地与 API 交互。它提供了一个用户友好的界面，让你可以轻松发送请求、检查响应、编写测试脚本，甚至进行自动化测试。</p>
+<p><img src="https://mms.businesswire.com/media/20210818005151/en/761650/23/postman-logo-vert-2018.jpg" srcset="/fluid-blog/img/loading.gif" lazyload alt="Postman 产品 Logo"></p>
+<h3 id="🔥-Postman-的核心优势"><a href="#🔥-Postman-的核心优势" class="headerlink" title="🔥 Postman 的核心优势"></a>🔥 Postman 的核心优势</h3><ul>
+<li><strong>简单直观</strong>：可视化界面，降低 API 调试难度</li>
+<li><strong>支持多种请求类型</strong>：GET、POST、PUT、DELETE、PATCH 等</li>
+<li><strong>环境变量管理</strong>：一键切换不同测试环境，减少手动修改的烦恼</li>
+<li><strong>自动化测试</strong>：可编写 JavaScript 脚本来自动检查接口响应</li>
+<li><strong>接口集合（Collections）</strong>：批量管理请求，提高工作效率</li>
+<li><strong>Mock 服务</strong>：模拟 API 响应，适用于前端开发调试</li>
+<li><strong>团队协作</strong>：共享 API 文档、测试用例，提高团队协作效率</li>
+</ul>
+<hr>
+<h2 id="🚀-1-安装-Postman"><a href="#🚀-1-安装-Postman" class="headerlink" title="🚀 1. 安装 Postman"></a>🚀 1. 安装 Postman</h2><p>安装 Postman 简直比泡杯速溶咖啡还简单。</p>
+<ol>
+<li><strong>官网下载安装</strong>：<a target="_blank" rel="noopener" href="https://www.postman.com/">Postman 官网</a></li>
+<li><strong>安装完成，打开软件</strong></li>
+<li><strong>注册或直接使用</strong>（有些功能需要登录）</li>
+</ol>
+<blockquote>
+<p>🎯 <strong>Tips：</strong> Postman 还有浏览器插件版，不过推荐使用桌面版，功能更强大！</p>
+</blockquote>
+<hr>
+<h2 id="🛠️-2-发送你的第一个请求"><a href="#🛠️-2-发送你的第一个请求" class="headerlink" title="🛠️ 2. 发送你的第一个请求"></a>🛠️ 2. 发送你的第一个请求</h2><ol>
+<li><strong>打开 Postman</strong>，点击 <strong>New Request</strong></li>
+<li>选择请求方法（GET、POST、PUT、DELETE 等）</li>
+<li>在 URL 输入框填入 <code>https://jsonplaceholder.typicode.com/posts/1</code></li>
+<li>点击 <strong>Send</strong></li>
+<li><strong>Boom！</strong> 你就收到了响应 🎉</li>
+</ol>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"userId"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"sunt aut facere repellat provident occaecati excepturi optio reprehenderit"</span><span class="token punctuation">,</span>
+  <span class="token property">"body"</span><span class="token operator">:</span> <span class="token string">"quia et suscipit..."</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><img src="/img/postman-get.png" srcset="/fluid-blog/img/loading.gif" lazyload 
+     alt="postman-get" 
+     style="border: 3px dashed #2196F3;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 4px 8px rgba(33,150,243,0.2);"></p>
+<blockquote>
+<p>🧐 <strong>如果失败？</strong></p>
+<ul>
+<li>确保 URL 正确</li>
+<li>检查网络</li>
+<li>关掉 VPN 或代理试试</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="📩-3-POST-请求——让接口“吃”点数据"><a href="#📩-3-POST-请求——让接口“吃”点数据" class="headerlink" title="📩 3. POST 请求——让接口“吃”点数据"></a>📩 3. POST 请求——让接口“吃”点数据</h2><p>GET 请求只是获取数据，<strong>POST 请求</strong> 则是往接口里“塞”数据。</p>
+<h3 id="🌟-示例：提交一篇新文章"><a href="#🌟-示例：提交一篇新文章" class="headerlink" title="🌟 示例：提交一篇新文章"></a>🌟 示例：提交一篇新文章</h3><ol>
+<li><strong>方法选择 POST</strong></li>
+<li><strong>URL</strong>: <code>https://jsonplaceholder.typicode.com/posts</code></li>
+<li><strong>Headers</strong>：添加 <code>Content-Type: application/json</code></li>
+<li><strong>Body</strong> 选择 <code>raw</code>，填入 JSON 数据：</li>
+</ol>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"测试工程师的自白"</span><span class="token punctuation">,</span>
+  <span class="token property">"body"</span><span class="token operator">:</span> <span class="token string">"写测试的我有一颗写代码的心"</span><span class="token punctuation">,</span>
+  <span class="token property">"userId"</span><span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<ol start="5">
+<li>点击 <strong>Send</strong>，你会收到一个带 <code>id</code> 的响应 🎉</li>
+</ol>
+<p><img src="/img/postman-post.png" srcset="/fluid-blog/img/loading.gif" lazyload 
+     alt="postman-post" 
+     style="border: 3px dashed #2196F3;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 4px 8px rgba(33,150,243,0.2);"></p>
+<blockquote>
+<p><strong>小技巧 💡</strong></p>
+<ul>
+<li><strong>用变量</strong>：支持环境变量，减少手动改 URL 的麻烦</li>
+<li><strong>保存请求</strong>：方便后续复用</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🧰-4-进阶玩法"><a href="#🧰-4-进阶玩法" class="headerlink" title="🧰 4. 进阶玩法"></a>🧰 4. 进阶玩法</h2><h3 id="🔄-环境变量"><a href="#🔄-环境变量" class="headerlink" title="🔄 环境变量"></a>🔄 <strong>环境变量</strong></h3><p>写接口测试，<strong>环境变量</strong> 绝对是提高效率的法宝！</p>
+<h4 id="1-设置变量"><a href="#1-设置变量" class="headerlink" title="1. 设置变量"></a>1. 设置变量</h4><ul>
+<li>进入 <code>Environments</code>（环境）</li>
+<li>添加变量，如 <code>base_url = https://jsonplaceholder.typicode.com</code></li>
+</ul>
+<h4 id="2-使用变量"><a href="#2-使用变量" class="headerlink" title="2. 使用变量"></a>2. 使用变量</h4><ul>
+<li>URL 替换成 <code>&#123;&#123;base_url&#125;&#125;/posts/1</code></li>
+<li>这样换个环境只要改变量，不用改每个请求！</li>
+</ul>
+<p><img src="/img/postman-url.png" srcset="/fluid-blog/img/loading.gif" lazyload 
+     alt="postman-get" 
+     style="border: 3px dashed #2196F3;
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 4px 8px rgba(33,150,243,0.2);"></p>
+<hr>
+<h2 id="🎯-5-终极杀器——Postman-Collection"><a href="#🎯-5-终极杀器——Postman-Collection" class="headerlink" title="🎯 5. 终极杀器——Postman Collection"></a>🎯 5. 终极杀器——Postman Collection</h2><p>如果你有 <strong>一堆接口要测</strong>，不想一个个手动点，那 <strong>Postman Collection</strong> 就是你的救星！</p>
+<ol>
+<li><strong>新建 Collection</strong></li>
+<li><strong>添加多个请求</strong>，按模块组织</li>
+<li><strong>一键运行所有请求</strong>，Postman 自动帮你测试</li>
+<li><strong>支持测试脚本</strong>，让 Postman 自动检查返回值</li>
+</ol>
+<blockquote>
+<p><strong>🔥 组合技能：环境变量 + Collection + 测试脚本 &#x3D; 一键自动化测试！</strong></p>
+</blockquote>
+<hr>
+<h2 id="🎭-6-结语"><a href="#🎭-6-结语" class="headerlink" title="🎭 6. 结语"></a>🎭 6. 结语</h2><p>Postman 是测试工程师的瑞士军刀，掌握它能让你的工作事半功倍！</p>
+<ul>
+<li><strong>基础玩法</strong>：GET、POST 请求</li>
+<li><strong>进阶技巧</strong>：环境变量、测试脚本</li>
+<li><strong>终极杀器</strong>：Collection 自动化测试</li>
+</ul>
+<p>还等什么？快打开 Postman，释放你的测试技能吧！🚀</p>
+<hr>
+<p><small><strong>📚 参考资料：</strong>  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36259143/article/details/120761674">JSONPlaceholder 基本使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://apifox.com/apiskills/postman-tutorial-series/">Postman 使用教程合集指南，从新手到大师</a>【Apifox的Postman教程，推荐！】</li>
+</ul>
+<small>
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/" class="category-chain-item">⚙️ 自动化测试工程化：工具、实战与体系建设</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%8E%E6%A1%88%E4%BE%8B%E7%BB%8F%E9%AA%8C/" class="category-chain-item">项目实战与案例经验</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/API%E6%B5%8B%E8%AF%95/" class="print-no-link">#API测试</a>
+      
+        <a href="/fluid-blog/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" class="print-no-link">#自动化测试</a>
+      
+        <a href="/fluid-blog/tags/Postman/" class="print-no-link">#Postman</a>
+      
+        <a href="/fluid-blog/tags/%E6%8E%A5%E5%8F%A3%E8%B0%83%E8%AF%95/" class="print-no-link">#接口调试</a>
+      
+        <a href="/fluid-blog/tags/Mock%E6%9C%8D%E5%8A%A1/" class="print-no-link">#Mock服务</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>📨 Postman 使用指南 —— 测试工程师的快乐源泉</div>
+      <div>https://linn0813.github.io/2025/05/18/2025-05-18-postman/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/19/2025-05-19-database-changes/" title="手把手教你：数据库新增字段与调整唯一约束实战指南 📚">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">手把手教你：数据库新增字段与调整唯一约束实战指南 📚</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/16/2025-05-16-testplatform-login-and-registration/" title="自动化测试平台添加登录注册功能 🚀">
+                        <span class="hidden-mobile">自动化测试平台添加登录注册功能 🚀</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

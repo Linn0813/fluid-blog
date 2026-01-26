@@ -1,0 +1,895 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="JMeter, 接口压测, 响应解码, Base64编码, gzip压缩, 断言失效, 问题解决">
+  
+    <meta name="description" content="分享在接口压测中使用JMeter对Base64编码+gzip压缩的接口响应字段进行解码时，遇到断言失效问题的排查过程及解决方案，帮助提高接口压测效率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="压测踩坑实录 | 解码接口响应字段方便查看，断言失效问题及解决方案分享 🚧">
+<meta property="og:url" content="https://linn0813.github.io/2025/06/16/2025-06-16-jmeter-response-decoding/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="分享在接口压测中使用JMeter对Base64编码+gzip压缩的接口响应字段进行解码时，遇到断言失效问题的排查过程及解决方案，帮助提高接口压测效率。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/jmeter-response-decoding.png">
+<meta property="article:published_time" content="2025-06-16T02:29:30.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.868Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="JMeter">
+<meta property="article:tag" content="接口压测">
+<meta property="article:tag" content="响应解码">
+<meta property="article:tag" content="断言失效">
+<meta property="article:tag" content="问题解决">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/jmeter-response-decoding.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>压测踩坑实录 | 解码接口响应字段方便查看，断言失效问题及解决方案分享 🚧 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="压测踩坑实录 | 解码接口响应字段方便查看，断言失效问题及解决方案分享 🚧"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-16 10:29" pubdate>
+          2025年6月16日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">压测踩坑实录 | 解码接口响应字段方便查看，断言失效问题及解决方案分享 🚧</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在接口压测中，遇到接口响应中部分字段被 <strong>Base64编码+gzip压缩</strong>，为了方便人工查看接口响应内容，我们通常会在 JMeter 的<strong>后置处理器</strong>中对字段进行解码处理。</p>
+<p>但在实操过程中，我遇到了一个棘手的问题：  </p>
+<blockquote>
+<p>加入了解码后置处理器后，之前能通过的响应断言突然全部失败，断言条件不匹配。  </p>
+</blockquote>
+<p>经过排查和改进，最终找到原因和解决方案。本文将全过程分享，帮你避免类似坑，提高接口压测效率。💡</p>
+<hr>
+<h2 id="1-为什么要做响应字段解码？"><a href="#1-为什么要做响应字段解码？" class="headerlink" title="1. 为什么要做响应字段解码？"></a>1. 为什么要做响应字段解码？</h2><p>接口响应中的部分字段，为了节省带宽或数据保护，采用了 Base64 编码和 gzip 压缩，导致响应内容是一串难以直接辨认的编码字符串。</p>
+<p><strong>解码后</strong>，可以获得清晰的明文 JSON，方便人工在 JMeter 的“查看结果树”中快速确认接口返回是否符合预期。</p>
+<blockquote>
+<p>⚠️ <strong>注意：此处的解码目的是方便“人工查看”，而非直接用于断言。</strong></p>
+</blockquote>
+<hr>
+<h2 id="2-压测流程全景图-🎬"><a href="#2-压测流程全景图-🎬" class="headerlink" title="2. 压测流程全景图 🎬"></a>2. 压测流程全景图 🎬</h2><p>让我们先看下 JMeter 压测中响应字段解码的典型流程：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">┌─────────────┐
+│ 发送HTTP请求│
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 获取响应数据│
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 后置处理器  │ ← 解码（Base64解码 + gzip解压）
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 存储明文结果│ ← 传给断言使用的变量
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 响应断言    │ ← 断言明文字段
+└─────────────┘<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="3-接口响应示例与预期结构"><a href="#3-接口响应示例与预期结构" class="headerlink" title="3. 接口响应示例与预期结构"></a>3. 接口响应示例与预期结构</h2><h3 id="3-1-原始接口响应示例"><a href="#3-1-原始接口响应示例" class="headerlink" title="3.1 原始接口响应示例"></a>3.1 原始接口响应示例</h3><figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"code"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"msg"</span><span class="token operator">:</span> <span class="token string">"success"</span><span class="token punctuation">,</span>
+  <span class="token property">"payload"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"compEncodeFlag"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"data"</span><span class="token operator">:</span> <span class="token string">"H4sIAAAAAAAAANWdS2/cRhKA/4vOhsB+kOz2LcfFLjaHePcSBIISTRwhiiTIUrLeYP/7cobd7FKVqop..."</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<ul>
+<li><code>code</code>: 状态码，0表示成功  </li>
+<li><code>msg</code>: 提示信息  </li>
+<li><code>payload</code>: 业务负载  </li>
+<li><code>compEncodeFlag=1</code>：表示 <code>data</code> 字段经过 Base64 编码和 gzip 压缩  </li>
+<li><code>data</code>: 编码压缩的业务数据</li>
+</ul>
+<h3 id="3-2-预期解码后的明文-JSON"><a href="#3-2-预期解码后的明文-JSON" class="headerlink" title="3.2 预期解码后的明文 JSON"></a>3.2 预期解码后的明文 JSON</h3><p>解码后，<code>data</code> 字段应还原为明文 JSON，示例：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"messages"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span><span class="token property">"role"</span><span class="token operator">:</span> <span class="token string">"user"</span><span class="token punctuation">,</span> <span class="token property">"content"</span><span class="token operator">:</span> <span class="token string">"Hello"</span><span class="token punctuation">&#125;</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"ok"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>这便于人工阅读和断言判断。</p>
+<hr>
+<h2 id="4-后置处理器解码脚本示例（Groovy）"><a href="#4-后置处理器解码脚本示例（Groovy）" class="headerlink" title="4. 后置处理器解码脚本示例（Groovy）"></a>4. 后置处理器解码脚本示例（Groovy）</h2><figure><div class="code-wrapper"><pre class="line-numbers language-groovy" data-language="groovy"><code class="language-groovy"><span class="token keyword">import</span> groovy<span class="token punctuation">.</span>json<span class="token punctuation">.</span>JsonSlurper
+<span class="token keyword">import</span> groovy<span class="token punctuation">.</span>json<span class="token punctuation">.</span>JsonOutput
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>zip<span class="token punctuation">.</span>GZIPInputStream
+<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Base64
+
+<span class="token comment">// 1. 获取 JMeter 变量 prev 中的原始响应字符串</span>
+<span class="token keyword">def</span> response <span class="token operator">=</span> prev<span class="token punctuation">.</span><span class="token function">getResponseDataAsString</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 2. 创建 JsonSlurper 用于解析 JSON</span>
+<span class="token keyword">def</span> jsonSlurper <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JsonSlurper</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 3. 将响应字符串解析为 JSON 对象</span>
+<span class="token keyword">def</span> parsed <span class="token operator">=</span> jsonSlurper<span class="token punctuation">.</span><span class="token function">parseText</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+
+<span class="token comment">// 4. 判断 payload 中是否存在 compEncodeFlag 且值为1，且 data 字段存在，表示需要解码</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>parsed<span class="token operator">?.</span>payload<span class="token operator">?.</span>compEncodeFlag <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> parsed<span class="token operator">?.</span>payload<span class="token operator">?.</span>data<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 5. 对 payload.data 先进行 Base64 解码，得到压缩后的二进制数据</span>
+        <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> compressed <span class="token operator">=</span> Base64<span class="token punctuation">.</span>decoder<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span>parsed<span class="token punctuation">.</span>payload<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+
+        <span class="token comment">// 6. 使用 ByteArrayInputStream 包装解码后的字节数组</span>
+        ByteArrayInputStream bais <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ByteArrayInputStream</span><span class="token punctuation">(</span>compressed<span class="token punctuation">)</span>
+
+        <span class="token comment">// 7. 使用 GZIPInputStream 对字节流进行 gzip 解压</span>
+        GZIPInputStream gis <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GZIPInputStream</span><span class="token punctuation">(</span>bais<span class="token punctuation">)</span>
+
+        <span class="token comment">// 8. 将解压流转成字符流，指定 UTF-8 编码</span>
+        InputStreamReader reader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>gis<span class="token punctuation">,</span> <span class="token interpolation-string"><span class="token string">"UTF-8"</span></span><span class="token punctuation">)</span>
+
+        <span class="token comment">// 9. 使用 BufferedReader 逐行读取解压后的内容</span>
+        BufferedReader bufferedReader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span>reader<span class="token punctuation">)</span>
+        StringBuilder decompressed <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        String line
+
+        <span class="token comment">// 10. 逐行读取，拼接成完整字符串</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>line <span class="token operator">=</span> bufferedReader<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            decompressed<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token comment">// 11. 尝试将解压后的字符串解析为 JSON</span>
+        <span class="token keyword">def</span> dataDecoded
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            dataDecoded <span class="token operator">=</span> jsonSlurper<span class="token punctuation">.</span><span class="token function">parseText</span><span class="token punctuation">(</span>decompressed<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>Exception e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">// 如果不是标准 JSON，则直接保留字符串形式</span>
+            dataDecoded <span class="token operator">=</span> decompressed<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token comment">// 12. 将原结构中的 payload.data 字段替换成解码后的明文 JSON 或字符串</span>
+        parsed<span class="token punctuation">.</span>payload<span class="token punctuation">.</span>data <span class="token operator">=</span> dataDecoded
+
+        <span class="token comment">// 13. 把整个结构重新转换成 JSON 字符串</span>
+        <span class="token keyword">def</span> newResponse <span class="token operator">=</span> JsonOutput<span class="token punctuation">.</span><span class="token function">toJson</span><span class="token punctuation">(</span>parsed<span class="token punctuation">)</span>
+
+        <span class="token comment">// 14. 更新 JMeter 变量 prev 中的响应数据，用解码后的内容替代原始响应</span>
+        prev<span class="token punctuation">.</span><span class="token function">setResponseData</span><span class="token punctuation">(</span>newResponse<span class="token punctuation">,</span> <span class="token interpolation-string"><span class="token string">"UTF-8"</span></span><span class="token punctuation">)</span>
+
+    <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>Exception e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 15. 捕获异常并写入 JMeter 日志，方便排查解码失败原因</span>
+        log<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">"解码失败："</span></span> <span class="token operator">+</span> e<span class="token punctuation">.</span>message<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="5-踩坑现场：断言失效问题"><a href="#5-踩坑现场：断言失效问题" class="headerlink" title="5. 踩坑现场：断言失效问题"></a>5. 踩坑现场：断言失效问题</h2><p>加入解码后置处理器后，之前能通过的响应断言全部失败。</p>
+<p>原因：  </p>
+<ul>
+<li><strong>响应断言默认只对“原始响应体”生效</strong>，也就是还未解码的编码密文；  </li>
+<li>解码后的明文存放在 <code>$&#123;decodedData&#125;</code> 变量中，断言未对该变量进行判断；  </li>
+<li>导致断言条件和断言目标不匹配。</li>
+</ul>
+<hr>
+<h2 id="6-解决方案"><a href="#6-解决方案" class="headerlink" title="6. 解决方案"></a>6. 解决方案</h2><ul>
+<li><strong>调整断言对象</strong>：改为针对 <code>$&#123;decodedData&#125;</code> 变量断言，而非默认响应体。  </li>
+<li><strong>确认断言执行顺序</strong>：确保后置处理器先执行，断言后执行。  </li>
+<li><strong>调试辅助</strong>：用调试采样器打印 <code>$&#123;decodedData&#125;</code>，验证解码结果。</li>
+</ul>
+<hr>
+<h2 id="7-断言示例"><a href="#7-断言示例" class="headerlink" title="7. 断言示例"></a>7. 断言示例</h2><h3 id="7-1-响应断言"><a href="#7-1-响应断言" class="headerlink" title="7.1 响应断言"></a>7.1 响应断言</h3><p>配置响应断言时：</p>
+<ul>
+<li>选择“响应文本”字段  </li>
+<li>断言内容写 <code>$&#123;decodedData&#125;</code>  </li>
+<li>断言条件（如包含字符串）写明预期内容，如 <code>success</code></li>
+</ul>
+<h3 id="7-2-JSR223断言示例"><a href="#7-2-JSR223断言示例" class="headerlink" title="7.2 JSR223断言示例"></a>7.2 JSR223断言示例</h3><p>如果断言更复杂，可以用 JSR223断言脚本：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-groovy" data-language="groovy"><code class="language-groovy"><span class="token keyword">def</span> decoded <span class="token operator">=</span> vars<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">"decodedData"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">assert</span> decoded<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">"success"</span></span><span class="token punctuation">)</span> <span class="token punctuation">:</span> <span class="token interpolation-string"><span class="token string">"断言失败：未找到success关键字"</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="8-总结与建议-🎯"><a href="#8-总结与建议-🎯" class="headerlink" title="8. 总结与建议 🎯"></a>8. 总结与建议 🎯</h2><table>
+<thead>
+<tr>
+<th>事项</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>响应字段解码</td>
+<td>用后置处理器完成 Base64 + gzip 解码，方便人工查看响应内容</td>
+</tr>
+<tr>
+<td>断言写法</td>
+<td>断言要针对解码后的变量 <code>$&#123;decodedData&#125;</code>，不是默认响应体</td>
+</tr>
+<tr>
+<td>执行顺序</td>
+<td>确保后置处理器先执行，断言后执行</td>
+</tr>
+<tr>
+<td>调试方法</td>
+<td>用调试采样器打印变量，确认断言使用的数据正确</td>
+</tr>
+<tr>
+<td>常见坑</td>
+<td>断言默认只针对原响应体，忽略后置处理器变量导致断言失败</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="9-小贴士-🌟"><a href="#9-小贴士-🌟" class="headerlink" title="9. 小贴士 🌟"></a>9. 小贴士 🌟</h2><ul>
+<li>复杂断言优先使用 JSR223断言，自定义断言逻辑  </li>
+<li>日志写足，方便快速定位问题  </li>
+<li>调试采样器是排查问题利器，随时查看变量实际内容</li>
+</ul>
+<hr>
+<h2 id="10-结语"><a href="#10-结语" class="headerlink" title="10. 结语"></a>10. 结语</h2><p>压测时遇到编码字段，解码方便查看是非常好的实践，但别忘了断言也要对应修改，否则断言失效让你一头雾水。  </p>
+<p>希望本文的实战分享能帮助你快速解决类似问题，欢迎留言交流你遇到的压测挑战！我们一起成长💪。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/" class="category-chain-item">⚙️ 自动化测试工程化：工具、实战与体系建设</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/%E6%80%A7%E8%83%BD%E3%80%81%E5%AE%89%E5%85%A8%E4%B8%8E%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95/" class="category-chain-item">性能、安全与专项测试</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/JMeter/" class="print-no-link">#JMeter</a>
+      
+        <a href="/fluid-blog/tags/%E6%8E%A5%E5%8F%A3%E5%8E%8B%E6%B5%8B/" class="print-no-link">#接口压测</a>
+      
+        <a href="/fluid-blog/tags/%E5%93%8D%E5%BA%94%E8%A7%A3%E7%A0%81/" class="print-no-link">#响应解码</a>
+      
+        <a href="/fluid-blog/tags/%E6%96%AD%E8%A8%80%E5%A4%B1%E6%95%88/" class="print-no-link">#断言失效</a>
+      
+        <a href="/fluid-blog/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" class="print-no-link">#问题解决</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>压测踩坑实录 | 解码接口响应字段方便查看，断言失效问题及解决方案分享 🚧</div>
+      <div>https://linn0813.github.io/2025/06/16/2025-06-16-jmeter-response-decoding/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/19/2025-06-19-interface-documentation-guide/" title="🛡️ 测试开发不再背锅：一份可落地的接口文档避坑指南 🚧">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🛡️ 测试开发不再背锅：一份可落地的接口文档避坑指南 🚧</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/15/2025-06-15-it-career/" title="🎯 应届生求职指南：前端、后端、测试、算法、产品，我该怎么选？">
+                        <span class="hidden-mobile">🎯 应届生求职指南：前端、后端、测试、算法、产品，我该怎么选？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

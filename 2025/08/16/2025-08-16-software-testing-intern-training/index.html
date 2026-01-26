@@ -1,0 +1,847 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="软件测试, 实习生培养, 测试计划, 测试技能, 测试流程">
+  
+    <meta name="description" content="分享一份系统的软件测试实习生培养计划，包含思考过程、核心结构、常见问题及实践技巧，助力导师高效培养实习生！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何写一份系统的&quot;软件测试实习生培养计划&quot;？我的思考与实践">
+<meta property="og:url" content="https://linn0813.github.io/2025/08/16/2025-08-16-software-testing-intern-training/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="分享一份系统的软件测试实习生培养计划，包含思考过程、核心结构、常见问题及实践技巧，助力导师高效培养实习生！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/software-testing-intern-training.png">
+<meta property="article:published_time" content="2025-08-16T12:16:18.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.623Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="软件测试">
+<meta property="article:tag" content="实习生培养">
+<meta property="article:tag" content="测试计划">
+<meta property="article:tag" content="测试技能">
+<meta property="article:tag" content="测试流程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/software-testing-intern-training.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>如何写一份系统的&#34;软件测试实习生培养计划&#34;？我的思考与实践 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="如何写一份系统的&#34;软件测试实习生培养计划&#34;？我的思考与实践"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-08-16 20:16" pubdate>
+          2025年8月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">如何写一份系统的&#34;软件测试实习生培养计划&#34;？我的思考与实践</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="如何写一份系统的“软件测试实习生培养计划”？我的思考与实践"><a href="#如何写一份系统的“软件测试实习生培养计划”？我的思考与实践" class="headerlink" title="如何写一份系统的“软件测试实习生培养计划”？我的思考与实践"></a>如何写一份系统的“软件测试实习生培养计划”？我的思考与实践</h1><p>在很多团队里，软件测试实习生往往是第一次接触真实项目的“新人类”。他们怀揣着热情，但缺少实战经验；导师们想要带人，却常常缺少系统化的培养方法。结果就是：实习生感觉“干了很多杂活却没学到东西”，导师感觉“带人很累却效果一般”。</p>
+<p>作为刚刚接到“培养一名新的实习生”任务的我，最初也有点头大：既要保证实习生快速上手，又要让他在有限的实习期里真正成长；同时还要避免导师自己被“拖垮”。于是我决定先输出一份 <strong>系统的培养计划文档</strong>，帮助自己梳理思路。</p>
+<hr>
+<h2 id="一、为什么要有培养计划？"><a href="#一、为什么要有培养计划？" class="headerlink" title="一、为什么要有培养计划？"></a>一、为什么要有培养计划？</h2><p>没有计划地带人，常常会出现这样的场景：</p>
+<ul>
+<li>实习生一上来被安排一些零碎的任务，不知道自己到底学到了什么；</li>
+<li>导师觉得“反正让他先帮我做点事”，结果到头来实习生做得多，成长有限；</li>
+<li>等实习期结束，大家发现：既没有培养出战斗力，也没有留下沉淀。</li>
+</ul>
+<blockquote>
+<p>“导师：我以为你已经成长了啊！<br>实习生：我以为你会教我啊！<br>——最后的结局：双向失望。”<br>😅 </p>
+</blockquote>
+<p>所以，一份培养计划的意义是：让导师和实习生在同一张“路线图”上，清楚知道目标和过程，避免偏航。</p>
+<h2 id="二、我是如何思考的？"><a href="#二、我是如何思考的？" class="headerlink" title="二、我是如何思考的？"></a>二、我是如何思考的？</h2><p>在写这份培养计划之前，我先问了自己几个问题：</p>
+<ol>
+<li><p>实习生的最终目标是什么？<br>——比如，能否独立承担某个基础模块的测试工作？</p>
+</li>
+<li><p>他需要掌握哪些技能？<br>——包括基本测试理论、项目流程、工具使用、用例设计与执行等。</p>
+</li>
+<li><p>培养过程如何分阶段？<br>——从入门到熟悉，再到独立操作，是否能拆成“学习期—实践期—独立期”？</p>
+</li>
+<li><p>如何衡量培养效果？<br>——有没有可量化的标准，比如能独立写完 XX 模块的用例、能独立执行一次回归？</p>
+</li>
+</ol>
+<p>这几个问题帮助我构建了培养计划的“框架”。</p>
+<hr>
+<h2 id="三、培养计划的核心结构"><a href="#三、培养计划的核心结构" class="headerlink" title="三、培养计划的核心结构"></a>三、培养计划的核心结构</h2><p>我的计划大致分为五个部分：</p>
+<h3 id="1-培养目标-🎯"><a href="#1-培养目标-🎯" class="headerlink" title="1. 培养目标 🎯"></a>1. 培养目标 🎯</h3><p>培养的核心目标不是让实习生“帮忙测试”，而是让他们在实习期内<strong>具备独立承担基础测试工作的能力</strong>，并对测试方法、工具、流程有清晰的认识。<br>拆解后目标如下：</p>
+<ol>
+<li><strong>技能目标</strong>：掌握基本的软件测试方法、工具与用例设计技巧。</li>
+<li><strong>项目目标</strong>：能够独立承担小模块或单一需求的完整测试任务。</li>
+<li><strong>成长目标</strong>：形成良好的工作习惯（记录、沟通、复盘），并具备一定的思考与总结能力。</li>
+</ol>
+<hr>
+<h3 id="2-培养阶段-⏳"><a href="#2-培养阶段-⏳" class="headerlink" title="2. 培养阶段 ⏳"></a>2. 培养阶段 ⏳</h3><p>培养不是一蹴而就的，可以划分为四个阶段：</p>
+<h4 id="1-入门期（第1周）"><a href="#1-入门期（第1周）" class="headerlink" title="1. 入门期（第1周）"></a>1. 入门期（第1周）</h4><ul>
+<li><p><strong>目标</strong>：让实习生快速适应团队与环境。</p>
+</li>
+<li><p><strong>任务</strong>：</p>
+<ul>
+<li>完成项目开发环境&#x2F;测试环境搭建</li>
+<li>学习团队的工作流程与工具（Jira、禅道、Git、测试平台等）</li>
+<li>阅读并理解已有的测试用例与项目文档</li>
+</ul>
+</li>
+<li><p><strong>输出物</strong>：一份环境搭建记录 &amp; 入门学习笔记</p>
+</li>
+</ul>
+<h4 id="2-学习期（第2-3周）"><a href="#2-学习期（第2-3周）" class="headerlink" title="2. 学习期（第2-3周）"></a>2. 学习期（第2-3周）</h4><ul>
+<li><p><strong>目标</strong>：掌握基础测试技能，参与真实需求测试。</p>
+</li>
+<li><p><strong>任务</strong>：</p>
+<ul>
+<li>学习功能测试基本方法（等价类、边界值、场景法等）</li>
+<li>熟悉接口测试工具（Postman&#x2F;JMeter）</li>
+<li>跟随导师参与日常测试任务，学习项目的业务流程</li>
+<li>在导师指导下，编写小范围的测试用例</li>
+</ul>
+</li>
+<li><p><strong>输出物</strong>：需求用例文档（至少覆盖一个小功能模块）</p>
+</li>
+</ul>
+<h4 id="3-实践期（第4-6周）"><a href="#3-实践期（第4-6周）" class="headerlink" title="3. 实践期（第4-6周）"></a>3. 实践期（第4-6周）</h4><ul>
+<li><p><strong>目标</strong>：能够独立承担模块级的测试任务。</p>
+</li>
+<li><p><strong>任务</strong>：</p>
+<ul>
+<li>独立完成分配的功能测试</li>
+<li>执行测试用例并提交缺陷</li>
+<li>学习回归测试方法，体验缺陷生命周期</li>
+</ul>
+</li>
+<li><p><strong>输出物</strong>：缺陷记录、测试报告、复盘总结</p>
+</li>
+</ul>
+<h4 id="4-成长期（第7周以后）"><a href="#4-成长期（第7周以后）" class="headerlink" title="4. 成长期（第7周以后）"></a>4. 成长期（第7周以后）</h4><ul>
+<li><p><strong>目标</strong>：培养思考与改进能力，尝试简单的工具化。</p>
+</li>
+<li><p><strong>任务</strong>：</p>
+<ul>
+<li>优化已有测试用例（比如从手工转为半自动）</li>
+<li>学习团队内部工具&#x2F;脚本（如日志分析、数据构造）</li>
+<li>撰写技术分享或文档沉淀</li>
+</ul>
+</li>
+<li><p><strong>输出物</strong>：一份工具实践&#x2F;文档沉淀成果</p>
+</li>
+</ul>
+<hr>
+<h3 id="3-导师职责-🧑‍🏫"><a href="#3-导师职责-🧑‍🏫" class="headerlink" title="3. 导师职责 🧑‍🏫"></a>3. 导师职责 🧑‍🏫</h3><p>很多导师会忽略“带人”这件事，以为只要分配任务就行。其实导师需要做到：</p>
+<ol>
+<li><strong>明确任务边界</strong>：任务要有目标、背景和期望输出，而不是一句“帮我测一下”。</li>
+<li><strong>定期复盘</strong>：每周进行一次10-15分钟的沟通，了解进展与问题。</li>
+<li><strong>反馈+引导</strong>：及时指出问题，不只是“这里错了”，更要解释为什么。</li>
+<li><strong>给予舞台</strong>：让实习生有机会在组会上汇报，让他们有成就感。</li>
+</ol>
+<hr>
+<h3 id="4-培养效果评估-✅"><a href="#4-培养效果评估-✅" class="headerlink" title="4. 培养效果评估 ✅"></a>4. 培养效果评估 ✅</h3><p>最后，如何衡量培养是否成功？我设计了一个评估维度：</p>
+<ol>
+<li><strong>执行力</strong>：是否能按要求完成任务？</li>
+<li><strong>技能掌握</strong>：是否掌握基本的用例设计、工具使用？</li>
+<li><strong>独立性</strong>：是否能独立承担一个需求的测试？</li>
+<li><strong>文档与沟通</strong>：是否能写出清晰的用例&#x2F;报告，并有效沟通？</li>
+</ol>
+<p>在实习结束时，可以用一个<strong>小型的考核项目</strong>（例如测试一个新功能）来进行综合验证，也可以在<strong>日常测试工作中</strong>进行评估。</p>
+<ul>
+<li><strong>过程考核</strong>：是否按阶段目标完成任务</li>
+<li><strong>结果考核</strong>：是否能独立完成一个模块的测试</li>
+<li><strong>最终反馈</strong>：由导师和实习生共同写总结，沉淀经验</li>
+</ul>
+<hr>
+<h2 id="四、培养过程中的常见问题-⚠️"><a href="#四、培养过程中的常见问题-⚠️" class="headerlink" title="四、培养过程中的常见问题 ⚠️"></a>四、培养过程中的常见问题 ⚠️</h2><ul>
+<li><p><strong>问题1：实习生做的任务太杂乱</strong></p>
+<ul>
+<li>解决：保持“主线任务”明确，偶尔分配杂项任务但要说明目的。</li>
+</ul>
+</li>
+<li><p><strong>问题2：实习生学不到核心技能</strong></p>
+<ul>
+<li>解决：每个阶段要设定明确的技能目标，并进行考核。</li>
+</ul>
+</li>
+<li><p><strong>问题3：导师感觉带人太耗时</strong></p>
+<ul>
+<li>解决：通过标准化的培养计划（比如今天这篇文档），减少临时安排与重复沟通。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="五、实践中的小技巧"><a href="#五、实践中的小技巧" class="headerlink" title="五、实践中的小技巧"></a>五、实践中的小技巧</h2><ul>
+<li>给实习生安排的第一个任务，最好是<strong>容易上手又能看到结果</strong>的，比如“执行一次回归用例”或“补充某功能的边界测试”。这样能快速建立信心。</li>
+<li>实习生写的第一个文档（比如测试用例、缺陷报告），要认真评审并给出详细反馈。<strong>第一次的反馈质量，直接决定他的学习曲线</strong>。</li>
+<li>别只关注技术，还要关注“成长心态”。比如鼓励他做一次小型分享，哪怕只是分享“用例设计的心得”，也是很好的锻炼。</li>
+<li>最后，要重视“输出”。不是“输入”多了，输出质量高了，才是好的。</li>
+</ul>
+<hr>
+<h2 id="六、我的收获-🌱"><a href="#六、我的收获-🌱" class="headerlink" title="六、我的收获 🌱"></a>六、我的收获 🌱</h2><p>这次输出完整的培养计划，让我意识到：</p>
+<ul>
+<li><strong>培养人本身就是一个学习过程</strong>。在带实习生的过程中，我自己也被迫梳理知识、规范流程。</li>
+<li><strong>文档化沉淀是关键</strong>。一次培养总结好，就能成为下一次培养的参考模板。</li>
+<li><strong>带人不是负担，而是赋能</strong>。当实习生真正成长起来，团队也就多了一份战斗力。</li>
+</ul>
+<hr>
+<h2 id="七、结语-✨"><a href="#七、结语-✨" class="headerlink" title="七、结语 ✨"></a>七、结语 ✨</h2><p>带软件测试实习生，不只是完成一个季度任务，更是为团队注入新鲜血液。<br>希望这份培养计划能给正在带人的你一些启发，也欢迎大家分享自己的方法论，一起交流迭代。</p>
+<p>（导师OS：带人不易，但带出成果是真的爽 💪）</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/" class="category-chain-item">🎨 职场进阶与测试思维：从小白到资深</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/%E6%B5%8B%E8%AF%95%E7%9F%A5%E8%AF%86%E6%B2%89%E6%B7%80/" class="category-chain-item">测试知识沉淀</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" class="print-no-link">#软件测试</a>
+      
+        <a href="/fluid-blog/tags/%E5%AE%9E%E4%B9%A0%E7%94%9F%E5%9F%B9%E5%85%BB/" class="print-no-link">#实习生培养</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92/" class="print-no-link">#测试计划</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E6%8A%80%E8%83%BD/" class="print-no-link">#测试技能</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B/" class="print-no-link">#测试流程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>如何写一份系统的&#34;软件测试实习生培养计划&#34;？我的思考与实践</div>
+      <div>https://linn0813.github.io/2025/08/16/2025-08-16-software-testing-intern-training/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年8月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/08/17/2025-08-17-busy-and-growth-maintaining-learning-during-overtime/" title="下班后的学习，被&#34;加班&#34;偷走了怎么办？ 🚀">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">下班后的学习，被&#34;加班&#34;偷走了怎么办？ 🚀</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/08/06/2025-08-07-version-compare-gotcha/" title="你真的会比较版本号吗？我因为&#34;3.9.0 &gt; 3.11.0&#34;翻了车">
+                        <span class="hidden-mobile">你真的会比较版本号吗？我因为&#34;3.9.0 &gt; 3.11.0&#34;翻了车</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

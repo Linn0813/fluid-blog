@@ -1,0 +1,1087 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="Charles, 抓包, HTTPS, 代理, 接口调试, Breakpoints, Rewrite, Map Local, Map Remote, Throttle, DNS Spoofing">
+  
+    <meta name="description" content="一篇从界面认识到高频操作、再到实战排查的 Charles 抓包指南：抓得到、看得懂、改得动、能复现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🐢 Charles 抓包工具从入门到实战使用教程">
+<meta property="og:url" content="https://linn0813.github.io/2026/01/19/2026-01-19-charles-capture-beginner-to-practical-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="一篇从界面认识到高频操作、再到实战排查的 Charles 抓包指南：抓得到、看得懂、改得动、能复现。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/charles.png">
+<meta property="article:published_time" content="2026-01-19T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.640Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="接口调试">
+<meta property="article:tag" content="抓包工具">
+<meta property="article:tag" content="Charles">
+<meta property="article:tag" content="HTTPS">
+<meta property="article:tag" content="Mock">
+<meta property="article:tag" content="弱网">
+<meta property="article:tag" content="问题定位">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/charles.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🐢 Charles 抓包工具从入门到实战使用教程 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🐢 Charles 抓包工具从入门到实战使用教程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-19 10:00" pubdate>
+          2026年1月19日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🐢 Charles 抓包工具从入门到实战使用教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🐢-Charles-抓包工具从入门到实战使用教程"><a href="#🐢-Charles-抓包工具从入门到实战使用教程" class="headerlink" title="🐢 Charles 抓包工具从入门到实战使用教程"></a>🐢 Charles 抓包工具从入门到实战使用教程</h1><blockquote>
+<p>适合人群：</p>
+<ul>
+<li>测试工程师 &#x2F; 测开</li>
+<li>后端 &#x2F; 前端开发</li>
+<li>对网络请求、接口调试、问题定位感兴趣的同学</li>
+</ul>
+</blockquote>
+<p>如果你在日常工作中遇到过下面这些问题：</p>
+<ul>
+<li>🤔 接口到底有没有发请求？</li>
+<li>🤔 请求参数对不对？</li>
+<li>🤔 为什么前端&#x2F;客户端显示异常，但后端说接口没问题？</li>
+</ul>
+<p>那 <strong>Charles</strong> 基本是一个绕不开的工具。</p>
+<p>这篇文章会从 <strong>页面介绍 → 基础使用 → 常见操作 → 实战场景</strong> 一步一步带你真正「用会」Charles，而不是只停留在“知道有这个工具”。</p>
+<hr>
+<h2 id="1️⃣-Charles-是什么？能解决什么问题？"><a href="#1️⃣-Charles-是什么？能解决什么问题？" class="headerlink" title="1️⃣ Charles 是什么？能解决什么问题？"></a>1️⃣ Charles 是什么？能解决什么问题？</h2><p><strong>Charles 是一个 HTTP &#x2F; HTTPS 抓包代理工具</strong>，它可以：</p>
+<ul>
+<li>捕获客户端发出的所有网络请求</li>
+<li>查看请求 &#x2F; 响应的详细内容</li>
+<li>修改请求或响应（Mock &#x2F; 调试神器）</li>
+<li>重放请求、验证接口逻辑</li>
+<li>模拟弱网、做“网络侧”的问题复现</li>
+</ul>
+<p>📌 <strong>一句话总结</strong>：</p>
+<blockquote>
+<p>只要是走网络的请求，理论上 Charles 都能看到。</p>
+</blockquote>
+<hr>
+<h2 id="2️⃣-Charles-的核心工作原理（先理解再使用）"><a href="#2️⃣-Charles-的核心工作原理（先理解再使用）" class="headerlink" title="2️⃣ Charles 的核心工作原理（先理解再使用）"></a>2️⃣ Charles 的核心工作原理（先理解再使用）</h2><p>在使用之前，先用一张“脑图”理解它的角色：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">客户端  →  Charles（代理）  →  服务器<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>Charles 本质上是一个 <strong>代理服务器（Proxy）</strong>：</p>
+<ul>
+<li>客户端把请求先发给 Charles</li>
+<li>Charles 再转发给真实服务器</li>
+<li>响应返回时，再经过 Charles</li>
+</ul>
+<p>📌 所以：</p>
+<ul>
+<li><strong>客户端必须配置代理</strong></li>
+<li><strong>HTTPS 需要额外的证书信任 + SSL Proxying 解密</strong></li>
+</ul>
+<p>这一点非常重要，后面很多“抓不到包”的问题，本质都出在这里。</p>
+<hr>
+<h2 id="3️⃣-Charles-页面与功能区域详解（重点）"><a href="#3️⃣-Charles-页面与功能区域详解（重点）" class="headerlink" title="3️⃣ Charles 页面与功能区域详解（重点）"></a>3️⃣ Charles 页面与功能区域详解（重点）</h2><p>打开 Charles 后，你会看到这样一个界面，我们按区域来拆解。</p>
+<h3 id="3-1-顶部菜单栏（功能入口）"><a href="#3-1-顶部菜单栏（功能入口）" class="headerlink" title="3.1 顶部菜单栏（功能入口）"></a>3.1 顶部菜单栏（功能入口）</h3><p>常用的几个菜单：</p>
+<ul>
+<li><p><strong>Proxy</strong></p>
+<ul>
+<li>Proxy Settings（代理端口设置）</li>
+<li>SSL Proxying Settings（HTTPS 抓包）</li>
+<li>macOS Proxy &#x2F; Windows Proxy（是否把系统代理切到 Charles）</li>
+</ul>
+</li>
+<li><p><strong>Tools</strong></p>
+<ul>
+<li>Rewrite（重写请求&#x2F;响应）</li>
+<li>Map Local &#x2F; Map Remote（请求映射）</li>
+<li>Breakpoints（断点&#x2F;拦截）</li>
+<li>DNS Spoofing（DNS 劫持到指定 IP）</li>
+<li>Throttle Settings（弱网限速&#x2F;延迟模拟）</li>
+</ul>
+</li>
+<li><p><strong>Help</strong></p>
+<ul>
+<li>SSL Proxying → Install Charles Root Certificate（安装根证书）</li>
+<li>Install Charles Root Certificate on a Mobile Device…（手机&#x2F;远程浏览器安装证书）</li>
+</ul>
+</li>
+</ul>
+<p>📌 初学阶段，你最常用的是：</p>
+<blockquote>
+<p>Proxy &#x2F; Tools &#x2F; Help</p>
+</blockquote>
+<hr>
+<h3 id="3-2-左侧区域（请求列表区）"><a href="#3-2-左侧区域（请求列表区）" class="headerlink" title="3.2 左侧区域（请求列表区）"></a>3.2 左侧区域（请求列表区）</h3><p>左侧是 <strong>抓到的所有请求列表</strong>，默认以域名分类：</p>
+<ul>
+<li>每一个域名 &#x3D; 一个 Host</li>
+<li>展开后是具体的请求路径</li>
+</ul>
+<p>你可以在这里看到：</p>
+<ul>
+<li>请求是否成功（状态码）</li>
+<li>是否走 HTTPS</li>
+<li>请求次数</li>
+</ul>
+<p>📌 常见技巧：</p>
+<ul>
+<li>请求太多时，可使用顶部 <strong>Filter</strong> 过滤关键词</li>
+<li>右键 Host → <code>Focus</code>，只看一个域名（排查速度会快很多）</li>
+</ul>
+<hr>
+<h3 id="3-3-右侧区域（请求-响应详情区）"><a href="#3-3-右侧区域（请求-响应详情区）" class="headerlink" title="3.3 右侧区域（请求&#x2F;响应详情区）"></a>3.3 右侧区域（请求&#x2F;响应详情区）</h3><p>这是 <strong>最核心、最常用</strong> 的区域。</p>
+<p>右侧一般分为两个大标签：</p>
+<h4 id="▶-Request（请求）"><a href="#▶-Request（请求）" class="headerlink" title="▶ Request（请求）"></a>▶ Request（请求）</h4><ul>
+<li>Method（GET &#x2F; POST）</li>
+<li>URL</li>
+<li>Headers</li>
+<li>Query String &#x2F; Body（重点看参数）</li>
+</ul>
+<h4 id="▶-Response（响应）"><a href="#▶-Response（响应）" class="headerlink" title="▶ Response（响应）"></a>▶ Response（响应）</h4><ul>
+<li>Status Code</li>
+<li>Headers</li>
+<li>Response Body（JSON &#x2F; Text &#x2F; 图片等）</li>
+</ul>
+<p>📌 调试接口 80% 的时间，都在看这里。</p>
+<hr>
+<h2 id="4️⃣-基础使用：抓-HTTP-HTTPS-请求"><a href="#4️⃣-基础使用：抓-HTTP-HTTPS-请求" class="headerlink" title="4️⃣ 基础使用：抓 HTTP &#x2F; HTTPS 请求"></a>4️⃣ 基础使用：抓 HTTP &#x2F; HTTPS 请求</h2><h3 id="4-1-开启-Charles-代理"><a href="#4-1-开启-Charles-代理" class="headerlink" title="4.1 开启 Charles 代理"></a>4.1 开启 Charles 代理</h3><p>默认情况下，Charles 启动后代理是 <strong>开启的</strong>。</p>
+<p>你可以在菜单栏确认：</p>
+<blockquote>
+<p>Proxy → macOS Proxy（或 Windows Proxy）</p>
+</blockquote>
+<p>确保是勾选状态。</p>
+<hr>
+<h3 id="4-2-抓浏览器请求（最简单）"><a href="#4-2-抓浏览器请求（最简单）" class="headerlink" title="4.2 抓浏览器请求（最简单）"></a>4.2 抓浏览器请求（最简单）</h3><p>直接：</p>
+<ol>
+<li>打开 Charles</li>
+<li>用浏览器访问任意网站</li>
+</ol>
+<p>如果左侧开始出现请求列表，说明抓包成功。</p>
+<hr>
+<h3 id="4-3-抓-HTTPS-请求（最容易卡住的部分）"><a href="#4-3-抓-HTTPS-请求（最容易卡住的部分）" class="headerlink" title="4.3 抓 HTTPS 请求（最容易卡住的部分）"></a>4.3 抓 HTTPS 请求（最容易卡住的部分）</h3><p>很多同学第一次只能看到 <code>CONNECT</code>，或者请求路径显示 <code>&lt;unknown&gt;</code>，本质原因是 <strong>HTTPS 没被解密</strong>。</p>
+<p>你之前那篇文章已经把安装、证书、移动端配置写得很完整，这里不再重复展开，建议先把“能抓到 HTTPS”这件事打通：</p>
+<ul>
+<li><a href="/2025/12/25/2025-12-25-fiddler-to-charles-migration-guide/">从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎</a></li>
+</ul>
+<p>📌 快速记忆（只记结论）：</p>
+<ul>
+<li><strong>装并信任 Charles Root Certificate</strong></li>
+<li><strong>开启 SSL Proxying，并把目标域名加入 Include</strong></li>
+</ul>
+<hr>
+<h2 id="5️⃣-抓包前的前置说明（已安装可跳过）"><a href="#5️⃣-抓包前的前置说明（已安装可跳过）" class="headerlink" title="5️⃣ 抓包前的前置说明（已安装可跳过）"></a>5️⃣ 抓包前的前置说明（已安装可跳过）</h2><p>关于 <strong>Charles 安装、证书配置、HTTPS 抓包原理</strong>，你已经在之前的博客中写得非常完整，这里不再重复展开。</p>
+<p>本文将 <strong>重点放在「如何用 Charles 干活」</strong> 上，而不是「怎么装」。</p>
+<hr>
+<h2 id="6️⃣-Charles-高频操作速查（按操作步骤整理）"><a href="#6️⃣-Charles-高频操作速查（按操作步骤整理）" class="headerlink" title="6️⃣ Charles 高频操作速查（按操作步骤整理）"></a>6️⃣ Charles 高频操作速查（按操作步骤整理）</h2><p>本章开始 <strong>不再解释功能背景</strong>，只保留：</p>
+<ul>
+<li>在哪点</li>
+<li>怎么配</li>
+<li>配完会看到什么</li>
+</ul>
+<p>适合在真实调试场景中直接对照使用。</p>
+<hr>
+<h3 id="6-1-请求过滤（Filter）"><a href="#6-1-请求过滤（Filter）" class="headerlink" title="6.1 请求过滤（Filter）"></a>6.1 请求过滤（Filter）</h3><h4 id="▶-操作入口"><a href="#▶-操作入口" class="headerlink" title="▶ 操作入口"></a>▶ 操作入口</h4><ul>
+<li>Charles 顶部工具栏 → <code>Filter</code></li>
+</ul>
+<h4 id="▶-操作步骤"><a href="#▶-操作步骤" class="headerlink" title="▶ 操作步骤"></a>▶ 操作步骤</h4><ol>
+<li>点击 <code>Filter</code> 输入框</li>
+<li>输入域名或接口关键字，例如：</li>
+</ol>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">example.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ol start="3">
+<li>回车</li>
+</ol>
+<h4 id="▶-操作结果"><a href="#▶-操作结果" class="headerlink" title="▶ 操作结果"></a>▶ 操作结果</h4><ul>
+<li>左侧请求列表只显示匹配的请求</li>
+</ul>
+<hr>
+<h3 id="6-2-Focus（只显示指定-Host-请求）"><a href="#6-2-Focus（只显示指定-Host-请求）" class="headerlink" title="6.2 Focus（只显示指定 Host &#x2F; 请求）"></a>6.2 Focus（只显示指定 Host &#x2F; 请求）</h3><h4 id="▶-操作入口-1"><a href="#▶-操作入口-1" class="headerlink" title="▶ 操作入口"></a>▶ 操作入口</h4><ul>
+<li>左侧请求列表</li>
+</ul>
+<h4 id="▶-操作步骤-1"><a href="#▶-操作步骤-1" class="headerlink" title="▶ 操作步骤"></a>▶ 操作步骤</h4><ol>
+<li>在左侧找到目标 <code>Host</code> 或具体请求</li>
+<li>右键点击</li>
+<li>选择：<code>Focus</code></li>
+</ol>
+<h4 id="▶-操作结果-1"><a href="#▶-操作结果-1" class="headerlink" title="▶ 操作结果"></a>▶ 操作结果</h4><ul>
+<li>左侧仅显示被 Focus 的请求</li>
+</ul>
+<h4 id="▶-取消-Focus"><a href="#▶-取消-Focus" class="headerlink" title="▶ 取消 Focus"></a>▶ 取消 Focus</h4><p>菜单栏：<code>View → Focused Host Only</code> 取消勾选</p>
+<hr>
+<h3 id="6-3-Breakpoints（拦截请求-响应）"><a href="#6-3-Breakpoints（拦截请求-响应）" class="headerlink" title="6.3 Breakpoints（拦截请求&#x2F;响应）"></a>6.3 Breakpoints（拦截请求&#x2F;响应）</h3><h4 id="▶-对单个请求加断点"><a href="#▶-对单个请求加断点" class="headerlink" title="▶ 对单个请求加断点"></a>▶ 对单个请求加断点</h4><ol>
+<li>左侧找到目标请求</li>
+<li>右键 → <code>Breakpoints</code></li>
+</ol>
+<h4 id="▶-断点触发后的操作"><a href="#▶-断点触发后的操作" class="headerlink" title="▶ 断点触发后的操作"></a>▶ 断点触发后的操作</h4><ol>
+<li>客户端再次发起该请求</li>
+<li>Charles 弹出拦截窗口</li>
+<li>在窗口中按需修改：<ul>
+<li>Query 参数</li>
+<li>Request Body</li>
+<li>Header（例如 token、traceId、tenant）</li>
+</ul>
+</li>
+<li>点击 <code>Execute / Continue</code></li>
+</ol>
+<h4 id="▶-常见注意点"><a href="#▶-常见注意点" class="headerlink" title="▶ 常见注意点"></a>▶ 常见注意点</h4><ul>
+<li>请求“卡住”时，先检查是不是忘了关断点（尤其是对 Host 加了断点）</li>
+<li>断点也可以用于 <strong>拦截响应</strong>（验证前端容错、模拟异常字段更直观）</li>
+</ul>
+<hr>
+<h3 id="6-4-Rewrite（自动修改请求-响应）"><a href="#6-4-Rewrite（自动修改请求-响应）" class="headerlink" title="6.4 Rewrite（自动修改请求 &#x2F; 响应）"></a>6.4 Rewrite（自动修改请求 &#x2F; 响应）</h3><h4 id="▶-新建-Rewrite-规则"><a href="#▶-新建-Rewrite-规则" class="headerlink" title="▶ 新建 Rewrite 规则"></a>▶ 新建 Rewrite 规则</h4><ol>
+<li><code>Tools → Rewrite</code></li>
+<li>勾选 <code>Enable Rewrite</code></li>
+<li>点击 <code>Add</code></li>
+</ol>
+<h4 id="▶-配置-URL-匹配条件"><a href="#▶-配置-URL-匹配条件" class="headerlink" title="▶ 配置 URL 匹配条件"></a>▶ 配置 URL 匹配条件</h4><ol>
+<li>设置 <code>Host</code>（域名或 <code>*</code>）</li>
+<li>设置 <code>Path</code>（接口路径）</li>
+<li>保存</li>
+</ol>
+<h4 id="▶-配置修改内容"><a href="#▶-配置修改内容" class="headerlink" title="▶ 配置修改内容"></a>▶ 配置修改内容</h4><ol>
+<li>选择 <code>Modify Request</code> 或 <code>Modify Response</code></li>
+<li>选择修改位置（Header &#x2F; Body 等）</li>
+<li>填写替换内容</li>
+<li>保存规则</li>
+</ol>
+<p>📌 使用建议：</p>
+<ul>
+<li>先用 Breakpoints 试验“改哪个字段有效”</li>
+<li>再用 Rewrite 固化成自动规则（更稳定、更省时间）</li>
+</ul>
+<hr>
+<h3 id="6-5-Map-Local-Map-Remote（请求映射）"><a href="#6-5-Map-Local-Map-Remote（请求映射）" class="headerlink" title="6.5 Map Local &#x2F; Map Remote（请求映射）"></a>6.5 Map Local &#x2F; Map Remote（请求映射）</h3><h4 id="▶-Map-Local（映射本地文件，做本地-Mock）"><a href="#▶-Map-Local（映射本地文件，做本地-Mock）" class="headerlink" title="▶ Map Local（映射本地文件，做本地 Mock）"></a>▶ Map Local（映射本地文件，做本地 Mock）</h4><ol>
+<li>右键目标请求 → <code>Map Local</code></li>
+<li>选择本地文件</li>
+<li>确认</li>
+</ol>
+<h4 id="▶-Map-Remote（转发到其他服务器，快速切环境）"><a href="#▶-Map-Remote（转发到其他服务器，快速切环境）" class="headerlink" title="▶ Map Remote（转发到其他服务器，快速切环境）"></a>▶ Map Remote（转发到其他服务器，快速切环境）</h4><ol>
+<li>右键目标请求 → <code>Map Remote</code></li>
+<li>输入目标服务器地址（如把 <code>api.prod.com</code> 映射到 <code>api.test.com</code>）</li>
+<li>保存</li>
+</ol>
+<hr>
+<h3 id="6-6-Block（屏蔽请求）"><a href="#6-6-Block（屏蔽请求）" class="headerlink" title="6.6 Block（屏蔽请求）"></a>6.6 Block（屏蔽请求）</h3><h4 id="▶-操作步骤-2"><a href="#▶-操作步骤-2" class="headerlink" title="▶ 操作步骤"></a>▶ 操作步骤</h4><ol>
+<li>左侧请求列表中右键请求或 Host</li>
+<li>点击：<code>Block</code></li>
+</ol>
+<h4 id="▶-操作结果-2"><a href="#▶-操作结果-2" class="headerlink" title="▶ 操作结果"></a>▶ 操作结果</h4><ul>
+<li>该请求后续将直接失败（用于验证“接口失败时前端&#x2F;客户端怎么表现”）</li>
+</ul>
+<hr>
+<h3 id="6-7-Repeat-Repeat-Advanced（重放请求，验证幂等与边界）"><a href="#6-7-Repeat-Repeat-Advanced（重放请求，验证幂等与边界）" class="headerlink" title="6.7 Repeat &#x2F; Repeat Advanced（重放请求，验证幂等与边界）"></a>6.7 Repeat &#x2F; Repeat Advanced（重放请求，验证幂等与边界）</h3><blockquote>
+<p>这是很多同学“会抓包但不会用”的分水岭功能：<strong>能否把一次请求复现出来</strong>。</p>
+</blockquote>
+<h4 id="▶-操作入口-2"><a href="#▶-操作入口-2" class="headerlink" title="▶ 操作入口"></a>▶ 操作入口</h4><ul>
+<li>左侧选中目标请求 → 右键菜单里 <code>Repeat</code> &#x2F; <code>Repeat Advanced</code>（不同版本名称可能略有差异）</li>
+</ul>
+<h4 id="▶-操作步骤-3"><a href="#▶-操作步骤-3" class="headerlink" title="▶ 操作步骤"></a>▶ 操作步骤</h4><ol>
+<li>选中要重放的请求（建议选择业务接口，不要选静态资源）</li>
+<li>右键 <code>Repeat</code>（或 <code>Repeat Advanced</code>）</li>
+</ol>
+<h4 id="▶-操作结果-3"><a href="#▶-操作结果-3" class="headerlink" title="▶ 操作结果"></a>▶ 操作结果</h4><ul>
+<li>Charles 会再次向服务器发起同样的请求</li>
+<li>左侧会出现一条新的会话记录（方便对比响应差异）</li>
+</ul>
+<h4 id="▶-常见用途"><a href="#▶-常见用途" class="headerlink" title="▶ 常见用途"></a>▶ 常见用途</h4><ul>
+<li>验证接口 <strong>幂等</strong>（重复提交是否会创建重复订单）</li>
+<li>验证 <strong>token&#x2F;签名</strong> 是否过期</li>
+<li>对比不同参数的响应差异（配合 Breakpoints 修改后再 Repeat）</li>
+</ul>
+<hr>
+<h3 id="6-8-Compose（手动构造请求，替代-Postman-的“临时场景”）"><a href="#6-8-Compose（手动构造请求，替代-Postman-的“临时场景”）" class="headerlink" title="6.8 Compose（手动构造请求，替代 Postman 的“临时场景”）"></a>6.8 Compose（手动构造请求，替代 Postman 的“临时场景”）</h3><blockquote>
+<p>当你想“从抓到的请求出发，改一点字段就发出去”，Compose 特别顺手。</p>
+</blockquote>
+<h4 id="▶-操作入口-3"><a href="#▶-操作入口-3" class="headerlink" title="▶ 操作入口"></a>▶ 操作入口</h4><ul>
+<li>选中请求 → 右键 <code>Compose</code></li>
+</ul>
+<h4 id="▶-操作步骤-4"><a href="#▶-操作步骤-4" class="headerlink" title="▶ 操作步骤"></a>▶ 操作步骤</h4><ol>
+<li>把抓到的请求发送到 Compose 面板</li>
+<li>修改 URL &#x2F; Query &#x2F; Headers &#x2F; Body</li>
+<li>点击发送（不同版本按钮文案可能为 <code>Execute</code> &#x2F; <code>Send</code>）</li>
+</ol>
+<h4 id="▶-操作结果-4"><a href="#▶-操作结果-4" class="headerlink" title="▶ 操作结果"></a>▶ 操作结果</h4><ul>
+<li>Charles 会发送你手动构造的请求，并显示响应</li>
+</ul>
+<h4 id="▶-常见用途-1"><a href="#▶-常见用途-1" class="headerlink" title="▶ 常见用途"></a>▶ 常见用途</h4><ul>
+<li>快速验证“某字段改成 X 会怎样”</li>
+<li>复现线上问题时，替换成测试环境域名（也可用 Map Remote）</li>
+<li>模拟非法参数（空值、超长、特殊字符）看服务端兜底</li>
+</ul>
+<hr>
+<h3 id="6-9-Throttle（弱网模拟：限速-延迟-丢包感知）"><a href="#6-9-Throttle（弱网模拟：限速-延迟-丢包感知）" class="headerlink" title="6.9 Throttle（弱网模拟：限速&#x2F;延迟&#x2F;丢包感知）"></a>6.9 Throttle（弱网模拟：限速&#x2F;延迟&#x2F;丢包感知）</h3><blockquote>
+<p>非常适合排查“我这边加载很慢”“偶现白屏”“图片&#x2F;接口超时”这类问题。</p>
+</blockquote>
+<h4 id="▶-操作入口-4"><a href="#▶-操作入口-4" class="headerlink" title="▶ 操作入口"></a>▶ 操作入口</h4><ul>
+<li><code>Proxy → Throttle Settings</code>（或 <code>Tools → Throttle Settings</code>，取决于版本）</li>
+</ul>
+<h4 id="▶-操作步骤-5"><a href="#▶-操作步骤-5" class="headerlink" title="▶ 操作步骤"></a>▶ 操作步骤</h4><ol>
+<li>勾选 <code>Enable Throttling</code></li>
+<li>选择一个预设（如 3G&#x2F;4G）或自定义带宽&#x2F;延迟</li>
+<li>让业务重新走一遍</li>
+</ol>
+<h4 id="▶-操作结果-5"><a href="#▶-操作结果-5" class="headerlink" title="▶ 操作结果"></a>▶ 操作结果</h4><ul>
+<li>请求明显变慢，你可以观察：<ul>
+<li>前端 loading 是否正确</li>
+<li>超时重试是否生效</li>
+<li>首屏是否有骨架&#x2F;占位</li>
+</ul>
+</li>
+</ul>
+<h4 id="▶-常见注意点-1"><a href="#▶-常见注意点-1" class="headerlink" title="▶ 常见注意点"></a>▶ 常见注意点</h4><ul>
+<li>弱网模拟容易影响全局网络体验，用完记得关闭</li>
+<li>建议配合 <code>Focus + Filter</code>，否则列表会刷得很快</li>
+</ul>
+<hr>
+<h3 id="6-10-DNS-Spoofing（把域名“劫持”到指定-IP）"><a href="#6-10-DNS-Spoofing（把域名“劫持”到指定-IP）" class="headerlink" title="6.10 DNS Spoofing（把域名“劫持”到指定 IP）"></a>6.10 DNS Spoofing（把域名“劫持”到指定 IP）</h3><blockquote>
+<p>常用在：同域名切不同机房&#x2F;不同环境、排查 DNS 污染、验证某台机器问题。</p>
+</blockquote>
+<h4 id="▶-操作入口-5"><a href="#▶-操作入口-5" class="headerlink" title="▶ 操作入口"></a>▶ 操作入口</h4><ul>
+<li><code>Tools → DNS Spoofing</code></li>
+</ul>
+<h4 id="▶-操作步骤-6"><a href="#▶-操作步骤-6" class="headerlink" title="▶ 操作步骤"></a>▶ 操作步骤</h4><ol>
+<li>勾选 <code>Enable DNS Spoofing</code></li>
+<li>添加规则：<ul>
+<li>Host：<code>api.example.com</code></li>
+<li>IP Address：<code>10.0.0.12</code></li>
+</ul>
+</li>
+<li>确认保存</li>
+</ol>
+<h4 id="▶-操作结果-6"><a href="#▶-操作结果-6" class="headerlink" title="▶ 操作结果"></a>▶ 操作结果</h4><ul>
+<li>当客户端访问 <code>api.example.com</code> 时，会被解析到你指定的 IP</li>
+</ul>
+<h4 id="▶-常见注意点-2"><a href="#▶-常见注意点-2" class="headerlink" title="▶ 常见注意点"></a>▶ 常见注意点</h4><ul>
+<li>这是“强干预”功能，建议仅在测试环境&#x2F;自用环境使用</li>
+<li>如果你已经用 VPN&#x2F;系统 Hosts 文件改过解析，优先统一管理方式，避免相互干扰</li>
+</ul>
+<hr>
+<h3 id="6-11-清理-保存-导出会话（便于复盘与协作）"><a href="#6-11-清理-保存-导出会话（便于复盘与协作）" class="headerlink" title="6.11 清理&#x2F;保存&#x2F;导出会话（便于复盘与协作）"></a>6.11 清理&#x2F;保存&#x2F;导出会话（便于复盘与协作）</h3><blockquote>
+<p>抓包不是“抓完就结束”，真正有价值的是：<strong>把证据带走</strong>。</p>
+</blockquote>
+<h4 id="▶-清理会话"><a href="#▶-清理会话" class="headerlink" title="▶ 清理会话"></a>▶ 清理会话</h4><ul>
+<li>菜单栏：<code>Edit → Clear</code>（或工具栏的清空按钮）</li>
+</ul>
+<h4 id="▶-保存会话（用于复盘-发给同事）"><a href="#▶-保存会话（用于复盘-发给同事）" class="headerlink" title="▶ 保存会话（用于复盘&#x2F;发给同事）"></a>▶ 保存会话（用于复盘&#x2F;发给同事）</h4><ol>
+<li>选中一条或多条会话（可按住 <code>Cmd/Ctrl</code> 多选）</li>
+<li>右键 <code>Save</code>（或 <code>File → Save Session</code>）</li>
+</ol>
+<h4 id="▶-操作结果-7"><a href="#▶-操作结果-7" class="headerlink" title="▶ 操作结果"></a>▶ 操作结果</h4><ul>
+<li>你会得到一个会话文件，可用于：<ul>
+<li>复盘问题（对比请求&#x2F;响应）</li>
+<li>团队协作（把“证据链”发给开发&#x2F;后端&#x2F;客户端）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="7️⃣-调试时的常用组合操作（更贴近干活）"><a href="#7️⃣-调试时的常用组合操作（更贴近干活）" class="headerlink" title="7️⃣ 调试时的常用组合操作（更贴近干活）"></a>7️⃣ 调试时的常用组合操作（更贴近干活）</h2><h3 id="组合一：Filter-Focus（把“噪音”降到最低）"><a href="#组合一：Filter-Focus（把“噪音”降到最低）" class="headerlink" title="组合一：Filter + Focus（把“噪音”降到最低）"></a>组合一：Filter + Focus（把“噪音”降到最低）</h3><ol>
+<li>先使用 <code>Filter</code> 输入域名&#x2F;关键字</li>
+<li>对目标 Host 右键 <code>Focus</code></li>
+</ol>
+<p>效果：你会感觉 Charles “突然变得很好用”。</p>
+<hr>
+<h3 id="组合二：Breakpoints-→-验证-→-Rewrite（从试验到固化）"><a href="#组合二：Breakpoints-→-验证-→-Rewrite（从试验到固化）" class="headerlink" title="组合二：Breakpoints → 验证 → Rewrite（从试验到固化）"></a>组合二：Breakpoints → 验证 → Rewrite（从试验到固化）</h3><ol>
+<li>先用 Breakpoints 验证：改哪个参数&#x2F;字段能复现或修复问题</li>
+<li>确认后使用 Rewrite 固化规则（省去每次手改）</li>
+</ol>
+<hr>
+<h3 id="组合三：Repeat-Throttle（复现“弱网-偶现”问题）"><a href="#组合三：Repeat-Throttle（复现“弱网-偶现”问题）" class="headerlink" title="组合三：Repeat + Throttle（复现“弱网&#x2F;偶现”问题）"></a>组合三：Repeat + Throttle（复现“弱网&#x2F;偶现”问题）</h3><ol>
+<li>先用 Repeat 确保请求可以稳定复现</li>
+<li>再开 Throttle 模拟弱网</li>
+<li>观察：超时、重试、loading、缓存、首屏等表现</li>
+</ol>
+<hr>
+<h3 id="组合四：Map-Remote-DNS-Spoofing（快速定位“环境-机器差异”）"><a href="#组合四：Map-Remote-DNS-Spoofing（快速定位“环境-机器差异”）" class="headerlink" title="组合四：Map Remote + DNS Spoofing（快速定位“环境&#x2F;机器差异”）"></a>组合四：Map Remote + DNS Spoofing（快速定位“环境&#x2F;机器差异”）</h3><ol>
+<li>Map Remote：把同一个请求打到不同环境</li>
+<li>DNS Spoofing：把域名固定解析到某一台机器</li>
+<li>对比响应&#x2F;耗时&#x2F;错误率，快速缩小问题范围</li>
+</ol>
+<hr>
+<h2 id="8️⃣-使用过程中的常见问题（更细一点）"><a href="#8️⃣-使用过程中的常见问题（更细一点）" class="headerlink" title="8️⃣ 使用过程中的常见问题（更细一点）"></a>8️⃣ 使用过程中的常见问题（更细一点）</h2><ul>
+<li><strong>请求卡住</strong>：先检查是否开启了 Breakpoints（尤其是对 Host 级别加了断点）</li>
+<li><strong>看不到请求</strong>：检查是否仍处于 Focus 模式、Filter 是否过于严格</li>
+<li><strong>Rewrite 不生效</strong>：确认规则是否 <code>Enable</code>，以及 URL 匹配条件（Host&#x2F;Path）是否真的匹配到了</li>
+<li><strong>只能看到 CONNECT &#x2F; <unknown></strong>：检查 SSL Proxying 是否开启、目标域名是否加入 Include、证书是否“始终信任”</li>
+<li><strong>抓不到某些请求（尤其是浏览器）</strong>：可能走了 HTTP&#x2F;3&#x2F;QUIC 或者有系统&#x2F;浏览器代理绕过策略；可先临时关闭相关特性再验证（排查思路优先：代理是否生效 → HTTPS 是否解密 → 是否被绕过）</li>
+</ul>
+<hr>
+<h2 id="9️⃣-总结"><a href="#9️⃣-总结" class="headerlink" title="9️⃣ 总结"></a>9️⃣ 总结</h2><p>本文不覆盖安装与证书配置细节，仅聚焦 <strong>Charles 的实际操作路径</strong>：抓得到、看得懂、改得动、能复现。</p>
+<p>建议你在真实调试过程中：</p>
+<ul>
+<li>先用 <code>Filter + Focus</code> 把噪音降到最低</li>
+<li>用 <code>Breakpoints</code> 验证“改什么有效”</li>
+<li>用 <code>Rewrite / Map Local / Map Remote</code> 把规则沉淀下来</li>
+<li>用 <code>Repeat / Compose / Throttle / DNS Spoofing</code> 把问题稳定复现、定位到可行动的结论</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%93%A1-%E6%8A%93%E5%8C%85%E4%B8%8E%E7%BD%91%E7%BB%9C%E8%B0%83%E4%BC%98%EF%BC%9AFiddler-Charles-%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/" class="category-chain-item">📡 抓包与网络调优：Fiddler &amp; Charles 实战指南</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%93%A1-%E6%8A%93%E5%8C%85%E4%B8%8E%E7%BD%91%E7%BB%9C%E8%B0%83%E4%BC%98%EF%BC%9AFiddler-Charles-%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/%E6%B5%8B%E8%AF%95%E7%BB%8F%E9%AA%8C%E4%B8%8E%E8%90%BD%E5%9C%B0/" class="category-chain-item">测试经验与落地</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%8E%A5%E5%8F%A3%E8%B0%83%E8%AF%95/" class="print-no-link">#接口调试</a>
+      
+        <a href="/fluid-blog/tags/%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/" class="print-no-link">#抓包工具</a>
+      
+        <a href="/fluid-blog/tags/Charles/" class="print-no-link">#Charles</a>
+      
+        <a href="/fluid-blog/tags/HTTPS/" class="print-no-link">#HTTPS</a>
+      
+        <a href="/fluid-blog/tags/Mock/" class="print-no-link">#Mock</a>
+      
+        <a href="/fluid-blog/tags/%E5%BC%B1%E7%BD%91/" class="print-no-link">#弱网</a>
+      
+        <a href="/fluid-blog/tags/%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D/" class="print-no-link">#问题定位</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🐢 Charles 抓包工具从入门到实战使用教程</div>
+      <div>https://linn0813.github.io/2026/01/19/2026-01-19-charles-capture-beginner-to-practical-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/20/2026-01-20-llm-integration-what-are-you-calling/" title="🤖 项目里调用大模型，其实在调用什么？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🤖 项目里调用大模型，其实在调用什么？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/07/2026-01-07-performance-monitoring-dashboard-guide/" title="📊 压测时，我是如何一步步「读懂」性能监控面板的">
+                        <span class="hidden-mobile">📊 压测时，我是如何一步步「读懂」性能监控面板的</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

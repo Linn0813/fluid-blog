@@ -1,0 +1,1742 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, Memory, Context Window, 记忆管理, STM, LTM, 短期记忆, 长期记忆, 向量数据库, 知识图谱">
+  
+    <meta name="description" content="深入解析 Agent 的记忆管理：从分层记忆架构、短期记忆管理策略到长期记忆存储检索，打造长期且健忘的智能体系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/17/2025-12-17-llm-agent-memory-management/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 Agent 的记忆管理：从分层记忆架构、短期记忆管理策略到长期记忆存储检索，打造长期且健忘的智能体系统">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-memory-management.png">
+<meta property="article:published_time" content="2025-12-17T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.633Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Memory">
+<meta property="article:tag" content="Context Window">
+<meta property="article:tag" content="记忆管理">
+<meta property="article:tag" content="向量数据库">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-memory-management.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-17 18:00" pubdate>
+          2025年12月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          51 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 8 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们深入解析了 Agent 的决策引擎，掌握了 ReAct、Self-Ask 和 Tree of Thoughts 等高级策略。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将聚焦 Agent 的记忆管理，探讨如何突破 Context Window 限制，实现长期且连贯的记忆系统。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-突破-Context-Window-的瓶颈"><a href="#🚀-导言-—-突破-Context-Window-的瓶颈" class="headerlink" title="🚀 导言 — 突破 Context Window 的瓶颈"></a>🚀 导言 — 突破 Context Window 的瓶颈</h2><p>在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-16-llm-agent-decision-engine/">第7篇</a>中，我们掌握了 Agent 如何思考和决策。但 Agent 还有一个关键问题：</p>
+<blockquote>
+<p><strong>Agent 如何记住历史信息？</strong><br><strong>如何让 Agent 在长期对话中不忘记重要信息？</strong><br><strong>如何突破 Context Window 的限制？</strong></p>
+</blockquote>
+<h3 id="🤔-先理解几个基础概念"><a href="#🤔-先理解几个基础概念" class="headerlink" title="🤔 先理解几个基础概念"></a>🤔 先理解几个基础概念</h3><p><strong>1. Context Window（上下文窗口）</strong></p>
+<blockquote>
+<p>简单理解：LLM 的”短期记忆容量”，就像人的工作记忆一样，容量有限。</p>
+<p>例如：</p>
+<ul>
+<li>GPT-4 的 Context Window 是 128k Token（约 10 万字）</li>
+<li>如果对话超过这个长度，早期信息会被”遗忘”</li>
+<li>就像人无法同时记住太多信息一样</li>
+</ul>
+</blockquote>
+<p><strong>2. Token</strong></p>
+<blockquote>
+<p>简单理解：LLM 处理文本的基本单位，不是按字或词计算的。</p>
+<p>例如：</p>
+<ul>
+<li>中文：1 个汉字 ≈ 1-2 个 Token</li>
+<li>英文：1 个单词 ≈ 1-3 个 Token</li>
+<li>“你好” ≈ 2-3 个 Token</li>
+</ul>
+</blockquote>
+<p><strong>3. 记忆管理（Memory Management）</strong></p>
+<blockquote>
+<p>简单理解：让 Agent 能够<strong>记住重要信息</strong>，<strong>忘记不重要信息</strong>，就像人的记忆系统一样。</p>
+<p>包括：</p>
+<ul>
+<li><strong>存储</strong>：把重要信息保存起来</li>
+<li><strong>检索</strong>：需要时能够找到相关信息</li>
+<li><strong>压缩</strong>：把长文本压缩成摘要</li>
+<li><strong>遗忘</strong>：删除不重要的信息</li>
+</ul>
+</blockquote>
+<h3 id="💡-为什么需要记忆管理？"><a href="#💡-为什么需要记忆管理？" class="headerlink" title="💡 为什么需要记忆管理？"></a>💡 为什么需要记忆管理？</h3><p><strong>问题1：Context Window 有限</strong></p>
+<blockquote>
+<p>LLM 的 Context Window 容量有限（如 128k Token），如果对话太长，早期信息会被”遗忘”。</p>
+</blockquote>
+<p><strong>问题2：成本高</strong></p>
+<blockquote>
+<p>Context Window 越大，调用 LLM 的成本越高。把所有历史都放在 Context Window 里不现实。</p>
+</blockquote>
+<p><strong>问题3：效率低</strong></p>
+<blockquote>
+<p>即使 Context Window 足够大，把所有历史都放进去会让 LLM 处理变慢，影响推理效率。</p>
+</blockquote>
+<p><strong>解决方案：分层记忆架构</strong></p>
+<blockquote>
+<p>就像人的记忆系统一样：</p>
+<ul>
+<li><strong>短期记忆（STM）</strong>：记住当前对话的关键信息</li>
+<li><strong>长期记忆（LTM）</strong>：把重要信息保存到外部存储（如向量数据库）</li>
+<li><strong>外部知识（ExM）</strong>：需要时从知识库检索</li>
+</ul>
+</blockquote>
+<h3 id="📋-本篇学习目标"><a href="#📋-本篇学习目标" class="headerlink" title="📋 本篇学习目标"></a>📋 本篇学习目标</h3><p>本篇将从<strong>简单到复杂</strong>，帮你掌握：</p>
+<ol>
+<li><strong>分层记忆架构</strong>：STM、LTM、ExM 的区别和作用</li>
+<li><strong>短期记忆管理</strong>：如何压缩和优化 Context Window</li>
+<li><strong>长期记忆存储</strong>：如何把重要信息保存到向量数据库</li>
+<li><strong>记忆检索</strong>：如何高效地找到相关信息</li>
+<li><strong>记忆管理总线</strong>：如何设计完整的记忆系统</li>
+</ol>
+<blockquote>
+<p>💡 <strong>提示</strong>：记忆管理是 Agent 系统的核心组件，理解它有助于设计更强大的 Agent。</p>
+</blockquote>
+<hr>
+<h2 id="🧠-一、Agent-的分层记忆架构"><a href="#🧠-一、Agent-的分层记忆架构" class="headerlink" title="🧠 一、Agent 的分层记忆架构"></a>🧠 一、Agent 的分层记忆架构</h2><p>Agent 的记忆设计模仿人类大脑的 <strong>分层结构</strong>，就像人的记忆系统一样。</p>
+<h3 id="1-1-为什么需要分层记忆？"><a href="#1-1-为什么需要分层记忆？" class="headerlink" title="1.1 为什么需要分层记忆？"></a>1.1 为什么需要分层记忆？</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像人的记忆系统：</p>
+<ul>
+<li><strong>短期记忆</strong>：记住当前正在做的事情（如正在看的书的内容）</li>
+<li><strong>长期记忆</strong>：记住过去的重要经历（如去年学过的知识）</li>
+<li><strong>外部知识</strong>：需要时查阅资料（如查字典、查百科）</li>
+</ul>
+</blockquote>
+<p><strong>Agent 也需要这样的分层结构</strong>：</p>
+<ul>
+<li><strong>短期记忆（STM）</strong>：记住当前对话和任务的关键信息</li>
+<li><strong>长期记忆（LTM）</strong>：保存历史经验和用户偏好</li>
+<li><strong>外部知识（ExM）</strong>：需要时从知识库检索</li>
+</ul>
+<h3 id="1-2-三层记忆架构详解"><a href="#1-2-三层记忆架构详解" class="headerlink" title="1.2 三层记忆架构详解"></a>1.2 三层记忆架构详解</h3><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>概念比喻</th>
+<th>存储介质</th>
+<th>内容与功能</th>
+<th>核心挑战</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>短期记忆 (STM)</strong></td>
+<td><strong>大脑 RAM</strong></td>
+<td>Context Window (Prompt)</td>
+<td>当前会话的 Thought &#x2F; Action &#x2F; Observation 序列，确保任务连贯性</td>
+<td><strong>Token 长度限制</strong>：容易溢出</td>
+<td>记住当前正在做的事情</td>
+</tr>
+<tr>
+<td><strong>长期记忆 (LTM)</strong></td>
+<td><strong>硬盘 Hard Drive</strong></td>
+<td>向量数据库 &#x2F; 知识图谱</td>
+<td>历史经验、用户偏好、项目进度摘要</td>
+<td><strong>高效检索</strong>：如何召回相关信息</td>
+<td>保存过去的重要经历</td>
+</tr>
+<tr>
+<td><strong>外部知识 (ExM)</strong></td>
+<td><strong>百科全书</strong></td>
+<td>RAG 知识库 &#x2F; API 数据</td>
+<td>事实性、专业性、非个人化信息</td>
+<td><strong>知识时效性</strong>：需要定期更新</td>
+<td>需要时查阅资料</td>
+</tr>
+</tbody></table>
+<h3 id="1-3-生活化理解：三层记忆如何工作"><a href="#1-3-生活化理解：三层记忆如何工作" class="headerlink" title="1.3 生活化理解：三层记忆如何工作"></a>1.3 生活化理解：三层记忆如何工作</h3><p><strong>场景</strong>：你正在做一个项目，需要查询数据库并生成报告</p>
+<p><strong>短期记忆（STM）</strong>：</p>
+<blockquote>
+<p>记住当前任务的关键信息：</p>
+<ul>
+<li>“我正在查询用户数据”</li>
+<li>“查询成功，返回了 1000 条记录”</li>
+<li>“现在需要生成报告”</li>
+</ul>
+<p>就像你正在看书时，记住当前页的内容。</p>
+</blockquote>
+<p><strong>长期记忆（LTM）</strong>：</p>
+<blockquote>
+<p>保存重要的历史信息：</p>
+<ul>
+<li>“用户偏好：喜欢 PDF 格式的报告”</li>
+<li>“上次查询时遇到了数据库连接问题”</li>
+<li>“项目进度：已完成 80%”</li>
+</ul>
+<p>就像你记住过去学过的知识。</p>
+</blockquote>
+<p><strong>外部知识（ExM）</strong>：</p>
+<blockquote>
+<p>需要时从知识库检索：</p>
+<ul>
+<li>“数据库查询的最佳实践”</li>
+<li>“报告生成的模板”</li>
+<li>“API 文档”</li>
+</ul>
+<p>就像你查字典或查百科。</p>
+</blockquote>
+<h3 id="1-4-三层记忆如何协作"><a href="#1-4-三层记忆如何协作" class="headerlink" title="1.4 三层记忆如何协作"></a>1.4 三层记忆如何协作</h3><p><strong>工作流程</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">1. 用户输入任务
+   ↓
+2. 从 LTM 检索相关历史信息（用户偏好、历史经验）
+   ↓
+3. 从 ExM 检索相关知识（API 文档、最佳实践）
+   ↓
+4. 把检索到的信息 + 当前任务放入 STM（Context Window）
+   ↓
+5. LLM 基于 STM 进行推理和决策
+   ↓
+6. 把重要信息保存到 LTM（长期记忆）
+   ↓
+7. 继续下一轮循环<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>关键理解</strong>：</p>
+<ul>
+<li><strong>STM</strong>：保证当前任务的即时连贯（就像工作记忆）</li>
+<li><strong>LTM</strong>：持久化经验，支持跨任务学习（就像长期记忆）</li>
+<li><strong>ExM</strong>：提供事实性与专业知识（就像查阅资料）</li>
+</ul>
+<p>三者结合，确保 Agent 既能记住重要信息，又能智能遗忘不重要的细节。</p>
+</blockquote>
+<hr>
+<h2 id="💾-二、短期记忆-STM-的管理策略"><a href="#💾-二、短期记忆-STM-的管理策略" class="headerlink" title="💾 二、短期记忆 (STM) 的管理策略"></a>💾 二、短期记忆 (STM) 的管理策略</h2><p>短期记忆确保 <strong>Agentic Loop</strong> 的连贯性，但受限于 Context Window，需要高效压缩和动态遗忘。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>Context Window 就像一张有限大小的纸，写满了就要擦掉一些内容。</p>
+<p>问题是：<strong>擦掉哪些？保留哪些？</strong></p>
+<p>三种策略：</p>
+<ol>
+<li><strong>滑动窗口</strong>：只保留最近的内容（简单粗暴）</li>
+<li><strong>对话摘要</strong>：把旧内容压缩成摘要（保留关键信息）</li>
+<li><strong>重要性剪枝</strong>：只保留重要的内容（智能选择）</li>
+</ol>
+</blockquote>
+<h3 id="2-1-Sliding-Window（滑动窗口）"><a href="#2-1-Sliding-Window（滑动窗口）" class="headerlink" title="2.1 Sliding Window（滑动窗口）"></a>2.1 Sliding Window（滑动窗口）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像看视频时的”最近播放列表”，只保留最近 N 个视频，旧的自动删除。</p>
+</blockquote>
+<p><strong>机制</strong>：</p>
+<blockquote>
+<p>保留最近 N 轮 Thought &#x2F; Action &#x2F; Observation，旧信息被丢弃或迁移到 LTM</p>
+</blockquote>
+<p><strong>生活例子</strong>：</p>
+<blockquote>
+<p>就像你的手机通知栏：</p>
+<ul>
+<li>只显示最近 10 条通知</li>
+<li>新的通知来了，最旧的通知被挤掉</li>
+<li>简单直接，但可能丢失重要信息</li>
+</ul>
+</blockquote>
+<p><strong>适用场景</strong>：</p>
+<blockquote>
+<ul>
+<li>对话轮次有限</li>
+<li>任务步骤明确</li>
+<li>不需要长期上下文</li>
+</ul>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 滑动窗口（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SlidingWindowMemory</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> max_size<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>max_size <span class="token operator">=</span> max_size  <span class="token comment"># 最多保留 10 轮对话</span>
+        self<span class="token punctuation">.</span>memories <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>  <span class="token comment"># 记忆列表</span>
+    
+    <span class="token keyword">def</span> <span class="token function">add</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> thought<span class="token punctuation">,</span> action<span class="token punctuation">,</span> observation<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""添加新的记忆"""</span>
+        memory <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"thought"</span><span class="token punctuation">:</span> thought<span class="token punctuation">,</span>
+            <span class="token string">"action"</span><span class="token punctuation">:</span> action<span class="token punctuation">,</span>
+            <span class="token string">"observation"</span><span class="token punctuation">:</span> observation
+        <span class="token punctuation">&#125;</span>
+        self<span class="token punctuation">.</span>memories<span class="token punctuation">.</span>append<span class="token punctuation">(</span>memory<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 如果超过最大长度，删除最旧的</span>
+        <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>memories<span class="token punctuation">)</span> <span class="token operator">></span> self<span class="token punctuation">.</span>max_size<span class="token punctuation">:</span>
+            old_memory <span class="token operator">=</span> self<span class="token punctuation">.</span>memories<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>  <span class="token comment"># 删除最旧的</span>
+            <span class="token comment"># 可选：把旧记忆迁移到 LTM</span>
+            <span class="token comment"># self.save_to_ltm(old_memory)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">get_context</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""获取当前上下文"""</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>memories
+
+<span class="token comment"># 使用示例</span>
+memory <span class="token operator">=</span> SlidingWindowMemory<span class="token punctuation">(</span>max_size<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 添加记忆</span>
+memory<span class="token punctuation">.</span>add<span class="token punctuation">(</span><span class="token string">"思考1"</span><span class="token punctuation">,</span> <span class="token string">"行动1"</span><span class="token punctuation">,</span> <span class="token string">"观察1"</span><span class="token punctuation">)</span>
+memory<span class="token punctuation">.</span>add<span class="token punctuation">(</span><span class="token string">"思考2"</span><span class="token punctuation">,</span> <span class="token string">"行动2"</span><span class="token punctuation">,</span> <span class="token string">"观察2"</span><span class="token punctuation">)</span>
+<span class="token comment"># ... 继续添加</span>
+
+<span class="token comment"># 当超过 5 轮时，最旧的会被自动删除</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-2-Conversational-Summarization（对话摘要）"><a href="#2-2-Conversational-Summarization（对话摘要）" class="headerlink" title="2.2 Conversational Summarization（对话摘要）"></a>2.2 Conversational Summarization（对话摘要）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像读书笔记，把长文章压缩成摘要，保留关键信息。</p>
+</blockquote>
+<p><strong>机制</strong>：</p>
+<blockquote>
+<p>LLM 定期对最旧内容进行摘要，把长文本压缩成短文本</p>
+</blockquote>
+<p><strong>生活例子</strong>：</p>
+<blockquote>
+<p>就像你看了一本很厚的书：</p>
+<ul>
+<li>不是记住所有内容</li>
+<li>而是记住关键章节和结论</li>
+<li>需要细节时再回去查</li>
+</ul>
+</blockquote>
+<p><strong>价值</strong>：</p>
+<blockquote>
+<ul>
+<li>节省 Token 空间</li>
+<li>保留关键主题和结论</li>
+<li>不会丢失重要信息</li>
+</ul>
+</blockquote>
+<p><strong>工程实现</strong>：</p>
+<blockquote>
+<p>每 K 轮循环调用 <strong>Summarizer LLM</strong>，生成更新后的记忆片段</p>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 对话摘要（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SummarizedMemory</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> summarizer_llm<span class="token punctuation">,</span> summary_interval<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>summarizer_llm <span class="token operator">=</span> summarizer_llm
+        self<span class="token punctuation">.</span>summary_interval <span class="token operator">=</span> summary_interval  <span class="token comment"># 每 5 轮摘要一次</span>
+        self<span class="token punctuation">.</span>memories <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>summary <span class="token operator">=</span> <span class="token string">""</span>  <span class="token comment"># 保存摘要</span>
+    
+    <span class="token keyword">def</span> <span class="token function">add</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> thought<span class="token punctuation">,</span> action<span class="token punctuation">,</span> observation<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""添加新的记忆"""</span>
+        memory <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"thought"</span><span class="token punctuation">:</span> thought<span class="token punctuation">,</span>
+            <span class="token string">"action"</span><span class="token punctuation">:</span> action<span class="token punctuation">,</span>
+            <span class="token string">"observation"</span><span class="token punctuation">:</span> observation
+        <span class="token punctuation">&#125;</span>
+        self<span class="token punctuation">.</span>memories<span class="token punctuation">.</span>append<span class="token punctuation">(</span>memory<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 每 N 轮进行一次摘要</span>
+        <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>memories<span class="token punctuation">)</span> <span class="token operator">>=</span> self<span class="token punctuation">.</span>summary_interval<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>summarize<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">summarize</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""对旧记忆进行摘要"""</span>
+        <span class="token comment"># 获取需要摘要的记忆（最旧的部分）</span>
+        old_memories <span class="token operator">=</span> self<span class="token punctuation">.</span>memories<span class="token punctuation">[</span><span class="token punctuation">:</span>self<span class="token punctuation">.</span>summary_interval<span class="token punctuation">]</span>
+        
+        <span class="token comment"># 构建摘要 Prompt</span>
+        prompt <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"""
+        请对以下对话进行摘要，保留关键信息和结论：
+        
+        </span><span class="token interpolation"><span class="token punctuation">&#123;</span>format_memories<span class="token punctuation">(</span>old_memories<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">
+        
+        摘要：
+        """</span></span>
+        
+        <span class="token comment"># 调用 LLM 生成摘要</span>
+        new_summary <span class="token operator">=</span> self<span class="token punctuation">.</span>summarizer_llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 更新摘要（合并新旧摘要）</span>
+        self<span class="token punctuation">.</span>summary <span class="token operator">=</span> self<span class="token punctuation">.</span>summary <span class="token operator">+</span> <span class="token string">"\n"</span> <span class="token operator">+</span> new_summary
+        
+        <span class="token comment"># 删除已摘要的记忆</span>
+        self<span class="token punctuation">.</span>memories <span class="token operator">=</span> self<span class="token punctuation">.</span>memories<span class="token punctuation">[</span>self<span class="token punctuation">.</span>summary_interval<span class="token punctuation">:</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">get_context</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""获取当前上下文（摘要 + 最近记忆）"""</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"summary"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>summary<span class="token punctuation">,</span>
+            <span class="token string">"recent_memories"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>memories
+        <span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 使用示例</span>
+memory <span class="token operator">=</span> SummarizedMemory<span class="token punctuation">(</span>summarizer_llm<span class="token operator">=</span>gpt4<span class="token punctuation">,</span> summary_interval<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 添加记忆</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    memory<span class="token punctuation">.</span>add<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"思考</span><span class="token interpolation"><span class="token punctuation">&#123;</span>i<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"行动</span><span class="token interpolation"><span class="token punctuation">&#123;</span>i<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"观察</span><span class="token interpolation"><span class="token punctuation">&#123;</span>i<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token comment"># 第 5 轮和第 10 轮会自动触发摘要</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-3-Importance-Based-Pruning（基于重要性的剪枝）"><a href="#2-3-Importance-Based-Pruning（基于重要性的剪枝）" class="headerlink" title="2.3 Importance-Based Pruning（基于重要性的剪枝）"></a>2.3 Importance-Based Pruning（基于重要性的剪枝）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像整理房间，只保留重要的东西，扔掉不重要的。</p>
+</blockquote>
+<p><strong>机制</strong>：</p>
+<blockquote>
+<p>为每段记忆分配 <strong>重要性得分</strong>，当 Context Window 满载时，优先移除低分记忆</p>
+</blockquote>
+<p><strong>生活例子</strong>：</p>
+<blockquote>
+<p>就像你的手机相册：</p>
+<ul>
+<li>重要的照片（如毕业照）标记为”收藏”</li>
+<li>不重要的照片（如截图）可以删除</li>
+<li>空间不足时，优先删除不重要的</li>
+</ul>
+</blockquote>
+<p><strong>评分方式</strong>：</p>
+<blockquote>
+<p>通过小型分类模型或 LLM Prompt，根据与核心任务目标的关联性评分</p>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 基于重要性的剪枝（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ImportanceBasedMemory</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> max_tokens<span class="token operator">=</span><span class="token number">10000</span><span class="token punctuation">,</span> importance_scorer<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>max_tokens <span class="token operator">=</span> max_tokens
+        self<span class="token punctuation">.</span>importance_scorer <span class="token operator">=</span> importance_scorer  <span class="token comment"># 重要性评分器</span>
+        self<span class="token punctuation">.</span>memories <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">add</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> thought<span class="token punctuation">,</span> action<span class="token punctuation">,</span> observation<span class="token punctuation">,</span> task_goal<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""添加新的记忆，并计算重要性"""</span>
+        memory <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"thought"</span><span class="token punctuation">:</span> thought<span class="token punctuation">,</span>
+            <span class="token string">"action"</span><span class="token punctuation">:</span> action<span class="token punctuation">,</span>
+            <span class="token string">"observation"</span><span class="token punctuation">:</span> observation<span class="token punctuation">,</span>
+            <span class="token string">"importance"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>score_importance<span class="token punctuation">(</span>thought<span class="token punctuation">,</span> action<span class="token punctuation">,</span> observation<span class="token punctuation">,</span> task_goal<span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+        self<span class="token punctuation">.</span>memories<span class="token punctuation">.</span>append<span class="token punctuation">(</span>memory<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 如果超过 Token 限制，进行剪枝</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>get_total_tokens<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> self<span class="token punctuation">.</span>max_tokens<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>prune<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">score_importance</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> thought<span class="token punctuation">,</span> action<span class="token punctuation">,</span> observation<span class="token punctuation">,</span> task_goal<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""计算记忆的重要性得分（0-1）"""</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>importance_scorer<span class="token punctuation">:</span>
+            <span class="token comment"># 使用外部评分器</span>
+            <span class="token keyword">return</span> self<span class="token punctuation">.</span>importance_scorer<span class="token punctuation">.</span>score<span class="token punctuation">(</span>thought<span class="token punctuation">,</span> action<span class="token punctuation">,</span> observation<span class="token punctuation">,</span> task_goal<span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token comment"># 简单的启发式评分（实际应该用 LLM 或模型）</span>
+            <span class="token comment"># 例如：包含"错误"、"失败"的记忆重要性更高</span>
+            <span class="token keyword">if</span> <span class="token string">"错误"</span> <span class="token keyword">in</span> observation <span class="token keyword">or</span> <span class="token string">"失败"</span> <span class="token keyword">in</span> observation<span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token number">0.9</span>
+            <span class="token keyword">elif</span> <span class="token string">"成功"</span> <span class="token keyword">in</span> observation<span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token number">0.7</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token number">0.5</span>
+    
+    <span class="token keyword">def</span> <span class="token function">prune</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""剪枝：移除低重要性记忆"""</span>
+        <span class="token comment"># 按重要性排序</span>
+        self<span class="token punctuation">.</span>memories<span class="token punctuation">.</span>sort<span class="token punctuation">(</span>key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> x<span class="token punctuation">[</span><span class="token string">"importance"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> reverse<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 移除低重要性记忆，直到满足 Token 限制</span>
+        <span class="token keyword">while</span> self<span class="token punctuation">.</span>get_total_tokens<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> self<span class="token punctuation">.</span>max_tokens<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>memories<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">:</span>
+                removed <span class="token operator">=</span> self<span class="token punctuation">.</span>memories<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 移除最低重要性记忆</span>
+                <span class="token comment"># 可选：保存到 LTM</span>
+                <span class="token comment"># self.save_to_ltm(removed)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+    
+    <span class="token keyword">def</span> <span class="token function">get_total_tokens</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""计算总 Token 数"""</span>
+        total <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> memory <span class="token keyword">in</span> self<span class="token punctuation">.</span>memories<span class="token punctuation">:</span>
+            total <span class="token operator">+=</span> count_tokens<span class="token punctuation">(</span>memory<span class="token punctuation">[</span><span class="token string">"thought"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            total <span class="token operator">+=</span> count_tokens<span class="token punctuation">(</span>memory<span class="token punctuation">[</span><span class="token string">"action"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            total <span class="token operator">+=</span> count_tokens<span class="token punctuation">(</span>memory<span class="token punctuation">[</span><span class="token string">"observation"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> total
+    
+    <span class="token keyword">def</span> <span class="token function">get_context</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""获取当前上下文（按重要性排序）"""</span>
+        <span class="token keyword">return</span> <span class="token builtin">sorted</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>memories<span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> x<span class="token punctuation">[</span><span class="token string">"importance"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> reverse<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 使用示例</span>
+memory <span class="token operator">=</span> ImportanceBasedMemory<span class="token punctuation">(</span>max_tokens<span class="token operator">=</span><span class="token number">10000</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 添加记忆</span>
+memory<span class="token punctuation">.</span>add<span class="token punctuation">(</span><span class="token string">"思考1"</span><span class="token punctuation">,</span> <span class="token string">"行动1"</span><span class="token punctuation">,</span> <span class="token string">"观察1：查询成功"</span><span class="token punctuation">,</span> task_goal<span class="token operator">=</span><span class="token string">"查询数据"</span><span class="token punctuation">)</span>
+memory<span class="token punctuation">.</span>add<span class="token punctuation">(</span><span class="token string">"思考2"</span><span class="token punctuation">,</span> <span class="token string">"行动2"</span><span class="token punctuation">,</span> <span class="token string">"观察2：查询失败，数据库连接错误"</span><span class="token punctuation">,</span> task_goal<span class="token operator">=</span><span class="token string">"查询数据"</span><span class="token punctuation">)</span>
+<span class="token comment"># 第二个记忆的重要性更高（包含"错误"），会被优先保留</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-4-三种策略对比"><a href="#2-4-三种策略对比" class="headerlink" title="2.4 三种策略对比"></a>2.4 三种策略对比</h3><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>滑动窗口</strong></td>
+<td>简单直接，实现容易</td>
+<td>可能丢失重要信息</td>
+<td>对话轮次有限，任务简单</td>
+</tr>
+<tr>
+<td><strong>对话摘要</strong></td>
+<td>保留关键信息，节省空间</td>
+<td>需要额外的 LLM 调用，成本较高</td>
+<td>需要长期上下文，任务复杂</td>
+</tr>
+<tr>
+<td><strong>重要性剪枝</strong></td>
+<td>智能选择，保留重要信息</td>
+<td>评分准确性依赖模型</td>
+<td>需要区分重要&#x2F;不重要信息</td>
+</tr>
+</tbody></table>
+<p><strong>选择指南</strong>：</p>
+<ul>
+<li>✅ <strong>简单任务</strong>：使用滑动窗口</li>
+<li>✅ <strong>需要长期上下文</strong>：使用对话摘要</li>
+<li>✅ <strong>需要智能选择</strong>：使用重要性剪枝</li>
+<li>✅ <strong>最佳实践</strong>：结合使用（如：滑动窗口 + 重要性剪枝）</li>
+</ul>
+<hr>
+<h2 id="🗄️-三、长期记忆-LTM-的存储与检索"><a href="#🗄️-三、长期记忆-LTM-的存储与检索" class="headerlink" title="🗄️ 三、长期记忆 (LTM) 的存储与检索"></a>🗄️ 三、长期记忆 (LTM) 的存储与检索</h2><p>长期记忆负责 <strong>持久化经验与用户画像</strong>，核心在于高效检索。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像你的电脑硬盘：</p>
+<ul>
+<li>存储重要文件（历史经验、用户偏好）</li>
+<li>需要时能够快速找到（检索）</li>
+<li>容量大，可以存储很多信息</li>
+</ul>
+</blockquote>
+<h3 id="3-1-存储介质多样性"><a href="#3-1-存储介质多样性" class="headerlink" title="3.1 存储介质多样性"></a>3.1 存储介质多样性</h3><p><strong>三种存储方式，各有优势</strong>：</p>
+<h4 id="1-向量数据库-Vector-Stores"><a href="#1-向量数据库-Vector-Stores" class="headerlink" title="1. 向量数据库 (Vector Stores)"></a>1. 向量数据库 (Vector Stores)</h4><p><strong>简单理解</strong>：就像搜索引擎，通过”语义相似性”找到相关内容。</p>
+<p><strong>存储内容</strong>：</p>
+<ul>
+<li>历史对话</li>
+<li>Observation（观察结果）</li>
+<li>Thought（思考过程）</li>
+</ul>
+<p><strong>检索方式</strong>：语义相似性搜索（RAG 基础）</p>
+<ul>
+<li>把查询转换成向量</li>
+<li>在向量空间中找最相似的记忆</li>
+<li>就像”找相似的文章”</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>需要语义检索（如”找相关的历史对话”）</li>
+<li>非结构化数据（文本、对话）</li>
+</ul>
+<p><strong>常见工具</strong>：</p>
+<ul>
+<li>Pinecone、Weaviate、Qdrant、Chroma</li>
+</ul>
+<hr>
+<h4 id="2-知识图谱-Knowledge-Graphs"><a href="#2-知识图谱-Knowledge-Graphs" class="headerlink" title="2. 知识图谱 (Knowledge Graphs)"></a>2. 知识图谱 (Knowledge Graphs)</h4><p><strong>简单理解</strong>： 就像关系数据库，存储实体之间的关系。</p>
+<p><strong>存储内容</strong>：</p>
+<ul>
+<li>结构化关系（如用户偏好与项目关联）</li>
+<li>实体和关系（如”用户A 喜欢 项目B”）</li>
+</ul>
+<p><strong>检索方式</strong>： 多跳推理（Cypher &#x2F; SPARQL）</p>
+<ul>
+<li>通过关系链找到相关信息</li>
+<li>就像”找朋友的朋友”</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>需要关系推理（如”找用户喜欢的项目”）</li>
+<li>结构化数据（实体、关系）</li>
+</ul>
+<p><strong>常见工具</strong>：</p>
+<ul>
+<li>Neo4j、ArangoDB</li>
+</ul>
+<hr>
+<h4 id="3-Key-Value-关系型数据库-SQL-NoSQL"><a href="#3-Key-Value-关系型数据库-SQL-NoSQL" class="headerlink" title="3. Key-Value &#x2F; 关系型数据库 (SQL&#x2F;NoSQL)"></a>3. Key-Value &#x2F; 关系型数据库 (SQL&#x2F;NoSQL)</h4><p><strong>简单理解</strong>： 就像传统的数据库，通过键值或 SQL 查询。</p>
+<p><strong>存储内容</strong>：</p>
+<ul>
+<li>用户配置</li>
+<li>项目状态</li>
+<li>任务清单</li>
+</ul>
+<p><strong>检索方式</strong>： Function Calling 或 Text-to-SQL</p>
+<ul>
+<li>通过键值查询</li>
+<li>或通过 SQL 查询</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>需要精确查询（如”查询用户ID&#x3D;123的配置”）</li>
+<li>结构化数据（表、字段）</li>
+</ul>
+<p><strong>常见工具</strong>：</p>
+<ul>
+<li>PostgreSQL、MySQL、MongoDB、Redis</li>
+</ul>
+<h3 id="3-2-存储介质选择指南"><a href="#3-2-存储介质选择指南" class="headerlink" title="3.2 存储介质选择指南"></a>3.2 存储介质选择指南</h3><table>
+<thead>
+<tr>
+<th>存储介质</th>
+<th>检索方式</th>
+<th>适用场景</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>向量数据库</strong></td>
+<td>语义相似性搜索</td>
+<td>非结构化文本、对话历史</td>
+<td>像搜索引擎，找相似内容</td>
+</tr>
+<tr>
+<td><strong>知识图谱</strong></td>
+<td>关系推理</td>
+<td>结构化关系、实体关联</td>
+<td>像关系数据库，找关联信息</td>
+</tr>
+<tr>
+<td><strong>关系型数据库</strong></td>
+<td>SQL&#x2F;键值查询</td>
+<td>结构化数据、精确查询</td>
+<td>像传统数据库，精确查找</td>
+</tr>
+</tbody></table>
+<p><strong>选择指南</strong>：</p>
+<ul>
+<li>✅ <strong>文本、对话</strong>：使用向量数据库</li>
+<li>✅ <strong>关系、实体</strong>：使用知识图谱</li>
+<li>✅ <strong>配置、状态</strong>：使用关系型数据库</li>
+<li>✅ <strong>最佳实践</strong>：结合使用（如：向量数据库 + 关系型数据库）</li>
+</ul>
+<h3 id="3-3-高级检索策略：Contextual-Memory-Retrieval"><a href="#3-3-高级检索策略：Contextual-Memory-Retrieval" class="headerlink" title="3.3 高级检索策略：Contextual Memory Retrieval"></a>3.3 高级检索策略：Contextual Memory Retrieval</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>不是简单地找”相似的内容”，而是综合考虑：</p>
+<ul>
+<li><strong>相似性</strong>：内容是否相关？</li>
+<li><strong>时效性</strong>：是不是最近的信息？</li>
+<li><strong>重要性</strong>：是不是关键信息？</li>
+</ul>
+</blockquote>
+<p><strong>检索公式</strong>：</p>
+<p>$$\text{Recall Score} &#x3D; \alpha \cdot \text{Contextual Similarity} + \beta \cdot \text{Recency} + \gamma \cdot \text{Importance}$$</p>
+<p><strong>三个维度</strong>：</p>
+<ol>
+<li><p><strong>Contextual Similarity（语义相似度）</strong></p>
+<blockquote>
+<p>确保与当前任务相关</p>
+<ul>
+<li>例如：当前任务是”查询数据库”，优先召回”数据库相关”的记忆</li>
+</ul>
+</blockquote>
+</li>
+<li><p><strong>Recency（时效性）</strong></p>
+<blockquote>
+<p>近期事件权重更高</p>
+<ul>
+<li>例如：昨天的记忆比去年的记忆更重要</li>
+</ul>
+</blockquote>
+</li>
+<li><p><strong>Importance（重要性）</strong></p>
+<blockquote>
+<p>关键事件优先召回</p>
+<ul>
+<li>例如：包含”错误”、”失败”的记忆更重要</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 高级检索策略（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ContextualMemoryRetrieval</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> vector_db<span class="token punctuation">,</span> alpha<span class="token operator">=</span><span class="token number">0.5</span><span class="token punctuation">,</span> beta<span class="token operator">=</span><span class="token number">0.3</span><span class="token punctuation">,</span> gamma<span class="token operator">=</span><span class="token number">0.2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>vector_db <span class="token operator">=</span> vector_db
+        self<span class="token punctuation">.</span>alpha <span class="token operator">=</span> alpha  <span class="token comment"># 相似度权重</span>
+        self<span class="token punctuation">.</span>beta <span class="token operator">=</span> beta    <span class="token comment"># 时效性权重</span>
+        self<span class="token punctuation">.</span>gamma <span class="token operator">=</span> gamma  <span class="token comment"># 重要性权重</span>
+    
+    <span class="token keyword">def</span> <span class="token function">retrieve</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> query<span class="token punctuation">,</span> top_k<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""检索相关记忆"""</span>
+        <span class="token comment"># 1. 语义相似性搜索</span>
+        similar_memories <span class="token operator">=</span> self<span class="token punctuation">.</span>vector_db<span class="token punctuation">.</span>similarity_search<span class="token punctuation">(</span>query<span class="token punctuation">,</span> top_k<span class="token operator">=</span>top_k<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 计算综合得分</span>
+        scored_memories <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> memory <span class="token keyword">in</span> similar_memories<span class="token punctuation">:</span>
+            <span class="token comment"># 相似度得分（0-1）</span>
+            similarity_score <span class="token operator">=</span> memory<span class="token punctuation">[</span><span class="token string">"similarity"</span><span class="token punctuation">]</span>
+            
+            <span class="token comment"># 时效性得分（0-1）：越新得分越高</span>
+            recency_score <span class="token operator">=</span> self<span class="token punctuation">.</span>calculate_recency<span class="token punctuation">(</span>memory<span class="token punctuation">[</span><span class="token string">"timestamp"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            
+            <span class="token comment"># 重要性得分（0-1）</span>
+            importance_score <span class="token operator">=</span> memory<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"importance"</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">)</span>
+            
+            <span class="token comment"># 综合得分</span>
+            final_score <span class="token operator">=</span> <span class="token punctuation">(</span>
+                self<span class="token punctuation">.</span>alpha <span class="token operator">*</span> similarity_score <span class="token operator">+</span>
+                self<span class="token punctuation">.</span>beta <span class="token operator">*</span> recency_score <span class="token operator">+</span>
+                self<span class="token punctuation">.</span>gamma <span class="token operator">*</span> importance_score
+            <span class="token punctuation">)</span>
+            
+            scored_memories<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+                <span class="token string">"memory"</span><span class="token punctuation">:</span> memory<span class="token punctuation">,</span>
+                <span class="token string">"score"</span><span class="token punctuation">:</span> final_score
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 3. 按得分排序，返回 Top K</span>
+        scored_memories<span class="token punctuation">.</span>sort<span class="token punctuation">(</span>key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> x<span class="token punctuation">[</span><span class="token string">"score"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> reverse<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span>m<span class="token punctuation">[</span><span class="token string">"memory"</span><span class="token punctuation">]</span> <span class="token keyword">for</span> m <span class="token keyword">in</span> scored_memories<span class="token punctuation">[</span><span class="token punctuation">:</span>top_k<span class="token punctuation">]</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">calculate_recency</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> timestamp<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""计算时效性得分"""</span>
+        <span class="token keyword">import</span> time
+        current_time <span class="token operator">=</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        age <span class="token operator">=</span> current_time <span class="token operator">-</span> timestamp  <span class="token comment"># 年龄（秒）</span>
+        
+        <span class="token comment"># 越新得分越高（指数衰减）</span>
+        <span class="token comment"># 例如：1 小时前 = 0.9，1 天前 = 0.5，1 周前 = 0.1</span>
+        decay_rate <span class="token operator">=</span> <span class="token number">0.0001</span>  <span class="token comment"># 衰减率</span>
+        <span class="token keyword">return</span> <span class="token builtin">max</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span> <span class="token operator">-</span> age <span class="token operator">*</span> decay_rate<span class="token punctuation">)</span>
+
+<span class="token comment"># 使用示例</span>
+retrieval <span class="token operator">=</span> ContextualMemoryRetrieval<span class="token punctuation">(</span>vector_db<span class="token operator">=</span>pinecone_db<span class="token punctuation">)</span>
+
+<span class="token comment"># 检索相关记忆</span>
+query <span class="token operator">=</span> <span class="token string">"查询数据库时遇到了连接错误"</span>
+memories <span class="token operator">=</span> retrieval<span class="token punctuation">.</span>retrieve<span class="token punctuation">(</span>query<span class="token punctuation">,</span> top_k<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 返回的记忆会综合考虑相似度、时效性、重要性</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>工程实践</strong>：</p>
+<ul>
+<li>结合多策略排序，提高长期任务的记忆精度和效率</li>
+<li>根据任务类型调整权重（如：对话任务更重视时效性，知识任务更重视相似度）</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔄-四、记忆管理总线：信息流转机制"><a href="#🔄-四、记忆管理总线：信息流转机制" class="headerlink" title="🔄 四、记忆管理总线：信息流转机制"></a>🔄 四、记忆管理总线：信息流转机制</h2><p>完整记忆系统需要一个 <strong>Memory Stream</strong> 来管理信息流入与流出。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像工厂的生产线：</p>
+<ol>
+<li><strong>接收</strong>：接收原材料（用户输入、观察结果）</li>
+<li><strong>处理</strong>：加工处理（分块、向量化）</li>
+<li><strong>存储</strong>：保存到仓库（LTM）</li>
+<li><strong>检索</strong>：需要时从仓库取出（检索相关记忆）</li>
+<li><strong>整合</strong>：组装成最终产品（Prompt）</li>
+</ol>
+</blockquote>
+<h3 id="4-1-记忆管理总线的四个组件"><a href="#4-1-记忆管理总线的四个组件" class="headerlink" title="4.1 记忆管理总线的四个组件"></a>4.1 记忆管理总线的四个组件</h3><h4 id="1-Perceiver（感知器）"><a href="#1-Perceiver（感知器）" class="headerlink" title="1. Perceiver（感知器）"></a>1. Perceiver（感知器）</h4><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像”信息接收器”，接收用户输入和观察结果，进行预处理。</p>
+</blockquote>
+<p><strong>功能</strong>：</p>
+<blockquote>
+<ul>
+<li>预处理用户输入与 Observation</li>
+<li>进行分块（Chunking）</li>
+<li>提取关键信息</li>
+</ul>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Perceiver（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Perceiver</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">process</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> user_input<span class="token punctuation">,</span> observation<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""处理用户输入和观察结果"""</span>
+        <span class="token comment"># 1. 分块（如果内容太长）</span>
+        chunks <span class="token operator">=</span> self<span class="token punctuation">.</span>chunk_text<span class="token punctuation">(</span>user_input <span class="token operator">+</span> observation<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 提取关键信息</span>
+        key_info <span class="token operator">=</span> self<span class="token punctuation">.</span>extract_key_info<span class="token punctuation">(</span>chunks<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"chunks"</span><span class="token punctuation">:</span> chunks<span class="token punctuation">,</span>
+            <span class="token string">"key_info"</span><span class="token punctuation">:</span> key_info
+        <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">chunk_text</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> text<span class="token punctuation">,</span> max_chunk_size<span class="token operator">=</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""文本分块"""</span>
+        <span class="token comment"># 简单的按段落分块（实际应该用更智能的方法）</span>
+        paragraphs <span class="token operator">=</span> text<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'\n\n'</span><span class="token punctuation">)</span>
+        chunks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        current_chunk <span class="token operator">=</span> <span class="token string">""</span>
+        
+        <span class="token keyword">for</span> para <span class="token keyword">in</span> paragraphs<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>current_chunk<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token builtin">len</span><span class="token punctuation">(</span>para<span class="token punctuation">)</span> <span class="token operator">&lt;=</span> max_chunk_size<span class="token punctuation">:</span>
+                current_chunk <span class="token operator">+=</span> para <span class="token operator">+</span> <span class="token string">"\n\n"</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> current_chunk<span class="token punctuation">:</span>
+                    chunks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>current_chunk<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                current_chunk <span class="token operator">=</span> para <span class="token operator">+</span> <span class="token string">"\n\n"</span>
+        
+        <span class="token keyword">if</span> current_chunk<span class="token punctuation">:</span>
+            chunks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>current_chunk<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> chunks<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="2-Embedding-Generator（向量生成器）"><a href="#2-Embedding-Generator（向量生成器）" class="headerlink" title="2. Embedding Generator（向量生成器）"></a>2. Embedding Generator（向量生成器）</h4><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像”翻译器”，把文本转换成向量（数字），方便存储和检索。</p>
+</blockquote>
+<p><strong>功能</strong>：</p>
+<blockquote>
+<ul>
+<li>将文本转换为向量</li>
+<li>存入 LTM（向量数据库）</li>
+</ul>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Embedding Generator（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">EmbeddingGenerator</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> embedding_model<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>embedding_model <span class="token operator">=</span> embedding_model  <span class="token comment"># 如 OpenAI Embeddings</span>
+    
+    <span class="token keyword">def</span> <span class="token function">generate_and_store</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> chunks<span class="token punctuation">,</span> metadata<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""生成向量并存储到 LTM"""</span>
+        vectors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        
+        <span class="token keyword">for</span> chunk <span class="token keyword">in</span> chunks<span class="token punctuation">:</span>
+            <span class="token comment"># 生成向量</span>
+            embedding <span class="token operator">=</span> self<span class="token punctuation">.</span>embedding_model<span class="token punctuation">.</span>embed<span class="token punctuation">(</span>chunk<span class="token punctuation">)</span>
+            
+            <span class="token comment"># 存储到向量数据库</span>
+            vector_db<span class="token punctuation">.</span>add<span class="token punctuation">(</span>
+                vector<span class="token operator">=</span>embedding<span class="token punctuation">,</span>
+                text<span class="token operator">=</span>chunk<span class="token punctuation">,</span>
+                metadata<span class="token operator">=</span>metadata
+            <span class="token punctuation">)</span>
+            
+            vectors<span class="token punctuation">.</span>append<span class="token punctuation">(</span>embedding<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> vectors<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="3-Retrieval-Module（检索模块）"><a href="#3-Retrieval-Module（检索模块）" class="headerlink" title="3. Retrieval Module（检索模块）"></a>3. Retrieval Module（检索模块）</h4><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像”图书管理员”，需要时从仓库（LTM）找到相关书籍（记忆）。</p>
+</blockquote>
+<p><strong>功能</strong>：</p>
+<blockquote>
+<ul>
+<li>Planner 启动前，检索 Top K 记忆片段</li>
+<li>使用高级检索策略（相似度 + 时效性 + 重要性）</li>
+</ul>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Retrieval Module（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">RetrievalModule</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> retrieval_strategy<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>retrieval_strategy <span class="token operator">=</span> retrieval_strategy  <span class="token comment"># 使用高级检索策略</span>
+    
+    <span class="token keyword">def</span> <span class="token function">retrieve</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> query<span class="token punctuation">,</span> top_k<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""检索相关记忆"""</span>
+        <span class="token comment"># 使用高级检索策略（见 3.3 节）</span>
+        memories <span class="token operator">=</span> self<span class="token punctuation">.</span>retrieval_strategy<span class="token punctuation">.</span>retrieve<span class="token punctuation">(</span>query<span class="token punctuation">,</span> top_k<span class="token operator">=</span>top_k<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> memories<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="4-Context-Refiner（上下文精炼器）"><a href="#4-Context-Refiner（上下文精炼器）" class="headerlink" title="4. Context Refiner（上下文精炼器）"></a>4. Context Refiner（上下文精炼器）</h4><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像”编辑”，把各种信息整合成一篇好文章（Prompt）。</p>
+</blockquote>
+<p><strong>功能</strong>：</p>
+<blockquote>
+<ul>
+<li>整合 STM 摘要、LTM 检索结果及当前输入</li>
+<li>形成高效 Prompt 注入 LLM Planner</li>
+<li>防止”上下文污染”</li>
+<li>提升 LLM 推理效率</li>
+</ul>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Context Refiner（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ContextRefiner</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">refine</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> stm_summary<span class="token punctuation">,</span> ltm_memories<span class="token punctuation">,</span> current_input<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""整合上下文，生成高效 Prompt"""</span>
+        <span class="token comment"># 1. 整合 STM 摘要</span>
+        context_parts <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">if</span> stm_summary<span class="token punctuation">:</span>
+            context_parts<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"近期摘要：\n</span><span class="token interpolation"><span class="token punctuation">&#123;</span>stm_summary<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 整合 LTM 检索结果</span>
+        <span class="token keyword">if</span> ltm_memories<span class="token punctuation">:</span>
+            memory_text <span class="token operator">=</span> <span class="token string">"\n"</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">[</span>
+                <span class="token string-interpolation"><span class="token string">f"- </span><span class="token interpolation"><span class="token punctuation">&#123;</span>m<span class="token punctuation">[</span><span class="token string">'text'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span> <span class="token keyword">for</span> m <span class="token keyword">in</span> ltm_memories
+            <span class="token punctuation">]</span><span class="token punctuation">)</span>
+            context_parts<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"相关历史：\n</span><span class="token interpolation"><span class="token punctuation">&#123;</span>memory_text<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 3. 添加当前输入</span>
+        context_parts<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"当前任务：\n</span><span class="token interpolation"><span class="token punctuation">&#123;</span>current_input<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 4. 组合成完整 Prompt</span>
+        prompt <span class="token operator">=</span> <span class="token string">"\n\n"</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>context_parts<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> prompt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="4-2-完整的信息流转流程"><a href="#4-2-完整的信息流转流程" class="headerlink" title="4.2 完整的信息流转流程"></a>4.2 完整的信息流转流程</h3><p><strong>流程图</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">用户输入
+   ↓
+Perceiver（感知器）
+   ↓ 分块、提取关键信息
+Embedding Generator（向量生成器）
+   ↓ 生成向量
+LTM Storage（长期记忆存储）
+   ↓
+Retrieval Module（检索模块）
+   ↓ 检索相关记忆
+Context Refiner（上下文精炼器）
+   ↓ 整合上下文
+LLM Planner（决策引擎）
+   ↓ 生成 Thought 和 Action
+执行工具
+   ↓ 获取 Observation
+回到 Perceiver（循环）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>代码示例（完整流程）</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 完整的记忆管理总线（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MemoryBus</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> stm<span class="token punctuation">,</span> ltm<span class="token punctuation">,</span> perceiver<span class="token punctuation">,</span> embedding_gen<span class="token punctuation">,</span> retrieval<span class="token punctuation">,</span> refiner<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>stm <span class="token operator">=</span> stm  <span class="token comment"># 短期记忆</span>
+        self<span class="token punctuation">.</span>ltm <span class="token operator">=</span> ltm  <span class="token comment"># 长期记忆</span>
+        self<span class="token punctuation">.</span>perceiver <span class="token operator">=</span> perceiver
+        self<span class="token punctuation">.</span>embedding_gen <span class="token operator">=</span> embedding_gen
+        self<span class="token punctuation">.</span>retrieval <span class="token operator">=</span> retrieval
+        self<span class="token punctuation">.</span>refiner <span class="token operator">=</span> refiner
+    
+    <span class="token keyword">def</span> <span class="token function">process</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> user_input<span class="token punctuation">,</span> observation<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""处理用户输入和观察结果"""</span>
+        <span class="token comment"># 1. Perceiver：预处理</span>
+        processed <span class="token operator">=</span> self<span class="token punctuation">.</span>perceiver<span class="token punctuation">.</span>process<span class="token punctuation">(</span>user_input<span class="token punctuation">,</span> observation<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. Embedding Generator：生成向量并存储</span>
+        self<span class="token punctuation">.</span>embedding_gen<span class="token punctuation">.</span>generate_and_store<span class="token punctuation">(</span>
+            processed<span class="token punctuation">[</span><span class="token string">"chunks"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            metadata<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"timestamp"</span><span class="token punctuation">:</span> time<span class="token punctuation">.</span>time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>
+        <span class="token punctuation">)</span>
+        
+        <span class="token comment"># 3. 添加到 STM</span>
+        self<span class="token punctuation">.</span>stm<span class="token punctuation">.</span>add<span class="token punctuation">(</span>
+            thought<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">,</span>
+            action<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">,</span>
+            observation<span class="token operator">=</span>observation
+        <span class="token punctuation">)</span>
+        
+        <span class="token comment"># 4. Retrieval：检索相关记忆</span>
+        query <span class="token operator">=</span> user_input <span class="token operator">+</span> observation
+        ltm_memories <span class="token operator">=</span> self<span class="token punctuation">.</span>retrieval<span class="token punctuation">.</span>retrieve<span class="token punctuation">(</span>query<span class="token punctuation">,</span> top_k<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 5. Context Refiner：整合上下文</span>
+        stm_summary <span class="token operator">=</span> self<span class="token punctuation">.</span>stm<span class="token punctuation">.</span>get_summary<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        prompt <span class="token operator">=</span> self<span class="token punctuation">.</span>refiner<span class="token punctuation">.</span>refine<span class="token punctuation">(</span>stm_summary<span class="token punctuation">,</span> ltm_memories<span class="token punctuation">,</span> user_input<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> prompt
+
+<span class="token comment"># 使用示例</span>
+memory_bus <span class="token operator">=</span> MemoryBus<span class="token punctuation">(</span>
+    stm<span class="token operator">=</span>SummarizedMemory<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    ltm<span class="token operator">=</span>vector_db<span class="token punctuation">,</span>
+    perceiver<span class="token operator">=</span>Perceiver<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    embedding_gen<span class="token operator">=</span>EmbeddingGenerator<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    retrieval<span class="token operator">=</span>RetrievalModule<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    refiner<span class="token operator">=</span>ContextRefiner<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># 处理用户输入</span>
+prompt <span class="token operator">=</span> memory_bus<span class="token punctuation">.</span>process<span class="token punctuation">(</span>
+    user_input<span class="token operator">=</span><span class="token string">"查询用户数据"</span><span class="token punctuation">,</span>
+    observation<span class="token operator">=</span><span class="token string">"查询成功，返回 1000 条记录"</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># prompt 包含了 STM 摘要、LTM 检索结果、当前输入</span>
+<span class="token comment"># 可以发送给 LLM Planner 了</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>关键理解</strong>：</p>
+<ul>
+<li><strong>Perceiver</strong>：接收和预处理信息</li>
+<li><strong>Embedding Generator</strong>：把文本转换成向量</li>
+<li><strong>Retrieval Module</strong>：从 LTM 检索相关记忆</li>
+<li><strong>Context Refiner</strong>：整合所有信息，生成高效 Prompt</li>
+</ul>
+<p>四个组件协作，实现完整的记忆管理流程。</p>
+</blockquote>
+<hr>
+<h2 id="🔍-总结：Agent-的记忆是自主性的载体"><a href="#🔍-总结：Agent-的记忆是自主性的载体" class="headerlink" title="🔍 总结：Agent 的记忆是自主性的载体"></a>🔍 总结：Agent 的记忆是自主性的载体</h2><h3 id="💡-快速回顾：你学到了什么？"><a href="#💡-快速回顾：你学到了什么？" class="headerlink" title="💡 快速回顾：你学到了什么？"></a>💡 快速回顾：你学到了什么？</h3><ol>
+<li><strong>分层记忆架构</strong>：STM（短期记忆）、LTM（长期记忆）、ExM（外部知识）</li>
+<li><strong>短期记忆管理</strong>：滑动窗口、对话摘要、重要性剪枝</li>
+<li><strong>长期记忆存储</strong>：向量数据库、知识图谱、关系型数据库</li>
+<li><strong>高级检索策略</strong>：综合考虑相似度、时效性、重要性</li>
+<li><strong>记忆管理总线</strong>：Perceiver → Embedding → Storage → Retrieval → Refiner</li>
+</ol>
+<h3 id="三层记忆的核心作用"><a href="#三层记忆的核心作用" class="headerlink" title="三层记忆的核心作用"></a>三层记忆的核心作用</h3><table>
+<thead>
+<tr>
+<th>层次</th>
+<th>作用</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>STM</strong></td>
+<td>保证当前任务的即时连贯</td>
+<td>记住当前正在做的事情</td>
+</tr>
+<tr>
+<td><strong>LTM</strong></td>
+<td>持久化经验，支持跨任务学习</td>
+<td>保存过去的重要经历</td>
+</tr>
+<tr>
+<td><strong>ExM</strong></td>
+<td>提供事实性与专业知识</td>
+<td>需要时查阅资料</td>
+</tr>
+</tbody></table>
+<h3 id="关键设计原则"><a href="#关键设计原则" class="headerlink" title="关键设计原则"></a>关键设计原则</h3><ol>
+<li><strong>智能遗忘</strong>：不是记住所有信息，而是记住重要的，忘记不重要的</li>
+<li><strong>高效检索</strong>：不是简单存储，而是能够快速找到相关信息</li>
+<li><strong>分层管理</strong>：不是单一存储，而是分层存储，各司其职</li>
+<li><strong>动态更新</strong>：不是静态存储，而是动态更新，保持时效性</li>
+</ol>
+<h3 id="实战建议"><a href="#实战建议" class="headerlink" title="实战建议"></a>实战建议</h3><ol>
+<li><strong>从简单开始</strong>：先实现滑动窗口，再逐步优化</li>
+<li><strong>选择合适的存储</strong>：根据数据类型选择存储介质</li>
+<li><strong>优化检索策略</strong>：根据任务类型调整检索权重</li>
+<li><strong>监控记忆质量</strong>：定期检查记忆的准确性和相关性</li>
+</ol>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：<br>一个优秀的 Agent 工程师，不仅要让 Agent <strong>记住重要信息</strong>，更要让它 <strong>智能遗忘</strong>，精准召回高价值记忆，实现长期自主性。</p>
+<p>记忆管理不是简单的存储和检索，而是一套完整的工程化系统，需要综合考虑存储、检索、压缩、更新等多个维度。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h2><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h3 id="🧠-分层记忆架构"><a href="#🧠-分层记忆架构" class="headerlink" title="🧠 分层记忆架构"></a>🧠 分层记忆架构</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2304.12213"><strong>Agent Memory Architecture, Layered Memory Model（分层记忆模型论文）</strong></a>：Agent 分层记忆架构的开创性论文。<strong>必读论文</strong>，适合所有读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2304.03442"><strong>Generative Agents: Interactive Simulacra of Human Behavior（生成式 Agent 论文）</strong></a>：Stanford 2023 年的经典论文，展示了如何实现具有记忆的 Agent。<strong>强烈推荐</strong>，适合想了解记忆管理实践的读者。</p>
+</li>
+</ul>
+<h3 id="🔍-记忆检索策略"><a href="#🔍-记忆检索策略" class="headerlink" title="🔍 记忆检索策略"></a>🔍 记忆检索策略</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/memory/"><strong>Contextual Memory Retrieval, Recency &amp; Importance Weighted Search（LlamaIndex 记忆检索）</strong></a>：LlamaIndex 的记忆检索实现，包含时效性和重要性加权搜索。<strong>强烈推荐</strong>，适合使用 LlamaIndex 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/memory/"><strong>LangChain Memory Management（LangChain 记忆管理）</strong></a>：LangChain 的记忆管理实现，包含多种记忆类型。适合使用 LangChain 的开发者。</p>
+</li>
+</ul>
+<h3 id="🗄️-存储介质"><a href="#🗄️-存储介质" class="headerlink" title="🗄️ 存储介质"></a>🗄️ 存储介质</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.pinecone.io/"><strong>Pinecone Vector Database（Pinecone 向量数据库）</strong></a>：流行的向量数据库服务。适合需要向量存储的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/"><strong>Neo4j Knowledge Graph（Neo4j 知识图谱）</strong></a>：流行的知识图谱数据库。适合需要关系存储的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://neo4j.com/blog/knowledge-graphs-for-llms/"><strong>Knowledge Graph for LLM Agent Reasoning（知识图谱在 Agent 中的应用）</strong></a>：知识图谱在 LLM Agent 中的应用指南。适合想了解知识图谱的读者。</p>
+</li>
+</ul>
+<h3 id="🔄-记忆管理实践"><a href="#🔄-记忆管理实践" class="headerlink" title="🔄 记忆管理实践"></a>🔄 记忆管理实践</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/techniques/memory"><strong>Memory Management Best Practices（记忆管理最佳实践）</strong></a>：记忆管理的最佳实践指南。适合想优化记忆系统的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.anthropic.com/research/more-context"><strong>Context Window Optimization（上下文窗口优化）</strong></a>：上下文窗口优化的研究。适合想优化 Context Window 的开发者。</p>
+</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>记忆管理让 Agent 能够记住历史信息，但 Agent 还需要与外部世界交互。</p>
+<p><strong>第 9 篇将深入工具系统</strong>：</p>
+<blockquote>
+<p><strong>《主题9｜Agent 工具系统：Function Calling 与外部世界连接》</strong></p>
+</blockquote>
+<ul>
+<li>Function Calling 是什么？如何工作？</li>
+<li>如何设计标准化的工具接口？</li>
+<li>如何实现工具调用和错误处理？</li>
+<li>工具系统的工程化实践</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/Memory/" class="print-no-link">#Memory</a>
+      
+        <a href="/fluid-blog/tags/Context-Window/" class="print-no-link">#Context Window</a>
+      
+        <a href="/fluid-blog/tags/%E8%AE%B0%E5%BF%86%E7%AE%A1%E7%90%86/" class="print-no-link">#记忆管理</a>
+      
+        <a href="/fluid-blog/tags/%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#向量数据库</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体</div>
+      <div>https://linn0813.github.io/2025/12/17/2025-12-17-llm-agent-memory-management/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/18/2025-12-18-llm-agent-tool-system/" title="🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/16/2025-12-16-llm-agent-decision-engine/" title="🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用">
+                        <span class="hidden-mobile">🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

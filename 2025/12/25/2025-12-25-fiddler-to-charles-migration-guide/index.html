@@ -1,0 +1,957 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="Fiddler, Charles, 抓包工具, Mac, Windows, HTTPS, 工具迁移, 抓包实践">
+  
+    <meta name="description" content="从 Windows + Fiddler 切换到 Mac + Charles 的真实抓包迁移记录。实践路径 + 易踩坑点 + 工具差异理解，适合刚换 Mac、需要抓包的测试&#x2F;开发同学。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/25/2025-12-25-fiddler-to-charles-migration-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="从 Windows + Fiddler 切换到 Mac + Charles 的真实抓包迁移记录。实践路径 + 易踩坑点 + 工具差异理解，适合刚换 Mac、需要抓包的测试&#x2F;开发同学。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/fiddler-to-charles.png">
+<meta property="article:published_time" content="2025-12-25T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.635Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="Fiddler">
+<meta property="article:tag" content="抓包工具">
+<meta property="article:tag" content="Charles">
+<meta property="article:tag" content="Mac">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="HTTPS">
+<meta property="article:tag" content="工具迁移">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/fiddler-to-charles.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-25 18:00" pubdate>
+          2025年12月25日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="从-Fiddler-到-Charles：Windows-切换到-Mac-的抓包实践分享-🍎"><a href="#从-Fiddler-到-Charles：Windows-切换到-Mac-的抓包实践分享-🍎" class="headerlink" title="从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎"></a>从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎</h1><p>从 Windows + Fiddler 切换到 Mac + Charles 的一次真实抓包迁移记录。本文不追求”最全教程”，而是更偏向 <strong>实践路径 + 易踩坑点 + 工具差异理解</strong>，适合刚换 Mac、需要抓包的测试 &#x2F; 开发同学。</p>
+<blockquote>
+<p>💡 <strong>本文适合谁？</strong></p>
+<ul>
+<li>从 Windows 切换到 Mac 的测试&#x2F;开发同学</li>
+<li>熟悉 Fiddler，想快速上手 Charles 的读者</li>
+<li>在 Mac 上抓包遇到问题的同学</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="一、背景：从熟悉到不熟悉的工具迁移"><a href="#一、背景：从熟悉到不熟悉的工具迁移" class="headerlink" title="一、背景：从熟悉到不熟悉的工具迁移"></a>一、背景：从熟悉到不熟悉的工具迁移</h2><p>在使用 Windows 期间，我一直用 <strong>Fiddler</strong> 进行抓包：</p>
+<ul>
+<li>抓 HTTP &#x2F; HTTPS 接口</li>
+<li>查看请求参数、响应数据</li>
+<li>辅助定位联调与线上问题</li>
+</ul>
+<p>最近更换为 <strong>Mac 电脑</strong> 后，原有的工具链需要整体迁移。在 Mac 平台上，抓包工具的主流选择是 <strong>Charles</strong>，因此也开始了一轮新的学习过程。</p>
+<p>这篇文章主要记录：</p>
+<ul>
+<li>Windows 与 Mac 在抓包使用上的一些差异</li>
+<li>Charles 的基础安装与核心配置</li>
+<li>HTTPS 抓包中最容易遇到的问题与理解误区</li>
+</ul>
+<hr>
+<h2 id="二、Windows-vs-Mac：抓包时最明显的几个差异"><a href="#二、Windows-vs-Mac：抓包时最明显的几个差异" class="headerlink" title="二、Windows vs Mac：抓包时最明显的几个差异"></a>二、Windows vs Mac：抓包时最明显的几个差异</h2><h3 id="1️⃣-抓包工具生态不同"><a href="#1️⃣-抓包工具生态不同" class="headerlink" title="1️⃣ 抓包工具生态不同"></a>1️⃣ 抓包工具生态不同</h3><table>
+<thead>
+<tr>
+<th>平台</th>
+<th>常用抓包工具</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Windows</td>
+<td>Fiddler、Wireshark</td>
+</tr>
+<tr>
+<td>Mac</td>
+<td>Charles、Proxyman、Wireshark</td>
+</tr>
+</tbody></table>
+<p>如果你之前长期使用 Fiddler：</p>
+<ul>
+<li>在 Mac 上并不是不能用，但体验和维护成本都偏高</li>
+<li>Charles 是 Mac 平台上更成熟、稳定的选择</li>
+</ul>
+<hr>
+<h3 id="2️⃣-查本机-IP-的方式不同（抓手机包时尤为重要）"><a href="#2️⃣-查本机-IP-的方式不同（抓手机包时尤为重要）" class="headerlink" title="2️⃣ 查本机 IP 的方式不同（抓手机包时尤为重要）"></a>2️⃣ 查本机 IP 的方式不同（抓手机包时尤为重要）</h3><p>抓手机包时，需要让手机的代理指向 <strong>电脑的局域网 IP</strong>。这一点在 Windows 和 Mac 上的操作方式差异比较明显。</p>
+<h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ipconfig<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>通常直接查看：</p>
+<ul>
+<li>IPv4 Address</li>
+</ul>
+<hr>
+<h4 id="Mac（推荐方式）"><a href="#Mac（推荐方式）" class="headerlink" title="Mac（推荐方式）"></a>Mac（推荐方式）</h4><p><strong>图形界面方式（最不容易出错）</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">系统设置 → 网络 → 当前连接的网络 → 详情<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>查看其中的 <strong>IPv4 地址</strong>，该地址就是手机代理需要填写的 IP。</p>
+<hr>
+<h4 id="Mac（命令行方式，工程师常用）"><a href="#Mac（命令行方式，工程师常用）" class="headerlink" title="Mac（命令行方式，工程师常用）"></a>Mac（命令行方式，工程师常用）</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ifconfig</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"inet"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>输出示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">inet 127.0.0.1 netmask 0xff000000
+inet 192.168.1.100 netmask 0xffffff00 broadcast 192.168.1.255<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>需要注意：</p>
+<ul>
+<li>❌ 忽略 <code>127.0.0.1</code>（回环地址，不能给手机使用）</li>
+<li>✅ 选择局域网地址（如 <code>192.168.x.x</code>、<code>10.x.x.x</code>）</li>
+<li>✅ 一般位于 <code>en0</code>（Wi‑Fi 网卡）下</li>
+</ul>
+<p>这一点如果不加说明，很容易在配置手机代理时选错 IP。</p>
+<blockquote>
+<p>💡 <strong>小技巧</strong>：如果连接了多个网络（如同时连接 Wi-Fi 和以太网），优先选择 Wi-Fi 的 IP 地址。</p>
+</blockquote>
+<hr>
+<h3 id="3️⃣-证书信任机制的差异"><a href="#3️⃣-证书信任机制的差异" class="headerlink" title="3️⃣ 证书信任机制的差异"></a>3️⃣ 证书信任机制的差异</h3><p>这是从 Windows 切换到 Mac 后，<strong>最容易踩坑的一点</strong>：</p>
+<ul>
+<li>在 Windows + Fiddler 环境下，HTTPS 抓包的证书配置相对”无感”</li>
+<li>在 Mac + Charles 下，<strong>证书必须手动设为”始终信任”</strong></li>
+</ul>
+<p>如果证书未正确配置，常见现象包括：</p>
+<ul>
+<li>HTTPS 请求抓不到</li>
+<li>Charles 中请求显示为 <code>&lt;unknown&gt;</code></li>
+<li>浏览器或 App 报 SSL 错误</li>
+</ul>
+<hr>
+<h2 id="三、Charles-安装与基础配置流程"><a href="#三、Charles-安装与基础配置流程" class="headerlink" title="三、Charles 安装与基础配置流程"></a>三、Charles 安装与基础配置流程</h2><h3 id="1️⃣-安装-Charles"><a href="#1️⃣-安装-Charles" class="headerlink" title="1️⃣ 安装 Charles"></a>1️⃣ 安装 Charles</h3><ul>
+<li>官网：<a target="_blank" rel="noopener" href="https://www.charlesproxy.com/">https://www.charlesproxy.com</a></li>
+<li>提供 Mac &#x2F; Windows &#x2F; Linux 版本</li>
+</ul>
+<p>安装完成后，启动 Charles，会看到一个空的抓包主界面。</p>
+<hr>
+<h3 id="2️⃣-确认系统代理已生效"><a href="#2️⃣-确认系统代理已生效" class="headerlink" title="2️⃣ 确认系统代理已生效"></a>2️⃣ 确认系统代理已生效</h3><p>Charles 默认监听端口：</p>
+<ul>
+<li>HTTP Proxy：<strong>8888</strong></li>
+</ul>
+<p>启动 Charles 后，可在菜单中确认：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Proxy → macOS Proxy → Enabled<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>如果系统代理未生效，浏览器流量将不会经过 Charles。</p>
+<hr>
+<h3 id="3️⃣-HTTPS-抓包的关键：开启-SSL-Proxying"><a href="#3️⃣-HTTPS-抓包的关键：开启-SSL-Proxying" class="headerlink" title="3️⃣ HTTPS 抓包的关键：开启 SSL Proxying"></a>3️⃣ HTTPS 抓包的关键：开启 SSL Proxying</h3><p>新手最常见的问题是：</p>
+<ul>
+<li>只能看到 <code>CONNECT</code> 请求</li>
+<li>接口路径显示为 <code>&lt;unknown&gt;</code></li>
+</ul>
+<p>根本原因是：</p>
+<blockquote>
+<p><strong>HTTPS 流量未被 Charles 解密</strong></p>
+</blockquote>
+<h4 id="配置方式"><a href="#配置方式" class="headerlink" title="配置方式"></a>配置方式</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Proxy → SSL Proxying Settings<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li>勾选：<code>Enable SSL Proxying</code></li>
+<li>在 Include 中添加需要抓包的域名，例如：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Host: dev.example.com
+Port: 443<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>建议只添加实际需要抓的域名，而不是使用通配符 <code>*</code>。</p>
+<hr>
+<h3 id="4️⃣-安装并信任-Charles-根证书（Mac-必做）"><a href="#4️⃣-安装并信任-Charles-根证书（Mac-必做）" class="headerlink" title="4️⃣ 安装并信任 Charles 根证书（Mac 必做）"></a>4️⃣ 安装并信任 Charles 根证书（Mac 必做）</h3><h4 id="安装证书"><a href="#安装证书" class="headerlink" title="安装证书"></a>安装证书</h4><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Help → SSL Proxying → Install Charles Root Certificate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>证书会被安装到系统的「钥匙串访问」。</p>
+<h4 id="设为”始终信任”"><a href="#设为”始终信任”" class="headerlink" title="设为”始终信任”"></a>设为”始终信任”</h4><ol>
+<li>打开「钥匙串访问」</li>
+<li>找到 <code>Charles Proxy CA</code></li>
+<li>双击 → 展开「信任」</li>
+<li>设置为：<strong>始终信任</strong></li>
+</ol>
+<p>这是 HTTPS 能否成功解密的关键一步。</p>
+<hr>
+<h2 id="四、常见问题与实践中的踩坑点"><a href="#四、常见问题与实践中的踩坑点" class="headerlink" title="四、常见问题与实践中的踩坑点"></a>四、常见问题与实践中的踩坑点</h2><h3 id="❓-请求为什么显示为-？"><a href="#❓-请求为什么显示为-？" class="headerlink" title="❓ 请求为什么显示为 &lt;unknown&gt;？"></a>❓ 请求为什么显示为 <code>&lt;unknown&gt;</code>？</h3><ul>
+<li>HTTPS 未开启 SSL Proxying</li>
+<li>域名未加入 Include 列表</li>
+</ul>
+<p>解决思路：</p>
+<ul>
+<li>检查 SSL Proxying 是否开启</li>
+<li>确认 Host &#x2F; Port 配置正确</li>
+</ul>
+<hr>
+<h3 id="❓-浏览器能访问，但-Charles-抓不到？"><a href="#❓-浏览器能访问，但-Charles-抓不到？" class="headerlink" title="❓ 浏览器能访问，但 Charles 抓不到？"></a>❓ 浏览器能访问，但 Charles 抓不到？</h3><p>建议按以下顺序排查：</p>
+<ol>
+<li>Charles 是否在运行</li>
+<li>系统代理是否生效</li>
+<li>是否被 VPN &#x2F; 代理规则绕过</li>
+</ol>
+<hr>
+<h3 id="❓-手机-App-抓不到包？"><a href="#❓-手机-App-抓不到包？" class="headerlink" title="❓ 手机 App 抓不到包？"></a>❓ 手机 App 抓不到包？</h3><p>常见原因包括：</p>
+<ol>
+<li><p><strong>手机未正确配置代理</strong></p>
+<ul>
+<li>检查手机 Wi-Fi 设置中的代理配置</li>
+<li>确认 IP 地址和端口（8888）正确</li>
+</ul>
+</li>
+<li><p><strong>手机未安装 &#x2F; 信任 Charles 证书</strong></p>
+<ul>
+<li>在 Charles 中：<code>Help → SSL Proxying → Install Charles Root Certificate on a Mobile Device or Remote Browser</code></li>
+<li>手机浏览器访问 <code>chls.pro/ssl</code> 下载证书</li>
+<li>iOS：设置 → 通用 → 关于本机 → 证书信任设置 → 信任 Charles Proxy CA</li>
+<li>Android：设置 → 安全 → 加密与凭据 → 从存储设备安装</li>
+</ul>
+</li>
+<li><p><strong>App 使用了 SSL Pinning</strong></p>
+<ul>
+<li>这是更高阶场景，需要额外处理（如使用 Xposed、Frida 等工具）</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>💡 <strong>排查顺序</strong>：先确认代理配置 → 再检查证书 → 最后考虑 SSL Pinning</p>
+</blockquote>
+<hr>
+<h2 id="五、从-Fiddler-到-Charles：使用体验上的变化"><a href="#五、从-Fiddler-到-Charles：使用体验上的变化" class="headerlink" title="五、从 Fiddler 到 Charles：使用体验上的变化"></a>五、从 Fiddler 到 Charles：使用体验上的变化</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Fiddler</th>
+<th>Charles</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>上手难度</td>
+<td>较低</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>HTTPS 配置</td>
+<td>相对自动</td>
+<td>需要理解与手动配置</td>
+</tr>
+<tr>
+<td>界面体验</td>
+<td>偏工程化</td>
+<td>更直观</td>
+</tr>
+<tr>
+<td>跨平台能力</td>
+<td>一般</td>
+<td>较好</td>
+</tr>
+</tbody></table>
+<p>整体感受是：</p>
+<ul>
+<li>Fiddler 更”即插即用”</li>
+<li>Charles 更强调对 HTTPS 与代理机制的理解</li>
+</ul>
+<p>一旦配置完成，Charles 在 Mac 环境下的稳定性和可控性都非常好。</p>
+<hr>
+<h2 id="六、参考资料与延伸阅读"><a href="#六、参考资料与延伸阅读" class="headerlink" title="六、参考资料与延伸阅读"></a>六、参考资料与延伸阅读</h2><p>在学习和配置 Charles 的过程中，我主要参考了以下资源，它们分别解决了不同层级的问题：</p>
+<h3 id="📖-配置与问题排查"><a href="#📖-配置与问题排查" class="headerlink" title="📖 配置与问题排查"></a>📖 配置与问题排查</h3><ul>
+<li><p><strong>Mac 下 Charles 抓包 HTTPS 详细配置与问题排查</strong>（CSDN · ios_xumin）</p>
+<p>重点讲解 SSL Proxying、证书安装与信任，对理解 HTTPS 抓不到包、<code>&lt;unknown&gt;</code> 等问题非常有帮助。</p>
+</li>
+</ul>
+<h3 id="🔬-原理深度解析"><a href="#🔬-原理深度解析" class="headerlink" title="🔬 原理深度解析"></a>🔬 原理深度解析</h3><ul>
+<li><p><strong>Charles 抓包原理与 HTTPS 解密机制解析</strong>（博客园 · upstudy）</p>
+<p>从原理层解释 CONNECT 隧道、中间人证书与 TLS 解密流程，适合在”能用之后”补齐底层认知。</p>
+</li>
+</ul>
+<h3 id="🛠️-工具使用技巧"><a href="#🛠️-工具使用技巧" class="headerlink" title="🛠️ 工具使用技巧"></a>🛠️ 工具使用技巧</h3><ul>
+<li><p><strong>Mac 下使用 ifconfig 查看本机 IP 地址详解</strong>（CSDN · gyueh）</p>
+<p>详细说明 <code>ifconfig</code> 输出中各类网卡与 IP 的含义，对抓手机包时避免误用 <code>127.0.0.1</code> 非常有参考价值。</p>
+</li>
+</ul>
+<h3 id="📚-官方文档"><a href="#📚-官方文档" class="headerlink" title="📚 官方文档"></a>📚 官方文档</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.charlesproxy.com/documentation/">Charles 官方文档</a>：Charles 的官方文档，包含完整的配置说明和 API 文档</li>
+</ul>
+<hr>
+<h2 id="七、结语"><a href="#七、结语" class="headerlink" title="七、结语"></a>七、结语</h2><p>从 Windows 切换到 Mac，看似只是操作系统的变化，实际上也会带来一整套工具链和使用习惯的调整。</p>
+<p>Charles 并不难，真正需要理解的是：</p>
+<ul>
+<li>HTTPS 为什么不能直接被看到</li>
+<li>证书和代理在其中扮演的角色</li>
+</ul>
+<p>当这些概念理清之后，抓包这件事会变得更加可控，也更有助于问题定位和沟通协作。</p>
+<p>希望这篇从 <strong>Fiddler 到 Charles</strong> 的实践记录，能帮到同样处在迁移过程中的你。</p>
+<hr>
+<h2 id="📚-相关文章"><a href="#📚-相关文章" class="headerlink" title="📚 相关文章"></a>📚 相关文章</h2><p>如果你对抓包工具感兴趣，可以继续阅读：</p>
+<ul>
+<li><a href="/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%8E%E6%A1%88%E4%BE%8B%E7%BB%8F%E9%AA%8C/%E6%B5%8B%E8%AF%95%E7%BB%8F%E9%AA%8C%E4%B8%8E%E8%90%BD%E5%9C%B0/2025-08-19-fiddler-getting-started-basic-capture/">Fiddler 入门与基础抓包 🕵️‍♂️</a></li>
+<li><a href="/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%8E%E6%A1%88%E4%BE%8B%E7%BB%8F%E9%AA%8C/%E6%B5%8B%E8%AF%95%E7%BB%8F%E9%AA%8C%E4%B8%8E%E8%90%BD%E5%9C%B0/2025-08-22-fiddler-intercept-modify-requests/">Fiddler 拦截与修改请求实战 🕵️‍♂️</a></li>
+<li><a href="/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%8E%E6%A1%88%E4%BE%8B%E7%BB%8F%E9%AA%8C/%E6%B5%8B%E8%AF%95%E7%BB%8F%E9%AA%8C%E4%B8%8E%E8%90%BD%E5%9C%B0/2025-08-24-fiddler-advanced-commands-and-filters/">Fiddler 高级命令与过滤技巧 🚀</a></li>
+<li><a href="/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%8E%E6%A1%88%E4%BE%8B%E7%BB%8F%E9%AA%8C/%E6%B5%8B%E8%AF%95%E7%BB%8F%E9%AA%8C%E4%B8%8E%E8%90%BD%E5%9C%B0/2025-08-26-fiddler-mobile-capture-and-practical-tips/">Fiddler 移动端抓包与实战技巧 📱🕵️‍♂️</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%93%A1-%E6%8A%93%E5%8C%85%E4%B8%8E%E7%BD%91%E7%BB%9C%E8%B0%83%E4%BC%98%EF%BC%9AFiddler-Charles-%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/" class="category-chain-item">📡 抓包与网络调优：Fiddler &amp; Charles 实战指南</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%93%A1-%E6%8A%93%E5%8C%85%E4%B8%8E%E7%BD%91%E7%BB%9C%E8%B0%83%E4%BC%98%EF%BC%9AFiddler-Charles-%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/%E6%B5%8B%E8%AF%95%E7%BB%8F%E9%AA%8C%E4%B8%8E%E8%90%BD%E5%9C%B0/" class="category-chain-item">测试经验与落地</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/Fiddler/" class="print-no-link">#Fiddler</a>
+      
+        <a href="/fluid-blog/tags/%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/" class="print-no-link">#抓包工具</a>
+      
+        <a href="/fluid-blog/tags/Charles/" class="print-no-link">#Charles</a>
+      
+        <a href="/fluid-blog/tags/Mac/" class="print-no-link">#Mac</a>
+      
+        <a href="/fluid-blog/tags/Windows/" class="print-no-link">#Windows</a>
+      
+        <a href="/fluid-blog/tags/HTTPS/" class="print-no-link">#HTTPS</a>
+      
+        <a href="/fluid-blog/tags/%E5%B7%A5%E5%85%B7%E8%BF%81%E7%A7%BB/" class="print-no-link">#工具迁移</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>从 Fiddler 到 Charles：Windows 切换到 Mac 的抓包实践分享 🍎</div>
+      <div>https://linn0813.github.io/2025/12/25/2025-12-25-fiddler-to-charles-migration-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/26/2025-12-26-resume-tech-buzzwords-guide/" title="📝 简历里的&#34;高级感&#34;从哪来？互联网与技术黑话大拆解">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">📝 简历里的&#34;高级感&#34;从哪来？互联网与技术黑话大拆解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/24/2025-12-24-llm-agent-evaluation/" title="📊 主题15｜Agent 评估：指标体系与避坑指南">
+                        <span class="hidden-mobile">📊 主题15｜Agent 评估：指标体系与避坑指南</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

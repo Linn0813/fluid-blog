@@ -1,0 +1,864 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="测试平台, 账号体系, 注册模块, 登录模块, 忘记密码模块, JWT, 安全策略">
+  
+    <meta name="description" content="详细介绍独立开发测试平台过程中账号体系模块技术方案，涵盖注册、登录、忘记密码等核心功能的设计与实现，包含功能拆解、接口设计、逻辑校验、异常处理及安全策略等内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🚀 测试平台开发实录：账号体系模块设计与实现">
+<meta property="og:url" content="https://linn0813.github.io/2025/06/08/2025-06-08-account-system/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="详细介绍独立开发测试平台过程中账号体系模块技术方案，涵盖注册、登录、忘记密码等核心功能的设计与实现，包含功能拆解、接口设计、逻辑校验、异常处理及安全策略等内容。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/account-system.png">
+<meta property="article:published_time" content="2025-06-08T07:05:50.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.617Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="测试平台">
+<meta property="article:tag" content="账号体系">
+<meta property="article:tag" content="注册模块">
+<meta property="article:tag" content="登录模块">
+<meta property="article:tag" content="忘记密码模块">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/account-system.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🚀 测试平台开发实录：账号体系模块设计与实现 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🚀 测试平台开发实录：账号体系模块设计与实现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-08 15:05" pubdate>
+          2025年6月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🚀 测试平台开发实录：账号体系模块设计与实现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🚀-测试平台开发实录：账号体系模块设计与实现"><a href="#🚀-测试平台开发实录：账号体系模块设计与实现" class="headerlink" title="🚀 测试平台开发实录：账号体系模块设计与实现"></a>🚀 测试平台开发实录：账号体系模块设计与实现</h1><blockquote>
+<p>本系列将记录我在独立开发测试平台过程中的一些关键模块实现过程，涵盖功能拆解、接口设计、逻辑校验、异常处理及安全策略等。平台正处于早期开发阶段，我计划将典型实现经验沉淀为系列文章，便于后续复用与优化，也欢迎同行交流与建议。</p>
+</blockquote>
+<hr>
+<h2 id="🧭-模块背景"><a href="#🧭-模块背景" class="headerlink" title="🧭 模块背景"></a>🧭 模块背景</h2><p>一个测试平台的用户体系是平台功能的基础，良好的账号体系不仅影响使用体验，还直接关系到平台的安全性和可扩展性。</p>
+<p>因此，我在初期优先开发并打磨<strong>注册、登录、忘记密码</strong>这三个核心模块，为后续的用户权限、操作审计、数据隔离等功能做好基础支撑。</p>
+<hr>
+<h2 id="🛠️-模块拆解与设计思路"><a href="#🛠️-模块拆解与设计思路" class="headerlink" title="🛠️ 模块拆解与设计思路"></a>🛠️ 模块拆解与设计思路</h2><p>账号体系主要包含以下三个基础能力：</p>
+<h3 id="✅-1-注册模块"><a href="#✅-1-注册模块" class="headerlink" title="✅ 1. 注册模块"></a>✅ 1. 注册模块</h3><p><strong>目的</strong>：完成新用户创建，并保证数据唯一性和注册安全性。</p>
+<p><strong>实现要点</strong>：</p>
+<ul>
+<li>用户名&#x2F;手机号唯一校验</li>
+<li>图形或短信验证码验证</li>
+<li>注册密码强度要求（例如 ≥8 位、需包含数字+字母）</li>
+<li>统一使用 POST 请求传参，避免信息暴露在 URL 中</li>
+<li>注册成功后不自动登录，需显式登录获取 token</li>
+</ul>
+<p><strong>示例请求参数</strong>（POST <code>/register</code>）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"tester01"</span><span class="token punctuation">,</span>
+  <span class="token property">"phone"</span><span class="token operator">:</span> <span class="token string">"13800000000"</span><span class="token punctuation">,</span>
+  <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"Test1234"</span><span class="token punctuation">,</span>
+  <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"583274"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>响应结果示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"code"</span><span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"注册成功"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>流程图</strong></p>
+<pre><code class="mermaid">graph TD
+    A[用户填写注册表单] --> B[前端表单验证]
+    B -->|验证通过| C[调用注册接口]
+    C --> D[后端验证JSON数据]
+    D -->|数据有效| E[后端验证验证码]
+    E -->|验证码正确| F[检查用户名和手机号是否存在]
+    F -->|不存在| G[创建新用户]
+    G --> H[返回成功响应]
+    B -->|验证失败| I[提示用户错误信息]
+    D -->|数据无效| I
+    E -->|验证码错误| I
+    F -->|存在| I
+    G -->|创建失败| I<span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>扩展建议</strong>：</p>
+<ul>
+<li>注册行为加入审计日志，记录注册时间&#x2F;IP</li>
+<li>支持第三方登录（如微信&#x2F;QQ）</li>
+<li>可以考虑引入邮箱验证机制，进一步增强安全性</li>
+</ul>
+<hr>
+<h3 id="🔐-2-登录模块"><a href="#🔐-2-登录模块" class="headerlink" title="🔐 2. 登录模块"></a>🔐 2. 登录模块</h3><p><strong>目的</strong>：验证用户身份，并返回 JWT token 作为会话凭证。</p>
+<p><strong>实现要点</strong>：</p>
+<ul>
+<li>支持用户名或手机号登录</li>
+<li>密码使用加盐 hash 存储（如 bcrypt）</li>
+<li>登录失败次数过多后暂时锁定账号（防止暴力破解）</li>
+<li>返回标准化 token（建议使用 JWT，便于后续权限控制）</li>
+<li>token 有效期建议控制在 24 小时，可设计刷新机制</li>
+</ul>
+<p><strong>示例请求参数</strong>（POST <code>/login</code>）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"tester01"</span><span class="token punctuation">,</span>
+  <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"Test1234"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>响应结果示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"code"</span><span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  <span class="token property">"token"</span><span class="token operator">:</span> <span class="token string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>流程图</strong></p>
+<pre><code class="mermaid">graph TD
+    A[用户填写登录表单] --> B[前端表单验证]
+    B -->|验证通过| C[调用登录接口]
+    C --> D[后端验证JSON数据]
+    D -->|数据有效| E[判断输入是用户名还是手机号]
+    E --> F[查询用户信息]
+    F --> G[验证密码]
+    G -->|密码正确| H[生成token]
+    H --> I[返回token和成功响应]
+    I --> J[前端保存token并跳转主页]
+    B -->|验证失败| K[提示用户错误信息]
+    D -->|数据无效| K
+    F -->|用户不存在| K
+    G -->|密码错误| K<span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>扩展建议</strong>：</p>
+<ul>
+<li>登录行为纳入日志审计</li>
+<li>添加设备识别和异地登录提醒功能</li>
+</ul>
+<hr>
+<h3 id="🔄-3-忘记密码模块"><a href="#🔄-3-忘记密码模块" class="headerlink" title="🔄 3. 忘记密码模块"></a>🔄 3. 忘记密码模块</h3><p><strong>目的</strong>：允许用户在忘记密码时，通过手机号验证码重设密码。</p>
+<p><strong>实现要点</strong>：</p>
+<ul>
+<li>验证手机号存在并合法</li>
+<li>验证短信验证码有效</li>
+<li>密码重置后自动使旧 token 失效（防止被盗用）</li>
+<li>密码强度与注册一致</li>
+</ul>
+<p><strong>示例请求参数</strong>（POST <code>/forgot_password</code>）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"phone"</span><span class="token operator">:</span> <span class="token string">"13800000000"</span><span class="token punctuation">,</span>
+  <span class="token property">"code"</span><span class="token operator">:</span> <span class="token string">"839201"</span><span class="token punctuation">,</span>
+  <span class="token property">"new_password"</span><span class="token operator">:</span> <span class="token string">"NewTest123"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>响应结果示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"code"</span><span class="token operator">:</span> <span class="token number">200</span><span class="token punctuation">,</span>
+  <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"密码重置成功"</span>
+<span class="token punctuation">&#125;</span>   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>流程图</strong></p>
+<pre><code class="mermaid">graph TD
+    A[用户填写忘记密码表单] --> B[前端表单验证]
+    B -->|验证通过| C[调用忘记密码接口]
+    C --> D[后端验证JSON数据]
+    D -->|数据有效| E[后端验证验证码]
+    E -->|验证码正确| F[更新用户密码]
+    F --> G[返回成功响应]
+    B -->|验证失败| H[提示用户错误信息]
+    D -->|数据无效| H
+    E -->|验证码错误| H
+    F -->|更新失败| H<span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>扩展建议</strong>：</p>
+<ul>
+<li>加入密码历史检查，避免近期重复使用旧密码</li>
+<li>可结合邮件&#x2F;密保问题作为备选验证方式</li>
+</ul>
+<hr>
+<h2 id="🔒-安全策略补充"><a href="#🔒-安全策略补充" class="headerlink" title="🔒 安全策略补充"></a>🔒 安全策略补充</h2><p>为确保账号体系安全，我同时设计并实现了以下机制：</p>
+<ul>
+<li>所有密码均通过 bcrypt 加密存储，防止数据库泄露时被直接破解。</li>
+<li>接口采用 token 鉴权，并对所有敏感接口启用身份验证中间件。</li>
+<li>所有请求参数进行格式校验与字段白名单处理，防止注入攻击。</li>
+<li>支持简单黑名单机制，用于屏蔽恶意请求 IP。</li>
+</ul>
+<hr>
+<h2 id="✅-模块状态与计划"><a href="#✅-模块状态与计划" class="headerlink" title="✅ 模块状态与计划"></a>✅ 模块状态与计划</h2><p>目前上述三个模块均已完成初版实现，并已接入平台前端，支持本地测试与基础功能验证。</p>
+<p>后续计划包括：</p>
+<ul>
+<li>引入基于角色的权限管理系统（RBAC），为不同用户分配不同的权限。</li>
+<li>完善用户信息管理模块，支持修改个人信息、头像上传等功能。</li>
+<li>优化登录流程，支持多因素认证（如邮箱验证码）。</li>
+<li>增加用户状态管理，支持账号锁定、封禁等功能。</li>
+</ul>
+<hr>
+<h2 id="📎-项目模块相关文档参考"><a href="#📎-项目模块相关文档参考" class="headerlink" title="📎 项目模块相关文档参考"></a>📎 项目模块相关文档参考</h2><p>在开发测试平台的过程中，我也整理并发布了两篇与账号体系相关的技术文档，欢迎阅读：</p>
+<ul>
+<li>📄 <a href="https://linn0813.github.io/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95-%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%EF%BC%88Test-Automation-Tool-Development%EF%BC%89/testplatform-login-and-registration/">登录与注册功能数据库设计与实现</a>：主要介绍了登录、注册模块的数据库表结构设计及后端实现细节。</li>
+<li>📄 <a href="https://linn0813.github.io/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95-%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91%EF%BC%88Test-Automation-Tool-Development%EF%BC%89/user-module-database/">用户模块数据库设计说明</a>：补充说明了用户信息表、验证码表的字段结构设计、数据约束逻辑以及设计思路。</li>
+</ul>
+<p>这两篇内容与本篇文章相通，更加完整地展现了账号体系模块的设计与实现全过程，便于读者系统理解与参考复用。</p>
+<hr>
+<h2 id="📌-总结"><a href="#📌-总结" class="headerlink" title="📌 总结"></a>📌 总结</h2><p>在测试平台的搭建过程中，账号体系的搭建是基础但重要的一步。从用户体验、安全性、可维护性三个角度出发，我实现了注册、登录、忘记密码等功能，并在接口设计中兼顾了扩展性与安全性。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/" class="category-chain-item">🏗️ 测试平台开发实战手记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91/" class="category-chain-item">工具与平台开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0/" class="print-no-link">#测试平台</a>
+      
+        <a href="/fluid-blog/tags/%E8%B4%A6%E5%8F%B7%E4%BD%93%E7%B3%BB/" class="print-no-link">#账号体系</a>
+      
+        <a href="/fluid-blog/tags/%E6%B3%A8%E5%86%8C%E6%A8%A1%E5%9D%97/" class="print-no-link">#注册模块</a>
+      
+        <a href="/fluid-blog/tags/%E7%99%BB%E5%BD%95%E6%A8%A1%E5%9D%97/" class="print-no-link">#登录模块</a>
+      
+        <a href="/fluid-blog/tags/%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81%E6%A8%A1%E5%9D%97/" class="print-no-link">#忘记密码模块</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🚀 测试平台开发实录：账号体系模块设计与实现</div>
+      <div>https://linn0813.github.io/2025/06/08/2025-06-08-account-system/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/11/2025-06-11-SACA-chapter5/" title="SA分析师认证课程 - 第五章 应用数据驱动增长">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SA分析师认证课程 - 第五章 应用数据驱动增长</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/05/2025-06-05-AI-heima/" title="🧠 探秘 AI + 软件测试：黑马程序员课程的奇妙之旅">
+                        <span class="hidden-mobile">🧠 探秘 AI + 软件测试：黑马程序员课程的奇妙之旅</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

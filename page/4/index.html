@@ -1,0 +1,1326 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="软件测试,测试博客,自动化测试,测试开发,测试经验">
+  
+    <meta name="description" content="分享软件测试学习、实战经验和踩坑历程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Linn&#39;s Blog">
+<meta property="og:url" content="https://linn0813.github.io/page/4/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="分享软件测试学习、实战经验和踩坑历程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="软件测试,测试博客,自动化测试,测试开发,测试经验">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="下雨就不想上班，出太阳也不想上班"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/03/2025-12-03-llm-prompt-context-in-context-learning/" target="_self">
+          <img src="/fluid-blog/img/llm-prompt-context-in-context-learning.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/03/2025-12-03-llm-prompt-context-in-context-learning/" target="_self">
+          🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/03/2025-12-03-llm-prompt-context-in-context-learning/" target="_self">
+        <div>
+          深入理解 LLM 的"语言"：从 Prompt 工程、上下文窗口管理到 In-Context Learning，掌握与 LLM 有效对话的核心技巧
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-03 18:00" pubdate>
+              2025-12-03
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Prompt/">#Prompt</a>
+            
+              <a href="/fluid-blog/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">#大语言模型</a>
+            
+              <a href="/fluid-blog/tags/In-Context-Learning/">#In-Context Learning</a>
+            
+              <a href="/fluid-blog/tags/Context-Window/">#Context Window</a>
+            
+              <a href="/fluid-blog/tags/Chain-of-Thought/">#Chain-of-Thought</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/02/2025-12-02-llm-working-principle-token-embedding-transformer/" target="_self">
+          <img src="/fluid-blog/img/llm-working-principle-token-embedding-transformer.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠 主题1｜LLM 工作原理深度解析：Token、向量、Transformer，到底在算什么？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/02/2025-12-02-llm-working-principle-token-embedding-transformer/" target="_self">
+          🧠 主题1｜LLM 工作原理深度解析：Token、向量、Transformer，到底在算什么？
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/02/2025-12-02-llm-working-principle-token-embedding-transformer/" target="_self">
+        <div>
+          深度解析 LLM 工作原理：从 Token 分词、Embedding 向量化到 Transformer 架构，用通俗易懂的方式理解大语言模型如何"读懂"和生成语言
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-02 18:00" pubdate>
+              2025-12-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">#大语言模型</a>
+            
+              <a href="/fluid-blog/tags/Transformer/">#Transformer</a>
+            
+              <a href="/fluid-blog/tags/Token/">#Token</a>
+            
+              <a href="/fluid-blog/tags/Embedding/">#Embedding</a>
+            
+              <a href="/fluid-blog/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/11/29/2025-11-29-llm-agent-core-concepts-guide/" target="_self">
+          <img src="/fluid-blog/img/llm-agent-core-concepts-guide.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🚀 告别浅尝辄止：《🧠 LLM/Agent 从入门到精通：告别浅尝辄止》系列开篇">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/11/29/2025-11-29-llm-agent-core-concepts-guide/" target="_self">
+          🚀 告别浅尝辄止：《🧠 LLM/Agent 从入门到精通：告别浅尝辄止》系列开篇
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/11/29/2025-11-29-llm-agent-core-concepts-guide/" target="_self">
+        <div>
+          从零开始系统学习LLM和智能体技术，通过多个深度主题从概念到实践全面掌握大语言模型与智能体开发精髓
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-11-29 18:00" pubdate>
+              2025-11-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/%E6%99%BA%E8%83%BD%E4%BD%93/">#智能体</a>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/RAG/">#RAG</a>
+            
+              <a href="/fluid-blog/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">#大语言模型</a>
+            
+              <a href="/fluid-blog/tags/Prompt%E5%B7%A5%E7%A8%8B/">#Prompt工程</a>
+            
+              <a href="/fluid-blog/tags/%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/">#学习指南</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/11/29/2025-11-29-fastapi-python-high-performance-api-guide/" target="_self">
+          <img src="/fluid-blog/img/fastapi-performance.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🚀 征服高并发 API：为什么 FastAPI 是 Python AI 后端的新一代利器？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/11/29/2025-11-29-fastapi-python-high-performance-api-guide/" target="_self">
+          🚀 征服高并发 API：为什么 FastAPI 是 Python AI 后端的新一代利器？
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/11/29/2025-11-29-fastapi-python-high-performance-api-guide/" target="_self">
+        <div>
+          深入剖析FastAPI成功的核心要素：异步架构、数据安全、极致的开发者体验，并探讨它如何完美契合AI时代对高性能API的需求
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-11-29 10:00" pubdate>
+              2025-11-29
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">🐍 全栈开发底座：Python 进阶与前后端工程化</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E5%BC%80%E5%8F%91%E4%B8%8E%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">开发与技术栈</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">#后端开发</a>
+            
+              <a href="/fluid-blog/tags/AI/">#AI</a>
+            
+              <a href="/fluid-blog/tags/Python/">#Python</a>
+            
+              <a href="/fluid-blog/tags/FastAPI/">#FastAPI</a>
+            
+              <a href="/fluid-blog/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/">#高并发</a>
+            
+              <a href="/fluid-blog/tags/API%E5%BC%80%E5%8F%91/">#API开发</a>
+            
+              <a href="/fluid-blog/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">#异步编程</a>
+            
+              <a href="/fluid-blog/tags/ASGI/">#ASGI</a>
+            
+              <a href="/fluid-blog/tags/Pydantic/">#Pydantic</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/11/28/2025-11-28-feishu-ai-knowledge-integration-guide/" target="_self">
+          <img src="/fluid-blog/img/feishu-ai-integration.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠【硬核实战】打通 AI 知识库的&#34;任督二脉&#34;：飞书开放平台深度集成全指南">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/11/28/2025-11-28-feishu-ai-knowledge-integration-guide/" target="_self">
+          🧠【硬核实战】打通 AI 知识库的&#34;任督二脉&#34;：飞书开放平台深度集成全指南
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/11/28/2025-11-28-feishu-ai-knowledge-integration-guide/" target="_self">
+        <div>
+          全面详解飞书开放平台与AI知识库的深度集成方案，从战略分析、权限体系到实战流程，教你如何构建高效的知识处理流水线
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-11-28 10:20" pubdate>
+              2025-11-28
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/" class="category-chain-item">技术学习与行业趋势</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/RAG/">#RAG</a>
+            
+              <a href="/fluid-blog/tags/%E9%A3%9E%E4%B9%A6/">#飞书</a>
+            
+              <a href="/fluid-blog/tags/AI%E7%9F%A5%E8%AF%86%E5%BA%93/">#AI知识库</a>
+            
+              <a href="/fluid-blog/tags/%E5%BC%80%E6%94%BE%E5%B9%B3%E5%8F%B0/">#开放平台</a>
+            
+              <a href="/fluid-blog/tags/%E9%9B%86%E6%88%90%E5%AE%9E%E6%88%98/">#集成实战</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/11/26/2025-11-26-python-virtual-environment-guide/" target="_self">
+          <img src="/fluid-blog/img/python-virtual-env.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="再也不怕环境冲突！测试工程师的虚拟环境学习笔记 🧪✨">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/11/26/2025-11-26-python-virtual-environment-guide/" target="_self">
+          再也不怕环境冲突！测试工程师的虚拟环境学习笔记 🧪✨
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/11/26/2025-11-26-python-virtual-environment-guide/" target="_self">
+        <div>
+          测试工程师必备的Python虚拟环境完全指南，从基础概念到实战应用，解决环境冲突问题，提升测试效率
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-11-26 19:50" pubdate>
+              2025-11-26
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">🐍 全栈开发底座：Python 进阶与前后端工程化</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%B7%A5%E5%85%B7/" class="category-chain-item">学习与工具</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/Python/">#Python</a>
+            
+              <a href="/fluid-blog/tags/%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/">#虚拟环境</a>
+            
+              <a href="/fluid-blog/tags/venv/">#venv</a>
+            
+              <a href="/fluid-blog/tags/pip/">#pip</a>
+            
+              <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96/">#测试工程化</a>
+            
+              <a href="/fluid-blog/tags/%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/">#环境管理</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/11/16/2025-11-16-pe-engineer-role-explained/" target="_self">
+          <img src="/fluid-blog/img/pe-engineer-role.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🔧 什么是 PE 工程师？从 AI 智能体项目的一个评论聊起">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/11/16/2025-11-16-pe-engineer-role-explained/" target="_self">
+          🔧 什么是 PE 工程师？从 AI 智能体项目的一个评论聊起
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/11/16/2025-11-16-pe-engineer-role-explained/" target="_self">
+        <div>
+          深入解析PE工程师的三种不同含义：Product Engineer、Production Engineer和Process Engineer，以及在AI智能体项目中的具体应用场景
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-11-16 20:00" pubdate>
+              2025-11-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/" class="category-chain-item">🎨 职场进阶与测试思维：从小白到资深</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/%E8%81%8C%E4%B8%9A%E6%88%90%E9%95%BF%E4%B8%8E%E6%80%9D%E8%80%83/" class="category-chain-item">职业成长与思考</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/PE%E5%B7%A5%E7%A8%8B%E5%B8%88/">#PE工程师</a>
+            
+              <a href="/fluid-blog/tags/%E4%BA%A7%E5%93%81%E5%B7%A5%E7%A8%8B%E5%B8%88/">#产品工程师</a>
+            
+              <a href="/fluid-blog/tags/Production-Engineer/">#Production Engineer</a>
+            
+              <a href="/fluid-blog/tags/Process-Engineer/">#Process Engineer</a>
+            
+              <a href="/fluid-blog/tags/AI%E6%99%BA%E8%83%BD%E4%BD%93/">#AI智能体</a>
+            
+              <a href="/fluid-blog/tags/%E8%81%8C%E4%B8%9A%E5%8F%91%E5%B1%95/">#职业发展</a>
+            
+              <a href="/fluid-blog/tags/%E6%8A%80%E6%9C%AF%E7%A7%91%E6%99%AE/">#技术科普</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/11/15/2025-11-15-uat-acceptance-testing-guide/" target="_self">
+          <img src="/fluid-blog/img/uat-test.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🌟 UAT 验收是什么？——一次项目流程升级带来的思考与科普">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/11/15/2025-11-15-uat-acceptance-testing-guide/" target="_self">
+          🌟 UAT 验收是什么？——一次项目流程升级带来的思考与科普
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/11/15/2025-11-15-uat-acceptance-testing-guide/" target="_self">
+        <div>
+          系统介绍 UAT 验收测试的概念、价值、与 QA 的区别，以及在项目流程中的重要作用。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-11-15 20:00" pubdate>
+              2025-11-15
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/" class="category-chain-item">🎨 职场进阶与测试思维：从小白到资深</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E7%90%86%E8%AE%BA/" class="category-chain-item">测试基础与理论</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/UAT/">#UAT</a>
+            
+              <a href="/fluid-blog/tags/%E9%AA%8C%E6%94%B6%E6%B5%8B%E8%AF%95/">#验收测试</a>
+            
+              <a href="/fluid-blog/tags/%E7%94%A8%E6%88%B7%E9%AA%8C%E6%94%B6/">#用户验收</a>
+            
+              <a href="/fluid-blog/tags/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">#项目流程</a>
+            
+              <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E7%A7%91%E6%99%AE/">#测试科普</a>
+            
+              <a href="/fluid-blog/tags/%E4%B8%9A%E5%8A%A1%E9%AA%8C%E6%94%B6/">#业务验收</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/11/01/2025-11-01-cursor-models-20-upgrade/" target="_self">
+          <img src="/fluid-blog/img/cursor-hack.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🚀 Cursor 模型全解析与 2.0 升级深度解读">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/11/01/2025-11-01-cursor-models-20-upgrade/" target="_self">
+          🚀 Cursor 模型全解析与 2.0 升级深度解读
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/11/01/2025-11-01-cursor-models-20-upgrade/" target="_self">
+        <div>
+          系统梳理 Cursor 目前可选模型的区别、推荐使用场景，以及 Cursor 2.0 升级带来的核心变化。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-11-01 00:00" pubdate>
+              2025-11-01
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%9B%A0%EF%B8%8F-%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%EF%BC%9AAI-%E8%B5%8B%E8%83%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/" class="category-chain-item">🛠️ 程序员生产力工具：AI 赋能开发实战</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%9B%A0%EF%B8%8F-%E7%A8%8B%E5%BA%8F%E5%91%98%E7%94%9F%E4%BA%A7%E5%8A%9B%E5%B7%A5%E5%85%B7%EF%BC%9AAI-%E8%B5%8B%E8%83%BD%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/" class="category-chain-item">技术学习与行业趋势</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/Cursor/">#Cursor</a>
+            
+              <a href="/fluid-blog/tags/Composer/">#Composer</a>
+            
+              <a href="/fluid-blog/tags/GPT-5-Codex/">#GPT-5 Codex</a>
+            
+              <a href="/fluid-blog/tags/Grok-Code/">#Grok Code</a>
+            
+              <a href="/fluid-blog/tags/Sonnet-4-5/">#Sonnet 4.5</a>
+            
+              <a href="/fluid-blog/tags/AI-%E7%BC%96%E7%A8%8B%E5%8A%A9%E6%89%8B/">#AI 编程助手</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/10/27/2025-10-27-langchain-framework/" target="_self">
+          <img src="/fluid-blog/img/langchain.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠 LangChain：让大语言模型真正“动起来”的框架">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/10/27/2025-10-27-langchain-framework/" target="_self">
+          🧠 LangChain：让大语言模型真正“动起来”的框架
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/10/27/2025-10-27-langchain-framework/" target="_self">
+        <div>
+          从 Prompt 到 Agent、从单轮问答到任务编排——这篇文章帮你彻底理解 LangChain 的核心思想与实践路径。
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-10-27 19:00" pubdate>
+              2025-10-27
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/" class="category-chain-item">技术学习与行业趋势</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/LangChain/">#LangChain</a>
+            
+              <a href="/fluid-blog/tags/Tool/">#Tool</a>
+            
+              <a href="/fluid-blog/tags/Chain/">#Chain</a>
+            
+              <a href="/fluid-blog/tags/Memory/">#Memory</a>
+            
+              <a href="/fluid-blog/tags/PromptTemplate/">#PromptTemplate</a>
+            
+              <a href="/fluid-blog/tags/ChatOpenAI/">#ChatOpenAI</a>
+            
+              <a href="/fluid-blog/tags/LangSmith/">#LangSmith</a>
+            
+              <a href="/fluid-blog/tags/LangGraph/">#LangGraph</a>
+            
+              <a href="/fluid-blog/tags/LangServe/">#LangServe</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/10/24/2025-10-24-mind-your-tone/" target="_self">
+          <img src="/fluid-blog/img/Mind-Your-Tone.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧩 Mind Your Tone：为什么我们不必再对 AI 太客气">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/10/24/2025-10-24-mind-your-tone/" target="_self">
+          🧩 Mind Your Tone：为什么我们不必再对 AI 太客气
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/10/24/2025-10-24-mind-your-tone/" target="_self">
+        <div>
+          研究解读：更直接的提示（少客套）可提升模型准确率；附中文 Prompt 改写实战指南与可点击引用
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-10-24 19:00" pubdate>
+              2025-10-24
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/" class="category-chain-item">🎨 职场进阶与测试思维：从小白到资深</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Prompt/">#Prompt</a>
+            
+              <a href="/fluid-blog/tags/%E6%8F%90%E7%A4%BA%E5%B7%A5%E7%A8%8B/">#提示工程</a>
+            
+              <a href="/fluid-blog/tags/%E7%A0%94%E7%A9%B6%E8%A7%A3%E8%AF%BB/">#研究解读</a>
+            
+              <a href="/fluid-blog/tags/%E8%AF%AD%E6%B0%94/">#语气</a>
+            
+              <a href="/fluid-blog/tags/Politeness/">#Politeness</a>
+            
+              <a href="/fluid-blog/tags/ChatGPT-4o/">#ChatGPT-4o</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/fluid-blog/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/fluid-blog/">1</a><a class="page-number" href="/fluid-blog/page/2/#board">2</a><a class="page-number" href="/fluid-blog/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/fluid-blog/page/5/#board">5</a><a class="page-number" href="/fluid-blog/page/6/#board">6</a><span class="space">&hellip;</span><a class="page-number" href="/fluid-blog/page/10/#board">10</a><a class="extend next" rel="next" href="/fluid-blog/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

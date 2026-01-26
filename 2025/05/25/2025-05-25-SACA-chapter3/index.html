@@ -1,0 +1,917 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="数据分析, SACA课程, 神策分析师认证, 数据分析思维, 问题思维, 对比思维, 逻辑树思维, 分类思维, 假设推断思维, 因果思维">
+  
+    <meta name="description" content="记录SACA（神策分析师认证）课程第三章的学习内容，深入探讨建立数据分析思维，包括问题思维、对比思维、逻辑树思维等多种思维方式，同时提供模拟测试题及解析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SA分析师认证课程 - 第三章 建立数据分析思维💡">
+<meta property="og:url" content="https://linn0813.github.io/2025/05/25/2025-05-25-SACA-chapter3/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="记录SACA（神策分析师认证）课程第三章的学习内容，深入探讨建立数据分析思维，包括问题思维、对比思维、逻辑树思维等多种思维方式，同时提供模拟测试题及解析。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/SACA-chapter3.png">
+<meta property="article:published_time" content="2025-05-25T09:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.615Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="数据分析">
+<meta property="article:tag" content="SACA课程">
+<meta property="article:tag" content="神策分析师认证">
+<meta property="article:tag" content="数据分析思维">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/SACA-chapter3.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>SA分析师认证课程 - 第三章 建立数据分析思维💡 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SA分析师认证课程 - 第三章 建立数据分析思维💡"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-25 17:00" pubdate>
+          2025年5月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          42 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SA分析师认证课程 - 第三章 建立数据分析思维💡</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="SA分析师认证课程-第三章-建立数据分析思维💡"><a href="#SA分析师认证课程-第三章-建立数据分析思维💡" class="headerlink" title="SA分析师认证课程 - 第三章 建立数据分析思维💡"></a>SA分析师认证课程 - 第三章 建立数据分析思维💡</h1><p>在前面两章的学习中，我们了解了数据采集基础等重要内容，就像为数据分析这座大厦打下了坚实的地基。而在这第三章里，我们将开启建立数据分析思维的学习之旅，这就好比是为大厦搭建起稳固的框架，让我们能够更系统、更深入地进行数据分析。拥有良好的数据分析思维，能帮助我们在面对复杂的数据和问题时，迅速找到解决的方向，做出更明智的决策。接下来，就让我们一起深入探索第三章的精彩内容吧🚀！</p>
+<h2 id="第三章课堂笔记"><a href="#第三章课堂笔记" class="headerlink" title="第三章课堂笔记"></a>第三章课堂笔记</h2><h2 id="一、问题思维"><a href="#一、问题思维" class="headerlink" title="一、问题思维"></a>一、问题思维</h2><h3 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h3><p>问题思维是去认识事物及其背后存在的「冲突」。它促使我们不仅仅停留在问题的表面，而是深入挖掘其内在的矛盾和不一致性。</p>
+<h3 id="2-实际作用"><a href="#2-实际作用" class="headerlink" title="2. 实际作用"></a>2. 实际作用</h3><p>驱动我们去「认识事物」，解决推动事物过程中的障碍。通过识别冲突，我们能够更有针对性地采取措施，推动事物朝着预期的方向发展。</p>
+<h3 id="3-应用框架-SCQA"><a href="#3-应用框架-SCQA" class="headerlink" title="3. 应用框架 - SCQA"></a>3. 应用框架 - SCQA</h3><ul>
+<li><strong>背景（S - Situation）</strong>：描述事情的背景、当前的状态，进行事实性的描述，明确目标和现状。这是问题分析的起点，只有清晰了解当前的情况，才能更好地发现问题。</li>
+<li><strong>冲突（C - Complication）</strong>：描述事情发展过程中遇到的障碍或被颠覆的状态，通过目标和现状的对比找到其中的差距。冲突是问题的核心所在，它揭示了事物发展过程中的矛盾。</li>
+<li><strong>疑问（Q - Question）</strong>：通过不断提问寻找导致冲突的核心原因，对差距进行认识。通过深入的思考和提问，我们能够找到问题的根源，为解决问题提供方向。</li>
+<li><strong>答案（A - Answer）</strong>：描述消除问题的解决方案及其效果，实施消除差距的手段，并结合实施成效验证手段是否有效。答案是解决问题的具体措施，它需要经过实践的检验。</li>
+</ul>
+<h3 id="4-应用案例"><a href="#4-应用案例" class="headerlink" title="4. 应用案例"></a>4. 应用案例</h3><p>以公司产品销售目标为例，已知A产品当月销售目标是100万元，落地页月访问人数为200万人，落地页转化率为2.5%，人均消费金额为10元，经计算现状销售额为50万元，存在50万元差距。可从增加访问用户、提升落地页转化率、提高人均消费金额三种产品提出解决方案，如在首页曝光、优化商品价值描述、提供多件折扣优惠等。</p>
+<h3 id="5-应用场景"><a href="#5-应用场景" class="headerlink" title="5. 应用场景"></a>5. 应用场景</h3><p>在工作、生活、学习中，期望达成各类目标但不知如何入手时可运用问题思维。它能够帮助我们理清思路，找到解决问题的切入点。</p>
+<h2 id="二、对比思维"><a href="#二、对比思维" class="headerlink" title="二、对比思维"></a>二、对比思维</h2><h3 id="1-基本概念-1"><a href="#1-基本概念-1" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h3><p>对比思维是去找到事物之间存在的「差距」。通过对比，我们能够更清晰地了解事物的特点和差异。</p>
+<h3 id="2-实际作用-1"><a href="#2-实际作用-1" class="headerlink" title="2. 实际作用"></a>2. 实际作用</h3><p>可帮助我们确认差距所在位置及其大小，工作目标通常是消除差距。对比思维能够为我们提供明确的目标和方向，使我们的工作更加有针对性。</p>
+<h3 id="3-应用方法"><a href="#3-应用方法" class="headerlink" title="3. 应用方法"></a>3. 应用方法</h3><h4 id="选取合适的对比指标"><a href="#选取合适的对比指标" class="headerlink" title="选取合适的对比指标"></a>选取合适的对比指标</h4><p>根据具体分析目的和业务需求，选择能够反映事物特征和差异的指标。</p>
+<ul>
+<li><strong>绝对值</strong>：评价量级大小，例如销售额、利润等。</li>
+<li><strong>比例值</strong>：评价相对影响度，如市场占有率、增长率等。</li>
+<li><strong>复合指标</strong>：评估综合性影响，如客户满意度、投资回报率等。</li>
+</ul>
+<h4 id="选取合适的对比对象"><a href="#选取合适的对比对象" class="headerlink" title="选取合适的对比对象"></a>选取合适的对比对象</h4><ul>
+<li><strong>和目标比</strong>：评价距离目标的距离，帮助我们了解工作的进展情况。</li>
+<li><strong>和自己比（同比&amp;环比）</strong>：掌握趋势变化。<ul>
+<li><strong>同比</strong>：是当前时间范围的上层时间范围的前一范围中同样位置数据对比，如年同比（今天vs去年今日）、周同比（今天vs上周同日），用于观察长期数据集。</li>
+<li><strong>环比</strong>：是当前时间范围相邻的上一个时间范围对比，如日环比（今天vs昨天）、月环比（本月vs上月），适用于短期内具备连续性的数据进行分析。</li>
+</ul>
+</li>
+<li><strong>和同类比（同行&amp;同大类下其他维度）</strong>：寻找外部标准，矫正认知。<ul>
+<li><strong>同行业</strong>：掌握宏观环境对我们的影响，仪表客观评价自己。</li>
+<li><strong>同大类</strong>：对比相近维度的表现，帮助我们发现可挖掘的空间或调整拖入程度。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-应用场景"><a href="#4-应用场景" class="headerlink" title="4. 应用场景"></a>4. 应用场景</h3><ul>
+<li><strong>执行前制定目标</strong>：通过与历史数据或行业标准对比，制定合理的目标。</li>
+<li><strong>执行中了解目标达成情况</strong>：对比实际数据与目标数据，及时发现偏差并采取措施。</li>
+<li><strong>执行后复盘工作</strong>：分析工作成果与预期的差距，总结经验教训。</li>
+</ul>
+<h2 id="三、逻辑树思维"><a href="#三、逻辑树思维" class="headerlink" title="三、逻辑树思维"></a>三、逻辑树思维</h2><h3 id="1-基本概念-2"><a href="#1-基本概念-2" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h3><p>逻辑树思维列举可能造成事物变化的具体问题，针对问题进行假设论证和决策。它是一种结构化的思维方式，能够帮助我们将复杂的问题分解为多个简单的子问题。</p>
+<h3 id="2-实际作用-2"><a href="#2-实际作用-2" class="headerlink" title="2. 实际作用"></a>2. 实际作用</h3><p>通过列举的方式将【模糊不清的大问题】细分成多个【具体而清晰的小问题】，并假设方案进行论证，最后帮助我们做出相对正确的决策。逻辑树思维能够使我们的思考更加有条理，提高决策的准确性。</p>
+<h3 id="3-类型"><a href="#3-类型" class="headerlink" title="3. 类型"></a>3. 类型</h3><ul>
+<li><strong>议题树（问题出现时）</strong>：用于拆解问题，将一个复杂的问题分解为多个子问题。议题树能够帮助我们全面地了解问题的各个方面，为后续的分析和解决提供基础。</li>
+<li><strong>假设树（了解问题现状时）</strong>：提供假设和论据，先提出假设，再寻找支持假设的证据。假设树能够帮助我们快速地找到问题的解决方案，提高工作效率。</li>
+<li><strong>是否树（已深入了解问题并期望做决策时）</strong>：用于决策，通过判断是或否来逐步缩小问题范围。是否树能够帮助我们在多个方案中做出选择，提高决策的科学性。</li>
+</ul>
+<h3 id="4-应用步骤"><a href="#4-应用步骤" class="headerlink" title="4. 应用步骤"></a>4. 应用步骤</h3><ul>
+<li><strong>罗列问题</strong>：明确要解决的问题。<ul>
+<li><strong>要素化</strong>：把相同问题总结归纳成要素。</li>
+<li><strong>框架化</strong>：将各个要素组织成框架，遵守不重不漏的原则。</li>
+<li><strong>关联化</strong>：框架内的各要素保持必要的相互联系，简单而不孤立。</li>
+</ul>
+</li>
+<li><strong>提出假设和论据</strong>：针对问题提出可能的假设，并寻找相关的论据支持。</li>
+<li><strong>推演后果</strong>：根据假设和论据，推演可能产生的后果。</li>
+<li><strong>做出决策</strong>：根据推演结果做出决策。</li>
+</ul>
+<h3 id="5-应用案例"><a href="#5-应用案例" class="headerlink" title="5. 应用案例"></a>5. 应用案例</h3><p>通过逻辑树思维分析日活下降的原因，可从新用户获取、老用户留存、产品功能使用等方面进行拆解和分析。逻辑树思维能够帮助我们全面地了解问题的原因，为解决问题提供有效的方案。</p>
+<h2 id="四、分类思维"><a href="#四、分类思维" class="headerlink" title="四、分类思维"></a>四、分类思维</h2><h3 id="1-基本概念-3"><a href="#1-基本概念-3" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h3><p>分类思维是认识事物内在结构的方法，通过分类可以发现结构上的影响。它能够帮助我们更好地理解事物的本质和特点。</p>
+<h3 id="2-实际作用-3"><a href="#2-实际作用-3" class="headerlink" title="2. 实际作用"></a>2. 实际作用</h3><p>帮助定位差距处于哪个内在结构上，以便我们采取恰当的干预措施。分类思维能够为我们提供针对性的解决方案，提高工作的效率和效果。</p>
+<h3 id="3-常见方法"><a href="#3-常见方法" class="headerlink" title="3. 常见方法"></a>3. 常见方法</h3><ul>
+<li><strong>离散分类</strong>：将事物按照不同的类别进行划分，类别之间相互独立。例如，将客户分为新客户、老客户和潜在客户。</li>
+<li><strong>连续分类</strong>：根据事物的某个连续变量进行分类，如按照年龄、收入等进行分组。连续分类能够帮助我们更好地了解事物的分布情况。</li>
+<li><strong>二维交叉</strong>：将两个维度的分类进行交叉，形成更细致的分类。例如，将客户按照年龄和性别进行交叉分类。</li>
+<li><strong>多维交叉</strong>：如RFM模型，通过多个维度的分类，能够更全面地了解事物的特征。</li>
+</ul>
+<h3 id="4-应用场景-1"><a href="#4-应用场景-1" class="headerlink" title="4. 应用场景"></a>4. 应用场景</h3><ul>
+<li><strong>了解用户结构</strong>：通过对用户进行分类，了解不同用户群体的特征和需求。分类思维能够帮助我们更好地满足用户的需求，提高用户的满意度。</li>
+<li><strong>进行对比研究</strong>：对不同分类的数据进行对比分析，发现差异和规律。对比研究能够为我们提供有价值的信息，为决策提供依据。</li>
+</ul>
+<h3 id="5-与逻辑树思维的区别"><a href="#5-与逻辑树思维的区别" class="headerlink" title="5. 与逻辑树思维的区别"></a>5. 与逻辑树思维的区别</h3><p>分类思维主要关注内部结构，逻辑树思维关注影响因素。分类思维侧重于对事物进行分类和分析，而逻辑树思维侧重于对问题进行拆解和解决。</p>
+<h2 id="五、假设推断思维"><a href="#五、假设推断思维" class="headerlink" title="五、假设推断思维"></a>五、假设推断思维</h2><h3 id="1-基本概念-4"><a href="#1-基本概念-4" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h3><p>假设推断思维,即我们对产生问题的真正原因进行「推测」，并使用数据进行论证。它是一种基于假设和验证的思维方式，能够帮助我们找到问题的根源。</p>
+<h3 id="2-实际作用-4"><a href="#2-实际作用-4" class="headerlink" title="2. 实际作用"></a>2. 实际作用</h3><p>只有从来自问题本质的原因入手，才能改变结果。不断提出假设并论证，可以帮助我们提高行动的有效度。假设推断思维能够使我们的决策更加科学和合理。</p>
+<h3 id="3-应用步骤"><a href="#3-应用步骤" class="headerlink" title="3. 应用步骤"></a>3. 应用步骤</h3><ul>
+<li><strong>提出假设</strong>：根据数据分析、竞品调研、历史经验等提出合理的假设。<ul>
+<li><strong>好的假设</strong>：<ul>
+<li><strong>假设来源</strong>：数据洞察、用户调研、最佳实践。</li>
+<li><strong>因果关系</strong>：明确包含可能的原因和结果。</li>
+<li><strong>可证伪性</strong>：可被证伪。</li>
+<li><strong>可测量性</strong>：定量的结果。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>收集证据</strong>：通过数据收集、实验等方式收集支持或反驳假设的证据。</li>
+<li><strong>做出决策</strong>：根据证据的结果做出决策。</li>
+</ul>
+<h3 id="4-应用方法：假设循环"><a href="#4-应用方法：假设循环" class="headerlink" title="4. 应用方法：假设循环"></a>4. 应用方法：假设循环</h3><ol>
+<li>基于初步认知提出假设</li>
+<li>收集证据论证假设</li>
+<li>论证失败纠正认知,提出新假设</li>
+<li>继续收集证据,论证新假设</li>
+</ol>
+<h3 id="5-应用案例-1"><a href="#5-应用案例-1" class="headerlink" title="5. 应用案例"></a>5. 应用案例</h3><p>通过假设检验判定新样式是否提高用户兴趣，先提出新样式能提高用户兴趣的假设，然后收集相关数据进行验证，根据验证结果决定是否采用新样式。假设推断思维能够帮助我们在不确定的情况下做出正确的决策。</p>
+<h2 id="六、因果思维"><a href="#六、因果思维" class="headerlink" title="六、因果思维"></a>六、因果思维</h2><h3 id="1-基本概念-5"><a href="#1-基本概念-5" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h3><p>因果思维，即我们将一个结果与造成这个结果的原因进行正确的关联。它是一种深入探究事物本质的思维方式，能够帮助我们找到问题的根源。</p>
+<h3 id="2-因果关系"><a href="#2-因果关系" class="headerlink" title="2. 因果关系"></a>2. 因果关系</h3><p>因果关系是一个事件（即”因”）和第二个事件（即”果”）之间的作用关系。影响前一个事件，会导致后一个事件发生变化的关系。因果关系是客观存在的，我们需要通过科学的方法来识别和验证。</p>
+<h3 id="3-实际作用"><a href="#3-实际作用" class="headerlink" title="3. 实际作用"></a>3. 实际作用</h3><p>帮助我们认识到事物之间真正的影响关系，以指导我们进行正确的干预。因果思维能够为我们提供有效的解决方案，提高工作的效率和效果。</p>
+<h3 id="4-运用步骤"><a href="#4-运用步骤" class="headerlink" title="4. 运用步骤"></a>4. 运用步骤</h3><ul>
+<li><strong>控制混淆变量</strong>：排除其他可能影响结果的因素，确保因果关系的准确性。控制混淆变量是因果分析的关键步骤，它能够避免其他因素对结果的干扰。</li>
+<li><strong>验证相关关系</strong>：确定两个变量之间是否存在相关关系。验证相关关系是因果分析的基础，它能够帮助我们初步判断两个变量之间是否存在因果关系。</li>
+<li><strong>预测因果关系</strong>：根据相关关系预测因果关系，并进行验证。预测因果关系是因果分析的最终目标，它能够帮助我们做出正确的决策。</li>
+</ul>
+<h3 id="5-论证方法"><a href="#5-论证方法" class="headerlink" title="5. 论证方法"></a>5. 论证方法</h3><p>随机对照实验（A&#x2F;B测试）是验证因果关系的有效方法，通过将实验对象随机分为实验组和对照组，对比两组的结果来确定因果关系。随机对照实验能够有效地控制其他因素的影响，提高因果关系的验证准确性。</p>
+<h3 id="6-因果关系vs相关关系"><a href="#6-因果关系vs相关关系" class="headerlink" title="6. 因果关系vs相关关系"></a>6. 因果关系vs相关关系</h3><ul>
+<li>相关关系包含因果关系</li>
+<li>只有基于因果关系的干预才能真正影响目标的达成</li>
+</ul>
+<h3 id="7-应用案例"><a href="#7-应用案例" class="headerlink" title="7. 应用案例"></a>7. 应用案例</h3><p>通过因果思维制定激励用户运营手段，分析用户行为的原因，找到能够影响用户行为的因素，制定相应的激励措施。因果思维能够帮助我们深入了解用户的行为动机，为制定有效的运营策略提供依据。</p>
+<h2 id="第三章模拟测试题及解析（AI生成，仅供参考）"><a href="#第三章模拟测试题及解析（AI生成，仅供参考）" class="headerlink" title="第三章模拟测试题及解析（AI生成，仅供参考）"></a>第三章模拟测试题及解析（AI生成，仅供参考）</h2><h3 id="一、单选题"><a href="#一、单选题" class="headerlink" title="一、单选题"></a>一、单选题</h3><ol>
+<li>题目：问题思维的应用框架SCQA中，“C”代表的是（  ） A. 背景  B. 冲突  C. 疑问  D. 答案</li>
+</ol>
+<ul>
+<li>答案：B</li>
+<li>解析：在问题思维的应用框架SCQA中，“S”代表背景，“C”代表冲突，“Q”代表疑问，“A”代表答案。所以答案选B。</li>
+</ul>
+<ol start="2">
+<li>题目：对比思维中，“同比”是指（  ） A. 当前时间范围相邻的上一个时间范围对比 B. 当前时间范围的上层时间范围的前一范围中同样位置数据对比 C. 与同行业数据进行对比 D. 与同大类下其他维度的数据进行对比</li>
+</ol>
+<ul>
+<li>答案：B</li>
+<li>解析：同比是当前时间范围的上层时间范围的前一范围中同样位置数据对比，如年同比（今天vs去年今日）、周同比（今天vs上周同日）。选项A是环比的定义；选项C和D是和同类比的情况。所以答案选B。</li>
+</ul>
+<ol start="3">
+<li>题目：逻辑树思维中，用于拆解问题的是（  ） A. 议题树  B. 假设树  C. 是否树  D. 决策树</li>
+</ol>
+<ul>
+<li>答案：A</li>
+<li>解析：议题树用于拆解问题，将一个复杂的问题分解为多个子问题；假设树提供假设和论据；是否树用于决策。决策树不属于逻辑树思维的类型。所以答案选A。</li>
+</ul>
+<ol start="4">
+<li>题目：分类思维的常见方法不包括（  ） A. 离散分类  B. 连续分类  C. 三维交叉  D. 二维交叉</li>
+</ol>
+<ul>
+<li>答案：C</li>
+<li>解析：分类思维的常见方法包括离散分类、连续分类和二维交叉。三维交叉不属于常见的分类方法。所以答案选C。</li>
+</ul>
+<ol start="5">
+<li>题目：假设推断思维的应用步骤不包括（  ） A. 提出假设  B. 收集证据  C. 做出决策  D. 实施行动</li>
+</ol>
+<ul>
+<li>答案：D</li>
+<li>解析：假设推断思维的应用步骤包括提出假设、收集证据和做出决策。实施行动不属于假设推断思维的步骤。所以答案选D。</li>
+</ul>
+<ol start="6">
+<li>题目：因果思维的运用步骤中，首先要做的是（  ） A. 控制混淆变量  B. 验证相关关系  C. 预测因果关系  D. 提出假设</li>
+</ol>
+<ul>
+<li>答案：A</li>
+<li>解析：因果思维的运用步骤为控制混淆变量、验证相关关系、预测因果关系。首先要控制混淆变量，排除其他可能影响结果的因素。所以答案选A。</li>
+</ul>
+<h3 id="二、多选题"><a href="#二、多选题" class="headerlink" title="二、多选题"></a>二、多选题</h3><ol>
+<li>题目：问题思维的应用场景包括（  ） A. 工作中期望达成目标但不知如何入手时 B. 生活中遇到问题需要解决时 C. 学习中遇到难题需要攻克时 D. 制定目标时</li>
+</ol>
+<ul>
+<li>答案：ABC</li>
+<li>解析：问题思维适用于在工作、生活、学习中，期望达成各类目标但不知如何入手的时候。制定目标时主要运用对比思维等，不属于问题思维的典型应用场景。所以答案选ABC。</li>
+</ul>
+<ol start="2">
+<li>题目：对比思维的应用方法包括（  ） A. 选取合适的对比指标  B. 选取合适的对比对象 C. 分析对比结果  D. 制定改进措施</li>
+</ol>
+<ul>
+<li>答案：AB</li>
+<li>解析：对比思维的应用方法主要是选取合适的对比指标和对比对象。分析对比结果和制定改进措施是对比思维应用后的后续步骤，不属于应用方法本身。所以答案选AB。</li>
+</ul>
+<ol start="3">
+<li>题目：逻辑树思维的类型有（  ） A. 议题树  B. 假设树  C. 是否树  D. 决策树</li>
+</ol>
+<ul>
+<li>答案：ABC</li>
+<li>解析：逻辑树思维的类型包括议题树、假设树和是否树。决策树不属于逻辑树思维的类型。所以答案选ABC。</li>
+</ul>
+<ol start="4">
+<li>题目：假设推断思维中，好的假设来源包括（  ） A. 数据分析  B. 竞品调研  C. 历史经验  D. 主观臆断</li>
+</ol>
+<ul>
+<li>答案：ABC</li>
+<li>解析：好的假设来源包括数据分析、竞品调研和历史经验。主观臆断不能作为可靠的假设来源。所以答案选ABC。</li>
+</ul>
+<ol start="5">
+<li>题目：因果思维的论证方法有（  ） A. 随机对照实验  B. 相关性分析  C. 回归分析  D. 案例分析</li>
+</ol>
+<ul>
+<li>答案：A</li>
+<li>解析：随机对照实验是验证因果关系的有效方法。相关性分析、回归分析主要用于分析变量之间的相关关系，不能直接证明因果关系；案例分析更多是用于总结经验和发现问题，不是因果思维的论证方法。所以答案选A。</li>
+</ul>
+<h3 id="三、判断题"><a href="#三、判断题" class="headerlink" title="三、判断题"></a>三、判断题</h3><ol>
+<li>题目：问题思维就是遇到问题直接解决，不需要考虑背后的冲突。（  ）</li>
+</ol>
+<ul>
+<li>答案：错</li>
+<li>解析：问题思维是去认识事物及其背后存在的「冲突」，通过认识冲突来解决推动事物过程中的障碍，而不是直接解决问题。所以该说法错误。</li>
+</ul>
+<ol start="2">
+<li>题目：对比思维只能和自己比，不能和同类比。（  ）</li>
+</ol>
+<ul>
+<li>答案：错</li>
+<li>解析：对比思维既可以和自己比（同比&amp;环比），也可以和同类比（同行&amp;同大类下其他维度）。所以该说法错误。</li>
+</ul>
+<ol start="3">
+<li>题目：逻辑树思维和分类思维的作用是相同的。（  ）</li>
+</ol>
+<ul>
+<li>答案：错</li>
+<li>解析：逻辑树思维主要关注影响因素，用于拆解问题、提出假设和决策；分类思维主要关注内部结构，用于认识事物的内在结构和发现结构上的影响。二者作用不同。所以该说法错误。</li>
+</ul>
+<ol start="4">
+<li>题目：假设推断思维不需要验证假设的正确性。（  ）</li>
+</ol>
+<ul>
+<li>答案：错</li>
+<li>解析：假设推断思维需要通过收集证据来验证假设的正确性，根据验证结果做出决策。所以该说法错误。</li>
+</ul>
+<ol start="5">
+<li>题目：因果思维就是简单地认为两个事件有先后顺序就存在因果关系。（  ）</li>
+</ol>
+<ul>
+<li>答案：错</li>
+<li>解析：因果思维需要控制混淆变量、验证相关关系、预测因果关系，不能简单地认为两个事件有先后顺序就存在因果关系。所以该说法错误。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%93%8A-SACA%E7%A5%9E%E7%AD%96%E5%88%86%E6%9E%90%E5%B8%88%E8%AE%A4%E8%AF%81%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0/" class="category-chain-item">📊 SACA神策分析师认证：数据分析实战笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%93%8A-SACA%E7%A5%9E%E7%AD%96%E5%88%86%E6%9E%90%E5%B8%88%E8%AE%A4%E8%AF%81%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0/%E6%B5%8B%E8%AF%95%E7%9F%A5%E8%AF%86%E6%B2%89%E6%B7%80/" class="category-chain-item">测试知识沉淀</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" class="print-no-link">#数据分析</a>
+      
+        <a href="/fluid-blog/tags/SACA%E8%AF%BE%E7%A8%8B/" class="print-no-link">#SACA课程</a>
+      
+        <a href="/fluid-blog/tags/%E7%A5%9E%E7%AD%96%E5%88%86%E6%9E%90%E5%B8%88%E8%AE%A4%E8%AF%81/" class="print-no-link">#神策分析师认证</a>
+      
+        <a href="/fluid-blog/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4/" class="print-no-link">#数据分析思维</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SA分析师认证课程 - 第三章 建立数据分析思维💡</div>
+      <div>https://linn0813.github.io/2025/05/25/2025-05-25-SACA-chapter3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/26/2025-05-26-json-web-token/" title="后端JWT认证机制深入解析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">后端JWT认证机制深入解析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/22/2025-05-22-SACA-chapter2/" title="SA分析师认证课程 - 第二章 了解数据采集基础📚">
+                        <span class="hidden-mobile">SA分析师认证课程 - 第二章 了解数据采集基础📚</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

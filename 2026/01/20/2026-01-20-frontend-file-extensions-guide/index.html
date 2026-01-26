@@ -1,0 +1,888 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="ts, tsc, jsx, tsx, scss, 前端后缀, TypeScript编译器, React语法, 前端基础">
+  
+    <meta name="description" content="很多刚接触前端工程化的人都会被后缀劝退。本文从浏览器运行机制出发，深度解析 ts、tsx、jsx、scss 等常见后缀的本质及其在项目中的分工。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📄 一篇搞懂前端常见文件后缀：ts &#x2F; tsc &#x2F; jsx &#x2F; tsx &#x2F; scss">
+<meta property="og:url" content="https://linn0813.github.io/2026/01/20/2026-01-20-frontend-file-extensions-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="很多刚接触前端工程化的人都会被后缀劝退。本文从浏览器运行机制出发，深度解析 ts、tsx、jsx、scss 等常见后缀的本质及其在项目中的分工。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/frontend-file-extensions-guide.png">
+<meta property="article:published_time" content="2026-01-20T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T10:00:34.231Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="技术科普">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="前端工程化">
+<meta property="article:tag" content="SCSS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/frontend-file-extensions-guide.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>📄 一篇搞懂前端常见文件后缀：ts / tsc / jsx / tsx / scss - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="📄 一篇搞懂前端常见文件后缀：ts / tsc / jsx / tsx / scss"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-20 16:00" pubdate>
+          2026年1月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">📄 一篇搞懂前端常见文件后缀：ts / tsc / jsx / tsx / scss</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/">《🏗️ 测试平台开发实战手记》</a>系列的工具篇</strong></p>
+</blockquote>
+<h1 id="📄-一篇真正从工程里搞懂前端常见文件后缀"><a href="#📄-一篇真正从工程里搞懂前端常见文件后缀" class="headerlink" title="📄 一篇真正从工程里搞懂前端常见文件后缀"></a>📄 一篇真正从工程里搞懂前端常见文件后缀</h1><blockquote>
+<p><strong>写在前面</strong>：</p>
+<p>这篇文章并不是我一开始就想写的。</p>
+<p>在给测试平台补前端页面的时候，我连续踩了几个看似“很基础”的坑：</p>
+<ul>
+<li>有的文件明明只是加了个组件，却必须从 <code>.ts</code> 改成 <code>.tsx</code></li>
+<li>scss 嵌套一多，样式开始完全不受控</li>
+<li>tsc 报错时，新人第一反应是「关掉它」</li>
+</ul>
+<p>回头一看才发现，本质问题只有一个：<strong>我并没有真正理解这些文件后缀在工程里的分工</strong>。</p>
+<p>所以有了这篇文章 —— 不是从定义开始，而是从<strong>真实工程视角</strong>，把 <code>ts / tsc / jsx / tsx / scss</code> 一次讲清楚。</p>
+</blockquote>
+<hr>
+<h2 id="一、先统一一个认知：浏览器到底认识什么？"><a href="#一、先统一一个认知：浏览器到底认识什么？" class="headerlink" title="一、先统一一个认知：浏览器到底认识什么？"></a>一、先统一一个认知：浏览器到底认识什么？</h2><p>这是所有前端工程化问题的起点，也是很多混乱的源头。</p>
+<p><strong>浏览器只认识三样东西</strong>：</p>
+<ul>
+<li>HTML（结构）</li>
+<li>CSS（样式）</li>
+<li>JavaScript（逻辑）</li>
+</ul>
+<p>👉 结论很残酷但很重要：</p>
+<blockquote>
+<p><strong><code>.ts</code>、<code>.tsx</code>、<code>.jsx</code>、<code>.scss</code>，浏览器一个都不认识。</strong></p>
+</blockquote>
+<p>那问题来了：</p>
+<blockquote>
+<p>既然浏览器不认识，为什么真实项目里却几乎都在用？</p>
+</blockquote>
+<p>答案只有一句话：</p>
+<blockquote>
+<p><strong>这些文件，是给「人 + 工程」用的，不是给浏览器用的。</strong></p>
+</blockquote>
+<hr>
+<h2 id="二、ts：它不是为了“高级”，而是为了“不出事”"><a href="#二、ts：它不是为了“高级”，而是为了“不出事”" class="headerlink" title="二、ts：它不是为了“高级”，而是为了“不出事”"></a>二、ts：它不是为了“高级”，而是为了“不出事”</h2><h3 id="我是在什么时候真正理解-ts-的价值的？"><a href="#我是在什么时候真正理解-ts-的价值的？" class="headerlink" title="我是在什么时候真正理解 ts 的价值的？"></a>我是在什么时候真正理解 ts 的价值的？</h3><p>不是学语法的时候，而是<strong>线上出过一次低级 bug 之后</strong>。</p>
+<p>当时一个接口字段从 <code>string</code> 改成了 <code>number</code>：</p>
+<ul>
+<li>JS 版本：代码能跑，页面能渲染，直到某个分支逻辑 silently 出错</li>
+<li>TS 版本：<strong>构建阶段直接报错，PR 合不上</strong></li>
+</ul>
+<p>那一刻我才意识到：</p>
+<blockquote>
+<p><strong>ts 不是让你代码写得“更酷”，而是让错误更早暴露。</strong></p>
+</blockquote>
+<h3 id="ts-的本质到底是什么？"><a href="#ts-的本质到底是什么？" class="headerlink" title="ts 的本质到底是什么？"></a>ts 的本质到底是什么？</h3><p>一句工程化理解就够了：</p>
+<blockquote>
+<p><strong>ts &#x3D; 带类型约束的 JavaScript</strong></p>
+</blockquote>
+<p>它不是新语言，而是 JS 的「安全带」。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">function</span> <span class="token function">add</span><span class="token punctuation">(</span>a<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> b<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">number</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">return</span> a <span class="token operator">+</span> b
+<span class="token punctuation">&#125;</span>
+
+<span class="token function">add</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">)</span> <span class="token comment">// ❌ 在你提交代码之前就会被拦下</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>📌 工程经验总结：</p>
+<ul>
+<li>ts 的价值，<strong>80% 体现在“你不小心写错的时候”</strong></li>
+<li>如果你觉得 ts 很烦，通常说明：你还没被它救过</li>
+</ul>
+<hr>
+<h2 id="三、tsc：它更像“守门员”，而不是翻译官"><a href="#三、tsc：它更像“守门员”，而不是翻译官" class="headerlink" title="三、tsc：它更像“守门员”，而不是翻译官"></a>三、tsc：它更像“守门员”，而不是翻译官</h2><h3 id="新人常见误解"><a href="#新人常见误解" class="headerlink" title="新人常见误解"></a>新人常见误解</h3><blockquote>
+<p>tsc 不就是把 ts 变成 js 吗？</p>
+</blockquote>
+<p><strong>对，但只说对了一半。</strong></p>
+<h3 id="在真实工程里，tsc-干了三件事"><a href="#在真实工程里，tsc-干了三件事" class="headerlink" title="在真实工程里，tsc 干了三件事"></a>在真实工程里，tsc 干了三件事</h3><ol>
+<li><strong>类型检查（最重要）</strong></li>
+<li>语法降级（兼容浏览器）</li>
+<li>决定这段代码<strong>有没有资格进入构建产物</strong></li>
+</ol>
+<p>在测试平台项目中，我们有一个共识：</p>
+<blockquote>
+<p><strong>tsc 报错的代码，宁可不合，也不要“先跑起来再说”。</strong></p>
+</blockquote>
+<p>📌 实战建议：</p>
+<ul>
+<li>不要为了“快”而关掉 tsc</li>
+<li>它拦下的，往往是未来最难查的 bug</li>
+</ul>
+<hr>
+<h2 id="四、jsx-tsx：真正让人困惑的不是语法，而是边界"><a href="#四、jsx-tsx：真正让人困惑的不是语法，而是边界" class="headerlink" title="四、jsx &#x2F; tsx：真正让人困惑的不是语法，而是边界"></a>四、jsx &#x2F; tsx：真正让人困惑的不是语法，而是边界</h2><h3 id="jsx：为什么-JS-里能写“像-HTML-的东西”？"><a href="#jsx：为什么-JS-里能写“像-HTML-的东西”？" class="headerlink" title="jsx：为什么 JS 里能写“像 HTML 的东西”？"></a>jsx：为什么 JS 里能写“像 HTML 的东西”？</h3><figure><div class="code-wrapper"><pre class="line-numbers language-jsx" data-language="jsx"><code class="language-jsx"><span class="token keyword">const</span> element <span class="token operator">=</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span><span class="token plain-text">Hello World</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>这是 React 引入的 JSX 语法糖，本质会被编译成：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'h1'</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token string">'Hello World'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="那-tsx-是什么？"><a href="#那-tsx-是什么？" class="headerlink" title="那 tsx 是什么？"></a>那 tsx 是什么？</h3><blockquote>
+<p><strong>tsx &#x3D; TypeScript + JSX</strong></p>
+</blockquote>
+<p>一旦你在 React 组件里：</p>
+<ul>
+<li>写 JSX</li>
+<li>又想要类型约束</li>
+</ul>
+<p>👉 后缀只能是 <code>.tsx</code>，没有第二种选择。</p>
+<h3 id="工程里最容易踩的一个坑"><a href="#工程里最容易踩的一个坑" class="headerlink" title="工程里最容易踩的一个坑"></a>工程里最容易踩的一个坑</h3><blockquote>
+<p>「反正是 React 项目，我全用 <code>.tsx</code> 不就好了？」</p>
+</blockquote>
+<p>在小项目里，这么干问题不大；<br>但在中大型项目中，后果通常是：</p>
+<ul>
+<li>工具函数混进 UI 层</li>
+<li>类型边界变得模糊</li>
+<li>组件依赖关系越来越乱</li>
+</ul>
+<p>📌 一个被反复验证的实践原则：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐后缀</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>纯逻辑 &#x2F; utils &#x2F; hooks</td>
+<td><code>.ts</code></td>
+</tr>
+<tr>
+<td>React 页面 &#x2F; 组件</td>
+<td><code>.tsx</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>tsx 是 UI 边界，不是默认选择。</strong></p>
+</blockquote>
+<hr>
+<h2 id="五、scss：它让样式“好写”，也让样式“更容易失控”"><a href="#五、scss：它让样式“好写”，也让样式“更容易失控”" class="headerlink" title="五、scss：它让样式“好写”，也让样式“更容易失控”"></a>五、scss：它让样式“好写”，也让样式“更容易失控”</h2><h3 id="scss-解决了什么问题？"><a href="#scss-解决了什么问题？" class="headerlink" title="scss 解决了什么问题？"></a>scss 解决了什么问题？</h3><ul>
+<li>变量</li>
+<li>嵌套</li>
+<li>复用（mixin）</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-scss" data-language="scss"><code class="language-scss"><span class="token property"><span class="token variable">$main-color</span></span><span class="token punctuation">:</span> #49b1f5<span class="token punctuation">;</span>
+
+<span class="token selector">.button </span><span class="token punctuation">&#123;</span>
+  <span class="token property">color</span><span class="token punctuation">:</span> <span class="token variable">$main-color</span><span class="token punctuation">;</span>
+  <span class="token selector"><span class="token parent important">&amp;</span>:hover </span><span class="token punctuation">&#123;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="但工程里真正的坑在这"><a href="#但工程里真正的坑在这" class="headerlink" title="但工程里真正的坑在这"></a>但工程里真正的坑在这</h3><blockquote>
+<p><strong>scss 的嵌套是没有“刹车”的。</strong></p>
+</blockquote>
+<p>我见过最夸张的情况：</p>
+<ul>
+<li>6 层嵌套</li>
+<li>样式只敢改，不敢删</li>
+<li>最后只能推倒重来</li>
+</ul>
+<p>📌 实战建议：</p>
+<ul>
+<li>scss 解决的是“可维护性”，不是“写着爽”</li>
+<li>嵌套超过 3 层，就该警惕了</li>
+</ul>
+<hr>
+<h2 id="六、把它们串起来：一个页面是怎么真正跑起来的？"><a href="#六、把它们串起来：一个页面是怎么真正跑起来的？" class="headerlink" title="六、把它们串起来：一个页面是怎么真正跑起来的？"></a>六、把它们串起来：一个页面是怎么真正跑起来的？</h2><figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">tsx（页面 + UI）
+ ├─ ts（逻辑 / 类型）
+ ├─ jsx（结构）
+ └─ scss（样式）
+        ↓
+   构建工具（Vite / Webpack / tsc）
+        ↓
+      js + css
+        ↓
+     浏览器渲染<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>理解这条链路后，你会发现：</p>
+<blockquote>
+<p><strong>前端工程化的复杂度，本质是“把问题前移”。</strong></p>
+</blockquote>
+<hr>
+<h2 id="七、工程视角下的终极总结（不是定义版）"><a href="#七、工程视角下的终极总结（不是定义版）" class="headerlink" title="七、工程视角下的终极总结（不是定义版）"></a>七、工程视角下的终极总结（不是定义版）</h2><ul>
+<li><strong>ts</strong>：让我在提交代码前发现问题</li>
+<li><strong>tsc</strong>：帮我挡掉不合格的代码</li>
+<li><strong>tsx</strong>：明确 UI 边界，而不是滥用</li>
+<li><strong>scss</strong>：提高效率，但必须有约束</li>
+</ul>
+<blockquote>
+<p>如果你是在做一个内部平台 &#x2F; 中小型系统：</p>
+<ul>
+<li>先把 ts &#x2F; tsx 的边界立清楚</li>
+<li>tsc 报错不要逃</li>
+<li>scss 少即是多</li>
+</ul>
+</blockquote>
+<p>这些，往往比“记住定义”更重要。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/" class="category-chain-item">🏗️ 测试平台开发实战手记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91/" class="category-chain-item">前端开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%8A%80%E6%9C%AF%E7%A7%91%E6%99%AE/" class="print-no-link">#技术科普</a>
+      
+        <a href="/fluid-blog/tags/TypeScript/" class="print-no-link">#TypeScript</a>
+      
+        <a href="/fluid-blog/tags/React/" class="print-no-link">#React</a>
+      
+        <a href="/fluid-blog/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="print-no-link">#前端工程化</a>
+      
+        <a href="/fluid-blog/tags/SCSS/" class="print-no-link">#SCSS</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>📄 一篇搞懂前端常见文件后缀：ts / tsc / jsx / tsx / scss</div>
+      <div>https://linn0813.github.io/2026/01/20/2026-01-20-frontend-file-extensions-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/21/2026-01-21-python-xmind-operation-guide/" title="🗺️ 用 Python 操作 XMind：从读懂到生成的完整入门指南">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🗺️ 用 Python 操作 XMind：从读懂到生成的完整入门指南</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/20/2026-01-20-llm-integration-what-are-you-calling/" title="🤖 项目里调用大模型，其实在调用什么？">
+                        <span class="hidden-mobile">🤖 项目里调用大模型，其实在调用什么？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1749 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="接口测试, Postman, 软件测试, 自动化测试, 测试用例, 断言, 数据驱动测试, Mock Server">
+  
+    <meta name="description" content="分享码尚教育Postman课程的学习内容，详细介绍接口测试的概念、分类、流程与用例设计，全面讲解 Postman 的使用方法，包括界面操作、断言设置、数据驱动测试和 Mock Server 等功能，适合接口测试初学者与自动化测试入门者学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从入门到实战：一篇文章掌握接口测试与 Postman 全流程">
+<meta property="og:url" content="https://linn0813.github.io/2025/06/20/2025-06-20-postman-class/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="分享码尚教育Postman课程的学习内容，详细介绍接口测试的概念、分类、流程与用例设计，全面讲解 Postman 的使用方法，包括界面操作、断言设置、数据驱动测试和 Mock Server 等功能，适合接口测试初学者与自动化测试入门者学习。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/postman-class.png">
+<meta property="article:published_time" content="2025-06-20T02:09:35.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.870Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="自动化测试">
+<meta property="article:tag" content="Postman">
+<meta property="article:tag" content="软件测试">
+<meta property="article:tag" content="接口测试">
+<meta property="article:tag" content="测试用例">
+<meta property="article:tag" content="Newman">
+<meta property="article:tag" content="Mock Server">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/postman-class.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>从入门到实战：一篇文章掌握接口测试与 Postman 全流程 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="从入门到实战：一篇文章掌握接口测试与 Postman 全流程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-20 10:09" pubdate>
+          2025年6月20日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          48 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从入门到实战：一篇文章掌握接口测试与 Postman 全流程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>🚀 这是我在 B 站课程《接口测试的简介与分类》（<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV11K4y1J7sh?vd_source=65c2968c09490f4b218154711916b4d8">点击直达</a>）学习过程中的详细笔记与实操总结，面向接口测试初学者与自动化测试入门者，希望对你有所启发。</p>
+</blockquote>
+<hr>
+<h1 id="🌐-接口测试的简介与分类"><a href="#🌐-接口测试的简介与分类" class="headerlink" title="🌐 接口测试的简介与分类"></a>🌐 接口测试的简介与分类</h1><h2 id="❓-什么是接口测试？"><a href="#❓-什么是接口测试？" class="headerlink" title="❓ 什么是接口测试？"></a>❓ 什么是接口测试？</h2><p>接口测试是指对系统组件之间的数据传递、业务逻辑接口等内容进行测试，验证各模块间是否能正确交互与协作。🔁</p>
+<h2 id="📂-接口测试分类："><a href="#📂-接口测试分类：" class="headerlink" title="📂 接口测试分类："></a>📂 接口测试分类：</h2><ul>
+<li><p><strong>外部接口测试</strong><br>系统对接外部第三方服务，如支付接口、物流接口，主要验证正向功能。<br>○ 只需验证正例（接口是否返回成功）✅</p>
+</li>
+<li><p><strong>内部接口测试</strong><br>○ ① 内部调用接口：模块之间对接使用，如预算系统与承保系统。<br>■ 只需验证正例<br>○ ② 开放给外部的内部接口：业务核心接口，如 App 端调用后端接口。<br>■ 需验证正例 + 异常 + 权限 + 安全性</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>典型场景</th>
+<th>测试重点</th>
+<th>扩展测试点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>外部接口</td>
+<td>第三方支付、物流查询</td>
+<td>正向流程（如支付下单 - 回调通知）</td>
+<td>网络异常（断网、超时）、限流处理</td>
+</tr>
+<tr>
+<td>内部接口</td>
+<td>电商系统“库存扣减”与“订单创建”对接</td>
+<td>数据一致性（库存扣减失败时订单回滚）</td>
+<td>并发调用（多用户同时下单锁机制）</td>
+</tr>
+<tr>
+<td>开放内部接口</td>
+<td>App 端用户登录接口</td>
+<td>权限校验、SQL 注入防护</td>
+<td>敏感数据加密（密码传输加密）🔒</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="🔁-接口测试的流程与用例设计"><a href="#🔁-接口测试的流程与用例设计" class="headerlink" title="🔁 接口测试的流程与用例设计"></a>🔁 接口测试的流程与用例设计</h1><h3 id="1️⃣-熟悉接口"><a href="#1️⃣-熟悉接口" class="headerlink" title="1️⃣ 熟悉接口"></a>1️⃣ 熟悉接口</h3><ul>
+<li><p>获取方式：<br>○ 查看接口文档<br>○ 抓包工具（如 Charles&#x2F;Fiddler）观察请求</p>
+</li>
+<li><p>熟悉内容：<br>○ 接口地址、请求方式（GET&#x2F;POST等）<br>○ 鉴权机制（Token&#x2F;Cookie）<br>○ 请求参数与响应结构<br>○ 状态码及错误码定义</p>
+</li>
+</ul>
+<hr>
+<h3 id="2️⃣-编写接口测试用例"><a href="#2️⃣-编写接口测试用例" class="headerlink" title="2️⃣ 编写接口测试用例"></a>2️⃣ 编写接口测试用例</h3><ul>
+<li><p>用例设计思路：</p>
+<ul>
+<li><p>正例：<br>○ 合理入参 + 正确鉴权 → 返回成功结果</p>
+</li>
+<li><p>反例：<br>○ 鉴权类：Token 缺失、错误、过期<br>○ 参数类：参数为空、格式错误、类型&#x2F;长度不符<br>○ 业务类：错误码验证、边界值、分页逻辑<br>○ 安全类：黑名单用户、访问频率限制、权限验证</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3️⃣-执行接口测试"><a href="#3️⃣-执行接口测试" class="headerlink" title="3️⃣ 执行接口测试"></a>3️⃣ 执行接口测试</h3><ul>
+<li>使用 Postman 编写请求，管理集合和环境变量</li>
+<li>手动调试，确认功能逻辑正确</li>
+</ul>
+<hr>
+<h3 id="4️⃣-持续集成"><a href="#4️⃣-持续集成" class="headerlink" title="4️⃣ 持续集成"></a>4️⃣ 持续集成</h3><ul>
+<li>使用 Newman 执行 Postman 脚本</li>
+<li>将测试集成至 Jenkins 流水线，输出测试报告，并通过邮件&#x2F;钉钉同步结果 📩</li>
+</ul>
+<hr>
+<h1 id="🧰-Postman-简介与介绍"><a href="#🧰-Postman-简介与介绍" class="headerlink" title="🧰 Postman 简介与介绍"></a>🧰 Postman 简介与介绍</h1><h2 id="界面说明"><a href="#界面说明" class="headerlink" title="界面说明"></a>界面说明</h2><ul>
+<li>Home：主页</li>
+<li>Workspaces：工作空间管理</li>
+<li>Collections：接口集合管理</li>
+<li>APIs：API 文档管理</li>
+<li>Environments：环境变量与全局变量</li>
+<li>Mock Server：虚拟服务器</li>
+<li>Monitors：定时监控器</li>
+<li>History：历史请求记录</li>
+</ul>
+<hr>
+<h2 id="请求页面说明"><a href="#请求页面说明" class="headerlink" title="请求页面说明"></a>请求页面说明</h2><ul>
+<li><p>Params：GET 请求参数</p>
+</li>
+<li><p>Authorization：设置 Token、Basic Auth 等鉴权方式</p>
+</li>
+<li><p>Headers：请求头（如 Content-Type、Cookie 等）</p>
+</li>
+<li><p>Body（POST 请求参数）：</p>
+<ul>
+<li>none：不传参数</li>
+<li>form-data：支持键值对和文件</li>
+<li>x-www-form-urlencoded：表单键值对</li>
+<li>raw：json、text、xml、html、JavaScript、text等原始格式</li>
+<li>binary：文件上传（二进制）</li>
+</ul>
+</li>
+<li><p>pre-request script：请求前执行 JS 脚本</p>
+</li>
+<li><p>tests：请求后执行断言</p>
+</li>
+<li><p>cookies：管理 Cookie 信息</p>
+</li>
+</ul>
+<hr>
+<h2 id="响应页签说明"><a href="#响应页签说明" class="headerlink" title="响应页签说明"></a>响应页签说明</h2><ul>
+<li><p>Body：返回内容</p>
+</li>
+<li><p>Pretty：以 Json、html、XML 等格式查看数据</p>
+</li>
+<li><p>Raw：文本方式查看数据</p>
+</li>
+<li><p>Preview：网页方式查看数据</p>
+</li>
+<li><p>Cookies：响应中返回的 Cookie</p>
+</li>
+<li><p>Headers：响应头</p>
+</li>
+<li><p>Test Results：断言执行结果</p>
+</li>
+<li><p>状态码与响应信息：</p>
+<ul>
+<li>200：OK</li>
+<li>响应时间（如 681ms）</li>
+<li>响应大小（如 343B）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h1><h2 id="Get请求和Post请求的区别"><a href="#Get请求和Post请求的区别" class="headerlink" title="Get请求和Post请求的区别"></a>Get请求和Post请求的区别</h2><ol>
+<li>get 请求一般是获取数据，post 请求一般是提交数据。</li>
+<li>post 请求比 get 请求更安全。</li>
+<li>本质区别是传参方式不同：</li>
+</ol>
+<ul>
+<li>get 请求在地址栏后面以 ? 方式传参，多个参数用 &amp; 分隔。</li>
+<li>post 请求在 body 以表单方式传参。</li>
+</ul>
+<hr>
+<h1 id="环境变量与全局变量"><a href="#环境变量与全局变量" class="headerlink" title="环境变量与全局变量"></a>环境变量与全局变量</h1><ul>
+<li>环境变量：限定于特定环境（如 dev&#x2F;test&#x2F;prod），variable 命名必须一致，接口地址中使用 。</li>
+<li>全局变量：所有环境、所有接口共享，跨接口共享数据（如登录 Token、用户 ID）。</li>
+<li>获取环境变量和全局变量的值通过 。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用域</th>
+<th>典型用途</th>
+<th>优先级（冲突时）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>环境变量</td>
+<td>限定于特定环境</td>
+<td>不同环境的配置差异（API 域名、端口）</td>
+<td>高于全局变量</td>
+</tr>
+<tr>
+<td>全局变量</td>
+<td>所有环境共享</td>
+<td>跨接口共享数据</td>
+<td>低于环境变量</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="接口关联"><a href="#接口关联" class="headerlink" title="接口关联"></a>接口关联</h1><h3 id="JSON-提取器"><a href="#JSON-提取器" class="headerlink" title="JSON 提取器"></a>JSON 提取器</h3><p>第一个接口:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//使用json提取器提取accesss_token值。</span>
+
+<span class="token comment">//把返回的字符串格式的数据转换成对象的形式。</span>
+<span class="token keyword">var</span> result <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>responseBody<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//把access_token设置为全局变量</span>
+pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"access_token"</span><span class="token punctuation">,</span>result<span class="token punctuation">.</span>access_tokern<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>第二个接口:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">&#123;&#123;access_token&#125;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="正则表达式提取器"><a href="#正则表达式提取器" class="headerlink" title="正则表达式提取器"></a>正则表达式提取器</h3><p>第一个接口:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">//使用正则表达式提取器实现接口关联,match匹配。</span>
+<span class="token keyword">var</span> result <span class="token operator">=</span> responseBody<span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">RegExp</span><span class="token punctuation">(</span><span class="token string">'"access_token":"(.*?)"'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> 
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>result<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//设置为全局变量</span>
+pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"access_token"</span><span class="token punctuation">,</span>result<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>第二个接口:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">&#123;&#123;access_token&#125;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<hr>
+<h1 id="⚡-动态参数"><a href="#⚡-动态参数" class="headerlink" title="⚡ 动态参数"></a>⚡ 动态参数</h1><p>Postman 内置动态参数：</p>
+<h3 id="1-时间与日期类-⏰"><a href="#1-时间与日期类-⏰" class="headerlink" title="1. 时间与日期类 ⏰"></a>1. 时间与日期类 ⏰</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>格式示例</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>1689345678（秒级）</td>
+<td>生成当前时间戳（如签名计算）</td>
+</tr>
+<tr>
+<td></td>
+<td>2025-06-18T12:34:56Z</td>
+<td>随机日期（测试订单有效期）</td>
+</tr>
+<tr>
+<td></td>
+<td>2025-06-18T12:34:56.789Z</td>
+<td>符合 ISO 8601 格式的时间戳</td>
+</tr>
+</tbody></table>
+<p><strong>使用方法：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 在 pre-request script 中组合参数</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"orderId"</span><span class="token punctuation">,</span> <span class="token string">"ORD_"</span> <span class="token operator">+</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 请求 URL 中使用：https://api.com/order/&#123;&#123;orderId&#125;&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="2-随机数据类-🎲"><a href="#2-随机数据类-🎲" class="headerlink" title="2. 随机数据类 🎲"></a>2. 随机数据类 🎲</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>格式示例</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>345（0-1000 内随机数）</td>
+<td>测试分页大小（如 size&#x3D;）</td>
+</tr>
+<tr>
+<td></td>
+<td>abcdef12345（16 位随机字符串）</td>
+<td>生成随机用户名</td>
+</tr>
+<tr>
+<td></td>
+<td>5f7d3a9c-1b2e-4c3d-8e9f-0a1b2c3d4e5f</td>
+<td>唯一标识符（测试分布式 ID）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="3-模拟数据类-🧪"><a href="#3-模拟数据类-🧪" class="headerlink" title="3. 模拟数据类 🧪"></a>3. 模拟数据类 🧪</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>格式示例</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td><a href="mailto:&#117;&#115;&#101;&#x72;&#53;&#54;&#x37;&#x40;&#101;&#x78;&#x61;&#109;&#x70;&#108;&#101;&#x2e;&#x63;&#111;&#109;">user567@example.com</a></td>
+<td>注册测试（随机邮箱）</td>
+</tr>
+<tr>
+<td></td>
+<td>+1 (555) 123-4567</td>
+<td>测试短信验证码接口</td>
+</tr>
+<tr>
+<td></td>
+<td>4111 1111 1111 1111</td>
+<td>支付模拟（需配合 Mock Server）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="自定义动态参数"><a href="#自定义动态参数" class="headerlink" title="自定义动态参数"></a>自定义动态参数</h3><figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 手动获得时间戳</span>
+<span class="token keyword">var</span> times <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 设置为全局变量</span>
+pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"times"</span><span class="token punctuation">,</span> times<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>使用时调用：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">&#123;&#123;times&#125;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<hr>
+<h1 id="📊-Postman-断言"><a href="#📊-Postman-断言" class="headerlink" title="📊 Postman 断言"></a>📊 Postman 断言</h1><h2 id="常规六种断言"><a href="#常规六种断言" class="headerlink" title="常规六种断言"></a>常规六种断言</h2><h3 id="1-Status-code：Code-is-200（状态码断言）✅"><a href="#1-Status-code：Code-is-200（状态码断言）✅" class="headerlink" title="1. Status code：Code is 200（状态码断言）✅"></a>1. Status code：Code is 200（状态码断言）✅</h3><p><strong>作用：</strong> 验证接口返回的 HTTP 状态码是否符合预期（如 200、404 等）。<br><strong>示例代码：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"状态码应为 200"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>to<span class="token punctuation">.</span>have<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>扩展场景：</strong></p>
+<ul>
+<li>验证客户端错误（4xx）：<code>pm.response.to.have.status(401)</code>（未授权）；</li>
+<li>验证服务器错误（5xx）：<code>pm.response.to.have.status(500)</code>（内部错误）。</li>
+</ul>
+<hr>
+<h3 id="2-Responsebody：Contains-string（响应体包含字符串断言）🔍"><a href="#2-Responsebody：Contains-string（响应体包含字符串断言）🔍" class="headerlink" title="2. Responsebody：Contains string（响应体包含字符串断言）🔍"></a>2. Responsebody：Contains string（响应体包含字符串断言）🔍</h3><p><strong>作用：</strong> 检查响应内容是否包含指定字符串（支持文本、JSON、XML 等格式）。<br><strong>示例代码：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"响应体包含 success"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span><span class="token function">include</span><span class="token punctuation">(</span><span class="token string">"success"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>若响应为 JSON，需先通过 <code>pm.response.json()</code> 解析；</li>
+<li>区分大小写（如 “Success” 与 “success” 不同），可通过 <code>to.include(&quot;success&quot;, &#123;ignoreCase: true&#125;)</code> 忽略大小写。</li>
+</ul>
+<hr>
+<h3 id="3-Responsebody：Json-value-check（JSON-值断言）🧾"><a href="#3-Responsebody：Json-value-check（JSON-值断言）🧾" class="headerlink" title="3. Responsebody：Json value check（JSON 值断言）🧾"></a>3. Responsebody：Json value check（JSON 值断言）🧾</h3><p><strong>作用：</strong> 验证响应 JSON 中特定字段的值是否符合预期。<br><strong>示例代码：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"用户 ID 应为 123"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> responseJson <span class="token operator">=</span> pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>responseJson<span class="token punctuation">.</span>user<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span><span class="token function">eql</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 严格等于</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>多层嵌套场景：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 响应结构：&#123; "data": &#123; "list": [&#123;"id": "ORD001"&#125;] &#125; &#125;</span>
+pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"第一个订单 ID 正确"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> id <span class="token operator">=</span> pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>data<span class="token punctuation">.</span>list<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>id<span class="token punctuation">;</span>
+    pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span><span class="token function">eql</span><span class="token punctuation">(</span><span class="token string">"ORD001"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="4-Responsebody：is-equal-to-a-string（响应体等于字符串断言）📏"><a href="#4-Responsebody：is-equal-to-a-string（响应体等于字符串断言）📏" class="headerlink" title="4. Responsebody：is equal to a string（响应体等于字符串断言）📏"></a>4. Responsebody：is equal to a string（响应体等于字符串断言）📏</h3><p><strong>作用：</strong> 验证响应内容与指定字符串完全一致（较少使用，因响应常含动态数据）。<br><strong>示例代码：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"响应体等于指定字符串"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span><span class="token function">eql</span><span class="token punctuation">(</span><span class="token string">'&#123;"status": "ok"&#125;'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>优化建议：</strong></p>
+<ul>
+<li>避免直接断言完整响应体，可拆分字段断言；</li>
+<li>对动态字段（如时间戳）使用通配符或正则表达式（需结合 Chai 库）。</li>
+</ul>
+<hr>
+<h3 id="5-Response-headers：Content-Type…（响应头断言）📋"><a href="#5-Response-headers：Content-Type…（响应头断言）📋" class="headerlink" title="5. Response headers：Content-Type…（响应头断言）📋"></a>5. Response headers：Content-Type…（响应头断言）📋</h3><p><strong>作用：</strong> 检查响应头是否包含指定字段（如 Content-Type、Authorization）。<br><strong>示例代码：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 断言存在 Content-Type 头</span>
+pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"响应头包含 Content-Type"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>to<span class="token punctuation">.</span>have<span class="token punctuation">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">"Content-Type"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 断言 Content-Type 为 JSON 格式</span>
+pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"Content-Type 应为 application/json"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>to<span class="token punctuation">.</span>have<span class="token punctuation">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">"Content-Type"</span><span class="token punctuation">,</span> <span class="token string">"application/json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="6-Response-time-is-less-than-200ms（响应时间断言）⏱️"><a href="#6-Response-time-is-less-than-200ms（响应时间断言）⏱️" class="headerlink" title="6. Response time is less than 200ms（响应时间断言）⏱️"></a>6. Response time is less than 200ms（响应时间断言）⏱️</h3><p><strong>作用：</strong> 验证接口响应时间是否小于指定毫秒数（用于性能初步测试）。<br><strong>示例代码：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"响应时间应小于 200ms"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>responseTime<span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span>be<span class="token punctuation">.</span><span class="token function">below</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>扩展用法：</strong></p>
+<ul>
+<li>断言响应时间在区间内：<code>pm.expect(responseTime).to.be.within(100, 300)</code>；</li>
+<li>结合环境变量动态设置阈值：<code>pm.expect(responseTime).to.be.below(pm.environment.get(&quot;maxResponseTime&quot;))</code>。</li>
+</ul>
+<hr>
+<h1 id="🔧-在断言中获取自定义动态参数的方式"><a href="#🔧-在断言中获取自定义动态参数的方式" class="headerlink" title="🔧 在断言中获取自定义动态参数的方式"></a>🔧 在断言中获取自定义动态参数的方式</h1><table>
+<thead>
+<tr>
+<th>获取方式</th>
+<th>语法示例</th>
+<th>适用场景</th>
+<th>注意事项</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pm.globals.get(“参数名”)</td>
+<td>pm.globals.get(“times”)</td>
+<td>推荐通用写法，兼容性强</td>
+<td>需通过 pm 上下文调用，适用于 Pre-request Script、Tests 脚本</td>
+</tr>
+<tr>
+<td>globals[“参数名”]</td>
+<td>globals[“times”]</td>
+<td>键名动态拼接场景</td>
+<td>旧版本 Postman 可能不支持</td>
+</tr>
+<tr>
+<td>globals.参数名</td>
+<td>globals.times</td>
+<td>键名无特殊字符时简写</td>
+<td>参数名含特殊字符需用方括号访问</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="🌍-全局断言"><a href="#🌍-全局断言" class="headerlink" title="🌍 全局断言"></a>🌍 全局断言</h1><h2 id="实现全局断言的三种方案"><a href="#实现全局断言的三种方案" class="headerlink" title="实现全局断言的三种方案"></a>实现全局断言的三种方案</h2><h3 id="方案-1：在-Collection-中编写公共测试脚本"><a href="#方案-1：在-Collection-中编写公共测试脚本" class="headerlink" title="方案 1：在 Collection 中编写公共测试脚本"></a>方案 1：在 Collection 中编写公共测试脚本</h3><p><strong>原理：</strong> 在 Collection 的 Tests 标签页中编写断言，对集合内所有接口生效。<br><strong>示例代码：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"全局状态码校验"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>to<span class="token punctuation">.</span>be<span class="token punctuation">.</span>success<span class="token punctuation">;</span>  <span class="token comment">// 断言状态码为2xx</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"全局响应头校验"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>to<span class="token punctuation">.</span>have<span class="token punctuation">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">"Content-Type"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>headers<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"Content-Type"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span><span class="token function">include</span><span class="token punctuation">(</span><span class="token string">"json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>集合级断言优先级低于单个接口断言；</li>
+<li>可用 <code>pm.info.requestName</code> 判断接口名，实现条件断言：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">if</span> <span class="token punctuation">(</span>pm<span class="token punctuation">.</span>info<span class="token punctuation">.</span>requestName <span class="token operator">!==</span> <span class="token string">"健康检查接口"</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>to<span class="token punctuation">.</span>have<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 排除特定接口</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="方案-2：使用前置脚本（Pre-request-Script）动态注入断言"><a href="#方案-2：使用前置脚本（Pre-request-Script）动态注入断言" class="headerlink" title="方案 2：使用前置脚本（Pre-request Script）动态注入断言"></a>方案 2：使用前置脚本（Pre-request Script）动态注入断言</h3><p><strong>示例代码：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 在 Collection 或 Folder 的 Pre-request Script 中添加</span>
+<span class="token keyword">function</span> <span class="token function">addGlobalAssertion</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 动态生成断言代码字符串</span>
+    <span class="token keyword">const</span> script <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+        pm.test("全局响应时间校验", function() &#123;
+            pm.expect(pm.response.responseTime).to.be.below(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"maxResponseTime"</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token number">1000</span><span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">);
+        &#125;);
+    </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+    <span class="token comment">// 将断言代码注入到当前请求的 Tests 中</span>
+    pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>script<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 条件执行（如仅在非本地环境执行）</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"envType"</span><span class="token punctuation">)</span> <span class="token operator">!==</span> <span class="token string">"local"</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">addGlobalAssertion</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="方案-3：通过-Newman-命令行添加全局断言"><a href="#方案-3：通过-Newman-命令行添加全局断言" class="headerlink" title="方案 3：通过 Newman 命令行添加全局断言"></a>方案 3：通过 Newman 命令行添加全局断言</h3><p><strong>原理：</strong> Newman 运行时通过脚本参数注入全局断言。<br><strong>示例代码：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// newman-run.js 脚本内容</span>
+<span class="token keyword">const</span> <span class="token punctuation">&#123;</span> Collection <span class="token punctuation">&#125;</span> <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'postman-collection'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token function-variable function">beforeRun</span><span class="token operator">:</span> <span class="token punctuation">(</span><span class="token parameter">collection</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        collection<span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">item</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>request<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                item<span class="token punctuation">.</span>test <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Collection<span class="token punctuation">.</span>ItemTest</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+                    <span class="token literal-property property">script</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+                        <span class="token literal-property property">exec</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+                            <span class="token string">"pm.test(\"全局状态码校验\", function() &#123;"</span><span class="token punctuation">,</span>
+                            <span class="token string">"    pm.response.to.be.success;"</span><span class="token punctuation">,</span>
+                            <span class="token string">"&#125;);"</span><span class="token punctuation">,</span>
+                            <span class="token string">"pm.test(\"全局响应头校验\", function() &#123;"</span><span class="token punctuation">,</span>
+                            <span class="token string">"    pm.response.to.have.header(\"X-Request-ID\");"</span><span class="token punctuation">,</span>
+                            <span class="token string">"&#125;);"</span>
+                        <span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>执行命令：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">newman run collection.json --script newman-run.js<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="全局断言与局部断言的优先级控制"><a href="#全局断言与局部断言的优先级控制" class="headerlink" title="全局断言与局部断言的优先级控制"></a>全局断言与局部断言的优先级控制</h2><table>
+<thead>
+<tr>
+<th>断言位置</th>
+<th>优先级</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单个接口的 Tests</td>
+<td>最高</td>
+<td>针对特定接口的特殊验证</td>
+</tr>
+<tr>
+<td>Folder 级 Tests</td>
+<td>中</td>
+<td>分组接口的公共验证</td>
+</tr>
+<tr>
+<td>Collection 级 Tests</td>
+<td>最低</td>
+<td>全量接口的基础验证（状态码、响应头）</td>
+</tr>
+</tbody></table>
+<p><strong>冲突解决方案：</strong><br>接口级 Tests 中使用 <code>pm.test.remove()</code> 移除不需要的全局断言：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 移除集合中的全局响应时间断言</span>
+pm<span class="token punctuation">.</span>test<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token string">"全局响应时间校验"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h1 id="🧪-Postman-批量运行测试用例"><a href="#🧪-Postman-批量运行测试用例" class="headerlink" title="🧪 Postman 批量运行测试用例"></a>🧪 Postman 批量运行测试用例</h1><p>在 Postman 中批量运行测试用例，主要通过 Collection Runner 功能来实现，以下是具体步骤：</p>
+<h2 id="1-创建集合和组织用例"><a href="#1-创建集合和组织用例" class="headerlink" title="1. 创建集合和组织用例"></a>1. 创建集合和组织用例</h2><ul>
+<li>点击左侧 “Collections” 的 “➕” 按钮创建集合，输入集合名称。</li>
+<li>选中集合点击 “⋯” → <strong>Add Folder</strong> 添加模块文件夹。</li>
+<li>再选中文件夹点击 <strong>Add Request</strong> 添加接口测试用例，配置请求参数、断言脚本，将接口组织到集合中。</li>
+</ul>
+<h3 id="2-选择运行方式"><a href="#2-选择运行方式" class="headerlink" title="2. 选择运行方式"></a>2. 选择运行方式</h3><ul>
+<li>✅ 点击集合右上角 <strong>Run</strong>：全模块回归测试。</li>
+<li>✅ 点击文件夹右上角 <strong>Run folder</strong>：单模块迭代测试。</li>
+</ul>
+<h3 id="3-配置-Runner-参数"><a href="#3-配置-Runner-参数" class="headerlink" title="3. 配置 Runner 参数"></a>3. 配置 Runner 参数</h3><ul>
+<li><p><strong>Iterations</strong>：设置测试迭代次数。</p>
+</li>
+<li><p><strong>Delay</strong>：设置接口调用间隔（单位：ms）。</p>
+</li>
+<li><p><strong>Data</strong>：导入 CSV &#x2F; JSON 文件进行参数化。</p>
+</li>
+<li><p><strong>Advanced settings</strong>：</p>
+<ul>
+<li>✅ 勾选 “Persist responses” 保存响应。</li>
+<li>🔁 选择 “Run order” 控制执行顺序（按文件夹顺序或随机执行）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-执行批量测试"><a href="#4-执行批量测试" class="headerlink" title="4. 执行批量测试"></a>4. 执行批量测试</h3><p>点击 <strong>Run</strong> 或 <strong>Run 文件夹名称</strong> 按钮，即可批量运行测试用例。</p>
+<h3 id="5-分析运行结果"><a href="#5-分析运行结果" class="headerlink" title="5. 分析运行结果"></a>5. 分析运行结果</h3><ul>
+<li>📊 汇总信息：运行时间、迭代次数、通过&#x2F;失败数量、平均响应时间等。</li>
+<li>🔍 单接口详情：状态码、响应时间、响应体、断言结果、错误信息。</li>
+</ul>
+<hr>
+<h1 id="📂-Postman-数据驱动测试"><a href="#📂-Postman-数据驱动测试" class="headerlink" title="📂 Postman 数据驱动测试"></a>📂 Postman 数据驱动测试</h1><h2 id="✅-CSV-参数化测试"><a href="#✅-CSV-参数化测试" class="headerlink" title="✅ CSV 参数化测试"></a>✅ CSV 参数化测试</h2><h3 id="📁-CSV-文件格式要求"><a href="#📁-CSV-文件格式要求" class="headerlink" title="📁 CSV 文件格式要求"></a>📁 CSV 文件格式要求</h3><ul>
+<li>第一行为表头，后续行为数据。</li>
+<li>使用英文逗号 <code>,</code> 分隔，若字段含逗号，需用双引号包裹。</li>
+</ul>
+<p>示例文件 <code>users.csv</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-csv" data-language="csv"><code class="language-csv"><span class="token value">username</span><span class="token punctuation">,</span><span class="token value">password</span><span class="token punctuation">,</span><span class="token value">expected_status</span>
+<span class="token value">admin</span><span class="token punctuation">,</span><span class="token value">admin123</span><span class="token punctuation">,</span><span class="token value">200</span>
+<span class="token value">guest</span><span class="token punctuation">,</span><span class="token value">guest456</span><span class="token punctuation">,</span><span class="token value">200</span>
+<span class="token value">invalid_user</span><span class="token punctuation">,</span><span class="token value">wrong_pwd</span><span class="token punctuation">,</span><span class="token value">401</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="📥-导入-CSV-步骤"><a href="#📥-导入-CSV-步骤" class="headerlink" title="📥 导入 CSV 步骤"></a>📥 导入 CSV 步骤</h3><ol>
+<li>Runner 中选择集合或文件夹 → 点击 <strong>Select File</strong>。</li>
+<li>选择 CSV 文件 → Postman 自动识别变量名并预览数据。</li>
+</ol>
+<h3 id="🔗-请求中引用变量"><a href="#🔗-请求中引用变量" class="headerlink" title="🔗 请求中引用变量"></a>🔗 请求中引用变量</h3><ul>
+<li><p>URL 参数：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;api.com&#x2F;login?username&#x3D;&#123;&#123;username&#125;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure></li>
+<li><p>请求体参数：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"username"</span><span class="token operator">:</span> <span class="token string">"&#123;&#123;username&#125;&#125;"</span><span class="token punctuation">,</span>
+  <span class="token property">"password"</span><span class="token operator">:</span> <span class="token string">"&#123;&#123;password&#125;&#125;"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure></li>
+<li><p>在断言中使用：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"状态码校验"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>to<span class="token punctuation">.</span>have<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>iterationData<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"expected_status"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure></li>
+</ul>
+<hr>
+<h2 id="✅-JSON-参数化测试"><a href="#✅-JSON-参数化测试" class="headerlink" title="✅ JSON 参数化测试"></a>✅ JSON 参数化测试</h2><h3 id="📁-JSON-文件格式要求"><a href="#📁-JSON-文件格式要求" class="headerlink" title="📁 JSON 文件格式要求"></a>📁 JSON 文件格式要求</h3><ul>
+<li>根节点为数组，每组对象为一组测试数据。</li>
+</ul>
+<p>示例 <code>orders.json</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">&#123;</span>
+    <span class="token property">"productId"</span><span class="token operator">:</span> <span class="token string">"P001"</span><span class="token punctuation">,</span>
+    <span class="token property">"quantity"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">99.9</span><span class="token punctuation">,</span>
+    <span class="token property">"expectedTotal"</span><span class="token operator">:</span> <span class="token number">99.9</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&#123;</span>
+    <span class="token property">"productId"</span><span class="token operator">:</span> <span class="token string">"P002"</span><span class="token punctuation">,</span>
+    <span class="token property">"quantity"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">49.9</span><span class="token punctuation">,</span>
+    <span class="token property">"expectedTotal"</span><span class="token operator">:</span> <span class="token number">149.7</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="📥-导入-JSON-步骤"><a href="#📥-导入-JSON-步骤" class="headerlink" title="📥 导入 JSON 步骤"></a>📥 导入 JSON 步骤</h3><ul>
+<li>同样在 Runner 中选择 JSON 文件，Postman 自动识别变量。</li>
+</ul>
+<h3 id="🔗-引用方式示例"><a href="#🔗-引用方式示例" class="headerlink" title="🔗 引用方式示例"></a>🔗 引用方式示例</h3><ul>
+<li><p>URL 参数：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;api.com&#x2F;order&#x2F;&#123;&#123;productId&#125;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure></li>
+<li><p>请求体参数：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"quantity"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span>quantity<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token property">"unitPrice"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span>price<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure></li>
+<li><p>JSON 断言：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"金额计算正确"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> response <span class="token operator">=</span> pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span>total<span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span><span class="token function">eql</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>iterationData<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"expectedTotal"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure></li>
+</ul>
+<hr>
+<h1 id="🧾-请求必须携带的请求头说明"><a href="#🧾-请求必须携带的请求头说明" class="headerlink" title="🧾 请求必须携带的请求头说明"></a>🧾 请求必须携带的请求头说明</h1><table>
+<thead>
+<tr>
+<th>请求头名</th>
+<th>说明</th>
+<th>示例值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Host</td>
+<td>指定目标主机（HTTP&#x2F;1.1要求）</td>
+<td><code>api.example.com</code></td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>是否保持长连接</td>
+<td><code>keep-alive</code></td>
+</tr>
+<tr>
+<td>Accept</td>
+<td>可接受的响应格式</td>
+<td><code>application/json</code></td>
+</tr>
+<tr>
+<td>X-Requested-With</td>
+<td>是否为 AJAX 请求</td>
+<td><code>XMLHttpRequest</code></td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>客户端身份标识</td>
+<td><code>Mozilla/5.0...</code></td>
+</tr>
+<tr>
+<td>Referer</td>
+<td>请求来源页面 URL</td>
+<td><code>https://example.com</code></td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>携带的 Cookie 信息</td>
+<td><code>session_id=123456; user_token=abc</code></td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>请求体的格式类型</td>
+<td><code>application/json</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="🔧-Postman接口Mock-Servier服务器"><a href="#🔧-Postman接口Mock-Servier服务器" class="headerlink" title="🔧 Postman接口Mock Servier服务器"></a>🔧 Postman接口Mock Servier服务器</h1><h2 id="🧪-Mock-Server-核心价值与应用场景"><a href="#🧪-Mock-Server-核心价值与应用场景" class="headerlink" title="🧪 Mock Server 核心价值与应用场景"></a>🧪 Mock Server 核心价值与应用场景</h2><h3 id="核心价值"><a href="#核心价值" class="headerlink" title="核心价值"></a>核心价值</h3><p>解决痛点：后端接口尚未开发完成时，前端可通过 Mock Server 模拟接口响应，实现并行开发，提升开发效率。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li>前后端分离开发，后端进度滞后时前端可独立调试</li>
+<li>测试复杂业务流程（如支付回调、状态变更）</li>
+<li>模拟异常情况（如网络超时、服务器错误）</li>
+</ul>
+<hr>
+<h2 id="⚙️-创建-Mock-Server-全流程（以用户示例为例）"><a href="#⚙️-创建-Mock-Server-全流程（以用户示例为例）" class="headerlink" title="⚙️ 创建 Mock Server 全流程（以用户示例为例）"></a>⚙️ 创建 Mock Server 全流程（以用户示例为例）</h2><h3 id="1-准备-Mock-响应数据"><a href="#1-准备-Mock-响应数据" class="headerlink" title="1. 准备 Mock 响应数据"></a>1. 准备 Mock 响应数据</h3><p>示例 JSON（注意逗号格式）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"error_code"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"msg"</span><span class="token operator">:</span> <span class="token string">"返回成功"</span><span class="token punctuation">,</span>
+  <span class="token property">"data"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-在-Postman-中创建-Mock-Server"><a href="#2-在-Postman-中创建-Mock-Server" class="headerlink" title="2. 在 Postman 中创建 Mock Server"></a>2. 在 Postman 中创建 Mock Server</h3><p><strong>步骤如下：</strong></p>
+<ol>
+<li><p>创建 Collection：</p>
+<ul>
+<li>点击左侧 Collections → ➕ → 命名为“前端 Mock 接口”</li>
+<li>添加请求（如 GET&#x2F;POST）→ 命名为“获取数据接口”</li>
+</ul>
+</li>
+<li><p>配置请求与响应：</p>
+<ul>
+<li>请求 URL 可自定义，如：<code>https://mock-api.com/data/query</code></li>
+<li>切换至 Response 标签页 → 选择 <code>raw</code> → 粘贴 JSON</li>
+<li>设置状态码为 <code>200 OK</code></li>
+</ul>
+</li>
+<li><p>生成 Mock Server：</p>
+<ul>
+<li>点击 Collection 的 <code>…</code> → 选择 <code>Generate Mock Server</code></li>
+<li>设置域名（如：<code>mock-server.postman.com</code>）</li>
+<li>点击 Create Mock → 复制生成的 Mock URL，如：<br><code>https://postman-echo.com/mock/12345/data/query</code></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="3-前端调用-Mock-接口示例（JavaScript）"><a href="#3-前端调用-Mock-接口示例（JavaScript）" class="headerlink" title="3. 前端调用 Mock 接口示例（JavaScript）"></a>3. 前端调用 Mock 接口示例（JavaScript）</h3><figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">fetch</span><span class="token punctuation">(</span><span class="token string">"https://postman-echo.com/mock/12345/data/query"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">method</span><span class="token operator">:</span> <span class="token string">"GET"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">headers</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token string-property property">"Content-Type"</span><span class="token operator">:</span> <span class="token string">"application/json"</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=></span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token parameter">data</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"接口返回:"</span><span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 渲染或处理数据</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token punctuation">.</span><span class="token function">catch</span><span class="token punctuation">(</span><span class="token parameter">error</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"请求错误:"</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h1 id="🍪-Postman-的-Cookie-鉴权机制"><a href="#🍪-Postman-的-Cookie-鉴权机制" class="headerlink" title="🍪 Postman 的 Cookie 鉴权机制"></a>🍪 Postman 的 Cookie 鉴权机制</h1><h2 id="1-Cookie-是什么"><a href="#1-Cookie-是什么" class="headerlink" title="1. Cookie 是什么"></a>1. Cookie 是什么</h2><ul>
+<li>由服务器生成的小段 <code>key=value</code> 格式文本</li>
+<li>存储在浏览器或 Postman 中，用于身份验证、会话控制等</li>
+</ul>
+<h2 id="2-鉴权流程"><a href="#2-鉴权流程" class="headerlink" title="2. 鉴权流程"></a>2. 鉴权流程</h2><ol>
+<li>当客户端第一次访问服务器的时候,那么服务器就会生成Cookie信息,并且在响应头的set-cookie里面把生成的cookie信息发送给客户端。</li>
+<li>当客户端第2-N次访问服务器的时候,那么客户端就会在请求头的cookie带上cookie信息,从而实现鉴权</li>
+</ol>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">首次请求 → 服务器生成 Set-Cookie 响应头 → 客户端保存 Cookie
+↓
+后续请求 → 客户端自动附带 Cookie 请求头 → 服务器完成身份校验<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-Cookie-类型对比"><a href="#3-Cookie-类型对比" class="headerlink" title="3. Cookie 类型对比"></a>3. Cookie 类型对比</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>存储位置</th>
+<th>生命周期</th>
+<th>安全性</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>会话 Cookie</td>
+<td>内存</td>
+<td>浏览器关闭即失效</td>
+<td>较低</td>
+<td>购物车、临时登录</td>
+</tr>
+<tr>
+<td>持久 Cookie</td>
+<td>硬盘</td>
+<td>设定的过期时间前有效</td>
+<td>较高</td>
+<td>记住我、长期登录</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="🔐-Postman-实现接口加密与解密"><a href="#🔐-Postman-实现接口加密与解密" class="headerlink" title="🔐 Postman 实现接口加密与解密"></a>🔐 Postman 实现接口加密与解密</h1><h2 id="主流加密算法分类"><a href="#主流加密算法分类" class="headerlink" title="主流加密算法分类"></a>主流加密算法分类</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>代表算法</th>
+<th>特点</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对称加密</td>
+<td>AES &#x2F; DES &#x2F; Base64</td>
+<td>加解密使用同一密钥，速度快</td>
+<td>请求体数据加密</td>
+</tr>
+<tr>
+<td>非对称加密</td>
+<td>RSA &#x2F; ECC</td>
+<td>公钥加密私钥解密，较安全</td>
+<td>数字签名、密钥交换</td>
+</tr>
+<tr>
+<td>单向哈希</td>
+<td>MD5 &#x2F; SHA256</td>
+<td>不可逆，用于验证完整性</td>
+<td>密码存储、数据签名</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="Postman-中加密实现方式"><a href="#Postman-中加密实现方式" class="headerlink" title="Postman 中加密实现方式"></a>Postman 中加密实现方式</h2><h3 id="✅-使用内置-CryptoJS（推荐）"><a href="#✅-使用内置-CryptoJS（推荐）" class="headerlink" title="✅ 使用内置 CryptoJS（推荐）"></a>✅ 使用内置 CryptoJS（推荐）</h3><p>Postman 内置了 Crypto-js 库，支持 AES、MD5、SHA 等多种加密算法。</p>
+<p><strong>AES 加密请求体：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 在Pre-request Script中添加</span>
+<span class="token keyword">const</span> CryptoJS <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'crypto-js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 待加密数据</span>
+<span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token string-property property">"username"</span><span class="token operator">:</span> <span class="token string">"test"</span><span class="token punctuation">,</span>
+    <span class="token string-property property">"password"</span><span class="token operator">:</span> <span class="token string">"123456"</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 密钥（需与后端保持一致）</span>
+<span class="token keyword">const</span> secretKey <span class="token operator">=</span> <span class="token string">"1234567890123456"</span><span class="token punctuation">;</span> <span class="token comment">// 16字节密钥（AES-128）</span>
+
+<span class="token comment">// AES加密（ECB模式 + PKCS7填充）</span>
+<span class="token keyword">const</span> encrypted <span class="token operator">=</span> CryptoJS<span class="token punctuation">.</span><span class="token constant">AES</span><span class="token punctuation">.</span><span class="token function">encrypt</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> secretKey<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">mode</span><span class="token operator">:</span> CryptoJS<span class="token punctuation">.</span>mode<span class="token punctuation">.</span><span class="token constant">ECB</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">padding</span><span class="token operator">:</span> CryptoJS<span class="token punctuation">.</span>pad<span class="token punctuation">.</span>Pkcs7
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 设置加密后的数据到请求体</span>
+pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>body<span class="token punctuation">.</span>raw <span class="token operator">=</span> encrypted<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>MD5 签名：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 在Pre-request Script中添加</span>
+<span class="token keyword">const</span> CryptoJS <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'crypto-js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 待签名数据</span>
+<span class="token keyword">const</span> signData <span class="token operator">=</span> <span class="token string">"param1=value1&amp;param2=value2"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> secretKey <span class="token operator">=</span> <span class="token string">"your-api-secret"</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 生成MD5签名</span>
+<span class="token keyword">const</span> signature <span class="token operator">=</span> CryptoJS<span class="token punctuation">.</span><span class="token constant">MD5</span><span class="token punctuation">(</span>signData <span class="token operator">+</span> secretKey<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 添加签名到请求头</span>
+pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"X-Signature"</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">value</span><span class="token operator">:</span> signature
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="🔄-外部-JS-文件导入"><a href="#🔄-外部-JS-文件导入" class="headerlink" title="🔄 外部 JS 文件导入"></a>🔄 外部 JS 文件导入</h3><p><strong>encrypt.js 文件：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">aesEncrypt</span><span class="token punctuation">(</span><span class="token parameter">data<span class="token punctuation">,</span> key</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> CryptoJS <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'crypto-js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> CryptoJS<span class="token punctuation">.</span><span class="token constant">AES</span><span class="token punctuation">.</span><span class="token function">encrypt</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> key<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>使用方式：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token function">eval</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"encryptScript"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 从全局变量获取脚本内容</span>
+<span class="token keyword">const</span> encrypted <span class="token operator">=</span> <span class="token function">aesEncrypt</span><span class="token punctuation">(</span><span class="token string">"敏感数据"</span><span class="token punctuation">,</span> <span class="token string">"密钥"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔍-解密响应数据（Tests-脚本中）"><a href="#🔍-解密响应数据（Tests-脚本中）" class="headerlink" title="🔍 解密响应数据（Tests 脚本中）"></a>🔍 解密响应数据（Tests 脚本中）</h2><h3 id="在-Tests-脚本中解密响应"><a href="#在-Tests-脚本中解密响应" class="headerlink" title="在 Tests 脚本中解密响应"></a>在 Tests 脚本中解密响应</h3><figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 在Tests脚本中添加</span>
+<span class="token keyword">const</span> CryptoJS <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'crypto-js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 从响应获取加密数据</span>
+<span class="token keyword">const</span> encryptedData <span class="token operator">=</span> pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> secretKey <span class="token operator">=</span> <span class="token string">"1234567890123456"</span><span class="token punctuation">;</span>
+
+<span class="token comment">// AES解密</span>
+<span class="token keyword">const</span> bytes <span class="token operator">=</span> CryptoJS<span class="token punctuation">.</span><span class="token constant">AES</span><span class="token punctuation">.</span><span class="token function">decrypt</span><span class="token punctuation">(</span>encryptedData<span class="token punctuation">,</span> secretKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> decryptedData <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>bytes<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span>CryptoJS<span class="token punctuation">.</span>enc<span class="token punctuation">.</span>Utf8<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 断言解密后的数据</span>
+pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>decryptedData<span class="token punctuation">.</span>code<span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span><span class="token function">eql</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>decryptedData<span class="token punctuation">.</span>data<span class="token punctuation">.</span>username<span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span><span class="token function">eql</span><span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="使用环境变量存储解密结果"><a href="#使用环境变量存储解密结果" class="headerlink" title="使用环境变量存储解密结果"></a>使用环境变量存储解密结果</h3><figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 解密后存储到环境变量供后续请求使用</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"decryptedData"</span><span class="token punctuation">,</span> decryptedData<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔐-加密场景示例"><a href="#🔐-加密场景示例" class="headerlink" title="🔐 加密场景示例"></a>🔐 加密场景示例</h2><p><strong>RSA 加密（使用公钥）：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 在Pre-request Script中添加（需先导入jsrsasign库）</span>
+<span class="token keyword">const</span> JSEncrypt <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'jsencrypt'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 公钥（从环境变量获取）</span>
+<span class="token keyword">const</span> publicKey <span class="token operator">=</span> pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"rsaPublicKey"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 待加密数据</span>
+<span class="token keyword">const</span> data <span class="token operator">=</span> <span class="token string">"敏感信息"</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 加密</span>
+<span class="token keyword">const</span> encrypt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JSEncrypt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+encrypt<span class="token punctuation">.</span><span class="token function">setPublicKey</span><span class="token punctuation">(</span>publicKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> encrypted <span class="token operator">=</span> encrypt<span class="token punctuation">.</span><span class="token function">encrypt</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 设置到请求体</span>
+pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>body<span class="token punctuation">.</span>raw <span class="token operator">=</span> encrypted<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>带时间戳的签名验证：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// Pre-request Script</span>
+<span class="token keyword">const</span> CryptoJS <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'crypto-js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> timestamp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 生成签名</span>
+<span class="token keyword">const</span> signData <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">timestamp=</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>timestamp<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">&amp;api_key=your_key</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> signature <span class="token operator">=</span> CryptoJS<span class="token punctuation">.</span><span class="token constant">SHA256</span><span class="token punctuation">(</span>signData <span class="token operator">+</span> pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"apiSecret"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 添加到请求头</span>
+pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"X-Timestamp"</span><span class="token punctuation">,</span> <span class="token literal-property property">value</span><span class="token operator">:</span> timestamp <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"X-Signature"</span><span class="token punctuation">,</span> <span class="token literal-property property">value</span><span class="token operator">:</span> signature <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Tests脚本验证响应签名</span>
+pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"响应签名验证"</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> responseSign <span class="token operator">=</span> pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>headers<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"X-Response-Sign"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> expectedSign <span class="token operator">=</span> CryptoJS<span class="token punctuation">.</span><span class="token constant">SHA256</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"apiSecret"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    pm<span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span>responseSign<span class="token punctuation">)</span><span class="token punctuation">.</span>to<span class="token punctuation">.</span><span class="token function">eql</span><span class="token punctuation">(</span>expectedSign<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<p>好的，以下是针对你提供的 <strong>Newman</strong> 相关内容的整理，带有适当表情提示，保持简洁且易读：</p>
+<hr>
+<h1 id="🚀-Newman"><a href="#🚀-Newman" class="headerlink" title="🚀 Newman"></a>🚀 Newman</h1><h2 id="🚀-Newman-核心价值与应用场景"><a href="#🚀-Newman-核心价值与应用场景" class="headerlink" title="🚀 Newman 核心价值与应用场景"></a>🚀 Newman 核心价值与应用场景</h2><p><strong>定位</strong>：Postman 的命令行运行器，适合自动化执行测试脚本，完美适配 CI&#x2F;CD 流水线。</p>
+<p><strong>核心优势</strong>：</p>
+<ul>
+<li>🖥️ 脱离 GUI，可集成 Jenkins、GitLab CI 等自动化工具</li>
+<li>🔄 支持批量运行、参数化测试、生成标准化报告</li>
+<li>🌍 跨平台（Linux&#x2F;Windows&#x2F;Mac），支持团队协作</li>
+</ul>
+<hr>
+<h2 id="🛠-Newman-安装与基础使用"><a href="#🛠-Newman-安装与基础使用" class="headerlink" title="🛠 Newman 安装与基础使用"></a>🛠 Newman 安装与基础使用</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> newman<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>（需先安装 Node.js）</p>
+<h3 id="基础命令结构"><a href="#基础命令结构" class="headerlink" title="基础命令结构"></a>基础命令结构</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">newman run <span class="token punctuation">[</span>collection文件路径<span class="token punctuation">]</span> <span class="token punctuation">[</span>选项参数<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="核心参数说明"><a href="#核心参数说明" class="headerlink" title="核心参数说明"></a>核心参数说明</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-e</code></td>
+<td>指定环境变量文件 (JSON)</td>
+<td><code>-e environments/test.json</code></td>
+</tr>
+<tr>
+<td><code>-g</code></td>
+<td>指定全局变量文件 (JSON)</td>
+<td><code>-g globals/prod.json</code></td>
+</tr>
+<tr>
+<td><code>-d</code></td>
+<td>参数化测试数据文件 (CSV&#x2F;JSON)</td>
+<td><code>-d data/users.csv</code></td>
+</tr>
+<tr>
+<td><code>-n</code></td>
+<td>迭代次数</td>
+<td><code>-n 5</code> （每个用例执行 5 次）</td>
+</tr>
+<tr>
+<td><code>-r</code></td>
+<td>报告格式（支持多种组合）</td>
+<td><code>-r cli,html,json,junit</code></td>
+</tr>
+<tr>
+<td><code>--reporter-*</code></td>
+<td>定制报告输出（如HTML路径）</td>
+<td><code>--reporter-html-export reports/result.html</code></td>
+</tr>
+<tr>
+<td><code>--delay-request</code></td>
+<td>请求间隔（毫秒）</td>
+<td><code>--delay-request 500</code></td>
+</tr>
+<tr>
+<td><code>--insecure</code></td>
+<td>允许忽略 HTTPS 证书验证</td>
+<td><code>--insecure</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🏃‍♂️-从-Postman-到-Newman-的完整流程"><a href="#🏃‍♂️-从-Postman-到-Newman-的完整流程" class="headerlink" title="🏃‍♂️ 从 Postman 到 Newman 的完整流程"></a>🏃‍♂️ 从 Postman 到 Newman 的完整流程</h2><h3 id="1-导出-Collection-和-Environment"><a href="#1-导出-Collection-和-Environment" class="headerlink" title="1. 导出 Collection 和 Environment"></a>1. 导出 Collection 和 Environment</h3><ul>
+<li>Postman → 选择集合 → 点击 <code>...</code> → Export → 保存为 <code>collection.json</code></li>
+<li>选择环境 → 点击 <code>...</code> → Export → 保存为 <code>environment.json</code></li>
+</ul>
+<h3 id="2-执行基本测试"><a href="#2-执行基本测试" class="headerlink" title="2. 执行基本测试"></a>2. 执行基本测试</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 运行集合，使用测试环境变量</span>
+newman run collection.json <span class="token parameter variable">-e</span> environment.json<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-参数化测试示例"><a href="#3-参数化测试示例" class="headerlink" title="3. 参数化测试示例"></a>3. 参数化测试示例</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 使用CSV数据文件进行参数化测试，生成HTML报告</span>
+newman run collection.json <span class="token parameter variable">-e</span> test.env.json <span class="token parameter variable">-d</span> data/users.csv <span class="token parameter variable">-n</span> <span class="token number">3</span> <span class="token parameter variable">-r</span> html --reporter-html-export reports/test-result.html<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="4-并发与全局变量示例"><a href="#4-并发与全局变量示例" class="headerlink" title="4. 并发与全局变量示例"></a>4. 并发与全局变量示例</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 模拟10个并发用户，执行5次迭代，输出JUnit格式报告</span>
+newman run collection.json <span class="token parameter variable">-g</span> globals.json <span class="token parameter variable">-n</span> <span class="token number">5</span> <span class="token parameter variable">--concurrency</span> <span class="token number">10</span> <span class="token parameter variable">-r</span> junit --reporter-junit-export reports/junit.xml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h1 id="🤖-Postman-Newman-Jenkins-持续集成实战"><a href="#🤖-Postman-Newman-Jenkins-持续集成实战" class="headerlink" title="🤖 Postman + Newman + Jenkins 持续集成实战"></a>🤖 Postman + Newman + Jenkins 持续集成实战</h1><h2 id="核心步骤速览"><a href="#核心步骤速览" class="headerlink" title="核心步骤速览"></a>核心步骤速览</h2><ol>
+<li><p>环境准备</p>
+<ul>
+<li>安装 Jenkins（推荐 Docker 部署）</li>
+<li>安装 Node.js 和 Newman（Jenkins 节点）</li>
+<li>导出 Postman Collection 和环境变量文件</li>
+</ul>
+</li>
+<li><p>Jenkins 配置</p>
+<ul>
+<li>新建自由风格项目</li>
+<li>配置 Git 源码管理</li>
+<li>添加构建步骤，执行 Newman 命令</li>
+</ul>
+</li>
+<li><p>报告集成</p>
+<ul>
+<li>安装 HTML Publisher 插件</li>
+<li>配置报告路径</li>
+<li>保存并触发构建</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="🖥-详细操作步骤"><a href="#🖥-详细操作步骤" class="headerlink" title="🖥 详细操作步骤"></a>🖥 详细操作步骤</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># Docker安装 Jenkins（推荐）</span>
+<span class="token function">docker</span> run <span class="token parameter variable">-d</span> <span class="token parameter variable">-p</span> <span class="token number">8080</span>:8080 <span class="token parameter variable">-v</span> jenkins_home:/var/jenkins_home jenkins/jenkins:lts<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># Jenkins节点安装 Newman</span>
+<span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> newman newman-reporter-html<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<ul>
+<li>导出 Postman Collection（<code>collection.json</code>）与环境变量文件（<code>environment.json</code>）</li>
+</ul>
+<hr>
+<h3 id="Jenkins-项目配置"><a href="#Jenkins-项目配置" class="headerlink" title="Jenkins 项目配置"></a>Jenkins 项目配置</h3><ol>
+<li><p>新建项目</p>
+<ul>
+<li>点击 New Item → 输入项目名 → 选择 Freestyle project</li>
+</ul>
+</li>
+<li><p>源码管理</p>
+<ul>
+<li>选择 Git → 输入仓库地址 → 配置认证信息</li>
+</ul>
+</li>
+<li><p>构建步骤</p>
+<ul>
+<li>添加 Execute shell（Linux&#x2F;macOS）：</li>
+</ul>
+</li>
+</ol>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">newman run collection.json <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> environment.json <span class="token punctuation">\</span>
+  <span class="token parameter variable">-r</span> html <span class="token punctuation">\</span>
+  --reporter-html-export reports/index.html<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<ol start="4">
+<li><p>构建后操作</p>
+<ul>
+<li><p>添加 Publish HTML reports 插件配置</p>
+<ul>
+<li>Report name: API测试报告</li>
+<li>Directory: reports</li>
+<li>Index page: index.html</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="🔍-关键命令解析"><a href="#🔍-关键命令解析" class="headerlink" title="🔍 关键命令解析"></a>🔍 关键命令解析</h2><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">newman run collection.json <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> environment.json <span class="token punctuation">\</span>          <span class="token comment"># 环境变量</span>
+  <span class="token parameter variable">-d</span> data.csv <span class="token punctuation">\</span>                  <span class="token comment"># 参数化测试数据（可选）</span>
+  <span class="token parameter variable">-n</span> <span class="token number">5</span> <span class="token punctuation">\</span>                        <span class="token comment"># 迭代次数（可选）</span>
+  <span class="token parameter variable">-r</span> html <span class="token punctuation">\</span>                     <span class="token comment"># 生成HTML报告</span>
+  --reporter-html-export reports/index.html  <span class="token comment"># 报告路径</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="⚠️-常见问题及解决方案"><a href="#⚠️-常见问题及解决方案" class="headerlink" title="⚠️ 常见问题及解决方案"></a>⚠️ 常见问题及解决方案</h2><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Newman 未找到</td>
+<td>检查 Node.js 与 Newman 是否安装，或使用绝对路径（如 <code>/usr/bin/newman</code>）</td>
+</tr>
+<tr>
+<td>报告为空</td>
+<td>确认命令中的报告路径与 Jenkins 配置一致，确认 Newman 执行成功</td>
+</tr>
+<tr>
+<td>中文乱码</td>
+<td>添加参数 <code>--reporter-html-encoding utf-8</code></td>
+</tr>
+<tr>
+<td>环境变量不生效</td>
+<td>确保 <code>environment.json</code> 格式正确，变量名与 Postman 一致</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="✅-执行效果验证"><a href="#✅-执行效果验证" class="headerlink" title="✅ 执行效果验证"></a>✅ 执行效果验证</h2><ol>
+<li>触发 Jenkins 构建</li>
+<li>构建成功后，点击左侧菜单中的 “API测试报告”</li>
+<li>查看测试结果（成功率、响应时间、失败用例）</li>
+</ol>
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>通过本次系统性学习，我对接口测试从原理、流程、工具到自动化的整个链路有了清晰的认识，Postman 不仅适合手动调试，还可以搭配 Newman 实现完整的自动化方案，未来在项目中我也会持续将这些方法应用于实践中。</p>
+<p>如果你刚入门接口测试，希望这份整理对你有所帮助，也欢迎交流、讨论更多实战经验 🙌。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/" class="category-chain-item">⚙️ 自动化测试工程化：工具、实战与体系建设</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%8E%E6%A1%88%E4%BE%8B%E7%BB%8F%E9%AA%8C/" class="category-chain-item">项目实战与案例经验</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" class="print-no-link">#自动化测试</a>
+      
+        <a href="/fluid-blog/tags/Postman/" class="print-no-link">#Postman</a>
+      
+        <a href="/fluid-blog/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" class="print-no-link">#软件测试</a>
+      
+        <a href="/fluid-blog/tags/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/" class="print-no-link">#接口测试</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/" class="print-no-link">#测试用例</a>
+      
+        <a href="/fluid-blog/tags/Newman/" class="print-no-link">#Newman</a>
+      
+        <a href="/fluid-blog/tags/Mock-Server/" class="print-no-link">#Mock Server</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>从入门到实战：一篇文章掌握接口测试与 Postman 全流程</div>
+      <div>https://linn0813.github.io/2025/06/20/2025-06-20-postman-class/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/23/2025-06-23-cursor-hack/" title="🎉 超全！Cursor Pro 白嫖指南 😎">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🎉 超全！Cursor Pro 白嫖指南 😎</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/19/2025-06-19-bug-reporting-guide/" title="已测试工程师视角：如何优雅提 Bug，让开发主动修复？😎">
+                        <span class="hidden-mobile">已测试工程师视角：如何优雅提 Bug，让开发主动修复？😎</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

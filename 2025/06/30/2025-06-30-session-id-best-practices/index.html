@@ -1,0 +1,835 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="session_id, 前后端分离, 会话管理, 前端生成session_id, 后端生成session_id">
+  
+    <meta name="description" content="详解前后端生成 &#96;session_id&#96; 的两种方案，对比其优缺点、适用场景，并给出实战推荐做法！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🎯前后端生成 &#96;session_id&#96; 的优劣对比与实战建议">
+<meta property="og:url" content="https://linn0813.github.io/2025/06/30/2025-06-30-session-id-best-practices/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="详解前后端生成 &#96;session_id&#96; 的两种方案，对比其优缺点、适用场景，并给出实战推荐做法！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/session-id-best-practices.png">
+<meta property="article:published_time" content="2025-06-30T08:01:36.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.871Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="前后端分离">
+<meta property="article:tag" content="session_id">
+<meta property="article:tag" content="会话管理">
+<meta property="article:tag" content="开发实践">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/session-id-best-practices.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🎯前后端生成 `session_id` 的优劣对比与实战建议 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🎯前后端生成 `session_id` 的优劣对比与实战建议"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-30 16:01" pubdate>
+          2025年6月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🎯前后端生成 `session_id` 的优劣对比与实战建议</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🎯前后端生成-session-id-的优劣对比与实战建议"><a href="#🎯前后端生成-session-id-的优劣对比与实战建议" class="headerlink" title="🎯前后端生成 session_id 的优劣对比与实战建议"></a>🎯前后端生成 <code>session_id</code> 的优劣对比与实战建议</h1><p>在一些业务流程中，我们常需要为一段操作生成一个“会话标识符”，也就是 <code>session_id</code>。它就像一个“流程ID”，贯穿用户操作的始终，比如上传一个 CSV 文件后，进行多步处理并最终生成报告。</p>
+<p>这个 <code>session_id</code> 应该由前端生成？还是后端生成？</p>
+<p>这是一个看似简单、实则充满实践经验的问题。这篇文章将为你详解两种方案的优缺点、适用场景，以及我们在真实项目中的推荐做法。</p>
+<hr>
+<h2 id="🔍-场景回顾：session-id-是什么？"><a href="#🔍-场景回顾：session-id-是什么？" class="headerlink" title="🔍 场景回顾：session_id 是什么？"></a>🔍 场景回顾：session_id 是什么？</h2><p><code>session_id</code> 在前后端分离项目中，通常不是传统意义上的“登录会话”，而是用来标识某个业务流程的数据，比如：</p>
+<ul>
+<li>一次文件上传任务</li>
+<li>一组数据处理的批次</li>
+<li>一个用户临时操作过程</li>
+</ul>
+<p>关键需求是：<strong>前后端都能识别这个 session，并围绕它存取数据或状态</strong>。</p>
+<hr>
+<h2 id="🧭-方案一：前端生成-session-id"><a href="#🧭-方案一：前端生成-session-id" class="headerlink" title="🧭 方案一：前端生成 session_id"></a>🧭 方案一：前端生成 session_id</h2><h3 id="✨-示例写法"><a href="#✨-示例写法" class="headerlink" title="✨ 示例写法"></a>✨ 示例写法</h3><figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 前端生成 UUID 作为 session_id</span>
+<span class="token keyword">const</span> sessionId <span class="token operator">=</span> crypto<span class="token punctuation">.</span><span class="token function">randomUUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">||</span> <span class="token function">generateCustomUUID</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+localStorage<span class="token punctuation">.</span><span class="token function">setItem</span><span class="token punctuation">(</span><span class="token string">'session_id'</span><span class="token punctuation">,</span> sessionId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 接口请求时带上</span>
+axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">/api/xxx</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> data<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">headers</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token string-property property">'X-Session-ID'</span><span class="token operator">:</span> sessionId <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="✅-优点"><a href="#✅-优点" class="headerlink" title="✅ 优点"></a>✅ 优点</h3><ul>
+<li>🔁 <strong>控制权在前端</strong>：适用于用户操作频繁切换、刷新等需要自己掌控 session 生命周期的场景；</li>
+<li>🧩 <strong>支持完整流程的 session 复用</strong>：比如上传 CSV → 配置字段映射 → 分步处理 → 下载报告，全流程一个 session_id；</li>
+<li>🔐 <strong>唯一性可控</strong>：前端用 <code>uuid</code> 即可生成，基本避免重复。</li>
+</ul>
+<h3 id="⚠-缺点"><a href="#⚠-缺点" class="headerlink" title="⚠ 缺点"></a>⚠ 缺点</h3><ul>
+<li>📦 <strong>需要自行存储和管理</strong>：需要用 <code>localStorage</code> &#x2F; <code>sessionStorage</code> &#x2F; <code>Pinia</code> 等保存；</li>
+<li>🔄 <strong>刷新&#x2F;关闭浏览器可能丢失</strong>：需要处理 session 失效的回退逻辑；</li>
+<li>🧠 <strong>对新手来说有一定复杂度</strong>：需要考虑 session_id 有效性、恢复逻辑等。</li>
+</ul>
+<hr>
+<h2 id="🧭-方案二：后端生成-session-id"><a href="#🧭-方案二：后端生成-session-id" class="headerlink" title="🧭 方案二：后端生成 session_id"></a>🧭 方案二：后端生成 session_id</h2><h3 id="✨-示例流程"><a href="#✨-示例流程" class="headerlink" title="✨ 示例流程"></a>✨ 示例流程</h3><ol>
+<li>前端发起请求（如上传 CSV），不带 session_id；</li>
+<li>后端生成 session_id，处理业务并返回；</li>
+<li>前端将 session_id 存储（如存在内存或 localStorage）；</li>
+<li>后续所有请求都携带该 session_id。</li>
+</ol>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 上传 CSV，后端返回 session_id</span>
+<span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/api/upload'</span><span class="token punctuation">,</span> file<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> sessionId <span class="token operator">=</span> res<span class="token punctuation">.</span>data<span class="token punctuation">.</span>session_id<span class="token punctuation">;</span>
+
+<span class="token comment">// 之后请求都带上这个 ID</span>
+axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">'/api/process'</span><span class="token punctuation">,</span> data<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">headers</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token string-property property">'X-Session-ID'</span><span class="token operator">:</span> sessionId <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="✅-优点-1"><a href="#✅-优点-1" class="headerlink" title="✅ 优点"></a>✅ 优点</h3><ul>
+<li>🔒 <strong>安全性更高</strong>：后端统一生成并维护，避免伪造；</li>
+<li>🧘 <strong>前端实现更轻松</strong>：无需自己生成&#x2F;维护 session，只需拿来用；</li>
+<li>🔄 <strong>适合一次性任务</strong>：如每次上传、每次分析都独立处理；</li>
+</ul>
+<h3 id="⚠-缺点-1"><a href="#⚠-缺点-1" class="headerlink" title="⚠ 缺点"></a>⚠ 缺点</h3><ul>
+<li>🤝 <strong>需一次“握手”过程</strong>：前端不能立即拥有 session_id，得等后端返回；</li>
+<li>🧵 <strong>流程中断易丢失 session</strong>：前端若不存储好，可能丢失当前上下文；</li>
+<li>⏳ <strong>状态依赖后端</strong>：session 生命周期、清理策略完全依赖后端设计。</li>
+</ul>
+<hr>
+<h2 id="🎯-推荐实践：后端生成为主，前端生成为辅"><a href="#🎯-推荐实践：后端生成为主，前端生成为辅" class="headerlink" title="🎯 推荐实践：后端生成为主，前端生成为辅"></a>🎯 推荐实践：后端生成为主，前端生成为辅</h2><h3 id="✅-推荐选型指南："><a href="#✅-推荐选型指南：" class="headerlink" title="✅ 推荐选型指南："></a>✅ 推荐选型指南：</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐方式</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一次性操作（上传、查询）</td>
+<td>后端生成</td>
+<td>安全、解耦、稳定</td>
+</tr>
+<tr>
+<td>多步流程需同一个 session</td>
+<td>后端生成（前端存用）</td>
+<td>保持上下文一致</td>
+</tr>
+<tr>
+<td>多标签页并行流程（互不干扰）</td>
+<td>前端生成</td>
+<td>避免 session 冲突</td>
+</tr>
+<tr>
+<td>要求断点续传&#x2F;流程恢复</td>
+<td>前端生成 + 本地缓存</td>
+<td>灵活持久管理</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🛠-实战推荐方案：后端生成-前端存用"><a href="#🛠-实战推荐方案：后端生成-前端存用" class="headerlink" title="🛠 实战推荐方案：后端生成 + 前端存用"></a>🛠 实战推荐方案：后端生成 + 前端存用</h2><p>在大多数业务中，我们推荐如下组合策略：</p>
+<ol>
+<li>用户上传文件时，<strong>后端生成 session_id 并返回</strong>；</li>
+<li>前端将 session_id 存储（如放在 Pinia、localStorage 中）；</li>
+<li>后续每一步接口调用都带上这个 session_id；</li>
+<li>后端根据 session_id 管理中间状态、数据等；</li>
+<li>若用户刷新页面，可尝试恢复 session_id 并重建上下文。</li>
+</ol>
+<p>这种方案在实际项目中：</p>
+<ul>
+<li>安全 ✅</li>
+<li>稳定 ✅</li>
+<li>可控 ✅</li>
+<li>开发体验佳 ✅</li>
+</ul>
+<hr>
+<h2 id="🧪-示例：后端生成-session-id-的完整流程"><a href="#🧪-示例：后端生成-session-id-的完整流程" class="headerlink" title="🧪 示例：后端生成 session_id 的完整流程"></a>🧪 示例：后端生成 session_id 的完整流程</h2><pre><code class="mermaid">sequenceDiagram
+前端 ->> 后端: POST /api/upload
+后端 -->> 前端: 返回 session_id
+前端 -->> 本地存储: 保存 session_id
+前端 ->> 后端: 后续请求带上 session_id
+后端 ->> 数据库: 按 session_id 查询/保存数据<span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="🧠-总结"><a href="#🧠-总结" class="headerlink" title="🧠 总结"></a>🧠 总结</h2><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>控制方</th>
+<th>推荐使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>前端生成 session_id</td>
+<td>前端</td>
+<td>多流程共享、流程恢复、多标签并行</td>
+</tr>
+<tr>
+<td>后端生成 session_id</td>
+<td>后端</td>
+<td>安全、标准、易维护（绝大多数项目推荐）</td>
+</tr>
+</tbody></table>
+<p>🔔 <strong>最佳实践</strong>：推荐使用 “<strong>后端生成、前端存用</strong>” 模式。既能统一流程，又能兼顾安全与可控。</p>
+<hr>
+<blockquote>
+<p>你在项目中是如何处理 <code>session_id</code> 的？欢迎留言交流！</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">🐍 全栈开发底座：Python 进阶与前后端工程化</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/" class="category-chain-item">技术学习与行业趋势</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" class="print-no-link">#前后端分离</a>
+      
+        <a href="/fluid-blog/tags/session-id/" class="print-no-link">#session_id</a>
+      
+        <a href="/fluid-blog/tags/%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86/" class="print-no-link">#会话管理</a>
+      
+        <a href="/fluid-blog/tags/%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/" class="print-no-link">#开发实践</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🎯前后端生成 `session_id` 的优劣对比与实战建议</div>
+      <div>https://linn0813.github.io/2025/06/30/2025-06-30-session-id-best-practices/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/30/2025-06-30-http-interceptor-error-handling/" title="🧩 前端工程实战：HTTP 请求拦截与错误处理的正确姿势">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧩 前端工程实战：HTTP 请求拦截与错误处理的正确姿势</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/30/2025-06-30-api-baseurl-vs-vite-proxy/" title="🧩【前端实践】环境变量 vs Vite 代理：API 地址配置的最佳实践">
+                        <span class="hidden-mobile">🧩【前端实践】环境变量 vs Vite 代理：API 地址配置的最佳实践</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1099 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, Security, Governance, Logging, Observability, 安全治理, 日志, 审计">
+  
+    <meta name="description" content="深入解析 Agent 安全治理：从日志记录、审计追踪到可观测性，掌握如何监控和管理 Agent 的行为，确保安全可控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🔒 主题13｜Agent 安全治理：日志、审计、可观测性与安全审计">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/22/2025-12-22-llm-agent-security-governance/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 Agent 安全治理：从日志记录、审计追踪到可观测性，掌握如何监控和管理 Agent 的行为，确保安全可控">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-security-governance.png">
+<meta property="article:published_time" content="2025-12-22T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.635Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Security">
+<meta property="article:tag" content="Governance">
+<meta property="article:tag" content="Logging">
+<meta property="article:tag" content="Observability">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-security-governance.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🔒 主题13｜Agent 安全治理：日志、审计、可观测性与安全审计 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🔒 主题13｜Agent 安全治理：日志、审计、可观测性与安全审计"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-22 18:00" pubdate>
+          2025年12月22日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🔒 主题13｜Agent 安全治理：日志、审计、可观测性与安全审计</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 13 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们深入解析了 Spec 设计，掌握了如何用 Schema 限制 Agent 输出。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将聚焦 Agent 的安全治理，探讨如何监控和管理 Agent 的行为，确保安全可控。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-让-Agent-行为可控可观测"><a href="#🚀-导言-—-让-Agent-行为可控可观测" class="headerlink" title="🚀 导言 — 让 Agent 行为可控可观测"></a>🚀 导言 — 让 Agent 行为可控可观测</h2><p>在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-21-llm-agent-spec-design/">第12篇</a>中，我们掌握了如何用 Spec 设计提升输出稳定性。但 Agent 还有一个关键问题：</p>
+<blockquote>
+<p><strong>如何监控 Agent 的行为？</strong><br><strong>如何记录和分析 Agent 的执行日志？</strong><br><strong>如何确保 Agent 的安全可控？</strong></p>
+</blockquote>
+<p><strong>安全治理</strong>是 Agent 系统的重要组成部分，包括：</p>
+<ul>
+<li><strong>日志记录</strong>：记录 Agent 的所有操作</li>
+<li><strong>审计追踪</strong>：追踪 Agent 的行为历史</li>
+<li><strong>可观测性</strong>：监控 Agent 的运行状态</li>
+<li><strong>安全审计</strong>：检查 Agent 的安全合规性</li>
+</ul>
+<h3 id="🤔-先理解几个基础概念"><a href="#🤔-先理解几个基础概念" class="headerlink" title="🤔 先理解几个基础概念"></a>🤔 先理解几个基础概念</h3><p><strong>1. 日志记录（Logging）</strong></p>
+<blockquote>
+<p>简单理解：记录 Agent 的所有操作，就像”操作记录本”。</p>
+<p>例如：</p>
+<ul>
+<li>记录：Agent 调用了哪些工具</li>
+<li>记录：Agent 输出了什么结果</li>
+<li>记录：Agent 遇到了什么错误</li>
+</ul>
+</blockquote>
+<p><strong>2. 审计追踪（Audit Trail）</strong></p>
+<blockquote>
+<p>简单理解：追踪 Agent 的行为历史，就像”行为档案”。</p>
+<p>例如：</p>
+<ul>
+<li>追踪：谁使用了 Agent</li>
+<li>追踪：Agent 执行了什么操作</li>
+<li>追踪：操作的结果是什么</li>
+</ul>
+</blockquote>
+<p><strong>3. 可观测性（Observability）</strong></p>
+<blockquote>
+<p>简单理解：能够观察和理解 Agent 的运行状态。</p>
+<p>包括：</p>
+<ul>
+<li><strong>指标（Metrics）</strong>：性能指标、成功率等</li>
+<li><strong>日志（Logs）</strong>：操作日志、错误日志</li>
+<li><strong>追踪（Traces）</strong>：请求追踪、调用链</li>
+</ul>
+</blockquote>
+<h3 id="💡-为什么需要安全治理？"><a href="#💡-为什么需要安全治理？" class="headerlink" title="💡 为什么需要安全治理？"></a>💡 为什么需要安全治理？</h3><p><strong>问题1：行为不可控</strong></p>
+<blockquote>
+<p>Agent 的行为难以预测和控制，可能执行不期望的操作。</p>
+</blockquote>
+<p><strong>问题2：问题难以排查</strong></p>
+<blockquote>
+<p>如果 Agent 出错，没有日志难以排查问题。</p>
+</blockquote>
+<p><strong>问题3：安全风险</strong></p>
+<blockquote>
+<p>Agent 可能执行危险操作，需要监控和审计。</p>
+</blockquote>
+<p><strong>解决方案：安全治理系统</strong></p>
+<blockquote>
+<ul>
+<li><strong>日志记录</strong>：记录所有操作</li>
+<li><strong>审计追踪</strong>：追踪行为历史</li>
+<li><strong>可观测性</strong>：监控运行状态</li>
+<li><strong>安全审计</strong>：检查安全合规性</li>
+</ul>
+</blockquote>
+<h3 id="📋-本篇学习目标"><a href="#📋-本篇学习目标" class="headerlink" title="📋 本篇学习目标"></a>📋 本篇学习目标</h3><p>本篇将从<strong>实践</strong>的角度，帮你掌握：</p>
+<ol>
+<li><strong>日志记录</strong>：如何记录 Agent 的操作日志？</li>
+<li><strong>审计追踪</strong>：如何追踪 Agent 的行为历史？</li>
+<li><strong>可观测性</strong>：如何实现 Agent 的可观测性？</li>
+<li><strong>安全审计</strong>：如何检查 Agent 的安全合规性？</li>
+</ol>
+<blockquote>
+<p>💡 <strong>提示</strong>：安全治理是 Agent 系统的重要组成部分，理解它有助于构建更安全、更可控的 Agent 系统。</p>
+</blockquote>
+<hr>
+<h2 id="📝-一、日志记录（Logging）"><a href="#📝-一、日志记录（Logging）" class="headerlink" title="📝 一、日志记录（Logging）"></a>📝 一、日志记录（Logging）</h2><p>日志记录是安全治理的基础，需要记录 Agent 的所有操作。</p>
+<h3 id="1-1-日志记录策略"><a href="#1-1-日志记录策略" class="headerlink" title="1.1 日志记录策略"></a>1.1 日志记录策略</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像写日记，记录每天做了什么。</p>
+</blockquote>
+<p><strong>记录内容</strong>：</p>
+<ul>
+<li><strong>用户输入</strong>：用户给 Agent 的指令</li>
+<li><strong>Agent 思考</strong>：Agent 的思考过程（Thought）</li>
+<li><strong>工具调用</strong>：Agent 调用了哪些工具</li>
+<li><strong>执行结果</strong>：工具执行的结果</li>
+<li><strong>错误信息</strong>：遇到的错误和异常</li>
+</ul>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 日志记录（伪代码）</span>
+
+<span class="token keyword">import</span> logging
+<span class="token keyword">from</span> datetime <span class="token keyword">import</span> datetime
+
+<span class="token keyword">class</span> <span class="token class-name">AgentLogger</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> log_file<span class="token operator">=</span><span class="token string">"agent.log"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>logger <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span><span class="token string">"Agent"</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>setLevel<span class="token punctuation">(</span>logging<span class="token punctuation">.</span>INFO<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 文件处理器</span>
+        file_handler <span class="token operator">=</span> logging<span class="token punctuation">.</span>FileHandler<span class="token punctuation">(</span>log_file<span class="token punctuation">)</span>
+        file_handler<span class="token punctuation">.</span>setFormatter<span class="token punctuation">(</span>
+            logging<span class="token punctuation">.</span>Formatter<span class="token punctuation">(</span><span class="token string">'%(asctime)s - %(levelname)s - %(message)s'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>addHandler<span class="token punctuation">(</span>file_handler<span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">log_user_input</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> user_input<span class="token punctuation">,</span> user_id<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""记录用户输入"""</span>
+        self<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"[USER_INPUT] User: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>user_id<span class="token punctuation">&#125;</span></span><span class="token string">, Input: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>user_input<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">log_thought</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> thought<span class="token punctuation">,</span> agent_id<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""记录 Agent 思考"""</span>
+        self<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"[THOUGHT] Agent: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>agent_id<span class="token punctuation">&#125;</span></span><span class="token string">, Thought: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>thought<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">log_tool_call</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> tool_name<span class="token punctuation">,</span> args<span class="token punctuation">,</span> agent_id<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""记录工具调用"""</span>
+        self<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span>
+            <span class="token string-interpolation"><span class="token string">f"[TOOL_CALL] Agent: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>agent_id<span class="token punctuation">&#125;</span></span><span class="token string">, Tool: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>tool_name<span class="token punctuation">&#125;</span></span><span class="token string">, Args: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>args<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>
+        <span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">log_result</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> result<span class="token punctuation">,</span> agent_id<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""记录执行结果"""</span>
+        self<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"[RESULT] Agent: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>agent_id<span class="token punctuation">&#125;</span></span><span class="token string">, Result: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>result<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">log_error</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> error<span class="token punctuation">,</span> agent_id<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""记录错误"""</span>
+        self<span class="token punctuation">.</span>logger<span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"[ERROR] Agent: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>agent_id<span class="token punctuation">&#125;</span></span><span class="token string">, Error: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>error<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 使用示例</span>
+logger <span class="token operator">=</span> AgentLogger<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+logger<span class="token punctuation">.</span>log_user_input<span class="token punctuation">(</span><span class="token string">"查询用户数据"</span><span class="token punctuation">,</span> user_id<span class="token operator">=</span><span class="token string">"user_123"</span><span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>log_thought<span class="token punctuation">(</span><span class="token string">"我需要查询数据库"</span><span class="token punctuation">,</span> agent_id<span class="token operator">=</span><span class="token string">"agent_001"</span><span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>log_tool_call<span class="token punctuation">(</span><span class="token string">"query_database"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">"sql"</span><span class="token punctuation">:</span> <span class="token string">"SELECT * FROM users"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">"agent_001"</span><span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>log_result<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"count"</span><span class="token punctuation">:</span> <span class="token number">1000</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">"agent_001"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="1-2-结构化日志"><a href="#1-2-结构化日志" class="headerlink" title="1.2 结构化日志"></a>1.2 结构化日志</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>用结构化的格式记录日志，方便后续分析。</p>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 结构化日志（伪代码）</span>
+
+<span class="token keyword">import</span> json
+<span class="token keyword">from</span> datetime <span class="token keyword">import</span> datetime
+
+<span class="token keyword">class</span> <span class="token class-name">StructuredLogger</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">log</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> event_type<span class="token punctuation">,</span> data<span class="token punctuation">,</span> agent_id<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> user_id<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""记录结构化日志"""</span>
+        log_entry <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"timestamp"</span><span class="token punctuation">:</span> datetime<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>isoformat<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">"event_type"</span><span class="token punctuation">:</span> event_type<span class="token punctuation">,</span>
+            <span class="token string">"agent_id"</span><span class="token punctuation">:</span> agent_id<span class="token punctuation">,</span>
+            <span class="token string">"user_id"</span><span class="token punctuation">:</span> user_id<span class="token punctuation">,</span>
+            <span class="token string">"data"</span><span class="token punctuation">:</span> data
+        <span class="token punctuation">&#125;</span>
+        
+        <span class="token comment"># 输出 JSON 格式日志</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>log_entry<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 使用示例</span>
+logger <span class="token operator">=</span> StructuredLogger<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+logger<span class="token punctuation">.</span>log<span class="token punctuation">(</span>
+    event_type<span class="token operator">=</span><span class="token string">"tool_call"</span><span class="token punctuation">,</span>
+    data<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"tool"</span><span class="token punctuation">:</span> <span class="token string">"query_database"</span><span class="token punctuation">,</span> <span class="token string">"args"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token string">"sql"</span><span class="token punctuation">:</span> <span class="token string">"SELECT * FROM users"</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    agent_id<span class="token operator">=</span><span class="token string">"agent_001"</span><span class="token punctuation">,</span>
+    user_id<span class="token operator">=</span><span class="token string">"user_123"</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔍-二、审计追踪（Audit-Trail）"><a href="#🔍-二、审计追踪（Audit-Trail）" class="headerlink" title="🔍 二、审计追踪（Audit Trail）"></a>🔍 二、审计追踪（Audit Trail）</h2><p>审计追踪记录 Agent 的完整行为历史，用于安全审计和问题排查。</p>
+<h3 id="2-1-审计追踪实现"><a href="#2-1-审计追踪实现" class="headerlink" title="2.1 审计追踪实现"></a>2.1 审计追踪实现</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像”行为档案”，记录 Agent 的所有行为。</p>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 审计追踪（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AuditTrail</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> db<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>db <span class="token operator">=</span> db  <span class="token comment"># 数据库连接</span>
+    
+    <span class="token keyword">def</span> <span class="token function">record_action</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> agent_id<span class="token punctuation">,</span> action_type<span class="token punctuation">,</span> details<span class="token punctuation">,</span> user_id<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""记录操作"""</span>
+        audit_entry <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"agent_id"</span><span class="token punctuation">:</span> agent_id<span class="token punctuation">,</span>
+            <span class="token string">"user_id"</span><span class="token punctuation">:</span> user_id<span class="token punctuation">,</span>
+            <span class="token string">"action_type"</span><span class="token punctuation">:</span> action_type<span class="token punctuation">,</span>
+            <span class="token string">"details"</span><span class="token punctuation">:</span> details<span class="token punctuation">,</span>
+            <span class="token string">"timestamp"</span><span class="token punctuation">:</span> datetime<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">"ip_address"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>get_client_ip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token string">"user_agent"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>get_user_agent<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+        
+        <span class="token comment"># 保存到数据库</span>
+        self<span class="token punctuation">.</span>db<span class="token punctuation">.</span>audit_logs<span class="token punctuation">.</span>insert<span class="token punctuation">(</span>audit_entry<span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">query_audit_log</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> agent_id<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> start_time<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> end_time<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""查询审计日志"""</span>
+        query <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> agent_id<span class="token punctuation">:</span>
+            query<span class="token punctuation">[</span><span class="token string">"agent_id"</span><span class="token punctuation">]</span> <span class="token operator">=</span> agent_id
+        <span class="token keyword">if</span> start_time<span class="token punctuation">:</span>
+            query<span class="token punctuation">[</span><span class="token string">"timestamp"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"$gte"</span><span class="token punctuation">:</span> start_time<span class="token punctuation">&#125;</span>
+        <span class="token keyword">if</span> end_time<span class="token punctuation">:</span>
+            query<span class="token punctuation">[</span><span class="token string">"timestamp"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">"$lte"</span><span class="token punctuation">]</span> <span class="token operator">=</span> end_time
+        
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>db<span class="token punctuation">.</span>audit_logs<span class="token punctuation">.</span>find<span class="token punctuation">(</span>query<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="📊-三、可观测性（Observability）"><a href="#📊-三、可观测性（Observability）" class="headerlink" title="📊 三、可观测性（Observability）"></a>📊 三、可观测性（Observability）</h2><p>可观测性包括指标、日志和追踪，帮助理解 Agent 的运行状态。</p>
+<h3 id="3-1-指标监控（Metrics）"><a href="#3-1-指标监控（Metrics）" class="headerlink" title="3.1 指标监控（Metrics）"></a>3.1 指标监控（Metrics）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>监控 Agent 的性能指标，就像”健康检查”。</p>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 指标监控（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MetricsCollector</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>metrics <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"total_requests"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"successful_requests"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"failed_requests"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"average_response_time"</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+            <span class="token string">"tool_call_count"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">record_request</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> success<span class="token punctuation">,</span> response_time<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""记录请求"""</span>
+        self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_requests"</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">if</span> success<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"successful_requests"</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"failed_requests"</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+        
+        <span class="token comment"># 更新平均响应时间</span>
+        total <span class="token operator">=</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"total_requests"</span><span class="token punctuation">]</span>
+        current_avg <span class="token operator">=</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"average_response_time"</span><span class="token punctuation">]</span>
+        self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"average_response_time"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>
+            <span class="token punctuation">(</span>current_avg <span class="token operator">*</span> <span class="token punctuation">(</span>total <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> response_time<span class="token punctuation">)</span> <span class="token operator">/</span> total
+        <span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">record_tool_call</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> tool_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""记录工具调用"""</span>
+        <span class="token keyword">if</span> tool_name <span class="token keyword">not</span> <span class="token keyword">in</span> self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"tool_call_count"</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"tool_call_count"</span><span class="token punctuation">]</span><span class="token punctuation">[</span>tool_name<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
+        self<span class="token punctuation">.</span>metrics<span class="token punctuation">[</span><span class="token string">"tool_call_count"</span><span class="token punctuation">]</span><span class="token punctuation">[</span>tool_name<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+    
+    <span class="token keyword">def</span> <span class="token function">get_metrics</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""获取指标"""</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>metrics<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔒-四、安全审计（Security-Audit）"><a href="#🔒-四、安全审计（Security-Audit）" class="headerlink" title="🔒 四、安全审计（Security Audit）"></a>🔒 四、安全审计（Security Audit）</h2><p>安全审计检查 Agent 的安全合规性，识别潜在的安全风险。</p>
+<h3 id="4-1-安全审计检查"><a href="#4-1-安全审计检查" class="headerlink" title="4.1 安全审计检查"></a>4.1 安全审计检查</h3><p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 安全审计（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SecurityAuditor</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">audit</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> agent_id<span class="token punctuation">,</span> time_range<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""安全审计"""</span>
+        <span class="token comment"># 1. 获取审计日志</span>
+        logs <span class="token operator">=</span> self<span class="token punctuation">.</span>get_audit_logs<span class="token punctuation">(</span>agent_id<span class="token punctuation">,</span> time_range<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 检查安全风险</span>
+        risks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        
+        <span class="token comment"># 检查：是否有异常操作</span>
+        risks<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>self<span class="token punctuation">.</span>check_anomalous_operations<span class="token punctuation">(</span>logs<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 检查：是否有权限滥用</span>
+        risks<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>self<span class="token punctuation">.</span>check_permission_abuse<span class="token punctuation">(</span>logs<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 检查：是否有敏感操作</span>
+        risks<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>self<span class="token punctuation">.</span>check_sensitive_operations<span class="token punctuation">(</span>logs<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"agent_id"</span><span class="token punctuation">:</span> agent_id<span class="token punctuation">,</span>
+            <span class="token string">"time_range"</span><span class="token punctuation">:</span> time_range<span class="token punctuation">,</span>
+            <span class="token string">"risks"</span><span class="token punctuation">:</span> risks<span class="token punctuation">,</span>
+            <span class="token string">"risk_level"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>calculate_risk_level<span class="token punctuation">(</span>risks<span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔍-总结：安全治理确保-Agent-可控可观测"><a href="#🔍-总结：安全治理确保-Agent-可控可观测" class="headerlink" title="🔍 总结：安全治理确保 Agent 可控可观测"></a>🔍 总结：安全治理确保 Agent 可控可观测</h2><h3 id="💡-快速回顾：你学到了什么？"><a href="#💡-快速回顾：你学到了什么？" class="headerlink" title="💡 快速回顾：你学到了什么？"></a>💡 快速回顾：你学到了什么？</h3><ol>
+<li><strong>日志记录</strong>：记录 Agent 的所有操作</li>
+<li><strong>审计追踪</strong>：追踪 Agent 的行为历史</li>
+<li><strong>可观测性</strong>：监控 Agent 的运行状态</li>
+<li><strong>安全审计</strong>：检查 Agent 的安全合规性</li>
+</ol>
+<h3 id="安全治理的核心组件"><a href="#安全治理的核心组件" class="headerlink" title="安全治理的核心组件"></a>安全治理的核心组件</h3><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>日志记录</strong></td>
+<td>记录所有操作</td>
+<td>就像”操作记录本”</td>
+</tr>
+<tr>
+<td><strong>审计追踪</strong></td>
+<td>追踪行为历史</td>
+<td>就像”行为档案”</td>
+</tr>
+<tr>
+<td><strong>可观测性</strong></td>
+<td>监控运行状态</td>
+<td>就像”健康检查”</td>
+</tr>
+<tr>
+<td><strong>安全审计</strong></td>
+<td>检查安全合规性</td>
+<td>就像”安全检查”</td>
+</tr>
+</tbody></table>
+<p><strong>生活化理解</strong>：</p>
+<blockquote>
+<p>就像公司管理：</p>
+<ul>
+<li><strong>日志记录</strong>：记录员工的所有操作（如：谁在什么时候做了什么）</li>
+<li><strong>审计追踪</strong>：追踪员工的行为历史（如：查看某个员工的操作记录）</li>
+<li><strong>可观测性</strong>：监控系统运行状态（如：系统是否正常，性能如何）</li>
+<li><strong>安全审计</strong>：检查安全合规性（如：是否有异常操作，是否符合安全规范）</li>
+</ul>
+</blockquote>
+<h3 id="设计原则总结"><a href="#设计原则总结" class="headerlink" title="设计原则总结"></a>设计原则总结</h3><table>
+<thead>
+<tr>
+<th>原则</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>完整性</strong></td>
+<td>记录所有重要操作</td>
+<td>✅ 记录所有工具调用<br>❌ 只记录部分操作</td>
+</tr>
+<tr>
+<td><strong>可追溯性</strong></td>
+<td>能够追溯操作历史</td>
+<td>✅ 记录时间、用户、操作<br>❌ 只记录操作内容</td>
+</tr>
+<tr>
+<td><strong>实时性</strong></td>
+<td>实时监控和告警</td>
+<td>✅ 实时监控，及时告警<br>❌ 事后分析</td>
+</tr>
+<tr>
+<td><strong>安全性</strong></td>
+<td>保护日志和审计数据</td>
+<td>✅ 加密存储，权限控制<br>❌ 明文存储</td>
+</tr>
+</tbody></table>
+<h3 id="实战建议"><a href="#实战建议" class="headerlink" title="实战建议"></a>实战建议</h3><ol>
+<li><strong>从基础开始</strong>：先实现基本的日志记录，再逐步完善</li>
+<li><strong>重视安全</strong>：日志和审计数据要加密存储，权限控制</li>
+<li><strong>实时监控</strong>：实时监控 Agent 运行状态，及时发现问题</li>
+<li><strong>定期审计</strong>：定期进行安全审计，检查合规性</li>
+</ol>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：<br>安全治理是 Agent 系统的重要组成部分，通过日志、审计、可观测性和安全审计，确保 Agent 的行为可控、可观测、可审计。</p>
+<p>就像企业治理一样，好的安全治理能让 Agent 系统更安全、更可靠，便于管理和维护。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读"><a href="#📚-延伸阅读" class="headerlink" title="📚 延伸阅读"></a>📚 延伸阅读</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.langchain.com/docs/security/"><strong>Agent Security Best Practices</strong></a>：Agent 安全最佳实践</li>
+<li><a target="_blank" rel="noopener" href="https://www.langchain.com/docs/observability/"><strong>Observability for LLM Applications</strong></a>：LLM 应用的可观测性</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>安全治理让 Agent 行为可控，但多个 Agent 可以协作完成更复杂的任务。</p>
+<p><strong>第 14 篇将深入多 Agent 协作</strong>：</p>
+<blockquote>
+<p><strong>《主题14｜多 Agent 协作：像团队一样工作的一群智能体》</strong></p>
+</blockquote>
+<ul>
+<li>如何让多个 Agent 协作？</li>
+<li>角色设定和话术设计</li>
+<li>协作协议和消息流</li>
+<li>多 Agent 系统的最佳实践</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/Security/" class="print-no-link">#Security</a>
+      
+        <a href="/fluid-blog/tags/Governance/" class="print-no-link">#Governance</a>
+      
+        <a href="/fluid-blog/tags/Logging/" class="print-no-link">#Logging</a>
+      
+        <a href="/fluid-blog/tags/Observability/" class="print-no-link">#Observability</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🔒 主题13｜Agent 安全治理：日志、审计、可观测性与安全审计</div>
+      <div>https://linn0813.github.io/2025/12/22/2025-12-22-llm-agent-security-governance/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/23/2025-12-23-llm-agent-multi-agent-collaboration/" title="👥 主题14｜多 Agent 协作：像团队一样工作的一群智能体">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">👥 主题14｜多 Agent 协作：像团队一样工作的一群智能体</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/21/2025-12-21-llm-agent-spec-design/" title="📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性">
+                        <span class="hidden-mobile">📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

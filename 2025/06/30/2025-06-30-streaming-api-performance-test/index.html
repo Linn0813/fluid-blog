@@ -1,0 +1,837 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="流式接口, 接口压测, JMeter, Groovy脚本, 性能测试">
+  
+    <meta name="description" content="分享流式接口压测的实践经验，介绍使用 JMeter + Groovy 脚本应对流式接口压测挑战的方案，包含踩坑经历与解决方案！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🚀 一次流式接口压测实践：我们如何压出了真实压力，又避开了坑">
+<meta property="og:url" content="https://linn0813.github.io/2025/06/30/2025-06-30-streaming-api-performance-test/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="分享流式接口压测的实践经验，介绍使用 JMeter + Groovy 脚本应对流式接口压测挑战的方案，包含踩坑经历与解决方案！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/streaming-api-performance-test.png">
+<meta property="article:published_time" content="2025-06-30T09:48:37.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.872Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="JMeter">
+<meta property="article:tag" content="接口压测">
+<meta property="article:tag" content="流式接口">
+<meta property="article:tag" content="Groovy脚本">
+<meta property="article:tag" content="性能测试">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/streaming-api-performance-test.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🚀 一次流式接口压测实践：我们如何压出了真实压力，又避开了坑 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🚀 一次流式接口压测实践：我们如何压出了真实压力，又避开了坑"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-30 17:48" pubdate>
+          2025年6月30日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🚀 一次流式接口压测实践：我们如何压出了真实压力，又避开了坑</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🚀-一次流式接口压测实践：我们如何压出了真实压力，又避开了坑"><a href="#🚀-一次流式接口压测实践：我们如何压出了真实压力，又避开了坑" class="headerlink" title="🚀 一次流式接口压测实践：我们如何压出了真实压力，又避开了坑"></a>🚀 一次流式接口压测实践：我们如何压出了真实压力，又避开了坑</h1><p>在做传统 API 接口压测时，JMeter、Locust、k6 等工具已经成熟，但当面对“<strong>流式响应接口</strong>”（如 AI 对话、实时数据推送等）时，你会发现，常规的压测方案开始失效了——连接不断开、响应超长、QPS 无法控制、数据无法断言……</p>
+<p>作为一名测试工程师，我近期负责了一个流式接口的压测任务，最终成功搭建起一套<strong>支持并发模拟、响应追踪、QPS 控制、异常分析</strong>的完整压测流程。今天分享我的<strong>真实踩坑经历与解决方案</strong>。</p>
+<hr>
+<h2 id="🧩-背景：什么是“流式接口”？"><a href="#🧩-背景：什么是“流式接口”？" class="headerlink" title="🧩 背景：什么是“流式接口”？"></a>🧩 背景：什么是“流式接口”？</h2><p>流式接口（streaming API）是指<strong>后端不会一次性返回完整响应</strong>，而是像“水管”一样分段不断推送数据到前端，典型的如：</p>
+<ul>
+<li>OpenAI &#x2F; ChatGPT 的 SSE 接口（Server-Sent Events）</li>
+<li>WebSocket 数据订阅</li>
+<li>实时日志推送 &#x2F; 实时翻译</li>
+</ul>
+<p>以我们测试的接口为例，它是一个 <strong>AI 对话接口</strong>，会以 SSE 的方式流式返回回答片段，最终发送 <code>[DONE]</code> 表示结束。</p>
+<hr>
+<h2 id="💣-压测挑战"><a href="#💣-压测挑战" class="headerlink" title="💣 压测挑战"></a>💣 压测挑战</h2><p>传统压测工具和思路，在流式接口上纷纷踩雷：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>表现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>❌ 无法完整接收数据</td>
+<td>响应数据分多次推送，脚本只拿到部分内容或超时报错</td>
+</tr>
+<tr>
+<td>❌ 无法断言响应完整性</td>
+<td>流式数据非结构化，断言规则不好定义</td>
+</tr>
+<tr>
+<td>❌ QPS 无法精确控制</td>
+<td>每个请求持续时间不一，影响调度</td>
+</tr>
+<tr>
+<td>❌ 连接未释放，连接数爆表</td>
+<td>未显式关闭连接，导致服务端崩溃</td>
+</tr>
+<tr>
+<td>❌ 请求-响应非对称</td>
+<td>无法依靠状态码判断响应是否成功</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🧪-我的压测实践方案"><a href="#🧪-我的压测实践方案" class="headerlink" title="🧪 我的压测实践方案"></a>🧪 我的压测实践方案</h2><p>经过调研和实验，我决定使用 <strong>JMeter + Groovy 脚本</strong> 自定义请求逻辑 + 自主管理连接和接收过程。方案分为几个关键步骤：</p>
+<hr>
+<h3 id="✅-Step-1：明确前置请求链路"><a href="#✅-Step-1：明确前置请求链路" class="headerlink" title="✅ Step 1：明确前置请求链路"></a>✅ Step 1：明确前置请求链路</h3><p>流式接口压测前，必须完成前置身份链路：</p>
+<ol>
+<li>获取账号和密码；</li>
+<li>调用登录接口获取 token；</li>
+<li>调用 GetConversation 接口获取 conversationId；</li>
+<li>最后调用流式对话接口。</li>
+</ol>
+<p>我用 JMeter BeanShell&#x2F;Groovy 实现了链式依赖，将 token&#x2F;conversationId 存入变量池，确保每个线程能独立完成全链路。</p>
+<hr>
+<h3 id="✅-Step-2：自定义流式请求处理逻辑"><a href="#✅-Step-2：自定义流式请求处理逻辑" class="headerlink" title="✅ Step 2：自定义流式请求处理逻辑"></a>✅ Step 2：自定义流式请求处理逻辑</h3><p>使用 JMeter 原生的 HTTP Sampler 对 SSE 接口几乎无能为力，因此采用 <strong>Groovy 代码</strong>手动构造请求并逐行读取响应流：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-groovy" data-language="groovy"><code class="language-groovy"><span class="token keyword">def</span> connection <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">URL</span><span class="token punctuation">(</span>streamingUrl<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">openConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+connection<span class="token punctuation">.</span><span class="token function">setRequestProperty</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">"Authorization"</span></span><span class="token punctuation">,</span> <span class="token interpolation-string"><span class="token string">"Bearer </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span><span class="token expression">token</span><span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+connection<span class="token punctuation">.</span><span class="token function">setDoInput</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> reader <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">BufferedReader</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">InputStreamReader</span><span class="token punctuation">(</span>connection<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>line <span class="token operator">=</span> reader<span class="token punctuation">.</span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>line<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token interpolation-string"><span class="token string">"[DONE]"</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token comment">// 统计每条片段的时间与内容</span>
+<span class="token punctuation">&#125;</span>
+reader<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>这段逻辑确保我们能完整监听每一个流式片段，并按需记录日志、测量时间、判断是否异常终止。</p>
+<hr>
+<h3 id="✅-Step-3：主动释放连接，避免资源泄露"><a href="#✅-Step-3：主动释放连接，避免资源泄露" class="headerlink" title="✅ Step 3：主动释放连接，避免资源泄露"></a>✅ Step 3：主动释放连接，避免资源泄露</h3><p>这一步非常关键！我在压测初期遇到接口频繁报错，最终排查出是 <strong>客户端未主动关闭连接</strong> 导致后端连接池爆满。</p>
+<p>加入如下逻辑确保释放：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-groovy" data-language="groovy"><code class="language-groovy"><span class="token keyword">if</span> <span class="token punctuation">(</span>reader <span class="token operator">!=</span> null<span class="token punctuation">)</span> reader<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>connection <span class="token operator">!=</span> null<span class="token punctuation">)</span> connection<span class="token punctuation">.</span><span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>并设置 JMeter 超时时间、线程上限，避免压测反伤。</p>
+<hr>
+<h3 id="✅-Step-4：采集核心指标与错误分类"><a href="#✅-Step-4：采集核心指标与错误分类" class="headerlink" title="✅ Step 4：采集核心指标与错误分类"></a>✅ Step 4：采集核心指标与错误分类</h3><p>我使用 JMeter 的监听器、日志分析与后处理脚本采集了：</p>
+<ul>
+<li>💡 请求总耗时（包括等待响应的流时间）</li>
+<li>💡 平均流式片段数量与间隔时间</li>
+<li>💥 错误类型分布（连接中断、响应超时、无 [DONE]、空响应）</li>
+</ul>
+<p>通过汇总这些指标，我们对接口行为特征有了更清晰的量化认识，也辅助后端做了参数优化。</p>
+<hr>
+<h2 id="📊-关键观察与结果"><a href="#📊-关键观察与结果" class="headerlink" title="📊 关键观察与结果"></a>📊 关键观察与结果</h2><p>压测过程中，我们发现：</p>
+<ul>
+<li>在 QPS ≥ 30 时，部分流式响应出现卡顿，可能与 GPT 后端负载有关；</li>
+<li>平均响应时间从 2s 提升到 5s+，最长超 15s；</li>
+<li>未正常结束的响应占比由 1% 升至 10%；</li>
+<li>后端连接池未配置最大连接数，出现大量 TIME_WAIT 导致服务降级。</li>
+</ul>
+<p>这些数据支持我们与开发一起调整了：</p>
+<ul>
+<li>服务端连接池配置；</li>
+<li>增加 [DONE] 校验；</li>
+<li>限流策略与优雅降级机制。</li>
+</ul>
+<hr>
+<h2 id="🧠-经验总结"><a href="#🧠-经验总结" class="headerlink" title="🧠 经验总结"></a>🧠 经验总结</h2><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>应对策略</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>如何保持连接但不阻塞线程？</td>
+<td>使用异步响应监听，或独立线程处理响应流</td>
+</tr>
+<tr>
+<td>如何判断流式响应完整？</td>
+<td>明确协议结尾标识（如 <code>[DONE]</code>），否则视为异常</td>
+</tr>
+<tr>
+<td>如何避免连接数耗尽？</td>
+<td>明确关闭连接 + 控制并发线程上限</td>
+</tr>
+<tr>
+<td>如何评估响应质量？</td>
+<td>分析响应段数量、内容完整性、流速分布</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="📌-写在最后"><a href="#📌-写在最后" class="headerlink" title="📌 写在最后"></a>📌 写在最后</h2><p>这次流式接口压测经历让我意识到：</p>
+<blockquote>
+<p><strong>测试不仅是模拟用户行为，更是模拟系统极限下的真实压力与行为异常。</strong></p>
+</blockquote>
+<p>面对新型接口场景，传统压测方式需要<strong>重新设计思路</strong>，工具之外更考验你对协议、连接机制、数据流动的理解。</p>
+<p>如果你也在做类似的接口压测，可以参考以下建议：</p>
+<ul>
+<li>✅ 熟悉协议格式与结束标识；</li>
+<li>✅ 主动控制连接、响应、重试；</li>
+<li>✅ 用日志与结构化数据收集行为特征；</li>
+<li>✅ 建议压测从小 QPS 开始，逐步放大；</li>
+<li>✅ 不要忽略连接释放问题，很多“莫名其妙的报错”其实是资源泄漏。</li>
+</ul>
+<hr>
+<p>如果你对流式接口压测、Groovy 脚本封装、或多阶段链路测试设计感兴趣，可以留言或私信我，我可以进一步分享相关代码和实践细节 😎</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%A7-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%BF%9B%E9%98%B6%EF%BC%9ALinux-%E6%97%A5%E5%BF%97%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%9B%91%E6%8E%A7%E5%AE%9E%E6%88%98/" class="category-chain-item">🐧 服务端进阶：Linux 日志、性能与监控实战</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%A7-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%BF%9B%E9%98%B6%EF%BC%9ALinux-%E6%97%A5%E5%BF%97%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%9B%91%E6%8E%A7%E5%AE%9E%E6%88%98/%E6%80%A7%E8%83%BD%E3%80%81%E5%AE%89%E5%85%A8%E4%B8%8E%E4%B8%93%E9%A1%B9%E6%B5%8B%E8%AF%95/" class="category-chain-item">性能、安全与专项测试</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/JMeter/" class="print-no-link">#JMeter</a>
+      
+        <a href="/fluid-blog/tags/%E6%8E%A5%E5%8F%A3%E5%8E%8B%E6%B5%8B/" class="print-no-link">#接口压测</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%81%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="print-no-link">#流式接口</a>
+      
+        <a href="/fluid-blog/tags/Groovy%E8%84%9A%E6%9C%AC/" class="print-no-link">#Groovy脚本</a>
+      
+        <a href="/fluid-blog/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" class="print-no-link">#性能测试</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🚀 一次流式接口压测实践：我们如何压出了真实压力，又避开了坑</div>
+      <div>https://linn0813.github.io/2025/06/30/2025-06-30-streaming-api-performance-test/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月30日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/07/14/2025-07-14-A-B-test/" title="🧪 A/B测试从入门到进阶：产品优化的秘密武器！">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧪 A/B测试从入门到进阶：产品优化的秘密武器！</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/30/2025-06-30-http-interceptor-error-handling/" title="🧩 前端工程实战：HTTP 请求拦截与错误处理的正确姿势">
+                        <span class="hidden-mobile">🧩 前端工程实战：HTTP 请求拦截与错误处理的正确姿势</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

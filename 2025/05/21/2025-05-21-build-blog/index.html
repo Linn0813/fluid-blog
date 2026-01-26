@@ -1,0 +1,932 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="Hexo, Markdown, 个人博客搭建, GitHub, 博客部署">
+  
+    <meta name="description" content="手把手教你使用 Hexo 和 Markdown 搭建个人博客，涵盖准备工作、Hexo 安装、主题配置、部署到 GitHub 等全流程，同时提供常见问题解决方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo和Markdown搭建个人博客教程🎈">
+<meta property="og:url" content="https://linn0813.github.io/2025/05/21/2025-05-21-build-blog/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="手把手教你使用 Hexo 和 Markdown 搭建个人博客，涵盖准备工作、Hexo 安装、主题配置、部署到 GitHub 等全流程，同时提供常见问题解决方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/build-blog.png">
+<meta property="article:published_time" content="2025-05-21T10:17:26.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.866Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Markdown">
+<meta property="article:tag" content="个人博客搭建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/build-blog.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>Hexo和Markdown搭建个人博客教程🎈 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Hexo和Markdown搭建个人博客教程🎈"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-21 18:17" pubdate>
+          2025年5月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Hexo和Markdown搭建个人博客教程🎈</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Hexo和Markdown搭建个人博客教程🎈"><a href="#Hexo和Markdown搭建个人博客教程🎈" class="headerlink" title="Hexo和Markdown搭建个人博客教程🎈"></a>Hexo和Markdown搭建个人博客教程🎈</h1><p>在当今数字化的时代，拥有一个属于自己的个人博客是一件非常酷的事情😎。它不仅可以记录我们的生活、分享我们的知识，还能让我们结识更多志同道合的朋友。今天，我就来手把手地教大家如何使用Hexo和Markdown搭建一个属于自己的个人博客🎉。</p>
+<h2 id="一、准备工作🛠️"><a href="#一、准备工作🛠️" class="headerlink" title="一、准备工作🛠️"></a>一、准备工作🛠️</h2><h3 id="1-注册GitHub账号"><a href="#1-注册GitHub账号" class="headerlink" title="1. 注册GitHub账号"></a>1. 注册GitHub账号</h3><p>GitHub是一个代码托管平台，就像是一个巨大的代码仓库，它可以为我们提供免费的服务器和代码托管等功能👏。首先，我们需要访问GitHub官网注册一个账号。在注册的时候，一定要选择一个合适的用户名哦，因为后续博客网站的域名会用到这个名字呢😏。</p>
+<p>注册完成后，我们来到个人主界面，点击右上角的“+”，然后选择“New repository”，创建一个名为“用户名.github.io”的仓库，比如“example.github.io”，最后点击“Create repository”就完成创建啦🥳。</p>
+<h3 id="2-安装Git"><a href="#2-安装Git" class="headerlink" title="2. 安装Git"></a>2. 安装Git</h3><p>Git是一款免费、开源的分布式版本控制系统，它就像是一个神奇的时光机，可以帮助我们将本地的Hexo内容提交到代码托管站点📡。我们需要访问Git官网，根据自己的操作系统下载对应的安装程序，然后按照提示进行安装。</p>
+<p>安装完成后，打开命令行工具（如Windows的CMD或Git Bash），输入以下命令来配置用户名和邮箱：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config <span class="token parameter variable">--global</span> user.name <span class="token string">"你的GitHub用户名"</span>
+<span class="token function">git</span> config <span class="token parameter variable">--global</span> user.email <span class="token string">"你的GitHub邮箱"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>接着，我们要生成SSH密钥并添加到GitHub，这样才能在后续进行代码推送哦。输入以下命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ssh-keygen <span class="token parameter variable">-t</span> rsa <span class="token parameter variable">-C</span> <span class="token string">"你的GitHub邮箱"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>按提示一路回车，生成密钥后，找到id_rsa.pub文件（一般在C:\Users\你的用户名.ssh目录下），使用文本编辑器打开并复制其中的内容。登录GitHub，进入“Settings” -&gt; “SSH and GPG keys”，点击“New SSH key”，将复制的密钥内容粘贴到“Key”字段，填写标题后点击“Add SSH key”就大功告成啦🤩。</p>
+<h3 id="3-安装Node-js和npm"><a href="#3-安装Node-js和npm" class="headerlink" title="3. 安装Node.js和npm"></a>3. 安装Node.js和npm</h3><p>Hexo是基于Node.js运行的，所以我们需要安装Node.js和它的包管理工具npm。访问Node.js官网，下载适合自己操作系统的安装包，然后按照提示进行安装。</p>
+<p>安装完成后，打开命令行工具，输入以下命令检查安装是否成功：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">node</span> <span class="token parameter variable">-v</span>
+<span class="token function">npm</span> <span class="token parameter variable">-v</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>若显示出版本号，那就表示安装成功啦👏。为了加快后续插件下载速度，我们可以将npm的源切换为淘宝镜像，输入以下命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> config <span class="token builtin class-name">set</span> registry https://registry.npm.taobao.org<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h2 id="二、安装Hexo💻"><a href="#二、安装Hexo💻" class="headerlink" title="二、安装Hexo💻"></a>二、安装Hexo💻</h2><p>在命令行工具中，使用以下命令全局安装Hexo：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> <span class="token parameter variable">-g</span> hexo-cli<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>安装完成后，输入以下命令检查Hexo是否安装成功：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo <span class="token parameter variable">-v</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>若显示出版本号，就说明安装成功啦🥰。</p>
+<h2 id="三、初始化Hexo项目📂"><a href="#三、初始化Hexo项目📂" class="headerlink" title="三、初始化Hexo项目📂"></a>三、初始化Hexo项目📂</h2><p>我们要选择一个合适的目录，用来存放Hexo博客项目。在命令行中进入该目录，然后使用以下命令初始化Hexo项目：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo init 项目名称
+<span class="token builtin class-name">cd</span> 项目名称
+<span class="token function">npm</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>初始化完成后，该目录下会生成一些文件和文件夹，主要包括：</p>
+<ul>
+<li><code>_config.yml</code>：这是网站的配置信息文件，就像是博客的大脑🧠，可以对博客的各种参数进行设置。</li>
+<li><code>package.json</code>：这是应用程序的信息文件，记录了项目的依赖和脚本等信息。</li>
+<li><code>scaffolds</code>：这是模版文件夹，当我们新建文章时，Hexo会根据模版来建立文件。</li>
+<li><code>source</code>：这是资源文件夹，用来存放我们的用户资源，比如博客文章（.md文件）、图片等。其中，<code>_posts</code>文件夹用于存放正式发布的文章，<code>_drafts</code>文件夹用于存放草稿文章。</li>
+<li><code>themes</code>：这是主题文件夹，Hexo会根据主题来生成静态页面，我们可以通过更换主题来改变博客的外观哦😜。</li>
+</ul>
+<h2 id="四、本地预览博客👀"><a href="#四、本地预览博客👀" class="headerlink" title="四、本地预览博客👀"></a>四、本地预览博客👀</h2><p>在项目目录下，使用以下命令生成静态文件并启动本地服务器：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo generate
+hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>或者使用简写命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo g
+hexo s<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<p>启动成功后，在浏览器中访问<a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000</a>   ，我们就可以看到Hexo默认主题的博客页面啦🎉。如果要停止服务器，在命令行中按Ctrl + C就可以了。</p>
+<h2 id="五、安装和配置Butterfly主题🌈"><a href="#五、安装和配置Butterfly主题🌈" class="headerlink" title="五、安装和配置Butterfly主题🌈"></a>五、安装和配置Butterfly主题🌈</h2><h3 id="1-安装Butterfly主题"><a href="#1-安装Butterfly主题" class="headerlink" title="1. 安装Butterfly主题"></a>1. 安装Butterfly主题</h3><p>在Hexo项目根目录下，执行以下命令克隆Butterfly主题：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone <span class="token parameter variable">-b</span> master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>如果没有pug以及stylus的渲染器，还需要下载安装，否则在项目运行时会报错哦。输入以下命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-renderer-pug hexo-renderer-stylus <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="2-应用主题"><a href="#2-应用主题" class="headerlink" title="2. 应用主题"></a>2. 应用主题</h3><p>我们需要修改Hexo根目录下的<code>_config.yml</code>文件，将主题设置为butterfly：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">theme</span><span class="token punctuation">:</span> butterfly<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="3-减少升级主题的不便（可选）"><a href="#3-减少升级主题的不便（可选）" class="headerlink" title="3. 减少升级主题的不便（可选）"></a>3. 减少升级主题的不便（可选）</h3><p>为了减少升级主题后带来的不便，我们可以在Hexo根目录创建一个文件<code>_config.butterfly.yml</code>，并把主题目录的<code>_config.yml</code>内容复制到<code>_config.butterfly.yml</code>中。要注意哦，我们复制的是主题的<code>_config.yml</code>，而不是Hexo的<code>_config.yml</code>，并且不要把主题目录的<code>_config.yml</code>删掉。以后只需要在<code>_config.butterfly.yml</code>进行配置就可以啦，因为Hexo会自动合并主题中的<code>_config.yml</code>和<code>_config.butterfly.yml</code>里的配置，如果存在同名配置，会使用<code>_config.butterfly.yml</code>的配置，它的优先度较高呢😎。</p>
+<h3 id="4-主题基本配置"><a href="#4-主题基本配置" class="headerlink" title="4. 主题基本配置"></a>4. 主题基本配置</h3><p>以下是一些常见的主题配置示例，我们可以根据自己的需求修改<code>_config.butterfly.yml</code>文件：</p>
+<h4 id="全站设置"><a href="#全站设置" class="headerlink" title="全站设置"></a>全站设置</h4><figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># 网站总体设置</span>
+<span class="token comment"># --------------------------------------</span>
+<span class="token key atrule">favicon</span><span class="token punctuation">:</span> img/favicon.png  <span class="token comment">#收藏图标</span>
+<span class="token key atrule">background</span><span class="token punctuation">:</span> <span class="token comment">#设置网站背影，可设置图片或颜色</span>
+<span class="token key atrule">display_mode</span><span class="token punctuation">:</span> light <span class="token comment">#网站默认的显示模式</span>
+<span class="token key atrule">css_prefix</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>  <span class="token comment">#有些 CSS 并不是所有浏览器都支持，需要增加对应的前缀才会生效</span>
+<span class="token key atrule">instantpage</span><span class="token punctuation">:</span> <span class="token boolean important">false</span> <span class="token comment"># 当鼠标悬停到链接上超过 65 毫秒时会对该链接进行预加载，可以提升访问速度</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="英文与汉字间插入空格"><a href="#英文与汉字间插入空格" class="headerlink" title="英文与汉字间插入空格"></a>英文与汉字间插入空格</h4><figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">pangu</span><span class="token punctuation">:</span> <span class="token comment"># 在网页中所有的中文字和半形的英文、数字、符号之间插入空白</span>
+  <span class="token key atrule">enable</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">field</span><span class="token punctuation">:</span> site <span class="token comment"># site/post</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="替代图片设置"><a href="#替代图片设置" class="headerlink" title="替代图片设置"></a>替代图片设置</h4><figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">error_img</span><span class="token punctuation">:</span> <span class="token comment"># 如果全站有图片失效，则会用以下图片替换</span>
+  <span class="token key atrule">flink</span><span class="token punctuation">:</span> /img/friend_404.gif
+  <span class="token key atrule">post_page</span><span class="token punctuation">:</span> /img/404.jpg<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="过场动画"><a href="#过场动画" class="headerlink" title="过场动画"></a>过场动画</h4><p>页面打开前有一个过场的小动画，不过不太建议开启哦。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">preloader</span><span class="token punctuation">:</span> <span class="token comment"># 过场动画</span>
+  <span class="token key atrule">enable</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">source</span><span class="token punctuation">:</span> <span class="token number">1</span> <span class="token comment">#可选值1=fullpage或2=progress bar</span>
+  <span class="token key atrule">pace_css_url</span><span class="token punctuation">:</span> <span class="token comment"># (see https://codebyzach.github.io/pace/)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="404页面配置"><a href="#404页面配置" class="headerlink" title="404页面配置"></a>404页面配置</h4><figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># A simple 404 page</span>
+<span class="token key atrule">error_404</span><span class="token punctuation">:</span>
+  <span class="token key atrule">enable</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">subtitle</span><span class="token punctuation">:</span> <span class="token string">"页面沒有找到"</span>
+  <span class="token key atrule">background</span><span class="token punctuation">:</span> <span class="token comment">#背景图片</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="5-导航栏配置"><a href="#5-导航栏配置" class="headerlink" title="5. 导航栏配置"></a>5. 导航栏配置</h3><p>导航栏配置可在<code>_config.butterfly.yml</code>中进行，示例如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">menu</span><span class="token punctuation">:</span>
+  <span class="token key atrule">首页</span><span class="token punctuation">:</span> / <span class="token punctuation">|</span><span class="token punctuation">|</span> fas fa<span class="token punctuation">-</span>home
+  <span class="token key atrule">归档</span><span class="token punctuation">:</span> /archives/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fas fa<span class="token punctuation">-</span>archive
+  <span class="token key atrule">标签</span><span class="token punctuation">:</span> /tags/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fas fa<span class="token punctuation">-</span>tags
+  <span class="token key atrule">分类</span><span class="token punctuation">:</span> /categories/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fas fa<span class="token punctuation">-</span>folder<span class="token punctuation">-</span>open
+  <span class="token key atrule">留言板</span><span class="token punctuation">:</span> /messageboard/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>paper<span class="token punctuation">-</span>plane
+  <span class="token key atrule">友链</span><span class="token punctuation">:</span> /link/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>link
+  <span class="token key atrule">日志</span><span class="token punctuation">:</span> /timeline/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>bell
+  <span class="token key atrule">菜单 || fa fa-list</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> about <span class="token punctuation">|</span><span class="token punctuation">|</span> /about/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>sitemap
+    <span class="token punctuation">-</span> myself <span class="token punctuation">|</span><span class="token punctuation">|</span> /myself/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>id<span class="token punctuation">-</span>card
+    <span class="token punctuation">-</span> butterfly <span class="token punctuation">|</span><span class="token punctuation">|</span> https<span class="token punctuation">:</span>//github.com/jerryc127/hexo<span class="token punctuation">-</span>theme<span class="token punctuation">-</span>butterfly/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>heart<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>同时，我们需要创建对应的页面：</p>
+<h4 id="标签页"><a href="#标签页" class="headerlink" title="标签页"></a>标签页</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo new page tags<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>修改<code>source/tags/index.md</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">title</span><span class="token punctuation">:</span> 标签
+<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-01-05 00:00:00</span>
+<span class="token key atrule">type</span><span class="token punctuation">:</span> tags
+<span class="token punctuation">---</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="分类页"><a href="#分类页" class="headerlink" title="分类页"></a>分类页</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo new page categories<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>修改<code>source/categories/index.md</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">title</span><span class="token punctuation">:</span> 分类
+<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-01-05 00:00:00</span>
+<span class="token key atrule">type</span><span class="token punctuation">:</span> categories
+<span class="token punctuation">---</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="留言板"><a href="#留言板" class="headerlink" title="留言板"></a>留言板</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo new page messageboard<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>修改<code>source/messageboard/index.md</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">title</span><span class="token punctuation">:</span> 留言板
+<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-01-05 00:00:00</span>
+<span class="token key atrule">type</span><span class="token punctuation">:</span> messageboard
+<span class="token punctuation">---</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="友链"><a href="#友链" class="headerlink" title="友链"></a>友链</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo new page <span class="token function">link</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>修改<code>source/link/index.md</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">title</span><span class="token punctuation">:</span> 友链
+<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-01-05 00:00:00</span>
+<span class="token key atrule">type</span><span class="token punctuation">:</span> link
+<span class="token punctuation">---</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>在Hexo目录中的<code>source/_data</code>，创建一个文件<code>link.yml</code>，内容如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">class</span><span class="token punctuation">:</span>
+  <span class="token key atrule">class_name</span><span class="token punctuation">:</span> 友情链接
+  <span class="token key atrule">link_list</span><span class="token punctuation">:</span>
+    <span class="token key atrule">1</span><span class="token punctuation">:</span>
+      <span class="token key atrule">name</span><span class="token punctuation">:</span> 姓名
+      <span class="token key atrule">link</span><span class="token punctuation">:</span> 链接
+      <span class="token key atrule">avatar</span><span class="token punctuation">:</span> 图片
+      <span class="token key atrule">descr</span><span class="token punctuation">:</span> 签名
+    <span class="token key atrule">2</span><span class="token punctuation">:</span>
+      <span class="token key atrule">name</span><span class="token punctuation">:</span> 姓名
+      <span class="token key atrule">link</span><span class="token punctuation">:</span> 链接
+      <span class="token key atrule">avatar</span><span class="token punctuation">:</span> 图片
+      <span class="token key atrule">descr</span><span class="token punctuation">:</span> 签名<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo new page timeline<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>修改<code>source/timeline/index.md</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">title</span><span class="token punctuation">:</span> 日志
+<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-01-05 00:00:00</span>
+<span class="token key atrule">type</span><span class="token punctuation">:</span> timeline
+<span class="token punctuation">---</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo new page about<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>修改<code>source/about/index.md</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">title</span><span class="token punctuation">:</span> 关于
+<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2018-01-05 00:00:00</span>
+<span class="token key atrule">type</span><span class="token punctuation">:</span> about
+<span class="token punctuation">---</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="6-代码块显示设置"><a href="#6-代码块显示设置" class="headerlink" title="6. 代码块显示设置"></a>6. 代码块显示设置</h3><h4 id="开启代码复制功能"><a href="#开启代码复制功能" class="headerlink" title="开启代码复制功能"></a>开启代码复制功能</h4><figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">highlight_copy</span><span class="token punctuation">:</span> <span class="token boolean important">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h4 id="代码框展开-关闭设置"><a href="#代码框展开-关闭设置" class="headerlink" title="代码框展开&#x2F;关闭设置"></a>代码框展开&#x2F;关闭设置</h4><p><code>true</code>表示全部代码框不展开，需点击<code>&gt;</code>打开；<code>false</code>表示代码框展开，有<code>&gt;</code>点击按钮；<code>none</code>表示不显示<code>&gt;</code>按钮。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">highlight_shrink</span><span class="token punctuation">:</span> <span class="token boolean important">false</span> <span class="token comment">#代码框展开</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h4 id="代码换行设置"><a href="#代码换行设置" class="headerlink" title="代码换行设置"></a>代码换行设置</h4><p>在默认情况下，hexo-highlight在编译的时候不会实现代码自动换行。如果我们不希望在代码块的区域里有横向滚动条，可以在<code>_config.butterfly.yml</code>中开启代码换行：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">code_word_wrap</span><span class="token punctuation">:</span> <span class="token boolean important">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>同时，若使用highlight渲染，需要找到站点的Hexo配置文件<code>_config.yml</code>，将<code>line_number</code>改成<code>false</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">highlight</span><span class="token punctuation">:</span>
+  <span class="token key atrule">enable</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">line_number</span><span class="token punctuation">:</span> <span class="token boolean important">false</span> 
+  <span class="token key atrule">auto_detect</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tab_replace</span><span class="token punctuation">:</span> <span class="token string">''</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="六、配置部署信息🚀"><a href="#六、配置部署信息🚀" class="headerlink" title="六、配置部署信息🚀"></a>六、配置部署信息🚀</h2><p>要将本地的博客部署到GitHub上，我们需要对<code>_config.yml</code>文件进行配置。找到文件中的<code>deploy</code>字段，修改为以下内容：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># Deployment</span>
+<span class="token comment">## Docs: https://hexo.io/docs/deployment.html</span>
+<span class="token key atrule">deploy</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> git
+  <span class="token key atrule">repo</span><span class="token punctuation">:</span> git@github.com<span class="token punctuation">:</span>你的GitHub用户名/你的GitHub用户名.github.io.git
+  <span class="token key atrule">branch</span><span class="token punctuation">:</span> main<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>保存文件后，在项目目录下安装<code>hexo-deployer-git</code>插件：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h2 id="七、部署博客到GitHub🌐"><a href="#七、部署博客到GitHub🌐" class="headerlink" title="七、部署博客到GitHub🌐"></a>七、部署博客到GitHub🌐</h2><p>在项目目录下，使用以下命令将博客部署到GitHub：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo clean
+hexo generate
+hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>或者使用简写命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo clean
+hexo g
+hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>部署成功后，在浏览器中访问https:&#x2F;&#x2F;你的GitHub用户名.github.io，我们就可以看到部署到GitHub上的博客页面啦🎉。</p>
+<h2 id="八、撰写和发布文章📝"><a href="#八、撰写和发布文章📝" class="headerlink" title="八、撰写和发布文章📝"></a>八、撰写和发布文章📝</h2><h3 id="1-新建文章"><a href="#1-新建文章" class="headerlink" title="1. 新建文章"></a>1. 新建文章</h3><p>在项目目录下，使用以下命令新建一篇文章：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo new <span class="token string">"文章标题"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<p>执行该命令后，会在<code>source/_posts</code>文件夹下生成一个对应的<code>.md</code>文件。</p>
+<h3 id="2-编辑文章"><a href="#2-编辑文章" class="headerlink" title="2. 编辑文章"></a>2. 编辑文章</h3><p>我们可以使用Markdown编辑器（如Typora）打开生成的<code>.md</code>文件，编写文章内容。文章开头一般会有一些预定义参数，如标题、日期、标签、分类等，我们可以根据需要进行修改：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">title</span><span class="token punctuation">:</span> 文章标题
+<span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2025-05-16 16:39:18</span>
+<span class="token key atrule">tags</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>标签1<span class="token punctuation">,</span> 标签2<span class="token punctuation">]</span>
+<span class="token key atrule">categories</span><span class="token punctuation">:</span> 分类
+<span class="token punctuation">---</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-发布文章"><a href="#3-发布文章" class="headerlink" title="3. 发布文章"></a>3. 发布文章</h3><p>文章编写完成后，使用以下命令生成静态文件并部署到GitHub：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo clean
+hexo generate
+hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>或者使用简写命令：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo clean
+hexo g
+hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>部署成功后，刷新博客页面，我们就可以看到新发布的文章啦🥳。</p>
+<h2 id="九、常见问题及解决方法🙋‍♂️"><a href="#九、常见问题及解决方法🙋‍♂️" class="headerlink" title="九、常见问题及解决方法🙋‍♂️"></a>九、常见问题及解决方法🙋‍♂️</h2><h3 id="1-部署失败"><a href="#1-部署失败" class="headerlink" title="1. 部署失败"></a>1. 部署失败</h3><p>如果在执行<code>hexo deploy</code>命令时出现<code>ERROR Deployer not found: git</code>的错误，我们可以执行以下命令安装<code>hexo-deployer-git</code>插件：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="2-博客页面不显示图片"><a href="#2-博客页面不显示图片" class="headerlink" title="2. 博客页面不显示图片"></a>2. 博客页面不显示图片</h3><p>如果博客页面中的图片无法显示，我们可以进行以下设置：</p>
+<ul>
+<li>打开<code>_config.yml</code>文件，将<code>post_asset_folder</code>字段的值设置为<code>true</code>：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">post_asset_folder</span><span class="token punctuation">:</span> <span class="token boolean important">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<ul>
+<li>在项目目录下安装<code>hexo-asset-image</code>插件：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> https://github.com/CodeFalling/hexo-asset-image <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<ul>
+<li>将图片放在与文章同名的文件夹下，然后在文章中使用相对路径引用图片。</li>
+</ul>
+<h3 id="3-无法远程访问GitHub仓库"><a href="#3-无法远程访问GitHub仓库" class="headerlink" title="3. 无法远程访问GitHub仓库"></a>3. 无法远程访问GitHub仓库</h3><p>如果第一次部署时出现无法访问GitHub仓库的情况，可能是SSH配置错误，我们需要正确配置SSH key。可以参考前面的步骤重新生成并添加SSH密钥。</p>
+<h3 id="4-DNS域名解析异常"><a href="#4-DNS域名解析异常" class="headerlink" title="4. DNS域名解析异常"></a>4. DNS域名解析异常</h3><p>在部署过程中，如果遇到无法将博客部署到GitHub上的情况，且通过ping命令无法ping通GitHub官网网址，则可能是出现了DNS域名解析异常。解决方法如下：</p>
+<ul>
+<li>打开本地<code>C:\Windows\System32\drivers\etc\hosts</code>文件，在末尾添加以下命令：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">#前者为GitHub的网址IP，后者为GitHub网址的域名
+140.82.112.4        github.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<ul>
+<li>更改为国内的Gitee码云，部署方法与GitHub类似。</li>
+</ul>
+<p>通过以上步骤，我们就可以成功使用Hexo和Markdown搭建一个属于自己的个人博客啦👏。希望大家都能在自己的博客里记录美好的生活，分享有价值的知识😘！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">🐍 全栈开发底座：Python 进阶与前后端工程化</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/" class="category-chain-item">技术学习与行业趋势</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/Hexo/" class="print-no-link">#Hexo</a>
+      
+        <a href="/fluid-blog/tags/Markdown/" class="print-no-link">#Markdown</a>
+      
+        <a href="/fluid-blog/tags/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="print-no-link">#个人博客搭建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Hexo和Markdown搭建个人博客教程🎈</div>
+      <div>https://linn0813.github.io/2025/05/21/2025-05-21-build-blog/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/22/2025-05-22-SACA-chapter2/" title="SA分析师认证课程 - 第二章 了解数据采集基础📚">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SA分析师认证课程 - 第二章 了解数据采集基础📚</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/20/2025-05-20-SACA-chapter1/" title="SA分析师认证课程 - 第一章 走进数据分析📊">
+                        <span class="hidden-mobile">SA分析师认证课程 - 第一章 走进数据分析📊</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

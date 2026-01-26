@@ -1,0 +1,1410 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Prompt, In-Context Learning, Context Window, Chain-of-Thought, CoT, 提示工程, 上下文学习, 大语言模型">
+  
+    <meta name="description" content="深入理解 LLM 的&quot;语言&quot;：从 Prompt 工程、上下文窗口管理到 In-Context Learning，掌握与 LLM 有效对话的核心技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🧠 主题2｜理解 LLM 的&quot;语言&quot;：Prompt、上下文与 In‑Context Learning">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/03/2025-12-03-llm-prompt-context-in-context-learning/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入理解 LLM 的&quot;语言&quot;：从 Prompt 工程、上下文窗口管理到 In-Context Learning，掌握与 LLM 有效对话的核心技巧">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-prompt-context-in-context-learning.png">
+<meta property="article:published_time" content="2025-12-03T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.630Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Prompt">
+<meta property="article:tag" content="大语言模型">
+<meta property="article:tag" content="In-Context Learning">
+<meta property="article:tag" content="Context Window">
+<meta property="article:tag" content="Chain-of-Thought">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-prompt-context-in-context-learning.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-03 18:00" pubdate>
+          2025年12月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          43 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 2 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们讲了 LLM 的”物理基础”：Token、Embedding、Transformer。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们从”人机对话”的角度，理解如何让 LLM 从”会说话”变成”按指令办事”。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-与-LLM-沟通的艺术"><a href="#🚀-导言-—-与-LLM-沟通的艺术" class="headerlink" title="🚀 导言 — 与 LLM 沟通的艺术"></a>🚀 导言 — 与 LLM 沟通的艺术</h2><p>当你对 ChatGPT 说”帮我写一份测试计划”，它几秒内就能生成结构化的文档。</p>
+<p>这不是魔法，本质上，它只是在执行一件事：</p>
+<blockquote>
+<p><strong>根据输入，预测下一个最可能出现的 Token。</strong></p>
+</blockquote>
+<ul>
+<li><p><strong>但问题是</strong>：预测本身 ≠ 执行任务</p>
+</li>
+<li><p><strong>核心挑战</strong>：LLM 不会”理解”文本，它会”对齐你给的上下文模式”。你给它怎样的上下文，它就呈现怎样的能力。</p>
+</li>
+</ul>
+<p>大多数人使用大模型时，只把它当作”聪明的聊天工具”。但真正要发挥 LLM 的能力，你必须理解：<strong>LLM 有一套独特的”语言体系”</strong>。</p>
+<p>它并不是以”人类语言”来思考，而是依靠：</p>
+<ul>
+<li><strong>Prompt（提示词）</strong> — 给 LLM 的”指令语言”</li>
+<li><strong>Context Window（上下文窗口）</strong> — 模型的”思维环境”</li>
+<li><strong>In-Context Learning（上下文学习）</strong> — 模型真正的”学习方式”</li>
+</ul>
+<p>掌握它们，你就掌握了与 LLM 有效对话的核心技巧。</p>
+<p>本篇我们聚焦三大关键概念：</p>
+<ol>
+<li><p><strong>Prompt（提示 &#x2F; 指令）</strong> — 给 LLM 的”剧本”</p>
+</li>
+<li><p><strong>Context Window（上下文窗口）</strong> — 模型的短期记忆</p>
+</li>
+<li><p><strong>In‑Context Learning（上下文学习）</strong> — LLM 的”即学即用”魔法</p>
+</li>
+</ol>
+<hr>
+<h2 id="📜-一、Prompt-——-给-LLM-的”剧本”"><a href="#📜-一、Prompt-——-给-LLM-的”剧本”" class="headerlink" title="📜 一、Prompt —— 给 LLM 的”剧本”"></a>📜 一、Prompt —— 给 LLM 的”剧本”</h2><p>Prompt 就像导演给演员的剧本，告诉 LLM <strong>做什么、怎样做、输出什么格式</strong>。</p>
+<blockquote>
+<p>💡 <strong>Prompt 的处理流程</strong>：你输入的 Prompt → Tokenize（分词，见<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-02-llm-working-principle-token-embedding-transformer/">第一篇</a>）→ Embedding（向量化）→ 进入 Transformer 处理 → 生成输出</p>
+</blockquote>
+<h3 id="1-1-按示例数量分类的-Prompt-类型"><a href="#1-1-按示例数量分类的-Prompt-类型" class="headerlink" title="1.1 按示例数量分类的 Prompt 类型"></a>1.1 按示例数量分类的 Prompt 类型<a id="prompt-types-by-examples"></a></h3><p>根据是否提供示例，Prompt 可以分为三类：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>定义</th>
+<th>示例数量</th>
+<th>示例</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Zero‑Shot Prompt</strong></td>
+<td>不提供示例，仅给指令</td>
+<td>0 个</td>
+<td>“请总结以下段落的核心观点。”</td>
+<td>模型依赖预训练知识直接推理</td>
+</tr>
+<tr>
+<td><strong>Few‑Shot Prompt</strong></td>
+<td>提供少量输入‑输出示例</td>
+<td>1–5 个</td>
+<td>输入: <code>A -&gt; 1</code>, <code>B -&gt; 2</code>，然后问 <code>C -&gt; ?</code></td>
+<td>通过示例引导模型学习任务模式与输出风格</td>
+</tr>
+<tr>
+<td><strong>Many‑Shot Prompt</strong></td>
+<td>提供大量输入‑输出示例</td>
+<td>5+ 个</td>
+<td>提供 10+ 个示例，展示复杂模式</td>
+<td>学习更复杂的任务模式，但会占用更多 Context Window</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>比喻理解</strong>：</p>
+<ul>
+<li>Zero‑Shot 就像演员即兴表演</li>
+<li>Few‑Shot 就像给演员提前排练几次，告诉他们节奏和风格</li>
+<li>Many‑Shot 就像让演员反复观看大量经典表演，学习复杂的表演技巧</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>💡 <strong>选择建议</strong>：</p>
+<ul>
+<li><strong>简单任务</strong>：Zero‑Shot 通常足够</li>
+<li><strong>中等复杂度</strong>：Few‑Shot 效果更好</li>
+<li><strong>复杂任务</strong>：Many‑Shot 可能有效，但要注意 Context Window 限制</li>
+</ul>
+</blockquote>
+<h3 id="1-2-User-Prompt（用户指令）"><a href="#1-2-User-Prompt（用户指令）" class="headerlink" title="1.2 User Prompt（用户指令）"></a>1.2 User Prompt（用户指令）</h3><p>User Prompt 是用户每次对话时输入的具体问题或任务指令：</p>
+<ul>
+<li><p><strong>特点</strong>：</p>
+<ul>
+<li>每次对话都可能不同</li>
+<li>包含具体的任务需求、问题或上下文</li>
+<li>优先级相对 System Prompt 较低</li>
+</ul>
+</li>
+<li><p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">请总结以下文章的核心观点：
+
+[文章内容...]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">将以下 Python 代码转换为 JavaScript：
+
+def hello():
+    print(&quot;Hello, World!&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure></li>
+</ul>
+<blockquote>
+<p>💡 <strong>设计要点</strong>：User Prompt 应该<strong>清晰、具体、包含必要的上下文</strong>，避免模糊或歧义的表达。</p>
+</blockquote>
+<h3 id="1-3-System-Prompt（系统指令）"><a href="#1-3-System-Prompt（系统指令）" class="headerlink" title="1.3 System Prompt（系统指令）"></a>1.3 System Prompt（系统指令）</h3><p>System Prompt 是 LLM 的”身份设定”，它常具有比用户 Prompt 更高的优先级：</p>
+<ul>
+<li><p><strong>用途</strong>：定义模型角色、风格、全局行为规则</p>
+</li>
+<li><p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">你是一个严谨、专业的测试专家。  
+
+你只输出 Markdown 表格，不写解释文字。  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure></li>
+</ul>
+<blockquote>
+<p>✅ <strong>建议</strong>：合理设置 System Prompt，有助于模型行为一致、稳定</p>
+</blockquote>
+<h3 id="1-4-User-Prompt-vs-System-Prompt"><a href="#1-4-User-Prompt-vs-System-Prompt" class="headerlink" title="1.4 User Prompt vs System Prompt"></a>1.4 User Prompt vs System Prompt</h3><p>在实际使用中，LLM 通常接收两种类型的 Prompt：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>定义</th>
+<th>特点</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>System Prompt</strong></td>
+<td>系统级指令，定义模型的”身份”和全局行为</td>
+<td>• 优先级更高<br>• 通常只设置一次<br>• 贯穿整个对话</td>
+<td>角色设定、输出格式要求、行为约束</td>
+</tr>
+<tr>
+<td><strong>User Prompt</strong></td>
+<td>用户的具体问题或任务</td>
+<td>• 每次对话都可能不同<br>• 优先级相对较低</td>
+<td>具体问题、任务指令、对话内容</td>
+</tr>
+</tbody></table>
+<p><strong>示例对比</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">System Prompt（设置一次）：
+你是一个专业的测试工程师，擅长编写清晰的测试用例。
+
+User Prompt（每次对话）：
+请为&quot;用户登录功能&quot;编写测试用例。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>关键理解</strong>：System Prompt 是”背景设定”，User Prompt 是”当前任务”。两者配合使用，才能让模型既保持一致性，又能灵活应对不同任务。</p>
+</blockquote>
+<hr>
+<h2 id="🪟-二、Context-Window-——-模型的”短期记忆”"><a href="#🪟-二、Context-Window-——-模型的”短期记忆”" class="headerlink" title="🪟 二、Context Window —— 模型的”短期记忆”"></a>🪟 二、Context Window —— 模型的”短期记忆”</h2><p>LLM 不可能”无限记忆”，它有一个长度限制 —— <strong>Context Window</strong></p>
+<h3 id="2-1-什么是-Context-Window"><a href="#2-1-什么是-Context-Window" class="headerlink" title="2.1 什么是 Context Window"></a>2.1 什么是 Context Window</h3><ul>
+<li><p><strong>定义</strong>：模型在一次推理中”看到”的最大 Token 数</p>
+<blockquote>
+<p>💡 <strong>为什么用 Token 衡量？</strong> 因为 Token 是模型处理的最小单位（见<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-02-llm-working-principle-token-embedding-transformer/">第一篇</a>），所有输入都必须先 Tokenize 才能进入模型。</p>
+</blockquote>
+</li>
+<li><p><strong>组成部分</strong>：System Prompt + 历史对话 + 当前输入 + 模型的中间输出</p>
+</li>
+<li><p><strong>物理限制</strong>：由于 Transformer 中 Self‑Attention 的计算复杂度与 Token 数量平方相关（见<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-02-llm-working-principle-token-embedding-transformer/#self-attention">第一篇的 Self-Attention 部分</a>），</p>
+<p>当 Token 数量过多时，计算代价将迅速上涨（如 1000 Token 需要 100 万次计算，10000 Token 需要 1 亿次计算）</p>
+</li>
+<li><p><strong>实际示例</strong>：</p>
+<ul>
+<li>一段 1000 字的中文文章 ≈ 500-800 Token（取决于分词方式）</li>
+<li>GPT-4 的 Context Window：128k Token（约 25-30 万字）</li>
+<li>Claude 3.5 的 Context Window：200k Token（约 40-50 万字）</li>
+</ul>
+</li>
+<li><p><strong>超过限制的后果</strong>：当超过限制，最早的 Token 会被”遗忘” —— 即”上下文溢出 (overflow)”</p>
+<blockquote>
+<p><strong>比喻</strong>：Context Window 就像办公桌，一张桌子放太多纸，旧纸就被挤下桌面</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-2-应对-Context-Window-限制的策略"><a href="#2-2-应对-Context-Window-限制的策略" class="headerlink" title="2.2 应对 Context Window 限制的策略"></a>2.2 应对 Context Window 限制的策略</h3><p>当 Context Window 接近或超过限制时，可以使用以下策略：</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>方法</th>
+<th>效果</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>摘要 (Summarization)</strong></td>
+<td>将旧对话 &#x2F; 内容整理为简短摘要</td>
+<td>节省 Token，保留关键信息</td>
+<td>长对话、多轮交互</td>
+</tr>
+<tr>
+<td><strong>记忆模块 (Memory)</strong></td>
+<td>抽取关键信息存入外部数据库，当需要时检索</td>
+<td>关键信息不丢失</td>
+<td>Agent 系统、长期记忆需求</td>
+</tr>
+<tr>
+<td><strong>RAG (Retrieval‑Augmented Generation)</strong></td>
+<td>只把与当前任务相关的片段放入窗口</td>
+<td>支持超长文档处理</td>
+<td>知识库问答、文档分析</td>
+</tr>
+</tbody></table>
+<p><strong>实际应用示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">场景：处理 100 页技术文档
+1. 使用 RAG：只检索与当前问题相关的 3-5 个片段（约 2000 Token）
+2. 结合摘要：将历史对话压缩为摘要（节省 80% Token）
+3. 记忆模块：将关键结论存入数据库，后续可直接检索<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>最佳实践</strong>：用摘要 &#x2F; Memory &#x2F; RAG 结合起来，是处理长对话 &#x2F; 文档时的常见实践。RAG 会在主题4中详细讲解。</p>
+</blockquote>
+<hr>
+<h2 id="✨-三、In‑Context-Learning-ICL-——-LLM-的”魔法”"><a href="#✨-三、In‑Context-Learning-ICL-——-LLM-的”魔法”" class="headerlink" title="✨ 三、In‑Context Learning (ICL) —— LLM 的”魔法”"></a>✨ 三、In‑Context Learning (ICL) —— LLM 的”魔法”</h2><p>ICL 允许 LLM <strong>无需微调</strong>，仅通过 Prompt（尤其 Few‑Shot + 示例）学习新任务 &#x2F; 模式</p>
+<blockquote>
+<p>💡 <strong>Few‑Shot Prompt 与 ICL 的关系</strong>：Few‑Shot Prompt（见<a href="#prompt-types-by-examples">第一部分 1.1</a>）是 ICL 的<strong>典型实现方式</strong>。当你提供示例时，模型就在进行 In‑Context Learning。</p>
+</blockquote>
+<h3 id="3-1-ICL-的本质"><a href="#3-1-ICL-的本质" class="headerlink" title="3.1 ICL 的本质"></a>3.1 ICL 的本质</h3><ul>
+<li><p><strong>不是</strong>改变模型参数</p>
+</li>
+<li><p><strong>而是</strong>在 Context Window 内识别输入‑输出示例之间的”模式 &#x2F; 结构”，并应用到新输入上</p>
+</li>
+<li><p><strong>效果</strong>：快速上手新任务、无需大量数据</p>
+</li>
+</ul>
+<blockquote>
+<p>比喻：就像老师黑板上写几个例子，学生看懂规则，就能回答新问题</p>
+</blockquote>
+<h3 id="3-2-成功应用-—-思维链-Chain‑of‑Thought-CoT"><a href="#3-2-成功应用-—-思维链-Chain‑of‑Thought-CoT" class="headerlink" title="3.2 成功应用 — 思维链 (Chain‑of‑Thought, CoT)"></a>3.2 成功应用 — 思维链 (Chain‑of‑Thought, CoT)</h3><p>CoT 是 ICL 的经典用法，在复杂推理、逻辑题、数学题中尤其有用</p>
+<ul>
+<li><p><strong>做法</strong>：Prompt 要求模型”先写思考过程 (step by step)，再给答案”</p>
+</li>
+<li><p><strong>好处</strong>：</p>
+<ol>
+<li><p>激活模型内部”逻辑推理链”</p>
+</li>
+<li><p>提供更多 Token “空间”给中间推理</p>
+</li>
+<li><p>输出可读、可复查、方便调试</p>
+</li>
+</ol>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>CoT 类型</th>
+<th>使用方式</th>
+<th>示例 (prompt)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Zero‑Shot CoT</strong></td>
+<td>在问题后加一句 “请一步步思考”</td>
+<td><code>… + 请一步步思考。</code></td>
+</tr>
+<tr>
+<td><strong>Few‑Shot CoT</strong></td>
+<td>Few‑Shot 示例中包含完整思考过程</td>
+<td><code>[输入] → [详细思考过程] → [输出]</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>⚠️ <strong>重要区别</strong>：ICL &#x2F; CoT 与 <strong>Fine‑Tuning（微调）</strong> 是不同的：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>ICL &#x2F; CoT</th>
+<th>Fine‑Tuning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>是否改变模型参数</strong></td>
+<td>❌ 不改变</td>
+<td>✅ 改变（更新模型权重）</td>
+</tr>
+<tr>
+<td><strong>持久性</strong></td>
+<td>临时（只在当前 Context Window 有效）</td>
+<td>永久（模型参数已更新）</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>低（只需提供示例）</td>
+<td>高（需要训练数据和计算资源）</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>快速尝试新任务、临时调整</td>
+<td>需要长期稳定行为、领域定制</td>
+</tr>
+</tbody></table>
+<p>💡 <strong>简单理解</strong>：ICL 是”临时教学”，Fine‑Tuning 是”永久改造”</p>
+</blockquote>
+<h3 id="3-3-Fine‑Tuning（微调）详解"><a href="#3-3-Fine‑Tuning（微调）详解" class="headerlink" title="3.3 Fine‑Tuning（微调）详解"></a>3.3 Fine‑Tuning（微调）详解</h3><p>既然提到了 Fine‑Tuning，我们有必要深入了解它，以便在 ICL 和 Fine‑Tuning 之间做出正确选择。</p>
+<h4 id="3-3-1-什么是-Fine‑Tuning"><a href="#3-3-1-什么是-Fine‑Tuning" class="headerlink" title="3.3.1 什么是 Fine‑Tuning"></a>3.3.1 什么是 Fine‑Tuning</h4><p><strong>Fine‑Tuning（微调）</strong> 是在预训练模型的基础上，使用特定任务的数据集继续训练，<strong>更新模型参数</strong>，使模型适应特定任务或领域。</p>
+<blockquote>
+<p><strong>比喻理解</strong>：</p>
+<ul>
+<li><strong>预训练模型</strong> &#x3D; 一个受过”通识教育”的学生（知道很多通用知识）</li>
+<li><strong>Fine‑Tuning</strong> &#x3D; 针对特定专业（如医学、法律）进行”专业培训”</li>
+<li><strong>训练后的模型</strong> &#x3D; 既保留通识知识，又具备专业能力</li>
+</ul>
+</blockquote>
+<h4 id="3-3-2-Fine‑Tuning-的工作原理"><a href="#3-3-2-Fine‑Tuning-的工作原理" class="headerlink" title="3.3.2 Fine‑Tuning 的工作原理"></a>3.3.2 Fine‑Tuning 的工作原理</h4><p>Fine‑Tuning 的核心流程：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">1. 准备数据：收集特定任务的标注数据（如问答对、分类样本）
+   ↓
+2. 加载预训练模型：使用 GPT、BERT 等已训练好的模型作为起点
+   ↓
+3. 继续训练：在特定数据上训练，更新模型参数（权重）
+   ↓
+4. 保存模型：得到针对特定任务优化的新模型<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>关键点</strong>：</p>
+<ul>
+<li><strong>不是从零训练</strong>：基于预训练模型，利用已有的通用知识</li>
+<li><strong>参数更新</strong>：模型内部的权重（Weight）会根据新数据调整</li>
+<li><strong>永久改变</strong>：训练完成后，模型行为永久改变</li>
+</ul>
+<h4 id="3-3-3-Fine‑Tuning-的常见方法"><a href="#3-3-3-Fine‑Tuning-的常见方法" class="headerlink" title="3.3.3 Fine‑Tuning 的常见方法"></a>3.3.3 Fine‑Tuning 的常见方法</h4><p>根据更新参数的范围，Fine‑Tuning 可以分为：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>更新范围</th>
+<th>参数量</th>
+<th>成本</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Full Fine‑Tuning（全量微调）</strong></td>
+<td>更新所有参数</td>
+<td>100%</td>
+<td>高（需要大量 GPU）</td>
+<td>数据充足、计算资源丰富</td>
+</tr>
+<tr>
+<td><strong>LoRA (Low‑Rank Adaptation)</strong></td>
+<td>只更新少量低秩矩阵</td>
+<td>&lt; 1%</td>
+<td>低（节省显存和计算）</td>
+<td>资源有限、快速迭代</td>
+</tr>
+<tr>
+<td><strong>Adapter</strong></td>
+<td>在模型中插入小型适配层</td>
+<td>&lt; 5%</td>
+<td>中</td>
+<td>多任务场景、模块化设计</td>
+</tr>
+<tr>
+<td><strong>Prompt Tuning</strong></td>
+<td>只训练可学习的 Prompt 向量</td>
+<td>极少量</td>
+<td>极低</td>
+<td>轻量级任务适配</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>LoRA 是目前最流行的 Fine‑Tuning 方法</strong>：</p>
+<p><strong>简单理解</strong>：想象模型是一个巨大的调音台，有 1000 个旋钮（参数）。全量微调需要调整所有 1000 个旋钮，而 LoRA 只添加几个”小旋钮”（通常 &lt; 10 个），通过这几个小旋钮就能控制整个调音台的效果。</p>
+<p><strong>技术原理</strong>：LoRA 不直接修改原始模型参数，而是在模型旁边添加<strong>小型适配器</strong>。这些适配器只包含极少的参数（通常 &lt; 1%），但通过巧妙的数学方法，能够”模拟”全量微调的效果。</p>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>成本低</strong>：只需训练 &lt; 1% 的参数，显存和计算需求大幅降低</li>
+<li>✅ <strong>效果好</strong>：效果接近全量微调（通常能达到 90%+ 的效果）</li>
+<li>✅ <strong>灵活</strong>：可以轻松切换不同的 LoRA 适配器，实现”一个模型，多种能力”</li>
+</ul>
+<p><strong>实际应用</strong>：现在很多开源模型（如 Stable Diffusion、LLaMA）的微调都使用 LoRA，因为它能让普通用户用消费级 GPU 就能训练自己的模型。</p>
+</blockquote>
+<h4 id="3-3-4-何时选择-Fine‑Tuning-vs-ICL"><a href="#3-3-4-何时选择-Fine‑Tuning-vs-ICL" class="headerlink" title="3.3.4 何时选择 Fine‑Tuning vs ICL"></a>3.3.4 何时选择 Fine‑Tuning vs ICL</h4><p>选择 Fine‑Tuning 还是 ICL，取决于你的具体需求：</p>
+<table>
+<thead>
+<tr>
+<th>考虑因素</th>
+<th>选择 ICL</th>
+<th>选择 Fine‑Tuning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>任务频率</strong></td>
+<td>偶尔使用、临时任务</td>
+<td>频繁使用、长期需求</td>
+</tr>
+<tr>
+<td><strong>数据量</strong></td>
+<td>少量示例即可</td>
+<td>有大量标注数据（通常 &gt; 1000 条）</td>
+</tr>
+<tr>
+<td><strong>计算资源</strong></td>
+<td>无特殊要求</td>
+<td>需要 GPU&#x2F;TPU 训练（详见<a href="#gpu-tpu-training">扩展说明</a>）</td>
+</tr>
+<tr>
+<td><strong>响应速度</strong></td>
+<td>可能较慢（Context Window 较长）</td>
+<td>推理速度快（模型已优化）</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>低（只需 API 调用）</td>
+<td>高（训练成本 + 推理成本）</td>
+</tr>
+<tr>
+<td><strong>灵活性</strong></td>
+<td>高（可随时调整 Prompt）</td>
+<td>低（需要重新训练才能调整）</td>
+</tr>
+</tbody></table>
+<p><strong>实际决策示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">场景 1：偶尔需要翻译技术文档
+→ 选择 ICL：在 Prompt 中提供几个翻译示例即可
+
+场景 2：每天需要处理 1000+ 条客服对话
+→ 选择 Fine‑Tuning：训练专门的客服模型，提高效率和一致性
+
+场景 3：需要模型理解特定领域的术语（如医疗、法律）
+→ 选择 Fine‑Tuning：通过领域数据训练，模型能更好地理解专业术语<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>最佳实践</strong>：</p>
+<ul>
+<li><strong>先尝试 ICL</strong>：对于新任务，先用 Few‑Shot Prompt 测试效果</li>
+<li><strong>再考虑 Fine‑Tuning</strong>：如果 ICL 效果不理想，或需要长期稳定使用，再投入资源进行 Fine‑Tuning</li>
+<li><strong>混合使用</strong>：Fine‑Tuning 后的模型仍可使用 ICL 进行进一步优化</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔍-总结-—-与-LLM-有效对话的三把”钥匙”"><a href="#🔍-总结-—-与-LLM-有效对话的三把”钥匙”" class="headerlink" title="🔍 总结 — 与 LLM 有效对话的三把”钥匙”"></a>🔍 总结 — 与 LLM 有效对话的三把”钥匙”</h2><ul>
+<li><p><strong>Prompt &#x3D; 剧本</strong>，Clear &#x2F; Proper 的 Prompt 是控制 LLM 的基础</p>
+</li>
+<li><p><strong>Context Window &#x3D; 桌面</strong>，合理管理上下文，防止”记忆溢出”</p>
+</li>
+<li><p><strong>ICL &#x2F; CoT &#x3D; 魔法</strong>，通过示例 + 思考链，让模型迅速适应新任务</p>
+</li>
+</ul>
+<p>掌握它们，就可以设计结构化、高稳定性的 Prompt，实现复杂任务处理</p>
+<blockquote>
+<p>💡 <strong>下一步</strong>：理解了这些概念后，如何在实战中用好它们？下一篇我们将介绍 <strong>Prompt 工程的三大核心技巧</strong>（明确角色、思维链进阶、结构化输出），帮你实现稳定、可解析的高质量输出。</p>
+</blockquote>
+<hr>
+<h1 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h1><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h2 id="💬-Prompt-Engineering（提示工程）"><a href="#💬-Prompt-Engineering（提示工程）" class="headerlink" title="💬 Prompt Engineering（提示工程）"></a>💬 Prompt Engineering（提示工程）</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/prompt-engineering"><strong>OpenAI Prompt Engineering Guide（OpenAI 官方指南）</strong></a>：OpenAI 官方的 Prompt 工程指南，涵盖基础技巧和最佳实践。<strong>强烈推荐新手阅读</strong>，内容全面且实用。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/"><strong>Prompt Engineering Guide（社区指南）</strong></a>：社区维护的 Prompt 工程综合指南，包含大量示例和技巧。<strong>适合想系统学习的读者</strong>，内容更新及时。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.anthropic.com/claude/docs/prompt-engineering"><strong>Anthropic Prompt Engineering（Claude 指南）</strong></a>：Anthropic 官方的 Prompt 工程指南，特别针对 Claude 模型优化。适合使用 Claude 的开发者。</p>
+</li>
+</ul>
+<h2 id="🎯-In‑Context-Learning（上下文学习）"><a href="#🎯-In‑Context-Learning（上下文学习）" class="headerlink" title="🎯 In‑Context Learning（上下文学习）"></a>🎯 In‑Context Learning（上下文学习）</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2005.14165"><strong>Language Models are Few‑Shot Learners（GPT‑3 原始论文）</strong></a>：GPT‑3 的原始论文，首次系统性地展示了 Few‑Shot Learning 的能力。<strong>必读论文</strong>，适合想深入了解 ICL 原理的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2202.12837"><strong>What Makes In‑Context Learning Work?（ICL 工作原理）</strong></a>：深入分析 ICL 为什么有效的研究论文。适合想理解 ICL 底层机制的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2301.00234"><strong>In‑Context Learning 综述</strong></a>：ICL 的全面综述论文，涵盖原理、应用和最新进展。适合想系统了解 ICL 的读者。</p>
+</li>
+</ul>
+<h2 id="🔗-Chain‑of‑Thought（思维链）"><a href="#🔗-Chain‑of‑Thought（思维链）" class="headerlink" title="🔗 Chain‑of‑Thought（思维链）"></a>🔗 Chain‑of‑Thought（思维链）</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2201.11903"><strong>Chain‑of‑Thought Prompting Elicits Reasoning in Large Language Models（CoT 原始论文）</strong></a>：CoT 的开创性论文，展示了如何通过思维链提升模型推理能力。<strong>必读论文</strong>，适合所有读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2210.03493"><strong>Auto‑CoT: Automatic Chain of Thought Prompting（自动 CoT）</strong></a>：自动生成 CoT 示例的研究，适合想自动化 CoT 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.10601"><strong>Tree of Thoughts: Deliberate Problem Solving with Large Language Models（思维树）</strong></a>：CoT 的进阶方法，通过树状结构探索多种推理路径。适合想处理复杂推理任务的读者。</p>
+</li>
+</ul>
+<h2 id="🪟-Context-Window（上下文窗口）"><a href="#🪟-Context-Window（上下文窗口）" class="headerlink" title="🪟 Context Window（上下文窗口）"></a>🪟 Context Window（上下文窗口）</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2304.11062"><strong>Scaling Transformer to 1M tokens and beyond with RMT（超长上下文）</strong></a>：研究如何扩展 Transformer 的上下文长度。适合想了解长上下文技术的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2307.03172"><strong>Lost in the Middle: How Language Models Use Long Contexts（长上下文利用问题）</strong></a>：分析 LLM 在长上下文中的表现，发现模型更关注开头和结尾。<strong>重要发现</strong>，适合所有读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.pinecone.io/learn/context-window/"><strong>Context Window Management（上下文管理实践）</strong></a>：Pinecone 的上下文管理实践指南，包含 RAG 等解决方案。适合需要处理长文档的开发者。</p>
+</li>
+</ul>
+<h2 id="🔧-System-Prompt-User-Prompt"><a href="#🔧-System-Prompt-User-Prompt" class="headerlink" title="🔧 System Prompt &amp; User Prompt"></a>🔧 System Prompt &amp; User Prompt</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/prompt-engineering/system-messages"><strong>System Prompt Best Practices（System Prompt 最佳实践）</strong></a>：OpenAI 关于 System Prompt 的最佳实践指南。<strong>强烈推荐</strong>，适合所有开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.anthropic.com/claude/docs/system-prompts"><strong>Prompt Engineering for Claude（Claude Prompt 指南）</strong></a>：Anthropic 关于 System Prompt 的详细指南。适合使用 Claude 的开发者。</p>
+</li>
+</ul>
+<h2 id="🎓-Fine‑Tuning（微调）"><a href="#🎓-Fine‑Tuning（微调）" class="headerlink" title="🎓 Fine‑Tuning（微调）"></a>🎓 Fine‑Tuning（微调）</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2106.09685"><strong>LoRA: Low‑Rank Adaptation of Large Language Models（LoRA 论文）</strong></a>：LoRA 的原始论文，介绍了参数高效的微调方法。<strong>必读论文</strong>，适合想进行模型微调的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2303.15647"><strong>Parameter‑Efficient Fine‑Tuning（参数高效微调综述）</strong></a>：全面综述各种参数高效微调方法。适合想了解微调技术的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/training"><strong>Hugging Face Fine‑Tuning Guide（微调实战指南）</strong></a>：Hugging Face 的模型微调实战指南，包含代码示例。<strong>强烈推荐</strong>，适合想动手实践的开发者。</p>
+</li>
+</ul>
+<h2 id="🛠️-实战工具与框架"><a href="#🛠️-实战工具与框架" class="headerlink" title="🛠️ 实战工具与框架"></a>🛠️ 实战工具与框架</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/model_io/prompts/"><strong>LangChain Prompt Templates（LangChain Prompt 模板）</strong></a>：LangChain 的 Prompt 模板系统，方便构建复杂 Prompt。适合使用 LangChain 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptlayer.com/"><strong>PromptLayer（Prompt 管理工具）</strong></a>：Prompt 版本管理和分析工具，帮助优化 Prompt 效果。适合需要管理大量 Prompt 的团队。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/openai/evals"><strong>OpenAI Evals（评估框架）</strong></a>：OpenAI 开源的 Prompt 评估框架，帮助测试和优化 Prompt。适合需要系统评估 Prompt 的开发者。</p>
+</li>
+</ul>
+<h2 id="🇨🇳-中文资源"><a href="#🇨🇳-中文资源" class="headerlink" title="🇨🇳 中文资源"></a>🇨🇳 中文资源</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/zh"><strong>Prompt Engineering 中文指南</strong></a>：Prompt Engineering Guide 的中文版本，内容全面。<strong>适合中文读者</strong>。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/"><strong>LLM 应用开发实践（中文博客）</strong></a>：Lilian Weng 的 Prompt Engineering 博客文章，有中文翻译版本。适合中文读者，内容深入。</p>
+</li>
+</ul>
+<hr>
+<h1 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h1><p><strong>第 3 篇将进入实战技巧</strong>：</p>
+<blockquote>
+<p>如何设计结构化、高稳定性的 Prompt？</p>
+</blockquote>
+<blockquote>
+<p>如何确保输出格式稳定、可解析？</p>
+</blockquote>
+<hr>
+<h1 id="💡-扩展：为什么-Fine‑Tuning-需要-GPU-TPU？"><a href="#💡-扩展：为什么-Fine‑Tuning-需要-GPU-TPU？" class="headerlink" title="💡 扩展：为什么 Fine‑Tuning 需要 GPU&#x2F;TPU？"></a>💡 扩展：为什么 Fine‑Tuning 需要 GPU&#x2F;TPU？<a id="gpu-tpu-training"></a></h1><p>在文章中提到 Fine‑Tuning 需要 GPU&#x2F;TPU 训练，这到底意味着什么？普通用户能进行 Fine‑Tuning 吗？</p>
+<h2 id="什么是-GPU-和-TPU？"><a href="#什么是-GPU-和-TPU？" class="headerlink" title="什么是 GPU 和 TPU？"></a>什么是 GPU 和 TPU？</h2><p><strong>GPU（Graphics Processing Unit，图形处理器）</strong>：</p>
+<ul>
+<li>原本用于游戏、图像处理</li>
+<li>擅长<strong>并行计算</strong>（同时处理大量简单运算）</li>
+<li>深度学习训练需要大量矩阵运算，GPU 正好擅长</li>
+</ul>
+<p><strong>TPU（Tensor Processing Unit，张量处理器）</strong>：</p>
+<ul>
+<li>Google 专门为 AI 训练设计的芯片</li>
+<li>比 GPU 更高效，但主要 Google 内部使用</li>
+</ul>
+<blockquote>
+<p><strong>比喻理解</strong>：</p>
+<ul>
+<li><strong>CPU（普通电脑处理器）</strong> &#x3D; 一个数学教授，能解决复杂问题，但一次只能做一个</li>
+<li><strong>GPU</strong> &#x3D; 1000 个小学生，虽然每个能力有限，但能同时做大量简单计算</li>
+<li><strong>训练 LLM</strong> &#x3D; 需要同时计算几百万个数字，GPU 的并行能力正好匹配</li>
+</ul>
+</blockquote>
+<h2 id="为什么训练需要-GPU-TPU？"><a href="#为什么训练需要-GPU-TPU？" class="headerlink" title="为什么训练需要 GPU&#x2F;TPU？"></a>为什么训练需要 GPU&#x2F;TPU？</h2><p><strong>核心原因</strong>：训练 LLM 需要<strong>海量矩阵运算</strong></p>
+<p><strong>实际数据</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>CPU 耗时</th>
+<th>GPU 耗时</th>
+<th>加速比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>训练小型模型（100M 参数）</td>
+<td>数周</td>
+<td>数小时</td>
+<td>100+ 倍</td>
+</tr>
+<tr>
+<td>训练中型模型（7B 参数）</td>
+<td>数年</td>
+<td>数天</td>
+<td>1000+ 倍</td>
+</tr>
+<tr>
+<td>训练大型模型（70B+ 参数）</td>
+<td>几乎不可能</td>
+<td>数周</td>
+<td>无法计算</td>
+</tr>
+</tbody></table>
+<p><strong>为什么 CPU 这么慢？</strong></p>
+<ul>
+<li>CPU 核心少（通常 4-16 个），一次只能处理少量数据</li>
+<li>GPU 核心多（数千个），能同时处理大量数据</li>
+<li>训练需要计算数百万个参数的梯度，GPU 的并行能力是关键</li>
+</ul>
+<h2 id="Fine‑Tuning-需要多少资源？"><a href="#Fine‑Tuning-需要多少资源？" class="headerlink" title="Fine‑Tuning 需要多少资源？"></a>Fine‑Tuning 需要多少资源？</h2><p><strong>不同方法的资源需求</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>模型大小</th>
+<th>GPU 显存需求</th>
+<th>训练时间（示例）</th>
+<th>成本估算</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Full Fine‑Tuning</strong></td>
+<td>7B 参数</td>
+<td>40GB+</td>
+<td>数天</td>
+<td>高（需要 A100&#x2F;H100）</td>
+</tr>
+<tr>
+<td><strong>LoRA</strong></td>
+<td>7B 参数</td>
+<td>16GB</td>
+<td>数小时</td>
+<td>中（RTX 3090&#x2F;4090 即可）</td>
+</tr>
+<tr>
+<td><strong>LoRA</strong></td>
+<td>13B 参数</td>
+<td>24GB</td>
+<td>数小时</td>
+<td>中（需要多卡或 A100）</td>
+</tr>
+<tr>
+<td><strong>LoRA</strong></td>
+<td>70B 参数</td>
+<td>80GB+</td>
+<td>数天</td>
+<td>高（需要多张 A100）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>注意</strong>：以上是粗略估算，实际需求取决于：</p>
+<ul>
+<li>数据集大小</li>
+<li>训练轮数（Epoch）</li>
+<li>批次大小（Batch Size）</li>
+<li>优化器选择</li>
+</ul>
+</blockquote>
+<h2 id="普通用户如何获得-GPU-资源？"><a href="#普通用户如何获得-GPU-资源？" class="headerlink" title="普通用户如何获得 GPU 资源？"></a>普通用户如何获得 GPU 资源？</h2><p><strong>方案 1：云服务（推荐新手）</strong></p>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>特点</th>
+<th>价格（示例）</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Google Colab</strong></td>
+<td>免费（有限制）</td>
+<td>免费 &#x2F; $10&#x2F;月</td>
+<td>学习、小模型实验</td>
+</tr>
+<tr>
+<td><strong>Kaggle</strong></td>
+<td>免费（每周 30 小时）</td>
+<td>免费</td>
+<td>学习、竞赛</td>
+</tr>
+<tr>
+<td><strong>AWS &#x2F; Azure &#x2F; GCP</strong></td>
+<td>按需付费</td>
+<td>$0.5-5&#x2F;小时</td>
+<td>生产环境、大模型</td>
+</tr>
+<tr>
+<td><strong>RunPod &#x2F; Vast.ai</strong></td>
+<td>共享 GPU</td>
+<td>$0.2-2&#x2F;小时</td>
+<td>性价比高</td>
+</tr>
+</tbody></table>
+<p><strong>方案 2：购买 GPU（适合长期使用）</strong></p>
+<ul>
+<li><strong>消费级 GPU</strong>（如 RTX 3090&#x2F;4090）：适合 LoRA 微调中小型模型</li>
+<li><strong>专业级 GPU</strong>（如 A100&#x2F;H100）：适合全量微调大模型，但价格昂贵（数万元）</li>
+</ul>
+<p><strong>方案 3：使用 Fine‑Tuning API（最简单）</strong></p>
+<ul>
+<li><strong>OpenAI Fine‑Tuning API</strong>：上传数据，OpenAI 帮你训练</li>
+<li><strong>Anthropic Claude Fine‑Tuning</strong>：类似服务</li>
+<li><strong>优势</strong>：无需管理 GPU，按使用付费</li>
+<li><strong>劣势</strong>：成本较高，灵活性较低</li>
+</ul>
+<h2 id="实际成本对比"><a href="#实际成本对比" class="headerlink" title="实际成本对比"></a>实际成本对比</h2><p><strong>场景：微调一个 7B 参数的模型（使用 LoRA）</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">方案 A：使用云 GPU（RunPod，RTX 4090）
+- GPU 成本：$0.5&#x2F;小时 × 8 小时 &#x3D; $4
+- 数据准备：免费（自己准备）
+- 总成本：约 $4（约 30 元人民币）
+
+方案 B：使用 OpenAI Fine‑Tuning API
+- 训练成本：$3&#x2F;小时 × 训练时间
+- 数据准备：免费
+- 总成本：约 $10-50（取决于训练时间）
+
+方案 C：购买 GPU（RTX 4090）
+- 硬件成本：约 1.2 万元
+- 适合：需要频繁训练、长期使用<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>GPU&#x2F;TPU 是必需的</strong>：没有它们，Fine‑Tuning 几乎不可能完成</li>
+<li><strong>普通用户也能 Fine‑Tuning</strong>：通过云服务或 LoRA 方法，成本可控</li>
+<li><strong>推荐路径</strong>：<ol>
+<li><strong>新手</strong>：先用 Google Colab &#x2F; Kaggle 免费资源学习</li>
+<li><strong>进阶</strong>：使用云 GPU 服务（RunPod &#x2F; Vast.ai）进行实际项目</li>
+<li><strong>专业</strong>：考虑购买 GPU 或使用 Fine‑Tuning API</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>💡 <strong>关键理解</strong>：Fine‑Tuning 需要 GPU，但通过云服务和 LoRA 等优化方法，普通用户也能以合理成本进行 Fine‑Tuning。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Prompt/" class="print-no-link">#Prompt</a>
+      
+        <a href="/fluid-blog/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" class="print-no-link">#大语言模型</a>
+      
+        <a href="/fluid-blog/tags/In-Context-Learning/" class="print-no-link">#In-Context Learning</a>
+      
+        <a href="/fluid-blog/tags/Context-Window/" class="print-no-link">#Context Window</a>
+      
+        <a href="/fluid-blog/tags/Chain-of-Thought/" class="print-no-link">#Chain-of-Thought</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning</div>
+      <div>https://linn0813.github.io/2025/12/03/2025-12-03-llm-prompt-context-in-context-learning/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/04/2025-12-04-llm-prompt-engineering-practices/" title="🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/02/2025-12-02-llm-working-principle-token-embedding-transformer/" title="🧠 主题1｜LLM 工作原理深度解析：Token、向量、Transformer，到底在算什么？">
+                        <span class="hidden-mobile">🧠 主题1｜LLM 工作原理深度解析：Token、向量、Transformer，到底在算什么？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

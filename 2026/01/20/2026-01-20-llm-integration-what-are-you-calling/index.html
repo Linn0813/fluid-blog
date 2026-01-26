@@ -1,0 +1,892 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="大模型接入, LLM, 推理服务, 模型层, API, SDK, Ollama, ChatGPT API, Azure OpenAI, Bedrock, Vertex AI, 责任边界">
+  
+    <meta name="description" content="当你说“项目里接入大模型”时，究竟在接入什么？用四层结构（模型层&#x2F;推理服务层&#x2F;接入方式层&#x2F;责任边界层）把 Ollama、ChatGPT API、Azure OpenAI 等名词放回正确位置。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🤖 项目里调用大模型，其实在调用什么？">
+<meta property="og:url" content="https://linn0813.github.io/2026/01/20/2026-01-20-llm-integration-what-are-you-calling/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="当你说“项目里接入大模型”时，究竟在接入什么？用四层结构（模型层&#x2F;推理服务层&#x2F;接入方式层&#x2F;责任边界层）把 Ollama、ChatGPT API、Azure OpenAI 等名词放回正确位置。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-integration-what-are-you-calling.png">
+<meta property="article:published_time" content="2026-01-20T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-26T12:19:33.509Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="模型选型">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="推理服务">
+<meta property="article:tag" content="Ollama">
+<meta property="article:tag" content="OpenAI API">
+<meta property="article:tag" content="Azure OpenAI">
+<meta property="article:tag" content="术语对照">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-integration-what-are-you-calling.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🤖 项目里调用大模型，其实在调用什么？ - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🤖 项目里调用大模型，其实在调用什么？"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-20 10:00" pubdate>
+          2026年1月20日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🤖 项目里调用大模型，其实在调用什么？</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列的工具篇</strong></p>
+</blockquote>
+<p>当我们说“在项目里接入大模型”时，往往并不是在讨论一件单独的事情，而是在同时讨论<strong>多层不同的技术选择</strong>。</p>
+<p>混乱通常来自于：</p>
+<ul>
+<li>模型能力</li>
+<li>模型运行方式</li>
+<li>接入方式</li>
+<li>责任与边界</li>
+</ul>
+<p>这些本来不在同一层的问题，经常被放在一起比较，导致 <strong>Ollama、ChatGPT API、Azure OpenAI 被当成同一类东西来选</strong>。</p>
+<p>这篇文章只做一件事：</p>
+<blockquote>
+<p><strong>用一套清晰的分层结构，把常见的大模型相关名词放回它们各自的位置。</strong></p>
+</blockquote>
+<hr>
+<h2 id="1-模型层：能力从哪里来"><a href="#1-模型层：能力从哪里来" class="headerlink" title="1. 模型层：能力从哪里来"></a>1. 模型层：能力从哪里来</h2><p>这一层只关心一件事：<strong>模型本身是谁训练的，能力大概在什么水平。</strong></p>
+<h3 id="常见模型"><a href="#常见模型" class="headerlink" title="常见模型"></a>常见模型</h3><ul>
+<li>GPT-4 &#x2F; GPT-4o（OpenAI）</li>
+<li>Claude（Anthropic）</li>
+<li>Gemini（Google）</li>
+<li>Qwen &#x2F; LLaMA &#x2F; DeepSeek（开源模型）</li>
+</ul>
+<h3 id="这一层决定什么"><a href="#这一层决定什么" class="headerlink" title="这一层决定什么"></a>这一层决定什么</h3><ul>
+<li>语言理解与生成能力</li>
+<li>推理、代码、多模态等能力上限</li>
+</ul>
+<h3 id="关键认知"><a href="#关键认知" class="headerlink" title="关键认知"></a>关键认知</h3><blockquote>
+<p><strong>模型只决定能力上限，不决定使用方式。</strong></p>
+</blockquote>
+<p>同一个 GPT-4：</p>
+<ul>
+<li>可以被做成 ChatGPT 产品</li>
+<li>可以通过 API 给程序调用</li>
+<li>也可以被云厂商托管后提供给企业</li>
+</ul>
+<p>仅仅知道“用了什么模型”，<strong>并不能说明你的项目是如何接入大模型的</strong>。</p>
+<hr>
+<h2 id="2-推理服务层：模型在哪里跑"><a href="#2-推理服务层：模型在哪里跑" class="headerlink" title="2. 推理服务层：模型在哪里跑"></a>2. 推理服务层：模型在哪里跑</h2><p>模型是“能力描述”，<br><strong>推理服务才是真正让模型跑起来的系统。</strong></p>
+<p>这一层，是理解 Ollama 与云 API 差异的关键。</p>
+<hr>
+<h3 id="2-1-自管推理服务（自己跑模型）"><a href="#2-1-自管推理服务（自己跑模型）" class="headerlink" title="2.1 自管推理服务（自己跑模型）"></a>2.1 自管推理服务（自己跑模型）</h3><h4 id="典型工具"><a href="#典型工具" class="headerlink" title="典型工具"></a>典型工具</h4><ul>
+<li>Ollama</li>
+<li>LM Studio</li>
+<li>vLLM（偏生产）</li>
+</ul>
+<h4 id="在做什么"><a href="#在做什么" class="headerlink" title="在做什么"></a>在做什么</h4><ul>
+<li>将模型部署在本地或自有服务器</li>
+<li>负责模型加载、推理和资源占用</li>
+<li>对外提供一个 HTTP 接口</li>
+</ul>
+<h4 id="一句话理解-Ollama"><a href="#一句话理解-Ollama" class="headerlink" title="一句话理解 Ollama"></a>一句话理解 Ollama</h4><blockquote>
+<p><strong>Ollama 是一个把开源模型跑起来，并对外提供 API 的工具。</strong></p>
+</blockquote>
+<h4 id="适合场景"><a href="#适合场景" class="headerlink" title="适合场景"></a>适合场景</h4><ul>
+<li>内部工具</li>
+<li>测试平台</li>
+<li>数据不出网</li>
+<li>并发要求不高</li>
+</ul>
+<h4 id="📚-扩展阅读"><a href="#📚-扩展阅读" class="headerlink" title="📚 扩展阅读"></a>📚 扩展阅读</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://ollama.com/docs">Ollama 官方文档</a> - 了解如何安装、配置和使用 Ollama</li>
+</ul>
+<hr>
+<h3 id="2-2-云端推理服务（模型即服务）"><a href="#2-2-云端推理服务（模型即服务）" class="headerlink" title="2.2 云端推理服务（模型即服务）"></a>2.2 云端推理服务（模型即服务）</h3><h4 id="典型服务"><a href="#典型服务" class="headerlink" title="典型服务"></a>典型服务</h4><ul>
+<li>OpenAI API（ChatGPT API）</li>
+<li>Claude API</li>
+<li>Gemini API</li>
+</ul>
+<h4 id="在做什么-1"><a href="#在做什么-1" class="headerlink" title="在做什么"></a>在做什么</h4><ul>
+<li>模型运行在厂商云端</li>
+<li>你通过 HTTP API 调用模型能力</li>
+<li>不需要关心硬件、部署和扩容</li>
+</ul>
+<h4 id="常见误区"><a href="#常见误区" class="headerlink" title="常见误区"></a>常见误区</h4><ul>
+<li><p><strong>ChatGPT ≠ ChatGPT API</strong></p>
+<ul>
+<li>ChatGPT 是面向人的产品</li>
+<li>ChatGPT API 是面向程序的接口</li>
+</ul>
+</li>
+</ul>
+<h4 id="适合场景-1"><a href="#适合场景-1" class="headerlink" title="适合场景"></a>适合场景</h4><ul>
+<li>产品原型</li>
+<li>快速验证</li>
+<li>对效果要求高</li>
+<li>不想维护模型</li>
+</ul>
+<hr>
+<h3 id="2-3-企业级托管推理服务"><a href="#2-3-企业级托管推理服务" class="headerlink" title="2.3 企业级托管推理服务"></a>2.3 企业级托管推理服务</h3><h4 id="典型平台"><a href="#典型平台" class="headerlink" title="典型平台"></a>典型平台</h4><ul>
+<li>Azure OpenAI</li>
+<li>AWS Bedrock</li>
+<li>GCP Vertex AI</li>
+</ul>
+<h4 id="在做什么-2"><a href="#在做什么-2" class="headerlink" title="在做什么"></a>在做什么</h4><ul>
+<li>使用的仍然是 GPT &#x2F; Claude 等模型</li>
+<li>运行在云厂商的企业级体系中</li>
+<li>提供账号、权限、审计、网络隔离等能力</li>
+</ul>
+<h4 id="一句话理解-Azure-OpenAI"><a href="#一句话理解-Azure-OpenAI" class="headerlink" title="一句话理解 Azure OpenAI"></a>一句话理解 Azure OpenAI</h4><blockquote>
+<p><strong>Azure OpenAI &#x3D; OpenAI 模型 + Azure 的企业级治理能力。</strong></p>
+</blockquote>
+<h4 id="适合场景-2"><a href="#适合场景-2" class="headerlink" title="适合场景"></a>适合场景</h4><ul>
+<li>企业内部系统</li>
+<li>ToB 产品</li>
+<li>对合规和数据边界要求高</li>
+</ul>
+<hr>
+<h2 id="3-接入方式层：你是怎么用模型的"><a href="#3-接入方式层：你是怎么用模型的" class="headerlink" title="3. 接入方式层：你是怎么用模型的"></a>3. 接入方式层：你是怎么用模型的</h2><p>这一层经常被忽略，但却是概念混乱的重要来源。</p>
+<h3 id="常见说法"><a href="#常见说法" class="headerlink" title="常见说法"></a>常见说法</h3><ul>
+<li>Chat &#x2F; 对话</li>
+<li>API</li>
+<li>SDK</li>
+<li>Function Calling &#x2F; 工具调用</li>
+</ul>
+<h3 id="它们的关系"><a href="#它们的关系" class="headerlink" title="它们的关系"></a>它们的关系</h3><ul>
+<li><strong>API</strong>：模型能力的访问入口</li>
+<li><strong>SDK</strong>：对 API 的代码封装</li>
+<li><strong>Chat</strong>：一种交互形式，不是技术本质</li>
+</ul>
+<p>同一个模型能力，可以：</p>
+<ul>
+<li>被包装成聊天界面</li>
+<li>被后端服务调用</li>
+<li>被嵌入业务流程中</li>
+</ul>
+<blockquote>
+<p><strong>看起来像聊天，不代表只能聊天。</strong></p>
+</blockquote>
+<hr>
+<h2 id="4-责任与边界层：出问题谁负责"><a href="#4-责任与边界层：出问题谁负责" class="headerlink" title="4. 责任与边界层：出问题谁负责"></a>4. 责任与边界层：出问题谁负责</h2><p>这是技术选型之外，最现实的一层。</p>
+<h3 id="三种典型责任模式"><a href="#三种典型责任模式" class="headerlink" title="三种典型责任模式"></a>三种典型责任模式</h3><h4 id="4-1-全部自己负责"><a href="#4-1-全部自己负责" class="headerlink" title="4.1 全部自己负责"></a>4.1 全部自己负责</h4><ul>
+<li>自建模型 &#x2F; 自管推理（如 Ollama）</li>
+<li>数据、安全、稳定性都由你承担</li>
+</ul>
+<h4 id="4-2-能力由厂商负责"><a href="#4-2-能力由厂商负责" class="headerlink" title="4.2 能力由厂商负责"></a>4.2 能力由厂商负责</h4><ul>
+<li>OpenAI API &#x2F; Claude API</li>
+<li>你负责业务逻辑</li>
+<li>厂商负责模型服务</li>
+</ul>
+<h4 id="4-3-能力与合规由平台负责"><a href="#4-3-能力与合规由平台负责" class="headerlink" title="4.3 能力与合规由平台负责"></a>4.3 能力与合规由平台负责</h4><ul>
+<li>Azure OpenAI &#x2F; Bedrock</li>
+<li>平台提供企业级治理能力</li>
+</ul>
+<p>同一个 GPT-4，<br>在不同责任边界下，<br><strong>会变成完全不同的技术方案。</strong></p>
+<hr>
+<h2 id="5-常见名词的正确位置"><a href="#5-常见名词的正确位置" class="headerlink" title="5. 常见名词的正确位置"></a>5. 常见名词的正确位置</h2><p>现在可以重新理解这些常见名词：</p>
+<ul>
+<li><strong>Ollama</strong>：自管推理服务层</li>
+<li><strong>ChatGPT API</strong>：云端推理服务层</li>
+<li><strong>Azure OpenAI</strong>：企业级托管推理服务层</li>
+</ul>
+<p>它们并不在竞争同一件事，<br>而是在解决<strong>不同层级的问题</strong>。</p>
+<hr>
+<h2 id="6-名词会变，但结构不会"><a href="#6-名词会变，但结构不会" class="headerlink" title="6. 名词会变，但结构不会"></a>6. 名词会变，但结构不会</h2><p>今天你看到的是：</p>
+<ul>
+<li>Ollama</li>
+<li>vLLM</li>
+<li>Bedrock</li>
+</ul>
+<p>明天一定还会出现新的名字。</p>
+<p>但只要记住这四层结构：</p>
+<ol>
+<li>模型层</li>
+<li>推理服务层</li>
+<li>接入方式层</li>
+<li>责任与边界层</li>
+</ol>
+<p>任何新名词，都可以被快速归类。</p>
+<hr>
+<h2 id="7-总结"><a href="#7-总结" class="headerlink" title="7. 总结"></a>7. 总结</h2><p>好的技术科普，不是让你记住更多工具名，<br>而是：</p>
+<blockquote>
+<p><strong>让你看到任何新名词，都知道它在解决哪一层的问题。</strong></p>
+</blockquote>
+<p>当你建立了这套结构：</p>
+<ul>
+<li>不需要死记结论</li>
+<li>不容易被营销话术带偏</li>
+<li>技术选型会自然清晰</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/%E6%A8%A1%E5%9E%8B%E9%80%89%E5%9E%8B/" class="print-no-link">#模型选型</a>
+      
+        <a href="/fluid-blog/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" class="print-no-link">#大模型</a>
+      
+        <a href="/fluid-blog/tags/%E6%8E%A8%E7%90%86%E6%9C%8D%E5%8A%A1/" class="print-no-link">#推理服务</a>
+      
+        <a href="/fluid-blog/tags/Ollama/" class="print-no-link">#Ollama</a>
+      
+        <a href="/fluid-blog/tags/OpenAI-API/" class="print-no-link">#OpenAI API</a>
+      
+        <a href="/fluid-blog/tags/Azure-OpenAI/" class="print-no-link">#Azure OpenAI</a>
+      
+        <a href="/fluid-blog/tags/%E6%9C%AF%E8%AF%AD%E5%AF%B9%E7%85%A7/" class="print-no-link">#术语对照</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🤖 项目里调用大模型，其实在调用什么？</div>
+      <div>https://linn0813.github.io/2026/01/20/2026-01-20-llm-integration-what-are-you-calling/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/20/2026-01-20-frontend-file-extensions-guide/" title="📄 一篇搞懂前端常见文件后缀：ts / tsc / jsx / tsx / scss">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">📄 一篇搞懂前端常见文件后缀：ts / tsc / jsx / tsx / scss</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/19/2026-01-19-charles-capture-beginner-to-practical-guide/" title="🐢 Charles 抓包工具从入门到实战使用教程">
+                        <span class="hidden-mobile">🐢 Charles 抓包工具从入门到实战使用教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

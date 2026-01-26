@@ -1,0 +1,865 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="Apifox, API测试, 接口文档, Mock数据, 自动化测试, 压力测试, Postman对比, 团队协作">
+  
+    <meta name="description" content="详细介绍 Apifox 这一强大的 API 开发与测试工具，涵盖安装方法、基本使用、进阶功能，如环境变量、Mock 数据、自动化测试和压力测试等，同时对比 Apifox 与 Postman 的差异，帮助测试工程师提升工作效率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🚀 Apifox 使用指南 —— 开发 &amp; 测试的效率神器">
+<meta property="og:url" content="https://linn0813.github.io/2025/05/15/2025-05-15-apifox/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="详细介绍 Apifox 这一强大的 API 开发与测试工具，涵盖安装方法、基本使用、进阶功能，如环境变量、Mock 数据、自动化测试和压力测试等，同时对比 Apifox 与 Postman 的差异，帮助测试工程师提升工作效率。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/apifox.png">
+<meta property="article:published_time" content="2025-05-15T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.864Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="Apifox">
+<meta property="article:tag" content="API测试">
+<meta property="article:tag" content="接口文档">
+<meta property="article:tag" content="Mock数据">
+<meta property="article:tag" content="自动化测试">
+<meta property="article:tag" content="Postman对比">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/apifox.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🚀 Apifox 使用指南 —— 开发 &amp; 测试的效率神器 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🚀 Apifox 使用指南 —— 开发 &amp; 测试的效率神器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-15 16:00" pubdate>
+          2025年5月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🚀 Apifox 使用指南 —— 开发 &amp; 测试的效率神器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🚀-Apifox-使用指南-——-开发-测试的效率神器"><a href="#🚀-Apifox-使用指南-——-开发-测试的效率神器" class="headerlink" title="🚀 Apifox 使用指南 —— 开发 &amp; 测试的效率神器"></a>🚀 Apifox 使用指南 —— 开发 &amp; 测试的效率神器</h1><h2 id="🎉-前言"><a href="#🎉-前言" class="headerlink" title="🎉 前言"></a>🎉 前言</h2><p>作为测试工程师，我们每天和 API 打交道，而 <strong>Apifox</strong> 绝对是接口测试界的“全能战士”！</p>
+<p>它不仅可以 <strong>发送 API 请求、管理接口文档、生成 Mock 数据、进行自动化测试</strong>，还能一键同步接口数据，让开发和测试效率翻倍！</p>
+<p>在上一期《<a href="https://linn0813.github.io/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95%EF%BC%88Testing-Fundamentals-Methodologies%EF%BC%89/postman/">📨 Postman 使用指南 —— 测试工程师的快乐源泉</a>》中，我们介绍了 Postman 作为 API 测试工具的强大功能。今天，我们来看看 Apifox 如何进一步提升效率，并对比它们的不同之处！</p>
+<hr>
+<h2 id="🤔-什么是-Apifox？"><a href="#🤔-什么是-Apifox？" class="headerlink" title="🤔 什么是 Apifox？"></a>🤔 什么是 Apifox？</h2><p>Apifox &#x3D; <strong>Postman（接口测试） + Swagger（接口文档） + Mock（模拟数据） + JMeter（接口自动化测试）</strong></p>
+<p>是不是听着就很酷？它把接口相关的工作全都集成到了一起，避免了 Postman 只能测，Swagger 只能写文档的尴尬局面。</p>
+<h3 id="🔥-Apifox-vs-Postman"><a href="#🔥-Apifox-vs-Postman" class="headerlink" title="🔥 Apifox vs. Postman"></a>🔥 Apifox vs. Postman</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Apifox</th>
+<th>Postman</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>接口测试</strong></td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>接口文档</strong></td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>Mock 数据</strong></td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>自动化测试</strong></td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>压力测试</strong></td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>团队协作</strong></td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>数据同步</strong></td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+</tbody></table>
+<p>Apifox 的最大优势在于：<strong>文档、Mock、测试一体化</strong>，减少了接口数据不一致的问题。</p>
+<hr>
+<h2 id="🚀-1-安装-Apifox"><a href="#🚀-1-安装-Apifox" class="headerlink" title="🚀 1. 安装 Apifox"></a>🚀 1. 安装 Apifox</h2><p>使用 Apifox 你有两种方式：</p>
+<ol>
+<li><strong>官网下载桌面版</strong>：<a target="_blank" rel="noopener" href="https://www.apifox.com/">Apifox 官网</a></li>
+<li><strong>使用 Web 版</strong>（免安装，但部分功能受限）</li>
+</ol>
+<p>下载安装后，<strong>注册登录</strong>，你就能开始使用啦！</p>
+<hr>
+<h2 id="🛠️-2-发送你的第一个请求"><a href="#🛠️-2-发送你的第一个请求" class="headerlink" title="🛠️ 2. 发送你的第一个请求"></a>🛠️ 2. 发送你的第一个请求</h2><ol>
+<li><strong>新建一个项目</strong></li>
+<li><strong>创建一个接口</strong>，选择 <code>GET</code></li>
+<li><strong>填入 URL</strong>（比如 <code>https://jsonplaceholder.typicode.com/posts/1</code>）</li>
+<li><strong>点击发送</strong>，查看返回的 JSON 数据 🎉</li>
+</ol>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"userId"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"sunt aut facere repellat provident occaecati excepturi optio reprehenderit"</span><span class="token punctuation">,</span>
+  <span class="token property">"body"</span><span class="token operator">:</span> <span class="token string">"quia et suscipit..."</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>如果你看过我们的 <strong>Postman 指南</strong>，会发现请求方式是类似的，Apifox 的界面更加直观，适合 API 设计、管理和测试一体化的需求。</p>
+<hr>
+<h2 id="📩-3-创建一个-POST-请求"><a href="#📩-3-创建一个-POST-请求" class="headerlink" title="📩 3. 创建一个 POST 请求"></a>📩 3. 创建一个 POST 请求</h2><h3 id="🌟-示例：创建新文章"><a href="#🌟-示例：创建新文章" class="headerlink" title="🌟 示例：创建新文章"></a>🌟 示例：创建新文章</h3><ol>
+<li><strong>选择 POST 方法</strong></li>
+<li><strong>填入 URL</strong>：<code>https://jsonplaceholder.typicode.com/posts</code></li>
+<li><strong>Headers</strong>：<code>Content-Type: application/json</code></li>
+<li><strong>Body</strong>（JSON 格式）：</li>
+</ol>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"测试工程师的成长之路"</span><span class="token punctuation">,</span>
+  <span class="token property">"body"</span><span class="token operator">:</span> <span class="token string">"写测试的我也想写代码"</span><span class="token punctuation">,</span>
+  <span class="token property">"userId"</span><span class="token operator">:</span> <span class="token number">1</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<ol start="5">
+<li><strong>点击发送</strong>，收到 <code>id</code> 即请求成功 🎉</li>
+</ol>
+<blockquote>
+<p><strong>技巧 💡</strong></p>
+<ul>
+<li><strong>支持变量</strong>，可定义 <code>base_url</code>，减少手动改动 URL</li>
+<li><strong>支持请求预处理</strong>，自动填充参数</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🧰-4-进阶玩法"><a href="#🧰-4-进阶玩法" class="headerlink" title="🧰 4. 进阶玩法"></a>🧰 4. 进阶玩法</h2><h3 id="🔄-环境变量"><a href="#🔄-环境变量" class="headerlink" title="🔄 环境变量"></a>🔄 <strong>环境变量</strong></h3><p>每次切换环境都要改 URL？那就用 <strong>Apifox 环境变量</strong> 吧！</p>
+<h4 id="1-添加环境"><a href="#1-添加环境" class="headerlink" title="1. 添加环境"></a>1. 添加环境</h4><ul>
+<li>在 <strong>环境管理</strong> 中新建环境</li>
+<li>设置 <code>base_url = https://jsonplaceholder.typicode.com</code></li>
+</ul>
+<h4 id="2-使用变量"><a href="#2-使用变量" class="headerlink" title="2. 使用变量"></a>2. 使用变量</h4><ul>
+<li>URL 直接写 <code>&#123;&#123;base_url&#125;&#125;/posts/1</code></li>
+<li>这样换环境只要改变量，接口请求自动适配！</li>
+</ul>
+<h3 id="🎭-Mock-数据"><a href="#🎭-Mock-数据" class="headerlink" title="🎭 Mock 数据"></a>🎭 <strong>Mock 数据</strong></h3><p>后端还没开发完，前端等得心急如焚？Apifox 的 <strong>Mock 数据</strong> 让你先跑起来！</p>
+<ol>
+<li><strong>新建接口</strong></li>
+<li><strong>点击 Mock 选项</strong>，填入预设数据</li>
+<li><strong>前端调用 Mock 地址</strong>，就能获取假数据！</li>
+</ol>
+<blockquote>
+<p>Mock 数据功能在 Postman 里也有，但 Apifox 可以直接与接口文档同步，避免数据不一致的问题！</p>
+</blockquote>
+<hr>
+<h2 id="📊-5-自动化测试"><a href="#📊-5-自动化测试" class="headerlink" title="📊 5. 自动化测试"></a>📊 5. 自动化测试</h2><h3 id="🤖-编写测试脚本"><a href="#🤖-编写测试脚本" class="headerlink" title="🤖 编写测试脚本"></a>🤖 <strong>编写测试脚本</strong></h3><p>Apifox 允许你用 <strong>JavaScript 编写自动化测试</strong>，在 <code>测试</code> 选项卡中输入：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">pm<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span><span class="token string">"检查状态码是否为 200"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    pm<span class="token punctuation">.</span>response<span class="token punctuation">.</span>to<span class="token punctuation">.</span>have<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>🚀 <strong>一键运行所有测试</strong>，让 Apifox 自动帮你检查 API 响应是否正确！</p>
+<h3 id="🏆-压力测试"><a href="#🏆-压力测试" class="headerlink" title="🏆 压力测试"></a>🏆 <strong>压力测试</strong></h3><p>如果你想知道接口 <strong>抗压能力</strong>，可以使用 <strong>性能测试</strong> 模块：</p>
+<ol>
+<li><strong>创建测试集合</strong>，添加多个请求</li>
+<li><strong>选择压力测试</strong>，设置并发数</li>
+<li><strong>运行测试</strong>，查看响应时间和吞吐量</li>
+</ol>
+<p>Postman 并不提供压力测试功能，而 Apifox 直接集成了，方便你做 API 的性能验证！</p>
+<hr>
+<h2 id="🎯-6-结语"><a href="#🎯-6-结语" class="headerlink" title="🎯 6. 结语"></a>🎯 6. 结语</h2><p>Apifox 让测试工程师的工作更加高效：</p>
+<ul>
+<li><strong>接口测试 + 文档管理，一体化解决方案</strong></li>
+<li><strong>Mock 服务，前端不再等待后端</strong></li>
+<li><strong>自动化测试 &amp; 压力测试，提升测试覆盖率</strong></li>
+<li><strong>对比 Postman，Apifox 更加适合团队协作和 API 设计</strong></li>
+</ul>
+<p><strong>Postman vs. Apifox，你更喜欢哪一个？欢迎评论区交流！</strong> 🚀</p>
+<hr>
+<small>
+
+<p>这里是一些关于 API、Postman 和 Apifox 的📚 推荐资料，适合作为学习和参考：</p>
+<h3 id="📌-API-相关"><a href="#📌-API-相关" class="headerlink" title="📌 API 相关"></a>📌 <strong>API 相关</strong></h3><ul>
+<li><strong><a target="_blank" rel="noopener" href="https://restfulapi.net/">RESTful API 设计最佳实践</a></strong> - 介绍 RESTful API 的基本概念和设计原则。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">HTTP 状态码官方文档</a></strong> - 详细介绍 HTTP 响应状态码。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://jsonplaceholder.typicode.com/">JSONPlaceholder</a></strong> - 一个免费的 API 测试站点，提供假数据服务，适合练习 API 测试。</li>
+</ul>
+<h3 id="🚀-Postman-相关"><a href="#🚀-Postman-相关" class="headerlink" title="🚀 Postman 相关"></a>🚀 <strong>Postman 相关</strong></h3><ul>
+<li><strong><a target="_blank" rel="noopener" href="https://learning.postman.com/docs/">Postman 官方文档</a></strong> - Postman 官方提供的使用指南。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://apifox.com/apiskills/postman-tutorial-series/">Postman 测试教程合集</a></strong> - Apifox 整理的 Postman 教程，涵盖从入门到进阶。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://blog.postman.com/tag/automation/">Postman &amp; Newman 自动化测试</a></strong> - 介绍如何使用 Postman 进行自动化测试，包括使用 Newman 运行测试集合。</li>
+</ul>
+<h3 id="🔥-Apifox-相关"><a href="#🔥-Apifox-相关" class="headerlink" title="🔥 Apifox 相关"></a>🔥 <strong>Apifox 相关</strong></h3><ul>
+<li><strong><a target="_blank" rel="noopener" href="https://help.apifox.com/">Apifox 官方文档</a></strong> - Apifox 官方提供的详细使用指南。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://apifox.com/blog/category/tutorial/">Apifox API 设计与测试教程</a></strong> - Apifox 官方博客，涵盖 API 设计、Mock、自动化测试等主题。</li>
+<li><strong><a target="_blank" rel="noopener" href="https://apifox.com/blog/postman-vs-apifox/">Postman vs. Apifox：哪个更适合你？</a></strong> - 深度对比 Apifox 和 Postman，帮助选择合适的工具。</li>
+</ul>
+<small>
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/" class="category-chain-item">⚙️ 自动化测试工程化：工具、实战与体系建设</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98%E4%B8%8E%E6%A1%88%E4%BE%8B%E7%BB%8F%E9%AA%8C/" class="category-chain-item">项目实战与案例经验</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/Apifox/" class="print-no-link">#Apifox</a>
+      
+        <a href="/fluid-blog/tags/API%E6%B5%8B%E8%AF%95/" class="print-no-link">#API测试</a>
+      
+        <a href="/fluid-blog/tags/%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3/" class="print-no-link">#接口文档</a>
+      
+        <a href="/fluid-blog/tags/Mock%E6%95%B0%E6%8D%AE/" class="print-no-link">#Mock数据</a>
+      
+        <a href="/fluid-blog/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" class="print-no-link">#自动化测试</a>
+      
+        <a href="/fluid-blog/tags/Postman%E5%AF%B9%E6%AF%94/" class="print-no-link">#Postman对比</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🚀 Apifox 使用指南 —— 开发 &amp; 测试的效率神器</div>
+      <div>https://linn0813.github.io/2025/05/15/2025-05-15-apifox/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/15/2025-05-15-user-module-database/" title="使用 MySQL 搭建登录注册模块数据库 🛢️">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">使用 MySQL 搭建登录注册模块数据库 🛢️</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/14/2025-05-14-testplatform-implementation/" title="测试工具平台搭建实现 🚧">
+                        <span class="hidden-mobile">测试工具平台搭建实现 🚧</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

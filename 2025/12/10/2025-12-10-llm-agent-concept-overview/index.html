@@ -1,0 +1,1414 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, 智能体, Agentic Loop, Planner, Tools, Memory, 自主循环, 工具调用, 智能体架构">
+  
+    <meta name="description" content="系统理解 Agent 的本质：从 LLM 到智能体的进化路径，深入解析 Agent 的核心构成、生命周期和关键模块，构建完整的 Agent 系统架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/10/2025-12-10-llm-agent-concept-overview/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="系统理解 Agent 的本质：从 LLM 到智能体的进化路径，深入解析 Agent 的核心构成、生命周期和关键模块，构建完整的 Agent 系统架构">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-concept-overview.png">
+<meta property="article:published_time" content="2025-12-10T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.631Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="智能体">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Memory">
+<meta property="article:tag" content="Agentic Loop">
+<meta property="article:tag" content="Planner">
+<meta property="article:tag" content="Tools">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-concept-overview.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？ - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-10 18:00" pubdate>
+          2025年12月10日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 6 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们全面对比了主流 LLM 模型，掌握了如何根据需求选择合适的模型。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将进入 <strong>Part II: Agent 核心架构与决策机制</strong>，系统理解 Agent 的本质，揭秘 LLM 如何进化为具有”行动能力”的智能体。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-从”大模型”到”智能体”"><a href="#🚀-导言-—-从”大模型”到”智能体”" class="headerlink" title="🚀 导言 — 从”大模型”到”智能体”"></a>🚀 导言 — 从”大模型”到”智能体”</h2><p>在 <strong>Part I</strong> 中，我们已经掌握了：</p>
+<ul>
+<li>LLM 的工作原理（Token、Transformer）</li>
+<li>Prompt 工程技巧（角色、ReAct、Schema）</li>
+<li>RAG 机制（检索、增强、生成）</li>
+<li>模型评估与选型</li>
+</ul>
+<p>但纯粹的 LLM 是 <strong>被动的</strong> —— 它只能在你问它时才回应，只能生成文本，无法执行实际任务。</p>
+<p>当你想要：</p>
+<blockquote>
+<p><strong>让 LLM 自动查询数据库、调用 API、生成报告、发送邮件…</strong><br><strong>让 LLM 能够自主分解复杂任务，一步步完成…</strong><br><strong>让 LLM 能够根据执行结果调整策略，直到完成任务…</strong></p>
+</blockquote>
+<p>这时，你需要 <strong>Agent（智能体）</strong>。</p>
+<p>Agent 将 LLM 从”会说话的模型”升级为”能做事、会思考、能修正”的智能系统。</p>
+<p>本篇将系统解析 Agent 的本质、核心构成和生命周期，帮你理解如何构建一个完整的 Agent 系统。</p>
+<hr>
+<h2 id="📋-一、Agent-的本质-—-执行-决策-反馈-的闭环系统"><a href="#📋-一、Agent-的本质-—-执行-决策-反馈-的闭环系统" class="headerlink" title="📋 一、Agent 的本质 — 执行 + 决策 + 反馈 的闭环系统"></a>📋 一、Agent 的本质 — 执行 + 决策 + 反馈 的闭环系统</h2><h3 id="1-1-什么是-Agent？"><a href="#1-1-什么是-Agent？" class="headerlink" title="1.1 什么是 Agent？"></a>1.1 什么是 Agent？</h3><p><strong>Agent（智能体）</strong> 是一个能够在环境中<strong>自主感知、规划、行动、反馈</strong>的智能系统。</p>
+<p>与传统 LLM 不同，Agent 不仅能够理解和生成文本，还能够：</p>
+<ul>
+<li><strong>调用工具</strong>：执行实际的操作（如调用 API、查询数据库、操作文件）</li>
+<li><strong>自主决策</strong>：根据当前状态和目标，决定下一步行动</li>
+<li><strong>持续学习</strong>：根据执行结果调整策略，直到完成任务</li>
+</ul>
+<p>一个真正的 Agent，是一个能在 <strong>环境 (Environment)</strong> 中工作的系统，包含四个核心能力：</p>
+<ul>
+<li><strong>感知 (Perception)</strong> —— 接收用户输入 + 工具／环境反馈 (Observation)</li>
+<li><strong>规划 (Planning)</strong> —— 使用 LLM 分解问题，决定下一步行动</li>
+<li><strong>行动 (Action)</strong> —— 调用外部工具 &#x2F; API &#x2F; 脚本 &#x2F; 系统接口</li>
+<li><strong>记忆 (Memory)</strong> —— 保存历史信息 &#x2F; 结果，以利长期任务或上下文连贯</li>
+</ul>
+<p><strong>核心公式</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Agent &#x3D; LLM (大脑) + Tools (手脚) + Memory (记忆) + Loop (自主循环)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>形象理解</strong>：</p>
+<blockquote>
+<ul>
+<li><strong>LLM</strong> &#x3D; 大脑，负责思考和决策</li>
+<li><strong>Tools</strong> &#x3D; 手脚，负责执行具体操作</li>
+<li><strong>Memory</strong> &#x3D; 记忆，保存历史经验和知识</li>
+<li><strong>Loop</strong> &#x3D; 循环，持续感知→规划→行动→反馈</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>组成</th>
+<th>核心功能</th>
+<th>对应技术</th>
+<th>在前几篇中的基础</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Perception (感知)</strong></td>
+<td>接收输入／反馈</td>
+<td>Prompt + Observation</td>
+<td><a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-03-llm-prompt-context-in-context-learning/">第2篇：Prompt 工程</a></td>
+</tr>
+<tr>
+<td><strong>Planning (规划)</strong></td>
+<td>分析任务／选择工具／生成执行方案</td>
+<td>CoT &#x2F; ReAct &#x2F; Prompt Engineering</td>
+<td><a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-04-llm-prompt-engineering-practices/#%E6%8A%80%E5%B7%A7%E4%BA%8C%E6%80%9D%E7%BB%B4%E9%93%BE%E8%BF%9B%E9%98%B6advanced-cot-react">第3篇：ReAct 范式</a></td>
+</tr>
+<tr>
+<td><strong>Action (行动)</strong></td>
+<td>执行具体操作（API／脚本／文件／数据库）</td>
+<td>Function Calling &#x2F; Tool Call</td>
+<td><a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-04-llm-prompt-engineering-practices/#%E6%8A%80%E5%B7%A7%E4%B8%89%E7%A1%AE%E4%BF%9D%E7%BB%93%E6%9E%84%E5%8C%96%E8%BE%93%E5%87%BAschema--%E5%88%86%E9%9A%94%E7%AC%A6">第3篇：结构化输出</a></td>
+</tr>
+<tr>
+<td><strong>Memory (记忆)</strong></td>
+<td>存储历史状态／结果／知识／用户偏好</td>
+<td>Context 管理 + 外部数据库&#x2F;RAG</td>
+<td><a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-03-llm-prompt-context-in-context-learning/#%E4%BA%8Ccontext-window--%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86">第2篇：Context Window</a> + <a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-08-llm-rag-deep-integration/">第4篇：RAG</a></td>
+</tr>
+</tbody></table>
+<h3 id="1-2-为什么需要-Agent？LLM-的局限"><a href="#1-2-为什么需要-Agent？LLM-的局限" class="headerlink" title="1.2 为什么需要 Agent？LLM 的局限"></a>1.2 为什么需要 Agent？LLM 的局限</h3><p>在深入 Agent 之前，我们先理解为什么需要 Agent：</p>
+<p><strong>传统 LLM 的局限</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>局限</th>
+<th>表现</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>被动响应</strong></td>
+<td>只能在你问它时才回应</td>
+<td>无法主动执行任务</td>
+</tr>
+<tr>
+<td><strong>文本生成</strong></td>
+<td>只能生成文本，无法执行操作</td>
+<td>无法调用 API、操作数据库、发送邮件等</td>
+</tr>
+<tr>
+<td><strong>单次交互</strong></td>
+<td>每次对话独立，无法持续执行</td>
+<td>无法完成需要多步骤的复杂任务</td>
+</tr>
+<tr>
+<td><strong>无状态</strong></td>
+<td>无法记住历史操作和结果</td>
+<td>无法基于历史经验优化策略</td>
+</tr>
+</tbody></table>
+<p><strong>Agent 的解决方案</strong>：</p>
+<blockquote>
+<p>Agent 将 LLM 从”文本生成器”升级为”任务执行器”，让 LLM 能够自主分解任务、调用工具、根据反馈调整策略，直到完成任务。</p>
+</blockquote>
+<h3 id="1-3-LLM-vs-Agent-—-本质上的区别"><a href="#1-3-LLM-vs-Agent-—-本质上的区别" class="headerlink" title="1.3 LLM vs Agent — 本质上的区别"></a>1.3 LLM vs Agent — 本质上的区别</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>传统 LLM</th>
+<th>Agent (智能体)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>主动性</strong></td>
+<td>被动（只回应 Prompt）</td>
+<td>主动（可以自主决定下一步）</td>
+</tr>
+<tr>
+<td><strong>目标 &amp; 任务</strong></td>
+<td>单次生成 &#x2F; 回答</td>
+<td>多步、复杂任务 + 行动 + 环境交互</td>
+</tr>
+<tr>
+<td><strong>与外界交互能力</strong></td>
+<td>仅限文本输入&#x2F;输出</td>
+<td>可以调用工具、API、修改状态、操作系统等</td>
+</tr>
+<tr>
+<td><strong>机制</strong></td>
+<td>自回归文本生成</td>
+<td>决策–执行–观察–反馈的循环（Agentic Loop）</td>
+</tr>
+<tr>
+<td><strong>记忆能力</strong></td>
+<td>仅限 Context Window</td>
+<td>短期记忆 + 长期记忆 + 外部存储</td>
+</tr>
+</tbody></table>
+<p><strong>实际对比示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">❌ 传统 LLM：
+用户："帮我查询用户数据，生成报告，然后发送邮件"
+LLM："我可以帮你写查询 SQL、报告模板和邮件内容，但无法实际执行这些操作"
+
+✅ Agent：
+用户："帮我查询用户数据，生成报告，然后发送邮件"
+Agent：
+1. Thought: 需要先查询数据库
+   Action: query_database(sql="SELECT * FROM users")
+   Observation: [查询结果...]
+2. Thought: 查询成功，现在生成报告
+   Action: generate_report(data=[查询结果])
+   Observation: [报告已生成...]
+3. Thought: 报告已生成，现在发送邮件
+   Action: send_email(to="user@example.com", attachment="report.pdf")
+   Observation: [邮件已发送]
+Final Answer: 任务完成，已查询数据、生成报告并发送邮件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>核心理解</strong>：一个 Agent，不只是”会说话”的模型，而是”会做事、有记忆、能反馈、能修正”的系统。</p>
+</blockquote>
+<hr>
+<h2 id="♻️-二、Agent-的生命周期：Agentic-Loop（自主循环）"><a href="#♻️-二、Agent-的生命周期：Agentic-Loop（自主循环）" class="headerlink" title="♻️ 二、Agent 的生命周期：Agentic Loop（自主循环）"></a>♻️ 二、Agent 的生命周期：Agentic Loop（自主循环）</h2><p>Agent 的核心机制是一个 <strong>循环 (Loop)</strong>，它不是一次性，而是不断 “感知 → 规划 → 行动 → 反馈 → 继续”。</p>
+<h3 id="2-1-Agentic-Loop-流程"><a href="#2-1-Agentic-Loop-流程" class="headerlink" title="2.1 Agentic Loop 流程"></a>2.1 Agentic Loop 流程</h3><p>Agentic Loop 是 Agent 的核心工作流程，包含四个关键步骤：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">┌─────────┐
+│ Observe │ ← 感知：接收输入和反馈
+└────┬────┘
+     │
+     ↓
+┌─────────┐
+│  Plan   │ ← 规划：决定下一步行动
+└────┬────┘
+     │
+     ↓
+┌─────────┐
+│  Act    │ ← 行动：执行工具调用
+└────┬────┘
+     │
+     ↓
+┌─────────┐
+│Feedback │ ← 反馈：获取执行结果
+└────┬────┘
+     │
+     └────→ 继续循环，直到任务完成<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>详细步骤</strong>：</p>
+<ol>
+<li><p><strong>Observe (感知)</strong></p>
+<ul>
+<li>接收用户指令或新的输入</li>
+<li>接收上一步工具／系统的返回结果 (Observation)</li>
+<li>更新当前状态和上下文</li>
+</ul>
+</li>
+<li><p><strong>Plan (规划)</strong></p>
+<ul>
+<li>LLM 根据当前上下文 + 记忆，分析任务</li>
+<li>决定下一步要做什么 (Thought)</li>
+<li>选择要调用的工具和参数</li>
+</ul>
+</li>
+<li><p><strong>Act (执行)</strong></p>
+<ul>
+<li>调用工具 &#x2F; API &#x2F; 脚本 &#x2F; 系统命令 (Action)</li>
+<li>执行具体的操作（如查询数据库、调用 API、操作文件）</li>
+</ul>
+</li>
+<li><p><strong>Feedback (反馈)</strong></p>
+<ul>
+<li>获取工具或系统执行结果 (Observation)</li>
+<li>更新记忆 &#x2F; 状态</li>
+<li>判断是否完成任务，或继续下一步</li>
+</ul>
+</li>
+<li><p><strong>Loop Continue</strong>：重复步骤 1-4，直至满足最终目标或触发终止条件</p>
+</li>
+</ol>
+<h3 id="2-2-为什么要循环-Loop"><a href="#2-2-为什么要循环-Loop" class="headerlink" title="2.2 为什么要循环 (Loop)"></a>2.2 为什么要循环 (Loop)</h3><p><strong>单次交互的局限</strong>：</p>
+<p>很多任务不是一次性可以完成，而是需要多个步骤：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">任务：生成月度报告并发送给团队
+
+步骤1：查询数据库获取数据
+  ↓
+步骤2：处理和分析数据
+  ↓
+步骤3：生成报告文档
+  ↓
+步骤4：发送邮件给团队成员<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>如果只有单次交互，LLM 无法完成这样的多步骤任务。</p>
+<p><strong>循环的优势</strong>：</p>
+<ol>
+<li><strong>多步骤任务</strong>：可以分解复杂任务，一步步完成</li>
+<li><strong>动态调整</strong>：环境是动态的，需要根据中间结果不断调整决策</li>
+<li><strong>错误恢复</strong>：如果某一步失败，可以调整策略重试</li>
+<li><strong>持续优化</strong>：可以根据执行结果优化后续步骤</li>
+</ol>
+<p><strong>实际示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">任务：查询用户数据并生成报告
+
+循环1：
+  Thought: 需要先查询数据库获取用户数据
+  Action: query_database(sql="SELECT * FROM users WHERE date='2025-12'")
+  Observation: 查询成功，返回 1000 条记录
+
+循环2：
+  Thought: 数据已获取，现在需要分析数据并生成报告
+  Action: generate_report(data=[1000条记录], format="PDF")
+  Observation: 报告生成成功，文件路径：/reports/monthly_2025-12.pdf
+
+循环3：
+  Thought: 报告已生成，任务完成
+  Final Answer: 已成功查询用户数据并生成报告<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>关键理解</strong>：Agent 的闭环机制使它不仅能推理，还能”做事情 + 检查结果 + 再做”，这是 Agent 与 LLM 的本质区别。</p>
+</blockquote>
+<h3 id="2-3-循环终止条件-Termination-Criteria"><a href="#2-3-循环终止条件-Termination-Criteria" class="headerlink" title="2.3 循环终止条件 (Termination Criteria)"></a>2.3 循环终止条件 (Termination Criteria)</h3><p>为了防止无限循环或失控，必须设定合理的终止条件：</p>
+<table>
+<thead>
+<tr>
+<th>终止条件</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>目标达成判断</strong></td>
+<td>Agent 自己判断任务已完成</td>
+<td>“报告已发送”、”数据已更新”</td>
+</tr>
+<tr>
+<td><strong>资源限制</strong></td>
+<td>最大步数、最大时间、最大 API 调用次数</td>
+<td>最多执行 10 步、最多 5 分钟</td>
+</tr>
+<tr>
+<td><strong>错误阈值</strong></td>
+<td>连续失败次数达到上限</td>
+<td>连续失败 3 次 → 终止并返回错误日志</td>
+</tr>
+<tr>
+<td><strong>人工干预 &#x2F; 审批</strong></td>
+<td>对于高风险操作需要用户确认</td>
+<td>删除数据、修改系统配置需要用户确认</td>
+</tr>
+</tbody></table>
+<p><strong>实现示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 终止条件检查（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">should_terminate</span><span class="token punctuation">(</span>agent_state<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 1. 目标达成</span>
+    <span class="token keyword">if</span> agent_state<span class="token punctuation">.</span>is_goal_reached<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"任务已完成"</span>
+    
+    <span class="token comment"># 2. 资源限制</span>
+    <span class="token keyword">if</span> agent_state<span class="token punctuation">.</span>steps <span class="token operator">>=</span> MAX_STEPS<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"达到最大步数限制"</span>
+    <span class="token keyword">if</span> agent_state<span class="token punctuation">.</span>elapsed_time <span class="token operator">>=</span> MAX_TIME<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"达到最大时间限制"</span>
+    <span class="token keyword">if</span> agent_state<span class="token punctuation">.</span>api_calls <span class="token operator">>=</span> MAX_API_CALLS<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"达到最大 API 调用次数"</span>
+    
+    <span class="token comment"># 3. 错误阈值</span>
+    <span class="token keyword">if</span> agent_state<span class="token punctuation">.</span>consecutive_failures <span class="token operator">>=</span> MAX_FAILURES<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"连续失败次数过多"</span>
+    
+    <span class="token comment"># 4. 人工干预</span>
+    <span class="token keyword">if</span> agent_state<span class="token punctuation">.</span>requires_approval <span class="token keyword">and</span> <span class="token keyword">not</span> agent_state<span class="token punctuation">.</span>user_approved<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"等待用户审批"</span>
+    
+    <span class="token keyword">return</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>🔹 <strong>实战提示</strong>：合理设置终止条件，既能保证任务完成，又能防止资源浪费和安全风险。</p>
+</blockquote>
+<hr>
+<h2 id="🧱-三、Agent-的关键模块：构建一个完整-Agent-系统"><a href="#🧱-三、Agent-的关键模块：构建一个完整-Agent-系统" class="headerlink" title="🧱 三、Agent 的关键模块：构建一个完整 Agent 系统"></a>🧱 三、Agent 的关键模块：构建一个完整 Agent 系统</h2><p>为了实现上述功能，Agent 通常由以下模块组成：</p>
+<h3 id="3-1-🧠-Planner-规划器-—-LLM-Prompt-控制"><a href="#3-1-🧠-Planner-规划器-—-LLM-Prompt-控制" class="headerlink" title="3.1 🧠 Planner (规划器) — LLM + Prompt 控制"></a>3.1 🧠 Planner (规划器) — LLM + Prompt 控制</h3><p><strong>职责</strong>：</p>
+<ul>
+<li>将当前任务 + 环境状态 + 记忆 &#x2F; 历史信息 编成 Prompt</li>
+<li>使用 Prompt 指导 LLM 输出 <strong>结构化 Thought + Action</strong></li>
+</ul>
+<p><strong>关键能力</strong>：</p>
+<ul>
+<li><strong>Prompt Engineering</strong>：包括角色定义、格式约束（见<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-04-llm-prompt-engineering-practices/">第3篇</a>）</li>
+<li><strong>Function Calling</strong>：支持工具调用输出（见<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-04-llm-prompt-engineering-practices/#%E6%8A%80%E5%B7%A7%E4%B8%89%E7%A1%AE%E4%BF%9D%E7%BB%93%E6%9E%84%E5%8C%96%E8%BE%93%E5%87%BAschema--%E5%88%86%E9%9A%94%E7%AC%A6">第3篇：结构化输出</a>）</li>
+</ul>
+<p><strong>工作原理</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Planner 工作流程（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">plan</span><span class="token punctuation">(</span>memory<span class="token punctuation">,</span> task<span class="token punctuation">,</span> available_tools<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 1. 构建 Prompt</span>
+    prompt <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"""
+    你是一个任务规划助手。
+    
+    当前任务：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>task<span class="token punctuation">&#125;</span></span><span class="token string">
+    
+    历史记录：
+    </span><span class="token interpolation"><span class="token punctuation">&#123;</span>memory<span class="token punctuation">.</span>get_history<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">
+    
+    可用工具：
+    </span><span class="token interpolation"><span class="token punctuation">&#123;</span>format_tools<span class="token punctuation">(</span>available_tools<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">
+    
+    请分析任务，决定下一步行动。
+    输出格式：
+    Thought: [你的思考]
+    Action: [工具名(参数)]
+    """</span></span>
+    
+    <span class="token comment"># 2. 调用 LLM</span>
+    response <span class="token operator">=</span> llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 3. 解析输出</span>
+    thought<span class="token punctuation">,</span> action <span class="token operator">=</span> parse_response<span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> thought<span class="token punctuation">,</span> action<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-2-🛠️-Tools-Executor-工具与执行器"><a href="#3-2-🛠️-Tools-Executor-工具与执行器" class="headerlink" title="3.2 🛠️ Tools &amp; Executor (工具与执行器)"></a>3.2 🛠️ Tools &amp; Executor (工具与执行器)</h3><p><strong>工具 (Tool)</strong>：任何外部函数 &#x2F; API &#x2F; 模块 &#x2F; 脚本 &#x2F; RAG 查询 &#x2F; 系统接口 —— 让 Agent 能做真实有用的事情。</p>
+<p><strong>工具类型示例</strong>：</p>
+<ul>
+<li><strong>API 调用</strong>：调用外部 API（如天气查询、翻译服务）</li>
+<li><strong>数据库操作</strong>：查询、更新数据库</li>
+<li><strong>文件操作</strong>：读取、写入、删除文件</li>
+<li><strong>系统命令</strong>：执行系统命令（需谨慎）</li>
+<li><strong>RAG 查询</strong>：检索知识库（见<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-08-llm-rag-deep-integration/">第4篇</a>）</li>
+</ul>
+<p><strong>工具规范 (Tool Schema)</strong>：必须为每个工具定义清晰输入 &#x2F; 输出格式（最好使用 JSON Schema），让 Planner 输出可被正确解析。</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 工具定义（JSON Schema）</span>
+
+tool_schema <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"query_database"</span><span class="token punctuation">,</span>
+    <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"查询数据库"</span><span class="token punctuation">,</span>
+    <span class="token string">"parameters"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+        <span class="token string">"properties"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"sql"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+                <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"SQL 查询语句"</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token string">"required"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"sql"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token string">"returns"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"array"</span><span class="token punctuation">,</span>
+        <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"查询结果"</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>执行器 (Executor)</strong>：负责实际执行工具调用，并捕获返回结果 (Observation)，包括成功输出或错误信息。</p>
+<p><strong>执行流程</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Executor 工作流程（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">execute</span><span class="token punctuation">(</span>tool_name<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        <span class="token comment"># 1. 验证参数</span>
+        validate_args<span class="token punctuation">(</span>tool_name<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 执行工具</span>
+        result <span class="token operator">=</span> tools<span class="token punctuation">[</span>tool_name<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token operator">**</span>args<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 3. 返回结果</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span>
+            <span class="token string">"result"</span><span class="token punctuation">:</span> result
+        <span class="token punctuation">&#125;</span>
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        <span class="token comment"># 4. 错误处理</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
+            <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token builtin">str</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>实战提示</strong>：</p>
+<ul>
+<li><strong>工具设计</strong>：尽可能将工具设计得简单、接口清晰、失败可控</li>
+<li><strong>错误处理</strong>：工具应该返回明确的错误信息，帮助 Agent 调整策略</li>
+<li><strong>安全性</strong>：对于危险操作（如删除、修改），需要额外的权限检查</li>
+</ul>
+</blockquote>
+<h3 id="3-3-💾-Memory-Context-Manager-记忆管理器"><a href="#3-3-💾-Memory-Context-Manager-记忆管理器" class="headerlink" title="3.3 💾 Memory &#x2F; Context Manager (记忆管理器)"></a>3.3 💾 Memory &#x2F; Context Manager (记忆管理器)</h3><p>Agent 需要同时处理 <strong>短期记忆</strong> 与 <strong>长期记忆</strong>：</p>
+<h4 id="短期记忆-Short-term-Memory"><a href="#短期记忆-Short-term-Memory" class="headerlink" title="短期记忆 (Short-term Memory)"></a>短期记忆 (Short-term Memory)</h4><p><strong>定义</strong>：当前 Loop 的历史（Thoughts, Actions, Observations），用于保持上下文连贯。</p>
+<p><strong>存储内容</strong>：</p>
+<ul>
+<li>当前任务的执行历史</li>
+<li>最近几步的思考过程</li>
+<li>工具调用的输入和输出</li>
+</ul>
+<p><strong>管理方式</strong>：</p>
+<ul>
+<li>存储在 Context Window 中</li>
+<li>当 Context Window 满时，进行摘要压缩</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 短期记忆结构（伪代码）</span>
+
+short_term_memory <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"task"</span><span class="token punctuation">:</span> <span class="token string">"查询用户数据并生成报告"</span><span class="token punctuation">,</span>
+    <span class="token string">"history"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token string">"step"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+            <span class="token string">"thought"</span><span class="token punctuation">:</span> <span class="token string">"需要先查询数据库"</span><span class="token punctuation">,</span>
+            <span class="token string">"action"</span><span class="token punctuation">:</span> <span class="token string">"query_database"</span><span class="token punctuation">,</span>
+            <span class="token string">"observation"</span><span class="token punctuation">:</span> <span class="token string">"查询成功，返回 1000 条记录"</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token string">"step"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+            <span class="token string">"thought"</span><span class="token punctuation">:</span> <span class="token string">"数据已获取，现在生成报告"</span><span class="token punctuation">,</span>
+            <span class="token string">"action"</span><span class="token punctuation">:</span> <span class="token string">"generate_report"</span><span class="token punctuation">,</span>
+            <span class="token string">"observation"</span><span class="token punctuation">:</span> <span class="token string">"报告生成成功"</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="长期记忆-Long-term-Memory"><a href="#长期记忆-Long-term-Memory" class="headerlink" title="长期记忆 (Long-term Memory)"></a>长期记忆 (Long-term Memory)</h4><p><strong>定义</strong>：通用知识库、用户偏好、历史任务结果、RAG 存储。</p>
+<p><strong>存储内容</strong>：</p>
+<ul>
+<li>用户偏好和习惯</li>
+<li>历史任务的成功经验</li>
+<li>知识库（通过 RAG 存储）</li>
+<li>常见错误和解决方案</li>
+</ul>
+<p><strong>管理方式</strong>：</p>
+<ul>
+<li>存储在外部数据库或向量库中</li>
+<li>需要时检索相关记忆</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 长期记忆结构（伪代码）</span>
+
+long_term_memory <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"user_preferences"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"report_format"</span><span class="token punctuation">:</span> <span class="token string">"PDF"</span><span class="token punctuation">,</span>
+        <span class="token string">"email_recipients"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"team@example.com"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token string">"knowledge_base"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"RAG"</span><span class="token punctuation">,</span>
+        <span class="token string">"vector_db"</span><span class="token punctuation">:</span> <span class="token string">"pinecone"</span><span class="token punctuation">,</span>
+        <span class="token string">"embeddings"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token string">"task_history"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token string">"task"</span><span class="token punctuation">:</span> <span class="token string">"生成月度报告"</span><span class="token punctuation">,</span>
+            <span class="token string">"date"</span><span class="token punctuation">:</span> <span class="token string">"2025-11"</span><span class="token punctuation">,</span>
+            <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span>
+            <span class="token string">"steps"</span><span class="token punctuation">:</span> <span class="token number">3</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="记忆压缩与管理"><a href="#记忆压缩与管理" class="headerlink" title="记忆压缩与管理"></a>记忆压缩与管理</h4><p>因为 Context Window &#x2F; Token 限制（见<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-03-llm-prompt-context-in-context-learning/#%E4%BA%8Ccontext-window--%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86">第2篇</a>），需要对过长历史做 <strong>摘要 &#x2F; 压缩</strong> 或外部存储。</p>
+<p><strong>压缩策略</strong>：</p>
+<ul>
+<li><strong>摘要</strong>：将多步历史压缩为摘要</li>
+<li><strong>关键信息提取</strong>：只保留关键信息</li>
+<li><strong>外部存储</strong>：将旧历史移到外部数据库</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 记忆压缩（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">compress_memory</span><span class="token punctuation">(</span>history<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>history<span class="token punctuation">)</span> <span class="token operator">></span> MAX_HISTORY_LENGTH<span class="token punctuation">:</span>
+        <span class="token comment"># 提取关键信息</span>
+        summary <span class="token operator">=</span> llm<span class="token punctuation">.</span>summarize<span class="token punctuation">(</span>history<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 保存到长期记忆</span>
+        long_term_memory<span class="token punctuation">.</span>save<span class="token punctuation">(</span>summary<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 只保留最近几步</span>
+        <span class="token keyword">return</span> history<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">5</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+    <span class="token keyword">return</span> history<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-4-完整-Agent-系统架构示例"><a href="#3-4-完整-Agent-系统架构示例" class="headerlink" title="3.4 完整 Agent 系统架构示例"></a>3.4 完整 Agent 系统架构示例</h3><p>将 Planner、Tools、Executor、Memory 组合起来，形成一个完整的 Agent 系统：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 完整 Agent 系统（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Agent</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> llm<span class="token punctuation">,</span> tools<span class="token punctuation">,</span> memory<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>llm <span class="token operator">=</span> llm
+        self<span class="token punctuation">.</span>tools <span class="token operator">=</span> tools
+        self<span class="token punctuation">.</span>memory <span class="token operator">=</span> memory
+        self<span class="token punctuation">.</span>executor <span class="token operator">=</span> Executor<span class="token punctuation">(</span>tools<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>planner <span class="token operator">=</span> Planner<span class="token punctuation">(</span>llm<span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> task<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""运行 Agent，执行任务"""</span>
+        steps <span class="token operator">=</span> <span class="token number">0</span>
+        
+        <span class="token keyword">while</span> steps <span class="token operator">&lt;</span> MAX_STEPS<span class="token punctuation">:</span>
+            <span class="token comment"># 1. 检查终止条件</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>should_terminate<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+            
+            <span class="token comment"># 2. 规划（Plan）</span>
+            thought<span class="token punctuation">,</span> action <span class="token operator">=</span> self<span class="token punctuation">.</span>planner<span class="token punctuation">.</span>plan<span class="token punctuation">(</span>
+                task<span class="token operator">=</span>task<span class="token punctuation">,</span>
+                memory<span class="token operator">=</span>self<span class="token punctuation">.</span>memory<span class="token punctuation">,</span>
+                available_tools<span class="token operator">=</span>self<span class="token punctuation">.</span>tools<span class="token punctuation">.</span><span class="token builtin">list</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+            
+            <span class="token comment"># 3. 检查目标是否达成</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>is_goal_reached<span class="token punctuation">(</span>thought<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"result"</span><span class="token punctuation">:</span> thought<span class="token punctuation">&#125;</span>
+            
+            <span class="token comment"># 4. 执行（Act）</span>
+            tool_name<span class="token punctuation">,</span> args <span class="token operator">=</span> self<span class="token punctuation">.</span>parse_action<span class="token punctuation">(</span>action<span class="token punctuation">)</span>
+            observation <span class="token operator">=</span> self<span class="token punctuation">.</span>executor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>tool_name<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+            
+            <span class="token comment"># 5. 更新记忆（Memory）</span>
+            self<span class="token punctuation">.</span>memory<span class="token punctuation">.</span>update<span class="token punctuation">(</span>
+                thought<span class="token operator">=</span>thought<span class="token punctuation">,</span>
+                action<span class="token operator">=</span>action<span class="token punctuation">,</span>
+                observation<span class="token operator">=</span>observation
+            <span class="token punctuation">)</span>
+            
+            steps <span class="token operator">+=</span> <span class="token number">1</span>
+        
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"max steps exceeded"</span><span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 使用示例</span>
+agent <span class="token operator">=</span> Agent<span class="token punctuation">(</span>
+    llm<span class="token operator">=</span>gpt4<span class="token punctuation">,</span>
+    tools<span class="token operator">=</span><span class="token punctuation">[</span>query_db<span class="token punctuation">,</span> generate_report<span class="token punctuation">,</span> send_email<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    memory<span class="token operator">=</span>Memory<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+
+result <span class="token operator">=</span> agent<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"查询用户数据并生成报告"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>关键组件协作</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">用户任务
+   ↓
+Planner (规划) ← 使用 LLM + Prompt
+   ↓
+Executor (执行) ← 调用 Tools
+   ↓
+Memory (记忆) ← 存储历史
+   ↓
+反馈循环 → 继续规划<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔍-总结：为什么构建-Agent-很重要"><a href="#🔍-总结：为什么构建-Agent-很重要" class="headerlink" title="🔍 总结：为什么构建 Agent 很重要"></a>🔍 总结：为什么构建 Agent 很重要</h2><p>Agent 真正将 LLM 从”文本生成器”推向”任务执行器”，具有以下核心价值：</p>
+<h3 id="Agent-的核心价值"><a href="#Agent-的核心价值" class="headerlink" title="Agent 的核心价值"></a>Agent 的核心价值</h3><table>
+<thead>
+<tr>
+<th>价值</th>
+<th>说明</th>
+<th>实际应用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>自动化复杂任务</strong></td>
+<td>不仅是”问答&#x2F;生成文本”，而是”查资料 + 处理 + 输出 + 执行”</td>
+<td>自动报告生成、数据分析、流程自动化</td>
+</tr>
+<tr>
+<td><strong>可追踪 &amp; 可审计</strong></td>
+<td>每一步都有工具调用、Observation、Memory 记录</td>
+<td>便于审计、调试、问题排查</td>
+</tr>
+<tr>
+<td><strong>持续能力 &amp; 演化</strong></td>
+<td>通过 Memory 和工具库，可以重复利用已有能力，也能扩展新能力</td>
+<td>学习用户习惯、优化任务执行</td>
+</tr>
+<tr>
+<td><strong>从辅助到主动</strong></td>
+<td>不只是被动回应用户，而是主动完成任务</td>
+<td>自动监控、自动响应、主动优化</td>
+</tr>
+</tbody></table>
+<h3 id="Agent-的应用场景"><a href="#Agent-的应用场景" class="headerlink" title="Agent 的应用场景"></a>Agent 的应用场景</h3><p><strong>1. 自动化测试</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">任务：自动生成测试用例并执行
+Agent：
+1. 分析需求文档
+2. 生成测试用例
+3. 执行测试
+4. 生成测试报告<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>2. 数据分析</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">任务：分析用户行为数据
+Agent：
+1. 查询数据库获取数据
+2. 数据清洗和处理
+3. 数据分析和可视化
+4. 生成分析报告<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>3. 内容生成</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">任务：生成技术文档
+Agent：
+1. 检索相关技术资料（RAG）
+2. 整理和总结
+3. 生成文档
+4. 格式化和发布<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>核心理解</strong>：Agent 是 LLM 从”会说话”到”能做事 + 会思考 + 会改”的演化，是构建真正智能自动化系统的基础。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h2><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h3 id="🔄-ReAct-范式"><a href="#🔄-ReAct-范式" class="headerlink" title="🔄 ReAct 范式"></a>🔄 ReAct 范式</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2210.03629"><strong>ReAct: Synergizing Reasoning and Acting in Language Models（ReAct 原始论文）</strong></a>：ReAct 范式的开创性论文，展示了如何结合推理和行动。<strong>必读论文</strong>，适合所有读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://react-lm.github.io/"><strong>ReAct 项目主页</strong></a>：ReAct 的官方项目主页，包含示例 Prompt 模板和代码。<strong>强烈推荐</strong>，适合想实践 ReAct 的开发者。</p>
+</li>
+</ul>
+<h3 id="📖-Agent-系统综述"><a href="#📖-Agent-系统综述" class="headerlink" title="📖 Agent 系统综述"></a>📖 Agent 系统综述</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2510.00078"><strong>Adaptive and Resource‑efficient Agentic AI Systems（Agent 系统综述）</strong></a>：2025 年的 Agent 系统最新综述。适合想了解 Agent 系统最新进展的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2510.10991"><strong>A Survey on Agentic Multimodal Large Language Models（多模态 Agent 综述）</strong></a>：多模态 Agent 的全面综述。适合想了解多模态 Agent 的读者。</p>
+</li>
+</ul>
+<h3 id="🛠️-Agent-框架与实践"><a href="#🛠️-Agent-框架与实践" class="headerlink" title="🛠️ Agent 框架与实践"></a>🛠️ Agent 框架与实践</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/agents/"><strong>LangChain Agents（LangChain Agent 文档）</strong></a>：LangChain 的 Agent 文档，包含完整示例。<strong>强烈推荐</strong>，适合想快速上手的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/"><strong>LlamaIndex Agents（LlamaIndex Agent 文档）</strong></a>：LlamaIndex 的 Agent 文档。适合使用 LlamaIndex 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/Significant-Gravitas/AutoGPT"><strong>AutoGPT 项目</strong></a>：AutoGPT 的开源项目，展示了完整的 Agent 实现。适合想学习 Agent 实现的开发者。</p>
+</li>
+</ul>
+<h3 id="🔧-工具调用与-Function-Calling"><a href="#🔧-工具调用与-Function-Calling" class="headerlink" title="🔧 工具调用与 Function Calling"></a>🔧 工具调用与 Function Calling</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/function-calling"><strong>OpenAI Function Calling（OpenAI 工具调用）</strong></a>：OpenAI 的 Function Calling 官方文档。<strong>必读</strong>，适合使用 OpenAI API 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.anthropic.com/claude/docs/tool-use"><strong>Anthropic Tool Use（Claude 工具使用）</strong></a>：Anthropic 的工具使用文档。适合使用 Claude 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/techniques/tool_use"><strong>LLM Tool Calling Best Practices（工具调用最佳实践）</strong></a>：工具调用的最佳实践指南。适合想优化工具调用的开发者。</p>
+</li>
+</ul>
+<h3 id="💾-Memory-管理"><a href="#💾-Memory-管理" class="headerlink" title="💾 Memory 管理"></a>💾 Memory 管理</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/memory/"><strong>LangChain Memory（LangChain 记忆管理）</strong></a>：LangChain 的记忆管理文档。适合需要实现记忆功能的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/memory/"><strong>Vector Memory for Agents（Agent 向量记忆）</strong></a>：LlamaIndex 的向量记忆实现。适合需要长期记忆的开发者。</p>
+</li>
+</ul>
+<h3 id="🇨🇳-中文资源"><a href="#🇨🇳-中文资源" class="headerlink" title="🇨🇳 中文资源"></a>🇨🇳 中文资源</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/650000000"><strong>Agent 系统设计指南（中文）</strong></a>：Agent 系统设计的中文指南。适合中文读者。</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>理解了 Agent 的整体架构与构成后，我们已经掌握了 Agent 的基础知识。</p>
+<p>接下来，我们将深入 Agent 的”决策引擎”，学习如何让 Agent 做出更好的决策。</p>
+<p><strong>第 7 篇将深入决策引擎</strong>：</p>
+<blockquote>
+<p><strong>《主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用》</strong></p>
+</blockquote>
+<ul>
+<li>ReAct 范式的工作原理是什么？</li>
+<li>如何设计 ReAct Prompt 模板？</li>
+<li>如何实现工具调用和错误处理？</li>
+<li>ReAct 与其他决策策略（Self-Ask、Tree-of-Thought）的对比</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" class="print-no-link">#智能体</a>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/Memory/" class="print-no-link">#Memory</a>
+      
+        <a href="/fluid-blog/tags/Agentic-Loop/" class="print-no-link">#Agentic Loop</a>
+      
+        <a href="/fluid-blog/tags/Planner/" class="print-no-link">#Planner</a>
+      
+        <a href="/fluid-blog/tags/Tools/" class="print-no-link">#Tools</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？</div>
+      <div>https://linn0813.github.io/2025/12/10/2025-12-10-llm-agent-concept-overview/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/16/2025-12-16-llm-agent-decision-engine/" title="🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/09/2025-12-09-llm-model-evaluation-selection/" title="🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比">
+                        <span class="hidden-mobile">🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

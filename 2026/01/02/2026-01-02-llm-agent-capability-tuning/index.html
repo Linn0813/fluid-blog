@@ -1,0 +1,908 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, Fine-Tuning, 微调, Prompt工程, LoRA, PEFT, Structured CoT, RLHF-A, 能力调优">
+  
+    <meta name="description" content="深入解析 Agent 能力调优：从 Prompt 工程进阶到模型微调，掌握思维链优化、工具 Schema 优化和持续学习反馈闭环，实现专业化 Agent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🔬 主题16｜Agent 能力调优：微调与 Prompt 工程进阶">
+<meta property="og:url" content="https://linn0813.github.io/2026/01/02/2026-01-02-llm-agent-capability-tuning/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 Agent 能力调优：从 Prompt 工程进阶到模型微调，掌握思维链优化、工具 Schema 优化和持续学习反馈闭环，实现专业化 Agent">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-capability-tuning.png">
+<meta property="article:published_time" content="2026-01-02T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.639Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Prompt工程">
+<meta property="article:tag" content="Fine-Tuning">
+<meta property="article:tag" content="LoRA">
+<meta property="article:tag" content="能力调优">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-capability-tuning.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🔬 主题16｜Agent 能力调优：微调与 Prompt 工程进阶 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🔬 主题16｜Agent 能力调优：微调与 Prompt 工程进阶"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-02 18:00" pubdate>
+          2026年1月2日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🔬 主题16｜Agent 能力调优：微调与 Prompt 工程进阶</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 16 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们深入解析了 Agent 评估，掌握了如何评估和优化 Agent 的性能。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将深入 Agent 能力调优，探索通过 Prompt 工程进阶和模型微调，将 Agent 性能从”可用”提升到专业级可靠。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-从通用模型到专业化-Agent"><a href="#🚀-导言-—-从通用模型到专业化-Agent" class="headerlink" title="🚀 导言 — 从通用模型到专业化 Agent"></a>🚀 导言 — 从通用模型到专业化 Agent</h2><p>未经优化的 Agent 可能在 70% 的时间表现良好，但在处理复杂边界条件时容易失败。要将成功率提升到 95%+，并确保其在特定领域（如金融、法律）专业可靠，就必须进行针对性的能力调优。</p>
+<p>本篇深入解析 Agent 调优的两条核心路径：</p>
+<ol>
+<li><p><strong>Prompt Engineering 进阶</strong>：无需修改模型参数，通过优化 Prompt 提升规划和推理能力。</p>
+</li>
+<li><p><strong>模型微调（Fine-Tuning）</strong>：修改模型参数，使 Agent 在特定任务和领域稳定表现。</p>
+</li>
+</ol>
+<p>同时提供<strong>策略选择指南</strong>和工程实践示例。</p>
+<hr>
+<h2 id="一、Prompt-Engineering-进阶：思维链优化"><a href="#一、Prompt-Engineering-进阶：思维链优化" class="headerlink" title="一、Prompt Engineering 进阶：思维链优化"></a>一、Prompt Engineering 进阶：思维链优化</h2><p>即便不微调模型，也能通过优化 Prompt 显著提升 Agent <strong>规划和推理能力</strong>。</p>
+<h3 id="1-1-思维链结构优化（Structured-CoT）"><a href="#1-1-思维链结构优化（Structured-CoT）" class="headerlink" title="1.1 思维链结构优化（Structured CoT）"></a>1.1 思维链结构优化（Structured CoT）</h3><p>ReAct 思维链在实际工程中可能产生跳跃或模糊的 Thought。通过<strong>强制结构化</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">
+Thought:
+
+1. Previous Observation Analysis: [分析上一步结果]
+
+2. Missing Information: [确认缺失信息]
+
+3. Next Action Plan: [明确下一步目标]
+
+4. Action Call: [生成工具调用]
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<ul>
+<li><p><strong>价值</strong>：确保逻辑严密、自省完整，降低规划错误率。</p>
+</li>
+<li><p><strong>工程实践</strong>：在生产 Agent 中统一 Thought 模板，便于日志分析和失败模式追踪。</p>
+</li>
+</ul>
+<h3 id="1-2-拒绝机制与安全强化"><a href="#1-2-拒绝机制与安全强化" class="headerlink" title="1.2 拒绝机制与安全强化"></a>1.2 拒绝机制与安全强化</h3><p>通过 Prompt 指令增强安全性和权限遵守：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">
+System: 你是安全主管。首要任务是保障系统安全。
+
+Rule: 严禁执行涉及删除数据的操作。如果用户要求，你必须回复:
+
+"权限不足，操作被拒绝。"
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<ul>
+<li><p><strong>Few-Shot 示例</strong>：提供拒绝操作案例，教会模型标准回应。</p>
+</li>
+<li><p><strong>效果</strong>：降低越权或敏感操作风险。</p>
+</li>
+</ul>
+<h3 id="1-3-工具-Schema-优化"><a href="#1-3-工具-Schema-优化" class="headerlink" title="1.3 工具 Schema 优化"></a>1.3 工具 Schema 优化</h3><p>Agent 误用工具通常源于描述不清：</p>
+<table>
+<thead>
+<tr>
+<th align="left">错误示例</th>
+<th align="left">优化示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>Search(query): Search the database.</code></td>
+<td align="left"><code>SearchFinancialRecords(query): 访问最新 Q3 财报和股权变动数据，参数必须包含公司名和查询日期范围。</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>价值</strong>：提高工具选择正确率，减少重复试错。</li>
+</ul>
+<hr>
+<h2 id="二、模型微调（Fine-Tuning）：定制化-Agent"><a href="#二、模型微调（Fine-Tuning）：定制化-Agent" class="headerlink" title="二、模型微调（Fine-Tuning）：定制化 Agent"></a>二、模型微调（Fine-Tuning）：定制化 Agent</h2><p>Prompt Engineering 有其极限，当 Agent 需要<strong>稳定掌握特定行为模式或专业术语</strong>时，微调必不可少。</p>
+<h3 id="2-1-选择微调的场景"><a href="#2-1-选择微调的场景" class="headerlink" title="2.1 选择微调的场景"></a>2.1 选择微调的场景</h3><table>
+<thead>
+<tr>
+<th align="left">调优目标</th>
+<th align="left">推荐策略</th>
+<th align="left">深度解析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">通用推理</td>
+<td align="left">Prompt 调优</td>
+<td align="left">LLM 基础能力够强，无需修改参数</td>
+</tr>
+<tr>
+<td align="left">工具使用稳定性</td>
+<td align="left">微调</td>
+<td align="left">教会模型在特定场景下选择正确工具和参数</td>
+</tr>
+<tr>
+<td align="left">特定格式生成</td>
+<td align="left">微调</td>
+<td align="left">确保输出 XML、YAML 或企业内部格式稳定</td>
+</tr>
+<tr>
+<td align="left">领域术语掌握</td>
+<td align="left">微调</td>
+<td align="left">保证专业术语、缩写和行话使用准确</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-微调数据集构建"><a href="#2-2-微调数据集构建" class="headerlink" title="2.2 微调数据集构建"></a>2.2 微调数据集构建</h3><p>微调需要完整的 <strong>Thought-Action-Observation</strong> 序列：</p>
+<ol>
+<li><p><strong>收集失败案例</strong>：从评估日志中获取错误 Thought 和 Action。</p>
+</li>
+<li><p><strong>专家修正</strong>：人类专家修正 Thought 链和 Action，生成正确序列。</p>
+</li>
+<li><p><strong>构建训练序列</strong>：</p>
+</li>
+</ol>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">
+Input: System Prompt + User Query + Tools Schema + (History)
+
+Output: Correct Thought + Correct Action Call + Expected Observation
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-3-微调技术：LoRA（Low-Rank-Adaptation）"><a href="#2-3-微调技术：LoRA（Low-Rank-Adaptation）" class="headerlink" title="2.3 微调技术：LoRA（Low-Rank Adaptation）"></a>2.3 微调技术：LoRA（Low-Rank Adaptation）</h3><ul>
+<li><p><strong>机制</strong>：冻结预训练权重，在 Transformer 模块中注入可训练低秩矩阵。</p>
+</li>
+<li><p><strong>优势</strong>：大幅降低计算和存储成本，可在消费级硬件上进行专业化训练。</p>
+</li>
+<li><p><strong>实践</strong>：可结合 Prompt 工程，在微调后使用 Structured CoT 提高推理可靠性。</p>
+</li>
+</ul>
+<hr>
+<h2 id="三、持续学习与反馈闭环"><a href="#三、持续学习与反馈闭环" class="headerlink" title="三、持续学习与反馈闭环"></a>三、持续学习与反馈闭环</h2><p>Agent 调优是持续过程，构建类似 <strong>RLHF-A</strong> 的反馈闭环尤为重要：</p>
+<ol>
+<li><p><strong>部署（Deploy）</strong>：生产环境运行 Agent</p>
+</li>
+<li><p><strong>监控（Monitor）</strong>：收集结构化日志、成功&#x2F;失败案例</p>
+</li>
+<li><p><strong>评估（Evaluate）</strong>：Judge LLM 或专家评分失败案例</p>
+</li>
+<li><p><strong>数据生成（Data Generation）</strong>：将失败案例修正成高质量 Thought-Action 序列</p>
+</li>
+<li><p><strong>调优（Tune）</strong>：Prompt 优化或模型微调</p>
+</li>
+<li><p><strong>迭代（Iterate）</strong>：部署新版本，循环监控与优化</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>名词卡片</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>PEFT</strong>：参数高效微调技术，如 LoRA</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>Structured CoT</strong>：强制逻辑步骤的 Thought 结构</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>RLHF-A</strong>：面向 Agent 的强化学习反馈机制，关注完整行动序列</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔍-总结：工程与科学结合"><a href="#🔍-总结：工程与科学结合" class="headerlink" title="🔍 总结：工程与科学结合"></a>🔍 总结：工程与科学结合</h2><p>Agent 调优体现 LLM 工程的最高价值。通过：</p>
+<ul>
+<li><p>系统化优化 Thought 结构（Prompt Engineering）</p>
+</li>
+<li><p>精准微调工具使用与专业术语（Fine-Tuning）</p>
+</li>
+</ul>
+<p>可以将 Agent 性能从”可用”提升到 <strong>专业级可靠</strong>。</p>
+<hr>
+<h2 id="📚-知识来源与进阶阅读"><a href="#📚-知识来源与进阶阅读" class="headerlink" title="📚 知识来源与进阶阅读"></a>📚 知识来源与进阶阅读</h2><table>
+<thead>
+<tr>
+<th align="left">主题</th>
+<th align="left">搜索关键词</th>
+<th align="left">来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Agent Fine-Tuning</td>
+<td align="left">Fine-Tuning LLMs for Tool Use</td>
+<td align="left">Hugging Face 教程、Agent 框架博客</td>
+</tr>
+<tr>
+<td align="left">LoRA 技术</td>
+<td align="left">Low-Rank Adaptation of LLMs</td>
+<td align="left">微软论文 (2021)</td>
+</tr>
+<tr>
+<td align="left">RLHF for Agents</td>
+<td align="left">Reinforcement Learning for Agentic Systems</td>
+<td align="left">学术研究与强化学习论文</td>
+</tr>
+<tr>
+<td align="left">Structured CoT</td>
+<td align="left">Advanced Prompt Engineering for Reasoning</td>
+<td align="left">行业指南、技术博客</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>完成 Agent 构建、治理与调优后，我们将聚焦宏观——Agent 在企业级应用和流程自动化（RPA）中的落地。</p>
+<p><strong>第 17 篇标题：</strong></p>
+<h3 id="《Agent-企业应用：RPA、流程自动化与企业落地》"><a href="#《Agent-企业应用：RPA、流程自动化与企业落地》" class="headerlink" title="《Agent 企业应用：RPA、流程自动化与企业落地》"></a>《Agent 企业应用：RPA、流程自动化与企业落地》</h3>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/Prompt%E5%B7%A5%E7%A8%8B/" class="print-no-link">#Prompt工程</a>
+      
+        <a href="/fluid-blog/tags/Fine-Tuning/" class="print-no-link">#Fine-Tuning</a>
+      
+        <a href="/fluid-blog/tags/LoRA/" class="print-no-link">#LoRA</a>
+      
+        <a href="/fluid-blog/tags/%E8%83%BD%E5%8A%9B%E8%B0%83%E4%BC%98/" class="print-no-link">#能力调优</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🔬 主题16｜Agent 能力调优：微调与 Prompt 工程进阶</div>
+      <div>https://linn0813.github.io/2026/01/02/2026-01-02-llm-agent-capability-tuning/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/03/2026-01-03-llm-agent-enterprise-applications/" title="🏭 主题17｜Agent 企业应用：RPA、流程自动化与企业落地">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🏭 主题17｜Agent 企业应用：RPA、流程自动化与企业落地</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/01/2026-01-01-testing-standards-guide/" title="📐 测试标准完全指南：从 ISO/IEC 到企业实践，构建专业的测试体系">
+                        <span class="hidden-mobile">📐 测试标准完全指南：从 ISO/IEC 到企业实践，构建专业的测试体系</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

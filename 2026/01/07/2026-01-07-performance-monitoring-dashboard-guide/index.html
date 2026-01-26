@@ -1,0 +1,875 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="性能监控, 监控面板, 压测, CPU监控, 内存监控, CES, 性能诊断, 压测实战">
+  
+    <meta name="description" content="从&quot;看不懂 CES &#x2F; CPU &#x2F; Memory 面板&quot;，到&quot;能用它们做结论判断&quot;。实战分享压测过程中如何通过性能监控面板进行判断和决策。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📊 压测时，我是如何一步步「读懂」性能监控面板的">
+<meta property="og:url" content="https://linn0813.github.io/2026/01/07/2026-01-07-performance-monitoring-dashboard-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="从&quot;看不懂 CES &#x2F; CPU &#x2F; Memory 面板&quot;，到&quot;能用它们做结论判断&quot;。实战分享压测过程中如何通过性能监控面板进行判断和决策。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/performance-monitoring-dashboard-guide.png">
+<meta property="article:published_time" content="2026-01-07T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.640Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="压测">
+<meta property="article:tag" content="性能监控">
+<meta property="article:tag" content="监控面板">
+<meta property="article:tag" content="性能诊断">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/performance-monitoring-dashboard-guide.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>📊 压测时，我是如何一步步「读懂」性能监控面板的 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="📊 压测时，我是如何一步步「读懂」性能监控面板的"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-07 20:00" pubdate>
+          2026年1月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">📊 压测时，我是如何一步步「读懂」性能监控面板的</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="压测时，我是如何一步步「读懂」性能监控面板的-📊"><a href="#压测时，我是如何一步步「读懂」性能监控面板的-📊" class="headerlink" title="压测时，我是如何一步步「读懂」性能监控面板的 📊"></a><strong>压测时，我是如何一步步「读懂」性能监控面板的</strong> 📊</h1><blockquote>
+<p>从”看不懂 CES &#x2F; CPU &#x2F; Memory 面板”，到”能用它们做结论判断”</p>
+</blockquote>
+<p>这是我<strong>第一次在压测过程中，真正独立去看服务器性能面板</strong>。<br>运维给了我一个临时的监控链接，里面有 CES、CPU Utilization、Memory Utilization 等指标。</p>
+<p>当时我的真实感受是：</p>
+<blockquote>
+<p><strong>每一个指标我都”认识”，但连在一起就完全不知道在说什么。</strong></p>
+</blockquote>
+<p>这篇文章不是讲「CPU 是什么、内存是什么」<br>而是想聊清楚一件事👇</p>
+<blockquote>
+<p><strong>压测时，我们到底应该”怎么看面板”，以及”从面板中得出什么结论”。</strong></p>
+</blockquote>
+<hr>
+<h2 id="一、先说结论：压测看面板，不是看”数值”，而是看”关系”-🧠"><a href="#一、先说结论：压测看面板，不是看”数值”，而是看”关系”-🧠" class="headerlink" title="一、先说结论：压测看面板，不是看”数值”，而是看”关系” 🧠"></a>一、先说结论：压测看面板，不是看”数值”，而是看”关系” 🧠</h2><p>很多新手（包括我自己一开始）都会犯一个错误：</p>
+<blockquote>
+<p>❌ <strong>CPU 高不高？</strong><br>❌ <strong>内存满不满？</strong></p>
+</blockquote>
+<p>但真实的压测判断是：</p>
+<blockquote>
+<p>✅ <strong>在当前压测强度下，这些指标是否”符合预期关系”</strong></p>
+</blockquote>
+<p>性能问题，本质上是 <strong>资源之间的竞争</strong>。</p>
+<p>所以这篇文章的核心思路是三句话：</p>
+<ul>
+<li><strong>单个指标没意义，看趋势</strong></li>
+<li><strong>单张面板没意义，看联动</strong></li>
+<li><strong>压测结果不是”高不高”，而是”稳不稳”</strong></li>
+</ul>
+<hr>
+<h2 id="二、压测前：先把”正常状态”刻在脑子里-🧩"><a href="#二、压测前：先把”正常状态”刻在脑子里-🧩" class="headerlink" title="二、压测前：先把”正常状态”刻在脑子里 🧩"></a>二、压测前：先把”正常状态”刻在脑子里 🧩</h2><p>在开始压测之前，我现在一定会先看一眼面板的 <strong>空载 &#x2F; 低负载状态</strong>。</p>
+<h3 id="我会重点关注这几件事："><a href="#我会重点关注这几件事：" class="headerlink" title="我会重点关注这几件事："></a>我会重点关注这几件事：</h3><h4 id="1️⃣-CPU-基线是什么样的？"><a href="#1️⃣-CPU-基线是什么样的？" class="headerlink" title="1️⃣ CPU 基线是什么样的？"></a>1️⃣ CPU 基线是什么样的？</h4><ul>
+<li>是否长期 &lt; 20%</li>
+<li>是否波动平稳</li>
+<li>是否存在周期性抖动</li>
+</ul>
+<p>👉 <strong>目的不是分析，而是”记住正常长什么样”</strong></p>
+<h4 id="2️⃣-内存是”常驻型”还是”波动型”？"><a href="#2️⃣-内存是”常驻型”还是”波动型”？" class="headerlink" title="2️⃣ 内存是”常驻型”还是”波动型”？"></a>2️⃣ 内存是”常驻型”还是”波动型”？</h4><ul>
+<li>是否启动后迅速升高，然后稳定</li>
+<li>是否随着时间缓慢上涨</li>
+<li>是否存在明显的回落（GC &#x2F; 释放）</li>
+</ul>
+<p>👉 <strong>这是后面判断”是不是泄漏”的重要对照</strong></p>
+<hr>
+<h2 id="三、压测过程中：CPU-Utilization-面板怎么”用”-⚙️"><a href="#三、压测过程中：CPU-Utilization-面板怎么”用”-⚙️" class="headerlink" title="三、压测过程中：CPU Utilization 面板怎么”用” ⚙️"></a>三、压测过程中：CPU Utilization 面板怎么”用” ⚙️</h2><h3 id="❗-重点提醒"><a href="#❗-重点提醒" class="headerlink" title="❗ 重点提醒"></a>❗ 重点提醒</h3><blockquote>
+<p><strong>CPU 高 ≠ 有问题</strong><br><strong>CPU 不高 ≠ 没问题</strong></p>
+</blockquote>
+<h3 id="我现在看-CPU，会重点看-4-件事："><a href="#我现在看-CPU，会重点看-4-件事：" class="headerlink" title="我现在看 CPU，会重点看 4 件事："></a>我现在看 CPU，会重点看 4 件事：</h3><hr>
+<h3 id="1️⃣-CPU-是”线性增长”还是”阶梯增长”？"><a href="#1️⃣-CPU-是”线性增长”还是”阶梯增长”？" class="headerlink" title="1️⃣ CPU 是”线性增长”还是”阶梯增长”？"></a>1️⃣ CPU 是”线性增长”还是”阶梯增长”？</h3><p>📈 <strong>线性增长（健康倾向）</strong></p>
+<ul>
+<li>QPS ↑ → CPU 平滑上升</li>
+<li>并发 ↓ → CPU 平滑下降</li>
+</ul>
+<p>🧱 <strong>阶梯 &#x2F; 突增（风险信号）</strong></p>
+<ul>
+<li>并发一上来，CPU 突然顶死</li>
+<li>之后再加并发，CPU 不再变化，但响应时间暴涨</li>
+</ul>
+<p>👉 <strong>这通常意味着：</strong></p>
+<ul>
+<li>锁竞争</li>
+<li>同步阻塞</li>
+<li>线程池打满</li>
+</ul>
+<hr>
+<h3 id="2️⃣-CPU-到-70-vs-90-，意义完全不同"><a href="#2️⃣-CPU-到-70-vs-90-，意义完全不同" class="headerlink" title="2️⃣ CPU 到 70% vs 90%，意义完全不同"></a>2️⃣ CPU 到 70% vs 90%，意义完全不同</h3><table>
+<thead>
+<tr>
+<th>CPU 区间</th>
+<th>我的经验判断</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&lt; 60%</td>
+<td>系统很安全</td>
+</tr>
+<tr>
+<td>60%–75%</td>
+<td>可接受，需要观察</td>
+</tr>
+<tr>
+<td>75%–85%</td>
+<td>临界区，重点盯</td>
+</tr>
+<tr>
+<td>&gt; 85%</td>
+<td>基本不可持续</td>
+</tr>
+</tbody></table>
+<p>📌 <strong>压测不是看”能不能跑到 100%”<br>而是看”在目标 TPS 下，CPU 是否还能留余量”</strong></p>
+<hr>
+<h3 id="3️⃣-CPU-高，但响应时间没上升，是好事还是坏事？"><a href="#3️⃣-CPU-高，但响应时间没上升，是好事还是坏事？" class="headerlink" title="3️⃣ CPU 高，但响应时间没上升，是好事还是坏事？"></a>3️⃣ CPU 高，但响应时间没上升，是好事还是坏事？</h3><p>这是一个<strong>非常典型的误区</strong>。</p>
+<p>👉 我的判断逻辑是：</p>
+<ul>
+<li><strong>短时间 OK</strong></li>
+<li><strong>长时间 &#x3D; 风险</strong></li>
+</ul>
+<p>如果 CPU 长时间接近上限：</p>
+<ul>
+<li>任何抖动（GC &#x2F; IO &#x2F; 调度）都会放大成 RT 波动</li>
+<li>系统对突发流量毫无缓冲能力</li>
+</ul>
+<hr>
+<h2 id="四、Memory-Utilization：真正的重点是”形态”而不是”占用率”-🧠"><a href="#四、Memory-Utilization：真正的重点是”形态”而不是”占用率”-🧠" class="headerlink" title="四、Memory Utilization：真正的重点是”形态”而不是”占用率” 🧠"></a>四、Memory Utilization：真正的重点是”形态”而不是”占用率” 🧠</h2><p>我现在看内存，第一眼几乎不看百分比。</p>
+<h3 id="我会先问自己一个问题："><a href="#我会先问自己一个问题：" class="headerlink" title="我会先问自己一个问题："></a>我会先问自己一个问题：</h3><blockquote>
+<p><strong>它是”用完就回”，还是”一路不回头”？</strong></p>
+</blockquote>
+<hr>
+<h3 id="1️⃣-三种内存曲线，一眼定性"><a href="#1️⃣-三种内存曲线，一眼定性" class="headerlink" title="1️⃣ 三种内存曲线，一眼定性"></a>1️⃣ 三种内存曲线，一眼定性</h3><h4 id="✅-健康型"><a href="#✅-健康型" class="headerlink" title="✅ 健康型"></a>✅ 健康型</h4><ul>
+<li>压测开始 → 内存上升</li>
+<li>稳定运行 → 平台</li>
+<li>压测结束 → 回落（哪怕不回到原点）</li>
+</ul>
+<h4 id="⚠️-可疑型"><a href="#⚠️-可疑型" class="headerlink" title="⚠️ 可疑型"></a>⚠️ 可疑型</h4><ul>
+<li>每一轮压测，峰值越来越高</li>
+<li>GC 后只能回落一部分</li>
+</ul>
+<h4 id="🚨-高危型"><a href="#🚨-高危型" class="headerlink" title="🚨 高危型"></a>🚨 高危型</h4><ul>
+<li>内存只涨不跌</li>
+<li>压测结束也不回落</li>
+</ul>
+<p>👉 <strong>最后一种，哪怕没 OOM，也已经是”结论级问题”</strong></p>
+<hr>
+<h3 id="2️⃣-内存没满，但系统已经慢了，为什么？"><a href="#2️⃣-内存没满，但系统已经慢了，为什么？" class="headerlink" title="2️⃣ 内存没满，但系统已经慢了，为什么？"></a>2️⃣ 内存没满，但系统已经慢了，为什么？</h3><p>这是我第一次压测时完全没理解的点。</p>
+<p>可能原因包括：</p>
+<ul>
+<li>GC 频繁，CPU 被抢占</li>
+<li>对象创建过多，Young GC 压力大</li>
+<li>缓存策略不合理</li>
+</ul>
+<p>👉 <strong>所以：</strong></p>
+<blockquote>
+<p>内存不是”用满才有问题”，<br>而是”用得不健康就有问题”。</p>
+</blockquote>
+<hr>
+<h2 id="五、CES-面板：这是”压测结论”的放大镜-🔍"><a href="#五、CES-面板：这是”压测结论”的放大镜-🔍" class="headerlink" title="五、CES 面板：这是”压测结论”的放大镜 🔍"></a>五、CES 面板：这是”压测结论”的放大镜 🔍</h2><p>虽然不同公司 CES 指标定义不同，但它通常代表：</p>
+<blockquote>
+<p><strong>系统综合健康度 &#x2F; 容量 &#x2F; 服务状态</strong></p>
+</blockquote>
+<h3 id="我现在看-CES，主要干这-3-件事："><a href="#我现在看-CES，主要干这-3-件事：" class="headerlink" title="我现在看 CES，主要干这 3 件事："></a>我现在看 CES，主要干这 3 件事：</h3><hr>
+<h3 id="1️⃣-看它是否和压测阶段”同步变化”"><a href="#1️⃣-看它是否和压测阶段”同步变化”" class="headerlink" title="1️⃣ 看它是否和压测阶段”同步变化”"></a>1️⃣ 看它是否和压测阶段”同步变化”</h3><ul>
+<li>压测升压 → CES 是否同步下降</li>
+<li>稳定阶段 → CES 是否稳定</li>
+<li>降压 → CES 是否恢复</li>
+</ul>
+<p>👉 <strong>不同步 &#x3D; 有隐藏瓶颈</strong></p>
+<hr>
+<h3 id="2️⃣-CES-先掉，CPU-还没高，意味着什么？"><a href="#2️⃣-CES-先掉，CPU-还没高，意味着什么？" class="headerlink" title="2️⃣ CES 先掉，CPU 还没高，意味着什么？"></a>2️⃣ CES 先掉，CPU 还没高，意味着什么？</h3><p>这类情况我现在会非常警惕，通常意味着：</p>
+<ul>
+<li>IO &#x2F; DB &#x2F; 下游服务先扛不住</li>
+<li>应用层还没感知，但系统已经在”透支”</li>
+</ul>
+<p>👉 <strong>这是”扩容 or 架构问题”的强信号</strong></p>
+<hr>
+<h3 id="3️⃣-CES-用来”验证结论”，不是发现问题"><a href="#3️⃣-CES-用来”验证结论”，不是发现问题" class="headerlink" title="3️⃣ CES 用来”验证结论”，不是发现问题"></a>3️⃣ CES 用来”验证结论”，不是发现问题</h3><p>这是一个经验点：</p>
+<blockquote>
+<p><strong>问题通常先在 CPU &#x2F; Memory &#x2F; RT 上暴露<br>CES 用来确认”整体是否已不可接受”</strong></p>
+</blockquote>
+<hr>
+<h2 id="六、我现在的压测读面板固定流程-🧭（可直接照着用）"><a href="#六、我现在的压测读面板固定流程-🧭（可直接照着用）" class="headerlink" title="六、我现在的压测读面板固定流程 🧭（可直接照着用）"></a>六、我现在的压测读面板固定流程 🧭（可直接照着用）</h2><p>这是我目前已经形成的一个 <strong>压测固定心智模型</strong>：</p>
+<p>1️⃣ <strong>先看 RT &#x2F; TPS 是否符合预期</strong><br>2️⃣ <strong>看 CPU 是否线性、是否有余量</strong><br>3️⃣ <strong>看 Memory 是否稳定、有无趋势问题</strong><br>4️⃣ <strong>用 CES 验证系统整体健康度</strong><br>5️⃣ <strong>结合压测阶段，给出”是否可上线”的判断</strong></p>
+<hr>
+<h2 id="七、写在最后：面板不是给”看”的，是给”下结论”的-📝"><a href="#七、写在最后：面板不是给”看”的，是给”下结论”的-📝" class="headerlink" title="七、写在最后：面板不是给”看”的，是给”下结论”的 📝"></a>七、写在最后：面板不是给”看”的，是给”下结论”的 📝</h2><p>对我来说，这次压测最大的收获不是认识了几个新指标，而是：</p>
+<blockquote>
+<p><strong>第一次意识到：<br>性能面板的价值，在于支撑判断，而不是展示数据。</strong></p>
+</blockquote>
+<p>当你能回答这些问题时，你就已经跨过了”新手阶段”：</p>
+<ul>
+<li>现在的性能瓶颈是什么？</li>
+<li>再加 30% 流量，会先死在哪里？</li>
+<li>这个系统，是”性能问题”还是”容量问题”？</li>
+</ul>
+<p>如果你也刚开始真正接触压测和性能面板，希望这篇文章能少走一些弯路。</p>
+<hr>
+<h2 id="📚-延伸阅读"><a href="#📚-延伸阅读" class="headerlink" title="📚 延伸阅读"></a>📚 延伸阅读</h2><h3 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h3><ul>
+<li><a href="/2026/01/06/2026-01-06-server-performance-troubleshooting-guide/">服务器性能问题排查完全指南</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%A7-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%BF%9B%E9%98%B6%EF%BC%9ALinux-%E6%97%A5%E5%BF%97%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%9B%91%E6%8E%A7%E5%AE%9E%E6%88%98/" class="category-chain-item">🐧 服务端进阶：Linux 日志、性能与监控实战</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%A7-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%BF%9B%E9%98%B6%EF%BC%9ALinux-%E6%97%A5%E5%BF%97%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%9B%91%E6%8E%A7%E5%AE%9E%E6%88%98/%E5%BC%80%E5%8F%91%E4%B8%8E%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">开发与技术栈</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E5%8E%8B%E6%B5%8B/" class="print-no-link">#压测</a>
+      
+        <a href="/fluid-blog/tags/%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7/" class="print-no-link">#性能监控</a>
+      
+        <a href="/fluid-blog/tags/%E7%9B%91%E6%8E%A7%E9%9D%A2%E6%9D%BF/" class="print-no-link">#监控面板</a>
+      
+        <a href="/fluid-blog/tags/%E6%80%A7%E8%83%BD%E8%AF%8A%E6%96%AD/" class="print-no-link">#性能诊断</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>📊 压测时，我是如何一步步「读懂」性能监控面板的</div>
+      <div>https://linn0813.github.io/2026/01/07/2026-01-07-performance-monitoring-dashboard-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/19/2026-01-19-charles-capture-beginner-to-practical-guide/" title="🐢 Charles 抓包工具从入门到实战使用教程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🐢 Charles 抓包工具从入门到实战使用教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/06/2026-01-06-server-performance-troubleshooting-guide/" title="🚀 服务器性能问题排查完全指南：从 OOM、CPU 高到压测配合，测试工程师必知必会">
+                        <span class="hidden-mobile">🚀 服务器性能问题排查完全指南：从 OOM、CPU 高到压测配合，测试工程师必知必会</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

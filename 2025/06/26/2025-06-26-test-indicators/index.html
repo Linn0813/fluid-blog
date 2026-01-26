@@ -1,0 +1,940 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="测试指标, 测试方法, 质量度量, 测试效率, 缺陷管理">
+  
+    <meta name="description" content="从七大维度全面梳理测试指标体系，结合实践经验与扩展建议，助你构建可落地、有反馈、有价值的测试度量体系！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📊 测试指标全景图：如何用一套数据体系提升你的测试价值？">
+<meta property="og:url" content="https://linn0813.github.io/2025/06/26/2025-06-26-test-indicators/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="从七大维度全面梳理测试指标体系，结合实践经验与扩展建议，助你构建可落地、有反馈、有价值的测试度量体系！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/test-indicators.png">
+<meta property="article:published_time" content="2025-06-26T08:43:25.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.620Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="测试方法">
+<meta property="article:tag" content="测试指标">
+<meta property="article:tag" content="质量度量">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/test-indicators.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>📊 测试指标全景图：如何用一套数据体系提升你的测试价值？ - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="📊 测试指标全景图：如何用一套数据体系提升你的测试价值？"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-26 16:43" pubdate>
+          2025年6月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">📊 测试指标全景图：如何用一套数据体系提升你的测试价值？</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="📊-测试指标全景图：如何用一套数据体系提升你的测试价值？"><a href="#📊-测试指标全景图：如何用一套数据体系提升你的测试价值？" class="headerlink" title="📊 测试指标全景图：如何用一套数据体系提升你的测试价值？"></a>📊 测试指标全景图：如何用一套数据体系提升你的测试价值？</h1><p>在测试过程中，你是否常遇到这些问题：</p>
+<ul>
+<li>用例到底执行得怎么样了？🧐</li>
+<li>缺陷到底有没有修完？😰</li>
+<li>自动化到底值不值得做？🤖</li>
+</ul>
+<p>本篇文章将从七大维度全面梳理测试指标体系，并结合实践经验与扩展建议，助你构建“可落地、有反馈、有价值”的测试度量体系！</p>
+<hr>
+<h2 id="一、🧪-测试效率指标：不是忙，而是有节奏地推进！"><a href="#一、🧪-测试效率指标：不是忙，而是有节奏地推进！" class="headerlink" title="一、🧪 测试效率指标：不是忙，而是有节奏地推进！"></a>一、🧪 测试效率指标：不是忙，而是有节奏地推进！</h2><p>想知道你是不是“看起来很忙，其实没效率”？下面这些指标，直接对焦你的测试产出与进度：</p>
+<table>
+<thead>
+<tr>
+<th>指标公式解读</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>✅ 测试用例执行率</td>
+<td>已执行用例数 &#x2F; 总用例数 ×100%</td>
+<td>反映测试进度条跑了几格 📊</td>
+</tr>
+<tr>
+<td>🎯 测试用例通过率</td>
+<td>通过用例数 &#x2F; 已执行用例数 ×100%</td>
+<td>越高越说明系统稳定了 ✨</td>
+</tr>
+<tr>
+<td>🕒 测试周期时长</td>
+<td>实际耗时 vs 计划耗时</td>
+<td>拿它评估是否被打断、流程是否合理 💡</td>
+</tr>
+<tr>
+<td>🤖 自动化测试比例</td>
+<td>自动化用例数 &#x2F; 总用例数 ×100%</td>
+<td>回归场景别手动跑！节省时间靠它 ⏱️</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>应用场景拓展</strong>：每轮迭代中期检查执行率与通过率是否同步增长，若执行率高而通过率低，需立即复盘失败原因。</p>
+</blockquote>
+<hr>
+<h2 id="二、🐞-缺陷类指标：Bug-背后的数字真相"><a href="#二、🐞-缺陷类指标：Bug-背后的数字真相" class="headerlink" title="二、🐞 缺陷类指标：Bug 背后的数字真相"></a>二、🐞 缺陷类指标：Bug 背后的数字真相</h2><p>想让缺陷管理不再“看心情”？这些指标会说话！</p>
+<table>
+<thead>
+<tr>
+<th>指标公式解读</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>📚 缺陷密度</td>
+<td>缺陷总数 &#x2F; 代码行数</td>
+<td>可用于横向对比多个模块的质量</td>
+</tr>
+<tr>
+<td>🔧 缺陷修复率</td>
+<td>已修复缺陷数 &#x2F; 总缺陷数 ×100%</td>
+<td>低于90%，说明还有坑没填 ⛏️</td>
+</tr>
+<tr>
+<td>🚨 严重程度分布</td>
+<td>各等级缺陷数量占比</td>
+<td>P0&#x2F;P1过多，要重点关注上线风险 ⚠️</td>
+</tr>
+<tr>
+<td>🔍 缺陷逃逸率</td>
+<td>线上缺陷 &#x2F; 测试阶段缺陷 ×100%</td>
+<td>超10%，说明测试存在“盲区” 👀</td>
+</tr>
+<tr>
+<td>🔁 缺陷重开率</td>
+<td>重开的缺陷 &#x2F; 已修复缺陷 ×100%</td>
+<td>修得不彻底 or 沟通不充分 🗯️</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>典型应用</strong>：缺陷逃逸率+重开率联动分析，可判断测试质量是否靠谱。</p>
+</blockquote>
+<hr>
+<h2 id="三、📚-覆盖度指标：测试到底测了啥？"><a href="#三、📚-覆盖度指标：测试到底测了啥？" class="headerlink" title="三、📚 覆盖度指标：测试到底测了啥？"></a>三、📚 覆盖度指标：测试到底测了啥？</h2><p>别再只说“测过了”，来点有数据的“盖章证明”：</p>
+<table>
+<thead>
+<tr>
+<th>指标公式说明</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>📃 需求覆盖率</td>
+<td>已测试需求数 &#x2F; 总需求数 ×100%</td>
+<td>目标是100%，可与需求工具联动校验 ✅</td>
+</tr>
+<tr>
+<td>🧬 代码覆盖率</td>
+<td>覆盖代码行 &#x2F; 总代码行 ×100%</td>
+<td>行覆盖 + 分支覆盖更全面（可用 JaCoCo、Istanbul）🧪</td>
+</tr>
+<tr>
+<td>🌐 接口覆盖率</td>
+<td>已测接口 &#x2F; 总接口 ×100%</td>
+<td>包含 GET&#x2F;POST 等方法 &amp; 边界值情况 💥</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>📌<strong>实践建议</strong>：在需求评审阶段同步设计接口&#x2F;需求的用例覆盖映射表，为后续验证埋点。</p>
+</blockquote>
+<hr>
+<h2 id="四、🚀-性能测试指标：系统“扛打”吗？"><a href="#四、🚀-性能测试指标：系统“扛打”吗？" class="headerlink" title="四、🚀 性能测试指标：系统“扛打”吗？"></a>四、🚀 性能测试指标：系统“扛打”吗？</h2><p>性能不是上线后才关心的事！事前演练才能避免“崩了”👇</p>
+<table>
+<thead>
+<tr>
+<th>指标说明</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>⏱️ 响应时间</td>
+<td>平均&#x2F;最大&#x2F;最小响应时间，API 一般建议 ≤200ms</td>
+</tr>
+<tr>
+<td>📈 吞吐量（TPS&#x2F;RPS）</td>
+<td>每秒事务&#x2F;请求数，高并发场景下重要参考</td>
+</tr>
+<tr>
+<td>❌ 错误率</td>
+<td>失败请求 &#x2F; 总请求 ×100%，一般容忍&lt;1%</td>
+</tr>
+<tr>
+<td>🧠 资源利用率</td>
+<td>CPU、内存、磁盘使用率，发现瓶颈点关键 🔍</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>📌 建议：结合压力工具（如 JMeter、Locust），同步资源监控（Grafana + Prometheus）效果最佳！</p>
+</blockquote>
+<hr>
+<h2 id="五、🤖-自动化测试指标：打造高复用、稳定的测试资产"><a href="#五、🤖-自动化测试指标：打造高复用、稳定的测试资产" class="headerlink" title="五、🤖 自动化测试指标：打造高复用、稳定的测试资产"></a>五、🤖 自动化测试指标：打造高复用、稳定的测试资产</h2><p>自动化不是“写完就跑”，而是要跑得久、跑得稳、跑得值 💰</p>
+<table>
+<thead>
+<tr>
+<th>指标说明</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🛠️ 脚本稳定性</td>
+<td>成功运行脚本 &#x2F; 总脚本数 ×100%，不要写一个挂一个 ❌</td>
+</tr>
+<tr>
+<td>⏳ 自动化执行时间</td>
+<td>用时是否合理，可用并行策略缩短耗时</td>
+</tr>
+<tr>
+<td>💸 ROI（投入产出比）</td>
+<td>（节省的人工测试时间）&#x2F;（自动化维护成本）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>🎯 建议：优先自动化核心场景、频繁回归用例，非稳定模块谨慎加入。</p>
+</blockquote>
+<hr>
+<h2 id="六、📦-发布质量指标：上线前的“最后一公里”"><a href="#六、📦-发布质量指标：上线前的“最后一公里”" class="headerlink" title="六、📦 发布质量指标：上线前的“最后一公里”"></a>六、📦 发布质量指标：上线前的“最后一公里”</h2><p>发布前质量闭环，发布后验证落地 ✅</p>
+<table>
+<thead>
+<tr>
+<th>指标说明</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🐞 上线后缺陷数</td>
+<td>越低说明测试越充分</td>
+</tr>
+<tr>
+<td>🔥 热修复频率</td>
+<td>发布后频繁修，说明测试或发布流程不完善</td>
+</tr>
+<tr>
+<td>👂 用户反馈缺陷占比</td>
+<td>如果占比高，要反思测试是否贴近用户实际使用路径</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、🤝-团队协作指标：测试不再是“孤岛”"><a href="#七、🤝-团队协作指标：测试不再是“孤岛”" class="headerlink" title="七、🤝 团队协作指标：测试不再是“孤岛”"></a>七、🤝 团队协作指标：测试不再是“孤岛”</h2><p>质量交付需要全员参与，协作指标同样重要！</p>
+<table>
+<thead>
+<tr>
+<th>指标说明</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🧯 平均缺陷修复时间（MTTR）</td>
+<td>从提交到关闭的平均时长，反映流程通畅度</td>
+</tr>
+<tr>
+<td>🧪 测试环境可用率</td>
+<td>若环境总是出问题，测试也只能“干等” 😤</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>🚀 建议：建设稳定可复用的测试环境方案（如 Docker + 数据脚本一键部署）。</p>
+</blockquote>
+<hr>
+<h2 id="📈-数据可视化建议"><a href="#📈-数据可视化建议" class="headerlink" title="📈 数据可视化建议"></a>📈 数据可视化建议</h2><ul>
+<li>用 <strong>趋势图</strong> 展示每周缺陷数量变化</li>
+<li>用 <strong>雷达图</strong> 展示各模块质量分布</li>
+<li>用 <strong>甘特图</strong> 对比测试计划与实际执行</li>
+<li>用 <strong>矩阵图</strong> 展示用例-需求-缺陷映射</li>
+</ul>
+<p>推荐工具：</p>
+<ul>
+<li>飞书多维表 + 图表插件 📊</li>
+<li>Jira Dashboard &#x2F; Confluence 报告 🗂️</li>
+<li>Allure + Jenkins 测试趋势可视化 🧪</li>
+</ul>
+<hr>
+<h2 id="✅-行动清单"><a href="#✅-行动清单" class="headerlink" title="✅  行动清单"></a>✅  行动清单</h2><p>📌 <strong>建议从这3类关键指标入手</strong>：</p>
+<ol>
+<li>测试用例执行率（判断进度）</li>
+<li>缺陷修复率（判断质量）</li>
+<li>自动化测试比例（判断投入产出）</li>
+</ol>
+<p>📌 <strong>落地三部曲</strong>：</p>
+<ul>
+<li>明确采集方式（平台、表格或接口）</li>
+<li>设定展示形式（周报、看板）</li>
+<li>固定频率回顾（每周评审 or 每迭代回顾）</li>
+</ul>
+<hr>
+<h2 id="📌-最后总结：数据驱动测试，才有底气说“我们测得好！”"><a href="#📌-最后总结：数据驱动测试，才有底气说“我们测得好！”" class="headerlink" title="📌 最后总结：数据驱动测试，才有底气说“我们测得好！”"></a>📌 最后总结：数据驱动测试，才有底气说“我们测得好！”</h2><p>通过上面这 7 类指标，你不仅可以：</p>
+<ul>
+<li>清晰展现测试进度 📊</li>
+<li>精准评估产品质量 🧠</li>
+<li>主动发现优化点 🔍</li>
+<li>在跨团队沟通中更有“话语权” 💬</li>
+</ul>
+<blockquote>
+<p>测试不止是“发现问题”，更是用指标反映价值、用数据指导改进的过程。<br>从今天起，让我们**从“测试执行者”走向“质量度量者”**吧！💪✨</p>
+<p>希望这份指标指南能为你和团队带来真正的质变提升 💪🚀</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/" class="category-chain-item">🎨 职场进阶与测试思维：从小白到资深</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/%E8%B4%A8%E9%87%8F%E5%BA%A6%E9%87%8F%E4%B8%8E%E6%94%B9%E8%BF%9B/" class="category-chain-item">质量度量与改进</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95/" class="print-no-link">#测试方法</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E6%8C%87%E6%A0%87/" class="print-no-link">#测试指标</a>
+      
+        <a href="/fluid-blog/tags/%E8%B4%A8%E9%87%8F%E5%BA%A6%E9%87%8F/" class="print-no-link">#质量度量</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>📊 测试指标全景图：如何用一套数据体系提升你的测试价值？</div>
+      <div>https://linn0813.github.io/2025/06/26/2025-06-26-test-indicators/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/27/2025-06-27-error-code/" title="🚨 错误码设计指南：让系统出错也能优雅沟通">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🚨 错误码设计指南：让系统出错也能优雅沟通</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/24/2025-06-24-python-coding-standards/" title="🐍写好 Python 的第一步：一份通俗易懂又不啰嗦的编码规范指南 ✨">
+                        <span class="hidden-mobile">🐍写好 Python 的第一步：一份通俗易懂又不啰嗦的编码规范指南 ✨</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

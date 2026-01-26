@@ -1,0 +1,1929 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="日志轮转, logrotate, logback, log4j, 日志管理, 日志切割, 日志归档, 日志清理, 运维实践">
+  
+    <meta name="description" content="系统讲解日志轮转的原理、工具和实践，从 logrotate 到 logback、log4j，帮你掌握专业的日志管理方法，避免日志文件无限增长导致的问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="📋 日志轮转完全指南：从原理到实践，让你的日志管理更专业">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/31/2025-12-31-log-rotation-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="系统讲解日志轮转的原理、工具和实践，从 logrotate 到 logback、log4j，帮你掌握专业的日志管理方法，避免日志文件无限增长导致的问题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/log-rotation-guide.png">
+<meta property="article:published_time" content="2025-12-31T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.638Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="日志管理">
+<meta property="article:tag" content="日志轮转">
+<meta property="article:tag" content="logrotate">
+<meta property="article:tag" content="logback">
+<meta property="article:tag" content="log4j">
+<meta property="article:tag" content="运维">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/log-rotation-guide.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>📋 日志轮转完全指南：从原理到实践，让你的日志管理更专业 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="📋 日志轮转完全指南：从原理到实践，让你的日志管理更专业"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-31 20:00" pubdate>
+          2025年12月31日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          58 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">📋 日志轮转完全指南：从原理到实践，让你的日志管理更专业</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>你有没有遇到过这样的情况：</p>
+<blockquote>
+<p><strong>服务器磁盘空间告警，一查发现是日志文件占满了磁盘</strong><br><strong>应用运行几个月后，日志文件达到几十 GB，打开都困难</strong><br><strong>想删除旧日志，又担心误删正在使用的日志文件</strong></p>
+</blockquote>
+<p>这些问题，都可以通过 <strong>日志轮转（Log Rotation）</strong> 来解决。</p>
+<p>这篇文章将从<strong>问题场景 → 核心原理 → 工具使用 → 最佳实践</strong>，带你系统掌握日志轮转的完整知识体系。</p>
+<hr>
+<h2 id="一、问题场景：为什么需要日志轮转？"><a href="#一、问题场景：为什么需要日志轮转？" class="headerlink" title="一、问题场景：为什么需要日志轮转？"></a>一、问题场景：为什么需要日志轮转？</h2><h3 id="1️⃣-典型问题"><a href="#1️⃣-典型问题" class="headerlink" title="1️⃣ 典型问题"></a><strong>1️⃣ 典型问题</strong></h3><h4 id="问题-1：磁盘空间被占满"><a href="#问题-1：磁盘空间被占满" class="headerlink" title="问题 1：磁盘空间被占满"></a><strong>问题 1：磁盘空间被占满</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看磁盘使用情况</span>
+<span class="token function">df</span> <span class="token parameter variable">-h</span>
+
+<span class="token comment"># 输出</span>
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        50G   48G  500M  <span class="token number">99</span>% /
+
+<span class="token comment"># 查找大文件</span>
+<span class="token function">du</span> <span class="token parameter variable">-sh</span> /var/log/* <span class="token operator">|</span> <span class="token function">sort</span> <span class="token parameter variable">-rh</span> <span class="token operator">|</span> <span class="token function">head</span> <span class="token parameter variable">-5</span>
+
+<span class="token comment"># 输出</span>
+45G    /var/log/app.log
+2G     /var/log/nginx/access.log
+500M   /var/log/syslog<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>结果：</strong> 应用日志文件 <code>app.log</code> 已经达到 45GB，占满了磁盘空间。</p>
+<h4 id="问题-2：日志文件过大，难以处理"><a href="#问题-2：日志文件过大，难以处理" class="headerlink" title="问题 2：日志文件过大，难以处理"></a><strong>问题 2：日志文件过大，难以处理</strong></h4><ul>
+<li>打开日志文件需要很长时间</li>
+<li>搜索日志内容非常慢</li>
+<li>传输日志文件困难</li>
+<li>日志分析工具无法处理</li>
+</ul>
+<h4 id="问题-3：历史日志丢失"><a href="#问题-3：历史日志丢失" class="headerlink" title="问题 3：历史日志丢失"></a><strong>问题 3：历史日志丢失</strong></h4><ul>
+<li>手动删除日志容易误删</li>
+<li>没有归档机制，历史日志无法追溯</li>
+<li>无法按时间、大小等规则管理日志</li>
+</ul>
+<h3 id="2️⃣-日志轮转的价值"><a href="#2️⃣-日志轮转的价值" class="headerlink" title="2️⃣ 日志轮转的价值"></a><strong>2️⃣ 日志轮转的价值</strong></h3><p><strong>日志轮转（Log Rotation）</strong> 是一种日志管理机制，通过以下方式解决上述问题：</p>
+<ul>
+<li>✅ <strong>自动切割</strong>：按时间或大小自动切割日志文件</li>
+<li>✅ <strong>自动归档</strong>：将旧日志压缩、归档，节省空间</li>
+<li>✅ <strong>自动清理</strong>：删除过期的历史日志</li>
+<li>✅ <strong>无缝切换</strong>：应用无需重启，自动切换到新日志文件</li>
+</ul>
+<hr>
+<h2 id="二、基础概念科普：理解日志和文件系统"><a href="#二、基础概念科普：理解日志和文件系统" class="headerlink" title="二、基础概念科普：理解日志和文件系统"></a>二、基础概念科普：理解日志和文件系统</h2><p>在深入日志轮转之前，我们需要先理解一些基础概念。</p>
+<h3 id="1️⃣-什么是日志文件"><a href="#1️⃣-什么是日志文件" class="headerlink" title="1️⃣ 什么是日志文件"></a><strong>1️⃣ 什么是日志文件</strong></h3><p><strong>日志文件（Log File）</strong> 是应用程序记录运行状态、错误信息、操作记录等信息的文本文件。</p>
+<p><strong>日志的作用：</strong></p>
+<ul>
+<li><strong>问题排查</strong>：当应用出错时，通过日志定位问题</li>
+<li><strong>行为追踪</strong>：记录用户操作、系统事件</li>
+<li><strong>性能分析</strong>：记录响应时间、资源使用情况</li>
+<li><strong>审计合规</strong>：满足合规要求，保留操作记录</li>
+</ul>
+<p><strong>日志的特点：</strong></p>
+<ul>
+<li><strong>只追加（Append Only）</strong>：日志通常只往文件末尾追加内容，不修改已有内容</li>
+<li><strong>持续增长</strong>：只要应用在运行，日志就会不断增长</li>
+<li><strong>文本格式</strong>：通常是可读的文本格式，便于人工查看</li>
+</ul>
+<h3 id="2️⃣-为什么日志文件会不断增长"><a href="#2️⃣-为什么日志文件会不断增长" class="headerlink" title="2️⃣ 为什么日志文件会不断增长"></a><strong>2️⃣ 为什么日志文件会不断增长</strong></h3><p><strong>日志文件增长的原因：</strong></p>
+<ol>
+<li><strong>应用持续运行</strong>：只要应用在运行，就会不断产生日志</li>
+<li><strong>高频操作</strong>：用户请求、数据库操作、API 调用都会产生日志</li>
+<li><strong>详细记录</strong>：为了排查问题，日志通常记录得很详细</li>
+<li><strong>没有清理机制</strong>：如果不主动清理，日志会一直累积</li>
+</ol>
+<p><strong>举个例子：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">一个 Web 应用，每秒处理 100 个请求
+每个请求产生 1KB 日志
+一天产生的日志 &#x3D; 100 请求&#x2F;秒 × 1KB × 86400 秒 &#x3D; 8.64GB
+一个月 &#x3D; 8.64GB × 30 &#x3D; 259GB<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3️⃣-文件描述符（File-Descriptor）的概念"><a href="#3️⃣-文件描述符（File-Descriptor）的概念" class="headerlink" title="3️⃣ 文件描述符（File Descriptor）的概念"></a><strong>3️⃣ 文件描述符（File Descriptor）的概念</strong></h3><p><strong>文件描述符</strong>是操作系统用来标识打开文件的数字。理解这个概念对理解日志轮转很重要。</p>
+<p><strong>工作原理：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">应用启动时：
+1. 打开日志文件 app.log
+2. 操作系统分配文件描述符（比如 fd&#x3D;3）
+3. 应用通过 fd&#x3D;3 写入日志
+
+应用写入日志时：
+write(fd&#x3D;3, &quot;log message&quot;)  →  写入到 app.log
+
+如果直接删除或重命名 app.log：
+- 文件描述符 fd&#x3D;3 仍然指向原来的文件
+- 应用继续通过 fd&#x3D;3 写入
+- 但文件已经不在文件系统中了（成为&quot;孤儿文件&quot;）
+- 只有应用关闭文件或重启，文件才会真正删除<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>为什么这很重要？</strong></p>
+<ul>
+<li>日志轮转时，不能直接删除或重命名正在写入的文件</li>
+<li>需要让应用重新打开文件，获取新的文件描述符</li>
+<li>这就是为什么需要 <code>postrotate</code> 脚本发送信号让应用重新打开文件</li>
+</ul>
+<h3 id="4️⃣-日志写入的机制"><a href="#4️⃣-日志写入的机制" class="headerlink" title="4️⃣ 日志写入的机制"></a><strong>4️⃣ 日志写入的机制</strong></h3><p><strong>应用如何写入日志：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Python 示例</span>
+<span class="token keyword">import</span> logging
+
+<span class="token comment"># 打开日志文件（获取文件描述符）</span>
+logging<span class="token punctuation">.</span>basicConfig<span class="token punctuation">(</span>filename<span class="token operator">=</span><span class="token string">'app.log'</span><span class="token punctuation">,</span> level<span class="token operator">=</span>logging<span class="token punctuation">.</span>INFO<span class="token punctuation">)</span>
+
+<span class="token comment"># 写入日志（通过文件描述符）</span>
+logging<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'This is a log message'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>底层过程：</strong></p>
+<ol>
+<li>应用打开文件，获取文件描述符</li>
+<li>写入日志时，操作系统将数据写入文件</li>
+<li>数据可能先写入缓冲区，然后刷新到磁盘</li>
+<li>文件指针（文件末尾）不断后移</li>
+</ol>
+<h3 id="5️⃣-文件重命名的原理"><a href="#5️⃣-文件重命名的原理" class="headerlink" title="5️⃣ 文件重命名的原理"></a><strong>5️⃣ 文件重命名的原理</strong></h3><p><strong>文件重命名（Rename）</strong> 是日志轮转的核心操作。</p>
+<p><strong>重命名的特点：</strong></p>
+<ul>
+<li><strong>原子操作</strong>：重命名是原子性的，要么成功要么失败</li>
+<li><strong>不改变文件内容</strong>：只改变文件名，文件内容不变</li>
+<li><strong>不改变文件描述符</strong>：已打开的文件描述符仍然有效</li>
+</ul>
+<p><strong>示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 初始状态</span>
+app.log <span class="token punctuation">(</span>文件描述符 <span class="token assign-left variable">fd</span><span class="token operator">=</span><span class="token number">3</span> 指向它<span class="token punctuation">)</span>
+
+<span class="token comment"># 重命名操作</span>
+<span class="token function">mv</span> app.log app.log.1
+
+<span class="token comment"># 结果</span>
+app.log.1 <span class="token punctuation">(</span>文件描述符 <span class="token assign-left variable">fd</span><span class="token operator">=</span><span class="token number">3</span> 仍然指向它<span class="token punctuation">)</span>
+app.log <span class="token punctuation">(</span>不存在<span class="token punctuation">)</span>
+
+<span class="token comment"># 应用继续通过 fd=3 写入，数据写入到 app.log.1</span>
+<span class="token comment"># 这就是为什么需要让应用重新打开文件</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="6️⃣-什么是日志轮转"><a href="#6️⃣-什么是日志轮转" class="headerlink" title="6️⃣ 什么是日志轮转"></a><strong>6️⃣ 什么是日志轮转</strong></h3><p><strong>日志轮转（Log Rotation）</strong> 是指<strong>定期或按条件将当前日志文件重命名、归档，并创建新的日志文件继续写入</strong>的过程。</p>
+<p><strong>核心思想：</strong></p>
+<ul>
+<li>不删除正在使用的日志文件</li>
+<li>通过重命名”冻结”旧日志</li>
+<li>创建新文件继续写入</li>
+<li>对旧日志进行压缩、归档、清理</li>
+</ul>
+<h3 id="7️⃣-轮转过程详细示意"><a href="#7️⃣-轮转过程详细示意" class="headerlink" title="7️⃣ 轮转过程详细示意"></a><strong>7️⃣ 轮转过程详细示意</strong></h3><p>让我们详细看看轮转的每一步：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">【初始状态】
+app.log (100MB，正在写入，文件描述符 fd&#x3D;3)
+
+【触发轮转：文件达到 100MB】
+
+步骤 1：重命名当前文件
+app.log → app.log.1 (重命名，fd&#x3D;3 仍然指向 app.log.1)
+
+步骤 2：创建新文件
+创建新的 app.log (空文件)
+
+步骤 3：通知应用重新打开文件
+发送信号（如 SIGHUP）给应用
+应用关闭 fd&#x3D;3，重新打开 app.log，获得新的 fd&#x3D;4
+
+步骤 4：压缩旧文件（可选）
+app.log.1 → app.log.1.gz (压缩，节省空间)
+
+【结果】
+app.log (新文件，0MB，正在写入，fd&#x3D;4)
+app.log.1.gz (旧文件，压缩后 20MB，已归档)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="8️⃣-为什么需要重新打开文件"><a href="#8️⃣-为什么需要重新打开文件" class="headerlink" title="8️⃣ 为什么需要重新打开文件"></a><strong>8️⃣ 为什么需要重新打开文件</strong></h3><p><strong>如果不重新打开文件会怎样？</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">场景：轮转后不通知应用
+
+1. app.log → app.log.1 (重命名)
+2. 创建新的 app.log
+3. 应用仍然通过 fd&#x3D;3 写入
+
+结果：
+- 应用写入的数据进入 app.log.1（旧文件）
+- 新的 app.log 是空的
+- 日志写入到了错误的地方<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>重新打开文件后：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">1. app.log → app.log.1 (重命名)
+2. 创建新的 app.log
+3. 发送信号给应用
+4. 应用关闭旧文件，打开新文件
+5. 应用通过新的文件描述符写入 app.log（正确）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="9️⃣-轮转触发条件详解"><a href="#9️⃣-轮转触发条件详解" class="headerlink" title="9️⃣ 轮转触发条件详解"></a><strong>9️⃣ 轮转触发条件详解</strong></h3><p>日志轮转可以在以下条件下触发：</p>
+<h4 id="按时间轮转"><a href="#按时间轮转" class="headerlink" title="按时间轮转"></a><strong>按时间轮转</strong></h4><ul>
+<li><strong>daily（每天）</strong>：每天午夜轮转</li>
+<li><strong>weekly（每周）</strong>：每周轮转（通常是周日）</li>
+<li><strong>monthly（每月）</strong>：每月第一天轮转</li>
+<li><strong>适合场景</strong>：日志量相对稳定，需要按时间查找日志</li>
+</ul>
+<h4 id="按大小轮转"><a href="#按大小轮转" class="headerlink" title="按大小轮转"></a><strong>按大小轮转</strong></h4><ul>
+<li><strong>size 100M</strong>：文件达到 100MB 时轮转</li>
+<li><strong>size 1G</strong>：文件达到 1GB 时轮转</li>
+<li><strong>适合场景</strong>：日志量不固定，可能突然增长</li>
+</ul>
+<h4 id="按大小-时间轮转"><a href="#按大小-时间轮转" class="headerlink" title="按大小+时间轮转"></a><strong>按大小+时间轮转</strong></h4><ul>
+<li><strong>size 500M 或 daily</strong>：满足任一条件就轮转</li>
+<li><strong>适合场景</strong>：生产环境推荐，兼顾大小和时间</li>
+</ul>
+<h4 id="手动触发"><a href="#手动触发" class="headerlink" title="手动触发"></a><strong>手动触发</strong></h4><ul>
+<li>通过命令手动触发轮转</li>
+<li>用于测试或特殊情况</li>
+</ul>
+<h3 id="🔟-轮转后的处理操作"><a href="#🔟-轮转后的处理操作" class="headerlink" title="🔟 轮转后的处理操作"></a><strong>🔟 轮转后的处理操作</strong></h3><h4 id="压缩（Compress）"><a href="#压缩（Compress）" class="headerlink" title="压缩（Compress）"></a><strong>压缩（Compress）</strong></h4><ul>
+<li><strong>目的</strong>：节省磁盘空间（通常可节省 70-90%）</li>
+<li><strong>工具</strong>：gzip、bzip2、xz</li>
+<li><strong>时机</strong>：立即压缩或延迟压缩（delaycompress）</li>
+</ul>
+<p><strong>压缩效果示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">原始日志：100MB
+压缩后：10-30MB（取决于日志内容）
+节省空间：70-90%<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="归档（Archive）"><a href="#归档（Archive）" class="headerlink" title="归档（Archive）"></a><strong>归档（Archive）</strong></h4><ul>
+<li><strong>目的</strong>：将旧日志移动到指定目录保存</li>
+<li><strong>方式</strong>：移动到 archive 目录，按日期组织</li>
+<li><strong>用途</strong>：长期保存，便于查找</li>
+</ul>
+<h4 id="删除（Delete）"><a href="#删除（Delete）" class="headerlink" title="删除（Delete）"></a><strong>删除（Delete）</strong></h4><ul>
+<li><strong>目的</strong>：删除超过保留期的旧日志</li>
+<li><strong>策略</strong>：按天数（maxHistory）或总大小（totalSizeCap）</li>
+<li><strong>注意</strong>：确保重要日志已备份</li>
+</ul>
+<h4 id="通知（Notification）"><a href="#通知（Notification）" class="headerlink" title="通知（Notification）"></a><strong>通知（Notification）</strong></h4><ul>
+<li><strong>目的</strong>：轮转完成后通知管理员</li>
+<li><strong>方式</strong>：邮件、告警、日志记录</li>
+</ul>
+<hr>
+<h2 id="三、核心概念：日志轮转的原理"><a href="#三、核心概念：日志轮转的原理" class="headerlink" title="三、核心概念：日志轮转的原理"></a>三、核心概念：日志轮转的原理</h2><h3 id="1️⃣-日志轮转的完整流程"><a href="#1️⃣-日志轮转的完整流程" class="headerlink" title="1️⃣ 日志轮转的完整流程"></a><strong>1️⃣ 日志轮转的完整流程</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">【监控阶段】
+持续监控日志文件（大小、时间）
+
+【触发阶段】
+满足轮转条件（大小&#x2F;时间）
+
+【执行阶段】
+1. 重命名当前日志文件
+2. 创建新的日志文件
+3. 通知应用重新打开文件
+4. 压缩旧日志文件
+5. 清理过期日志文件
+
+【完成阶段】
+记录轮转日志，发送通知<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2️⃣-轮转策略对比"><a href="#2️⃣-轮转策略对比" class="headerlink" title="2️⃣ 轮转策略对比"></a><strong>2️⃣ 轮转策略对比</strong></h3><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>按时间</strong></td>
+<td>便于按时间查找、日志量可控</td>
+<td>可能单个文件过大</td>
+<td>日志量稳定</td>
+</tr>
+<tr>
+<td><strong>按大小</strong></td>
+<td>防止文件过大、灵活</td>
+<td>文件数量不可控</td>
+<td>日志量波动大</td>
+</tr>
+<tr>
+<td><strong>按大小+时间</strong></td>
+<td>兼顾两者优点</td>
+<td>配置复杂</td>
+<td>生产环境推荐</td>
+</tr>
+</tbody></table>
+<h3 id="3️⃣-保留策略"><a href="#3️⃣-保留策略" class="headerlink" title="3️⃣ 保留策略"></a><strong>3️⃣ 保留策略</strong></h3><p><strong>保留策略决定保留多少历史日志：</strong></p>
+<ul>
+<li><strong>按数量（rotate）</strong>：保留 N 个文件<ul>
+<li>例如：<code>rotate 10</code> 保留 10 个文件</li>
+</ul>
+</li>
+<li><strong>按天数（maxHistory）</strong>：保留 N 天的日志<ul>
+<li>例如：<code>maxHistory 30</code> 保留 30 天</li>
+</ul>
+</li>
+<li><strong>按总大小（totalSizeCap）</strong>：总大小不超过 N<ul>
+<li>例如：<code>totalSizeCap 10GB</code> 总大小不超过 10GB</li>
+</ul>
+</li>
+</ul>
+<p><strong>推荐配置：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">保留天数：30 天（业务日志）
+保留大小：10GB（总大小限制）
+保留数量：10-30 个文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="四、Linux-系统工具：logrotate"><a href="#四、Linux-系统工具：logrotate" class="headerlink" title="四、Linux 系统工具：logrotate"></a>四、Linux 系统工具：logrotate</h2><h3 id="1️⃣-logrotate-简介"><a href="#1️⃣-logrotate-简介" class="headerlink" title="1️⃣ logrotate 简介"></a><strong>1️⃣ logrotate 简介</strong></h3><p><strong>logrotate</strong> 是 Linux 系统自带的日志轮转工具，通过配置文件定义轮转规则。</p>
+<p><strong>logrotate 的特点：</strong></p>
+<ul>
+<li><strong>系统自带</strong>：大多数 Linux 发行版都预装了 logrotate</li>
+<li><strong>配置文件驱动</strong>：通过配置文件定义轮转规则，无需编程</li>
+<li><strong>定时执行</strong>：通过 cron 定时任务自动执行</li>
+<li><strong>灵活强大</strong>：支持多种轮转策略和自定义脚本</li>
+</ul>
+<h3 id="2️⃣-配置文件位置和结构"><a href="#2️⃣-配置文件位置和结构" class="headerlink" title="2️⃣ 配置文件位置和结构"></a><strong>2️⃣ 配置文件位置和结构</strong></h3><h4 id="配置文件位置"><a href="#配置文件位置" class="headerlink" title="配置文件位置"></a><strong>配置文件位置</strong></h4><ul>
+<li><p><strong>主配置文件</strong>：<code>/etc/logrotate.conf</code></p>
+<ul>
+<li>定义全局默认设置</li>
+<li>包含其他配置文件的引用</li>
+</ul>
+</li>
+<li><p><strong>应用配置文件</strong>：<code>/etc/logrotate.d/*</code></p>
+<ul>
+<li>每个应用一个配置文件</li>
+<li>文件名通常与应用名相同</li>
+</ul>
+</li>
+</ul>
+<h4 id="配置文件结构"><a href="#配置文件结构" class="headerlink" title="配置文件结构"></a><strong>配置文件结构</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># /etc/logrotate.conf（主配置）</span>
+<span class="token comment"># 全局默认设置</span>
+weekly          <span class="token comment"># 默认每周轮转</span>
+rotate <span class="token number">4</span>        <span class="token comment"># 默认保留 4 个文件</span>
+create          <span class="token comment"># 默认创建新文件</span>
+compress        <span class="token comment"># 默认压缩</span>
+
+<span class="token comment"># 包含应用配置</span>
+include /etc/logrotate.d
+
+<span class="token comment"># /etc/logrotate.d/myapp（应用配置）</span>
+/var/log/myapp/*.log <span class="token punctuation">&#123;</span>
+    <span class="token comment"># 应用特定的配置</span>
+    <span class="token comment"># 会覆盖全局默认设置</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="配置文件的优先级"><a href="#配置文件的优先级" class="headerlink" title="配置文件的优先级"></a><strong>配置文件的优先级</strong></h4><ol>
+<li><strong>应用配置</strong> 覆盖 <strong>全局配置</strong></li>
+<li><strong>后面的配置</strong> 覆盖 <strong>前面的配置</strong></li>
+<li><strong>具体配置</strong> 覆盖 <strong>通用配置</strong></li>
+</ol>
+<h3 id="3️⃣-基本配置示例"><a href="#3️⃣-基本配置示例" class="headerlink" title="3️⃣ 基本配置示例"></a><strong>3️⃣ 基本配置示例</strong></h3><h4 id="示例-1：按大小轮转"><a href="#示例-1：按大小轮转" class="headerlink" title="示例 1：按大小轮转"></a><strong>示例 1：按大小轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># /etc/logrotate.d/myapp</span>
+/var/log/myapp/*.log <span class="token punctuation">&#123;</span>
+    size 100M          <span class="token comment"># 文件达到 100MB 时轮转</span>
+    rotate <span class="token number">10</span>         <span class="token comment"># 保留 10 个历史文件</span>
+    compress          <span class="token comment"># 压缩旧日志</span>
+    delaycompress     <span class="token comment"># 延迟压缩（压缩前一个文件）</span>
+    missingok         <span class="token comment"># 文件不存在时不报错</span>
+    notifempty        <span class="token comment"># 空文件不轮转</span>
+    create 0644 app app  <span class="token comment"># 创建新文件的权限和所有者</span>
+    postrotate        <span class="token comment"># 轮转后执行的命令</span>
+        /bin/kill <span class="token parameter variable">-HUP</span> <span class="token variable"><span class="token variable">`</span><span class="token function">cat</span> /var/run/myapp.pid <span class="token operator"><span class="token file-descriptor important">2</span>></span> /dev/null<span class="token variable">`</span></span> <span class="token operator"><span class="token file-descriptor important">2</span>></span> /dev/null <span class="token operator">||</span> <span class="token boolean">true</span>
+    endscript
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="示例-2：按时间轮转"><a href="#示例-2：按时间轮转" class="headerlink" title="示例 2：按时间轮转"></a><strong>示例 2：按时间轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># /etc/logrotate.d/myapp</span>
+/var/log/myapp/*.log <span class="token punctuation">&#123;</span>
+    daily             <span class="token comment"># 每天轮转</span>
+    rotate <span class="token number">30</span>         <span class="token comment"># 保留 30 天的日志</span>
+    compress          <span class="token comment"># 压缩</span>
+    dateext           <span class="token comment"># 使用日期作为后缀</span>
+    dateformat -%Y%m%d  <span class="token comment"># 日期格式</span>
+    missingok
+    notifempty
+    sharedscripts     <span class="token comment"># 所有文件轮转完再执行脚本</span>
+    postrotate
+        systemctl reload myapp <span class="token operator">||</span> <span class="token boolean">true</span>
+    endscript
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="示例-3：按大小和时间轮转"><a href="#示例-3：按大小和时间轮转" class="headerlink" title="示例 3：按大小和时间轮转"></a><strong>示例 3：按大小和时间轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># /etc/logrotate.d/myapp</span>
+/var/log/myapp/*.log <span class="token punctuation">&#123;</span>
+    size 500M         <span class="token comment"># 达到 500MB 或</span>
+    daily             <span class="token comment"># 每天轮转（满足任一条件）</span>
+    rotate <span class="token number">7</span>          <span class="token comment"># 保留 7 个文件</span>
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0644 app app
+    sharedscripts
+    postrotate
+        /usr/bin/pkill <span class="token parameter variable">-HUP</span> <span class="token parameter variable">-f</span> myapp
+    endscript
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="4️⃣-常用配置参数详解"><a href="#4️⃣-常用配置参数详解" class="headerlink" title="4️⃣ 常用配置参数详解"></a><strong>4️⃣ 常用配置参数详解</strong></h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>示例</th>
+<th>详细解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>daily</code></td>
+<td>每天轮转</td>
+<td><code>daily</code></td>
+<td>每天午夜（00:00）轮转一次</td>
+</tr>
+<tr>
+<td><code>weekly</code></td>
+<td>每周轮转</td>
+<td><code>weekly</code></td>
+<td>每周轮转一次（通常是周日）</td>
+</tr>
+<tr>
+<td><code>monthly</code></td>
+<td>每月轮转</td>
+<td><code>monthly</code></td>
+<td>每月第一天轮转</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>按大小轮转</td>
+<td><code>size 100M</code></td>
+<td>文件达到指定大小时轮转，支持 K&#x2F;M&#x2F;G 单位</td>
+</tr>
+<tr>
+<td><code>rotate</code></td>
+<td>保留文件数</td>
+<td><code>rotate 10</code></td>
+<td>保留 N 个历史文件，超过的会被删除</td>
+</tr>
+<tr>
+<td><code>compress</code></td>
+<td>压缩旧日志</td>
+<td><code>compress</code></td>
+<td>使用 gzip 压缩旧日志文件</td>
+</tr>
+<tr>
+<td><code>delaycompress</code></td>
+<td>延迟压缩</td>
+<td><code>delaycompress</code></td>
+<td>延迟压缩，只压缩前一个文件（不压缩最新的旧文件）</td>
+</tr>
+<tr>
+<td><code>dateext</code></td>
+<td>使用日期后缀</td>
+<td><code>dateext</code></td>
+<td>使用日期作为文件后缀，而不是数字</td>
+</tr>
+<tr>
+<td><code>dateformat</code></td>
+<td>日期格式</td>
+<td><code>dateformat -%Y%m%d</code></td>
+<td>日期格式，如 <code>-20251230</code></td>
+</tr>
+<tr>
+<td><code>missingok</code></td>
+<td>文件不存在不报错</td>
+<td><code>missingok</code></td>
+<td>如果日志文件不存在，不报错继续执行</td>
+</tr>
+<tr>
+<td><code>notifempty</code></td>
+<td>空文件不轮转</td>
+<td><code>notifempty</code></td>
+<td>如果日志文件为空，不进行轮转</td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td>创建新文件</td>
+<td><code>create 0644 user group</code></td>
+<td>创建新文件的权限、所有者、组</td>
+</tr>
+<tr>
+<td><code>postrotate</code></td>
+<td>轮转后执行脚本</td>
+<td><code>postrotate ... endscript</code></td>
+<td>轮转完成后执行的命令（通常用于通知应用）</td>
+</tr>
+<tr>
+<td><code>prerotate</code></td>
+<td>轮转前执行脚本</td>
+<td><code>prerotate ... endscript</code></td>
+<td>轮转前执行的命令</td>
+</tr>
+<tr>
+<td><code>sharedscripts</code></td>
+<td>共享脚本</td>
+<td><code>sharedscripts</code></td>
+<td>所有文件轮转完再执行脚本（而不是每个文件都执行）</td>
+</tr>
+</tbody></table>
+<h3 id="5️⃣-重要参数详解"><a href="#5️⃣-重要参数详解" class="headerlink" title="5️⃣ 重要参数详解"></a><strong>5️⃣ 重要参数详解</strong></h3><h4 id="compress-vs-delaycompress"><a href="#compress-vs-delaycompress" class="headerlink" title="compress vs delaycompress"></a><strong>compress vs delaycompress</strong></h4><p><strong>compress（立即压缩）：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">轮转后：
+app.log.1 → app.log.1.gz (立即压缩)
+app.log.2 → app.log.2.gz (立即压缩)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>delaycompress（延迟压缩）：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">轮转后：
+app.log.1 (不压缩，方便查看最新旧日志)
+app.log.2 → app.log.2.gz (压缩)
+app.log.3 → app.log.3.gz (压缩)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>为什么需要 delaycompress？</strong></p>
+<ul>
+<li>最新的旧日志可能还需要查看</li>
+<li>压缩后的文件需要解压才能查看</li>
+<li>延迟压缩让最新旧日志保持可读</li>
+</ul>
+<h4 id="create-参数详解"><a href="#create-参数详解" class="headerlink" title="create 参数详解"></a><strong>create 参数详解</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">create 0644 app app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>格式：</strong> <code>create [权限] [所有者] [组]</code></p>
+<ul>
+<li><strong>权限</strong>：<code>0644</code> 表示 <code>rw-r--r--</code>（所有者可读写，其他人只读）</li>
+<li><strong>所有者</strong>：新文件的所有者</li>
+<li><strong>组</strong>：新文件的组</li>
+</ul>
+<p><strong>为什么需要 create？</strong></p>
+<ul>
+<li>轮转后创建的新文件需要正确的权限</li>
+<li>确保应用可以写入新文件</li>
+<li>避免权限问题导致日志写入失败</li>
+</ul>
+<h4 id="postrotate-脚本的作用"><a href="#postrotate-脚本的作用" class="headerlink" title="postrotate 脚本的作用"></a><strong>postrotate 脚本的作用</strong></h4><p><strong>为什么需要 postrotate？</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">问题：轮转后应用还在写旧文件
+
+原因：
+1. 应用打开文件时获得文件描述符（fd&#x3D;3）
+2. 文件重命名后，fd&#x3D;3 仍然指向旧文件
+3. 应用继续通过 fd&#x3D;3 写入旧文件
+
+解决：
+postrotate
+    &#x2F;bin&#x2F;kill -HUP &#96;cat &#x2F;var&#x2F;run&#x2F;myapp.pid&#96;
+endscript
+
+作用：
+- 发送 SIGHUP 信号给应用
+- 应用收到信号后重新打开日志文件
+- 获得新的文件描述符，指向新文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>常见的 postrotate 命令：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 方式 1：通过 PID 文件发送信号</span>
+/bin/kill <span class="token parameter variable">-HUP</span> <span class="token variable"><span class="token variable">`</span><span class="token function">cat</span> /var/run/myapp.pid<span class="token variable">`</span></span>
+
+<span class="token comment"># 方式 2：使用 systemd 重载</span>
+systemctl reload myapp
+
+<span class="token comment"># 方式 3：使用 pkill</span>
+/usr/bin/pkill <span class="token parameter variable">-HUP</span> <span class="token parameter variable">-f</span> myapp
+
+<span class="token comment"># 方式 4：重启服务（不推荐，会中断服务）</span>
+systemctl restart myapp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="5️⃣-测试和调试"><a href="#5️⃣-测试和调试" class="headerlink" title="5️⃣ 测试和调试"></a><strong>5️⃣ 测试和调试</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 测试配置文件语法</span>
+<span class="token function">sudo</span> <span class="token function">logrotate</span> <span class="token parameter variable">-d</span> /etc/logrotate.d/myapp
+
+<span class="token comment"># 强制执行轮转（测试）</span>
+<span class="token function">sudo</span> <span class="token function">logrotate</span> <span class="token parameter variable">-f</span> /etc/logrotate.d/myapp
+
+<span class="token comment"># 查看执行日志</span>
+<span class="token function">cat</span> /var/lib/logrotate/status<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="6️⃣-logrotate-的工作原理"><a href="#6️⃣-logrotate-的工作原理" class="headerlink" title="6️⃣ logrotate 的工作原理"></a><strong>6️⃣ logrotate 的工作原理</strong></h3><h4 id="执行机制"><a href="#执行机制" class="headerlink" title="执行机制"></a><strong>执行机制</strong></h4><p>logrotate 通过 <strong>cron</strong> 定时任务执行：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看 cron 任务</span>
+<span class="token function">cat</span> /etc/cron.daily/logrotate
+
+<span class="token comment"># 内容</span>
+<span class="token comment">#!/bin/sh</span>
+/usr/sbin/logrotate /etc/logrotate.conf
+<span class="token assign-left variable">EXITVALUE</span><span class="token operator">=</span><span class="token variable">$?</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$EXITVALUE</span> <span class="token operator">!=</span> <span class="token number">0</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+    /usr/bin/logger <span class="token parameter variable">-t</span> <span class="token function">logrotate</span> <span class="token string">"ALERT exited abnormally with [<span class="token variable">$EXITVALUE</span>]"</span>
+<span class="token keyword">fi</span>
+<span class="token builtin class-name">exit</span> <span class="token number">0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>执行流程：</strong></p>
+<ol>
+<li><strong>cron 定时触发</strong>：每天执行一次（默认）</li>
+<li><strong>读取配置</strong>：读取 <code>/etc/logrotate.conf</code> 和 <code>/etc/logrotate.d/*</code></li>
+<li><strong>检查条件</strong>：检查每个日志文件是否满足轮转条件</li>
+<li><strong>执行轮转</strong>：满足条件的文件执行轮转</li>
+<li><strong>记录状态</strong>：将执行结果记录到 <code>/var/lib/logrotate/status</code></li>
+</ol>
+<h4 id="执行时机"><a href="#执行时机" class="headerlink" title="执行时机"></a><strong>执行时机</strong></h4><ul>
+<li><strong>默认</strong>：每天执行一次（通过 <code>/etc/cron.daily/logrotate</code>）</li>
+<li><strong>可调整</strong>：可以修改 cron 任务调整执行频率</li>
+<li><strong>手动执行</strong>：可以通过命令手动触发</li>
+</ul>
+<h4 id="状态文件"><a href="#状态文件" class="headerlink" title="状态文件"></a><strong>状态文件</strong></h4><p>logrotate 会记录每个文件的最后轮转时间：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看状态文件</span>
+<span class="token function">cat</span> /var/lib/logrotate/status
+
+<span class="token comment"># 内容示例</span>
+<span class="token function">logrotate</span> state -- version <span class="token number">2</span>
+<span class="token string">"/var/log/myapp/app.log"</span> <span class="token number">2025</span>-12-29-12:0:0
+<span class="token string">"/var/log/nginx/access.log"</span> <span class="token number">2025</span>-12-30-0:0:0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>作用：</strong></p>
+<ul>
+<li>记录每个文件的最后轮转时间</li>
+<li>判断是否满足时间轮转条件（如 daily）</li>
+<li>避免重复轮转</li>
+</ul>
+<h4 id="执行日志"><a href="#执行日志" class="headerlink" title="执行日志"></a><strong>执行日志</strong></h4><p>logrotate 的执行结果会记录到系统日志：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看执行日志</span>
+<span class="token function">grep</span> <span class="token function">logrotate</span> /var/log/syslog
+
+<span class="token comment"># 或</span>
+journalctl <span class="token parameter variable">-u</span> <span class="token function">logrotate</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="五、Java-应用：Logback-日志轮转"><a href="#五、Java-应用：Logback-日志轮转" class="headerlink" title="五、Java 应用：Logback 日志轮转"></a>五、Java 应用：Logback 日志轮转</h2><h3 id="1️⃣-Logback-简介"><a href="#1️⃣-Logback-简介" class="headerlink" title="1️⃣ Logback 简介"></a><strong>1️⃣ Logback 简介</strong></h3><p><strong>Logback</strong> 是 Java 应用常用的日志框架，是 Log4j 的继任者，内置了强大的日志轮转功能。</p>
+<p><strong>Logback 的特点：</strong></p>
+<ul>
+<li><strong>内置轮转</strong>：不需要外部工具，框架自身支持轮转</li>
+<li><strong>配置灵活</strong>：支持 XML 和 Groovy 配置</li>
+<li><strong>性能优秀</strong>：异步写入、缓冲等优化</li>
+<li><strong>自动重载</strong>：支持配置文件自动重载</li>
+</ul>
+<p><strong>为什么 Java 应用需要框架级轮转？</strong></p>
+<ul>
+<li><strong>文件描述符管理</strong>：框架自动处理文件重新打开</li>
+<li><strong>无缝切换</strong>：轮转时应用无需重启</li>
+<li><strong>配置集中</strong>：日志配置和应用配置在一起</li>
+<li><strong>跨平台</strong>：不依赖操作系统工具</li>
+</ul>
+<h3 id="2️⃣-配置文件示例"><a href="#2️⃣-配置文件示例" class="headerlink" title="2️⃣ 配置文件示例"></a><strong>2️⃣ 配置文件示例</strong></h3><h4 id="示例-1：按大小和时间轮转"><a href="#示例-1：按大小和时间轮转" class="headerlink" title="示例 1：按大小和时间轮转"></a><strong>示例 1：按大小和时间轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!-- logback.xml --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FILE<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.RollingFileAppender<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token comment">&lt;!-- 当前日志文件 --></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>file</span><span class="token punctuation">></span></span>logs/app.log<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>file</span><span class="token punctuation">></span></span>
+        
+        <span class="token comment">&lt;!-- 轮转策略 --></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rollingPolicy</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token comment">&lt;!-- 历史日志文件命名模式 --></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>fileNamePattern</span><span class="token punctuation">></span></span>logs/app.%d&#123;yyyy-MM-dd&#125;.%i.log.gz<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>fileNamePattern</span><span class="token punctuation">></span></span>
+            <span class="token comment">&lt;!-- 单个文件最大大小 --></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxFileSize</span><span class="token punctuation">></span></span>100MB<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxFileSize</span><span class="token punctuation">></span></span>
+            <span class="token comment">&lt;!-- 保留天数 --></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxHistory</span><span class="token punctuation">></span></span>30<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxHistory</span><span class="token punctuation">></span></span>
+            <span class="token comment">&lt;!-- 总大小限制 --></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>totalSizeCap</span><span class="token punctuation">></span></span>10GB<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>totalSizeCap</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rollingPolicy</span><span class="token punctuation">></span></span>
+        
+        <span class="token comment">&lt;!-- 日志格式 --></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>encoder</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pattern</span><span class="token punctuation">></span></span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;36&#125; - %msg%n<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pattern</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>encoder</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>appender</span><span class="token punctuation">></span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>root</span> <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>INFO<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender-ref</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FILE<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>root</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="示例-2：按大小轮转"><a href="#示例-2：按大小轮转" class="headerlink" title="示例 2：按大小轮转"></a><strong>示例 2：按大小轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FILE<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.RollingFileAppender<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>file</span><span class="token punctuation">></span></span>logs/app.log<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>file</span><span class="token punctuation">></span></span>
+        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rollingPolicy</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.FixedWindowRollingPolicy<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>fileNamePattern</span><span class="token punctuation">></span></span>logs/app.%i.log.gz<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>fileNamePattern</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>minIndex</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>minIndex</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxIndex</span><span class="token punctuation">></span></span>10<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxIndex</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rollingPolicy</span><span class="token punctuation">></span></span>
+        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>triggeringPolicy</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxFileSize</span><span class="token punctuation">></span></span>100MB<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxFileSize</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>triggeringPolicy</span><span class="token punctuation">></span></span>
+        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>encoder</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pattern</span><span class="token punctuation">></span></span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;36&#125; - %msg%n<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pattern</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>encoder</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>appender</span><span class="token punctuation">></span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>root</span> <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>INFO<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender-ref</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FILE<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>root</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="示例-3：按时间轮转"><a href="#示例-3：按时间轮转" class="headerlink" title="示例 3：按时间轮转"></a><strong>示例 3：按时间轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FILE<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.RollingFileAppender<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>file</span><span class="token punctuation">></span></span>logs/app.log<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>file</span><span class="token punctuation">></span></span>
+        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rollingPolicy</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.TimeBasedRollingPolicy<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>fileNamePattern</span><span class="token punctuation">></span></span>logs/app.%d&#123;yyyy-MM-dd&#125;.log.gz<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>fileNamePattern</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxHistory</span><span class="token punctuation">></span></span>30<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxHistory</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>totalSizeCap</span><span class="token punctuation">></span></span>10GB<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>totalSizeCap</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rollingPolicy</span><span class="token punctuation">></span></span>
+        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>encoder</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pattern</span><span class="token punctuation">></span></span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;36&#125; - %msg%n<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pattern</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>encoder</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>appender</span><span class="token punctuation">></span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>root</span> <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>INFO<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender-ref</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FILE<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>root</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3️⃣-常用配置参数详解"><a href="#3️⃣-常用配置参数详解" class="headerlink" title="3️⃣ 常用配置参数详解"></a><strong>3️⃣ 常用配置参数详解</strong></h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>示例</th>
+<th>详细解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fileNamePattern</code></td>
+<td>历史文件命名模式</td>
+<td><code>logs/app.%d&#123;yyyy-MM-dd&#125;.%i.log.gz</code></td>
+<td>定义历史日志文件的命名规则，支持日期和索引</td>
+</tr>
+<tr>
+<td><code>maxFileSize</code></td>
+<td>单个文件最大大小</td>
+<td><code>100MB</code></td>
+<td>单个日志文件的最大大小，超过后轮转</td>
+</tr>
+<tr>
+<td><code>maxHistory</code></td>
+<td>保留天数</td>
+<td><code>30</code></td>
+<td>保留多少天的历史日志，超过的会被删除</td>
+</tr>
+<tr>
+<td><code>totalSizeCap</code></td>
+<td>总大小限制</td>
+<td><code>10GB</code></td>
+<td>所有日志文件的总大小限制，超过后删除最旧的</td>
+</tr>
+<tr>
+<td><code>minIndex</code></td>
+<td>最小索引</td>
+<td><code>1</code></td>
+<td>索引号的最小值（FixedWindowRollingPolicy）</td>
+</tr>
+<tr>
+<td><code>maxIndex</code></td>
+<td>最大索引</td>
+<td><code>10</code></td>
+<td>索引号的最大值，超过后删除最旧的</td>
+</tr>
+</tbody></table>
+<h3 id="4️⃣-日期格式说明"><a href="#4️⃣-日期格式说明" class="headerlink" title="4️⃣ 日期格式说明"></a><strong>4️⃣ 日期格式说明</strong></h3><p><strong>fileNamePattern 中的格式符：</strong></p>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>说明</th>
+<th>示例</th>
+<th>生成的文件名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>%d&#123;yyyy-MM-dd&#125;</code></td>
+<td>日期</td>
+<td><code>%d&#123;yyyy-MM-dd&#125;</code></td>
+<td><code>app.2025-12-30.log</code></td>
+</tr>
+<tr>
+<td><code>%d&#123;yyyy-MM-dd HH&#125;</code></td>
+<td>日期+小时</td>
+<td><code>%d&#123;yyyy-MM-dd HH&#125;</code></td>
+<td><code>app.2025-12-30-14.log</code></td>
+</tr>
+<tr>
+<td><code>%d&#123;yyyy-MM-dd HH:mm&#125;</code></td>
+<td>日期+小时+分钟</td>
+<td><code>%d&#123;yyyy-MM-dd HH:mm&#125;</code></td>
+<td><code>app.2025-12-30-14-30.log</code></td>
+</tr>
+<tr>
+<td><code>%i</code></td>
+<td>索引号</td>
+<td><code>%i</code></td>
+<td><code>app.0.log</code>, <code>app.1.log</code></td>
+</tr>
+<tr>
+<td><code>.gz</code></td>
+<td>压缩后缀</td>
+<td><code>.gz</code></td>
+<td>自动压缩为 gzip 格式</td>
+</tr>
+</tbody></table>
+<p><strong>组合使用示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">logs&#x2F;app.%d&#123;yyyy-MM-dd&#125;.%i.log.gz
+生成：logs&#x2F;app.2025-12-30.0.log.gz
+     logs&#x2F;app.2025-12-30.1.log.gz
+     logs&#x2F;app.2025-12-29.0.log.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="5️⃣-轮转策略详解"><a href="#5️⃣-轮转策略详解" class="headerlink" title="5️⃣ 轮转策略详解"></a><strong>5️⃣ 轮转策略详解</strong></h3><h4 id="SizeAndTimeBasedRollingPolicy（大小-时间）"><a href="#SizeAndTimeBasedRollingPolicy（大小-时间）" class="headerlink" title="SizeAndTimeBasedRollingPolicy（大小+时间）"></a><strong>SizeAndTimeBasedRollingPolicy（大小+时间）</strong></h4><p><strong>特点：</strong></p>
+<ul>
+<li>同时支持按大小和时间轮转</li>
+<li>满足任一条件就轮转</li>
+<li>文件名包含日期和索引</li>
+</ul>
+<p><strong>工作原理：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">初始：app.log (0MB)
+
+写入到 100MB：
+app.log → app.2025-12-30.0.log (重命名)
+创建新的 app.log
+
+同一天内再次达到 100MB：
+app.log → app.2025-12-30.1.log (重命名)
+创建新的 app.log
+
+第二天（即使文件很小）：
+app.log → app.2025-12-31.0.log (按时间轮转)
+创建新的 app.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="FixedWindowRollingPolicy（固定窗口）"><a href="#FixedWindowRollingPolicy（固定窗口）" class="headerlink" title="FixedWindowRollingPolicy（固定窗口）"></a><strong>FixedWindowRollingPolicy（固定窗口）</strong></h4><p><strong>特点：</strong></p>
+<ul>
+<li>只按大小轮转</li>
+<li>使用索引号（1, 2, 3…）</li>
+<li>超过最大索引后，删除最旧的</li>
+</ul>
+<p><strong>工作原理：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">maxIndex&#x3D;3
+
+app.log → app.1.log
+app.1.log → app.2.log
+app.2.log → app.3.log
+app.3.log → 删除（超过 maxIndex）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="TimeBasedRollingPolicy（时间）"><a href="#TimeBasedRollingPolicy（时间）" class="headerlink" title="TimeBasedRollingPolicy（时间）"></a><strong>TimeBasedRollingPolicy（时间）</strong></h4><p><strong>特点：</strong></p>
+<ul>
+<li>只按时间轮转</li>
+<li>文件名包含日期</li>
+<li>适合日志量稳定的场景</li>
+</ul>
+<p><strong>工作原理：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">每天午夜轮转：
+app.log → app.2025-12-30.log
+创建新的 app.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="五、Java-应用：Log4j2-日志轮转"><a href="#五、Java-应用：Log4j2-日志轮转" class="headerlink" title="五、Java 应用：Log4j2 日志轮转"></a>五、Java 应用：Log4j2 日志轮转</h2><h3 id="1️⃣-Log4j2-简介"><a href="#1️⃣-Log4j2-简介" class="headerlink" title="1️⃣ Log4j2 简介"></a><strong>1️⃣ Log4j2 简介</strong></h3><p><strong>Log4j2</strong> 是 Apache 的日志框架，也支持强大的日志轮转功能。</p>
+<h3 id="2️⃣-配置文件示例-1"><a href="#2️⃣-配置文件示例-1" class="headerlink" title="2️⃣ 配置文件示例"></a><strong>2️⃣ 配置文件示例</strong></h3><h4 id="示例-1：按大小和时间轮转-1"><a href="#示例-1：按大小和时间轮转-1" class="headerlink" title="示例 1：按大小和时间轮转"></a><strong>示例 1：按大小和时间轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!-- log4j2.xml --></span>
+<span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Configuration</span> <span class="token attr-name">status</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>WARN<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Appenders</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>RollingFile</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>RollingFile<span class="token punctuation">"</span></span> <span class="token attr-name">fileName</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>logs/app.log<span class="token punctuation">"</span></span>
+                     <span class="token attr-name">filePattern</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>logs/app-%d&#123;yyyy-MM-dd&#125;-%i.log.gz<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PatternLayout</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Pattern</span><span class="token punctuation">></span></span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Pattern</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PatternLayout</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Policies</span><span class="token punctuation">></span></span>
+                <span class="token comment">&lt;!-- 按时间轮转 --></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TimeBasedTriggeringPolicy</span> <span class="token punctuation">/></span></span>
+                <span class="token comment">&lt;!-- 按大小轮转 --></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>SizeBasedTriggeringPolicy</span> <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100MB<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Policies</span><span class="token punctuation">></span></span>
+            <span class="token comment">&lt;!-- 保留文件数 --></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>DefaultRolloverStrategy</span> <span class="token attr-name">max</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>30<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>RollingFile</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Appenders</span><span class="token punctuation">></span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Loggers</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Root</span> <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>INFO<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>AppenderRef</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>RollingFile<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Root</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Loggers</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Configuration</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="示例-2：按大小轮转-1"><a href="#示例-2：按大小轮转-1" class="headerlink" title="示例 2：按大小轮转"></a><strong>示例 2：按大小轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Configuration</span> <span class="token attr-name">status</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>WARN<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Appenders</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>RollingFile</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>RollingFile<span class="token punctuation">"</span></span> <span class="token attr-name">fileName</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>logs/app.log<span class="token punctuation">"</span></span>
+                     <span class="token attr-name">filePattern</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>logs/app-%i.log.gz<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PatternLayout</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Pattern</span><span class="token punctuation">></span></span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Pattern</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PatternLayout</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Policies</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>SizeBasedTriggeringPolicy</span> <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>100MB<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Policies</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>DefaultRolloverStrategy</span> <span class="token attr-name">max</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>10<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>RollingFile</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Appenders</span><span class="token punctuation">></span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Loggers</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Root</span> <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>INFO<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>AppenderRef</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>RollingFile<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Root</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Loggers</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Configuration</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3️⃣-常用配置参数"><a href="#3️⃣-常用配置参数" class="headerlink" title="3️⃣ 常用配置参数"></a><strong>3️⃣ 常用配置参数</strong></h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fileName</code></td>
+<td>当前日志文件</td>
+<td><code>logs/app.log</code></td>
+</tr>
+<tr>
+<td><code>filePattern</code></td>
+<td>历史文件命名模式</td>
+<td><code>logs/app-%d&#123;yyyy-MM-dd&#125;-%i.log.gz</code></td>
+</tr>
+<tr>
+<td><code>SizeBasedTriggeringPolicy</code></td>
+<td>按大小触发</td>
+<td><code>&lt;SizeBasedTriggeringPolicy size=&quot;100MB&quot; /&gt;</code></td>
+</tr>
+<tr>
+<td><code>TimeBasedTriggeringPolicy</code></td>
+<td>按时间触发</td>
+<td><code>&lt;TimeBasedTriggeringPolicy /&gt;</code></td>
+</tr>
+<tr>
+<td><code>max</code></td>
+<td>保留文件数</td>
+<td><code>max=&quot;30&quot;</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、Python-应用：日志轮转"><a href="#六、Python-应用：日志轮转" class="headerlink" title="六、Python 应用：日志轮转"></a>六、Python 应用：日志轮转</h2><h3 id="1️⃣-使用-logging-handlers"><a href="#1️⃣-使用-logging-handlers" class="headerlink" title="1️⃣ 使用 logging.handlers"></a><strong>1️⃣ 使用 logging.handlers</strong></h3><p>Python 标准库提供了日志轮转功能。</p>
+<h4 id="示例-1：按大小轮转-1"><a href="#示例-1：按大小轮转-1" class="headerlink" title="示例 1：按大小轮转"></a><strong>示例 1：按大小轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> logging
+<span class="token keyword">from</span> logging<span class="token punctuation">.</span>handlers <span class="token keyword">import</span> RotatingFileHandler
+
+<span class="token comment"># 创建轮转处理器</span>
+handler <span class="token operator">=</span> RotatingFileHandler<span class="token punctuation">(</span>
+    <span class="token string">'app.log'</span><span class="token punctuation">,</span>
+    maxBytes<span class="token operator">=</span><span class="token number">100</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">,</span>  <span class="token comment"># 100MB</span>
+    backupCount<span class="token operator">=</span><span class="token number">10</span>  <span class="token comment"># 保留 10 个备份文件</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># 设置格式</span>
+formatter <span class="token operator">=</span> logging<span class="token punctuation">.</span>Formatter<span class="token punctuation">(</span>
+    <span class="token string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>
+<span class="token punctuation">)</span>
+handler<span class="token punctuation">.</span>setFormatter<span class="token punctuation">(</span>formatter<span class="token punctuation">)</span>
+
+<span class="token comment"># 配置 logger</span>
+logger <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span><span class="token string">'myapp'</span><span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>setLevel<span class="token punctuation">(</span>logging<span class="token punctuation">.</span>INFO<span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>addHandler<span class="token punctuation">(</span>handler<span class="token punctuation">)</span>
+
+<span class="token comment"># 使用</span>
+logger<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">'This is a log message'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="示例-2：按时间轮转-1"><a href="#示例-2：按时间轮转-1" class="headerlink" title="示例 2：按时间轮转"></a><strong>示例 2：按时间轮转</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> logging
+<span class="token keyword">from</span> logging<span class="token punctuation">.</span>handlers <span class="token keyword">import</span> TimedRotatingFileHandler
+
+<span class="token comment"># 创建时间轮转处理器</span>
+handler <span class="token operator">=</span> TimedRotatingFileHandler<span class="token punctuation">(</span>
+    <span class="token string">'app.log'</span><span class="token punctuation">,</span>
+    when<span class="token operator">=</span><span class="token string">'midnight'</span><span class="token punctuation">,</span>  <span class="token comment"># 每天午夜轮转</span>
+    interval<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span>  <span class="token comment"># 间隔 1 天</span>
+    backupCount<span class="token operator">=</span><span class="token number">30</span>  <span class="token comment"># 保留 30 天</span>
+<span class="token punctuation">)</span>
+
+formatter <span class="token operator">=</span> logging<span class="token punctuation">.</span>Formatter<span class="token punctuation">(</span>
+    <span class="token string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>
+<span class="token punctuation">)</span>
+handler<span class="token punctuation">.</span>setFormatter<span class="token punctuation">(</span>formatter<span class="token punctuation">)</span>
+
+logger <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span><span class="token string">'myapp'</span><span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>setLevel<span class="token punctuation">(</span>logging<span class="token punctuation">.</span>INFO<span class="token punctuation">)</span>
+logger<span class="token punctuation">.</span>addHandler<span class="token punctuation">(</span>handler<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2️⃣-时间轮转参数"><a href="#2️⃣-时间轮转参数" class="headerlink" title="2️⃣ 时间轮转参数"></a><strong>2️⃣ 时间轮转参数</strong></h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>when=&#39;S&#39;</code></td>
+<td>秒</td>
+<td><code>when=&#39;S&#39;, interval=60</code></td>
+</tr>
+<tr>
+<td><code>when=&#39;M&#39;</code></td>
+<td>分钟</td>
+<td><code>when=&#39;M&#39;, interval=60</code></td>
+</tr>
+<tr>
+<td><code>when=&#39;H&#39;</code></td>
+<td>小时</td>
+<td><code>when=&#39;H&#39;, interval=24</code></td>
+</tr>
+<tr>
+<td><code>when=&#39;D&#39;</code></td>
+<td>天</td>
+<td><code>when=&#39;D&#39;, interval=1</code></td>
+</tr>
+<tr>
+<td><code>when=&#39;midnight&#39;</code></td>
+<td>每天午夜</td>
+<td><code>when=&#39;midnight&#39;</code></td>
+</tr>
+<tr>
+<td><code>when=&#39;W0&#39;</code></td>
+<td>每周一</td>
+<td><code>when=&#39;W0&#39;</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、Node-js-应用：日志轮转"><a href="#七、Node-js-应用：日志轮转" class="headerlink" title="七、Node.js 应用：日志轮转"></a>七、Node.js 应用：日志轮转</h2><h3 id="1️⃣-使用-winston-daily-rotate-file"><a href="#1️⃣-使用-winston-daily-rotate-file" class="headerlink" title="1️⃣ 使用 winston-daily-rotate-file"></a><strong>1️⃣ 使用 winston-daily-rotate-file</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> winston winston-daily-rotate-file<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h4 id="配置示例"><a href="#配置示例" class="headerlink" title="配置示例"></a><strong>配置示例</strong></h4><figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> winston <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'winston'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> DailyRotateFile <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'winston-daily-rotate-file'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> logger <span class="token operator">=</span> winston<span class="token punctuation">.</span><span class="token function">createLogger</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">level</span><span class="token operator">:</span> <span class="token string">'info'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">format</span><span class="token operator">:</span> winston<span class="token punctuation">.</span>format<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span>
+        winston<span class="token punctuation">.</span>format<span class="token punctuation">.</span><span class="token function">timestamp</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        winston<span class="token punctuation">.</span>format<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">transports</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token keyword">new</span> <span class="token class-name">DailyRotateFile</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+            <span class="token literal-property property">filename</span><span class="token operator">:</span> <span class="token string">'logs/app-%DATE%.log'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">datePattern</span><span class="token operator">:</span> <span class="token string">'YYYY-MM-DD'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">maxSize</span><span class="token operator">:</span> <span class="token string">'100m'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">maxFiles</span><span class="token operator">:</span> <span class="token string">'30d'</span><span class="token punctuation">,</span>  <span class="token comment">// 保留 30 天</span>
+            <span class="token literal-property property">zippedArchive</span><span class="token operator">:</span> <span class="token boolean">true</span>  <span class="token comment">// 压缩旧日志</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">'This is a log message'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="八、最佳实践"><a href="#八、最佳实践" class="headerlink" title="八、最佳实践"></a>八、最佳实践</h2><h3 id="1️⃣-轮转策略选择"><a href="#1️⃣-轮转策略选择" class="headerlink" title="1️⃣ 轮转策略选择"></a><strong>1️⃣ 轮转策略选择</strong></h3><h4 id="按大小轮转-1"><a href="#按大小轮转-1" class="headerlink" title="按大小轮转"></a><strong>按大小轮转</strong></h4><ul>
+<li>✅ <strong>适合</strong>：日志量不固定，可能突然增长</li>
+<li>✅ <strong>优点</strong>：防止单个文件过大</li>
+<li>⚠️ <strong>注意</strong>：需要合理设置大小阈值</li>
+</ul>
+<h4 id="按时间轮转-1"><a href="#按时间轮转-1" class="headerlink" title="按时间轮转"></a><strong>按时间轮转</strong></h4><ul>
+<li>✅ <strong>适合</strong>：日志量相对稳定</li>
+<li>✅ <strong>优点</strong>：便于按时间查找日志</li>
+<li>⚠️ <strong>注意</strong>：需要合理设置保留天数</li>
+</ul>
+<h4 id="按大小-时间轮转-1"><a href="#按大小-时间轮转-1" class="headerlink" title="按大小+时间轮转"></a><strong>按大小+时间轮转</strong></h4><ul>
+<li>✅ <strong>适合</strong>：生产环境推荐</li>
+<li>✅ <strong>优点</strong>：兼顾大小和时间</li>
+<li>⚠️ <strong>注意</strong>：配置相对复杂</li>
+</ul>
+<h3 id="2️⃣-保留策略"><a href="#2️⃣-保留策略" class="headerlink" title="2️⃣ 保留策略"></a><strong>2️⃣ 保留策略</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 推荐配置</span>
+保留天数：30 天（业务日志）
+保留大小：10GB（总大小限制）
+保留数量：10-30 个文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3️⃣-压缩策略"><a href="#3️⃣-压缩策略" class="headerlink" title="3️⃣ 压缩策略"></a><strong>3️⃣ 压缩策略</strong></h3><ul>
+<li>✅ <strong>启用压缩</strong>：节省 70-90% 的磁盘空间</li>
+<li>✅ <strong>延迟压缩</strong>：压缩前一个文件，当前文件不压缩</li>
+<li>⚠️ <strong>注意</strong>：压缩会增加 CPU 使用，但节省磁盘空间</li>
+</ul>
+<h3 id="4️⃣-文件命名规范"><a href="#4️⃣-文件命名规范" class="headerlink" title="4️⃣ 文件命名规范"></a><strong>4️⃣ 文件命名规范</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 推荐命名格式</span>
+app-2025-12-30-0.log.gz
+app-2025-12-30-1.log.gz
+app-2025-12-30-2.log.gz
+
+<span class="token comment"># 包含信息</span>
+- 应用名
+- 日期
+- 索引号
+- 压缩后缀<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="5️⃣-目录结构"><a href="#5️⃣-目录结构" class="headerlink" title="5️⃣ 目录结构"></a><strong>5️⃣ 目录结构</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">logs/
+├── app.log              <span class="token comment"># 当前日志</span>
+├── app-2025-12-30-0.log.gz
+├── app-2025-12-30-1.log.gz
+├── app-2025-12-29-0.log.gz
+└── archive/             <span class="token comment"># 归档目录（可选）</span>
+    └── app-2025-12-01-0.log.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="6️⃣-监控和告警"><a href="#6️⃣-监控和告警" class="headerlink" title="6️⃣ 监控和告警"></a><strong>6️⃣ 监控和告警</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 监控日志目录大小</span>
+<span class="token function">du</span> <span class="token parameter variable">-sh</span> /var/log/myapp/
+
+<span class="token comment"># 监控日志文件数量</span>
+<span class="token function">ls</span> <span class="token parameter variable">-1</span> /var/log/myapp/*.log* <span class="token operator">|</span> <span class="token function">wc</span> <span class="token parameter variable">-l</span>
+
+<span class="token comment"># 设置告警</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable"><span class="token variable">$(</span><span class="token function">du</span> <span class="token parameter variable">-sm</span> /var/log/myapp <span class="token operator">|</span> <span class="token function">cut</span> <span class="token parameter variable">-f1</span><span class="token variable">)</span></span> <span class="token parameter variable">-gt</span> <span class="token number">10000</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"Log directory exceeds 10GB"</span> <span class="token operator">|</span> mail <span class="token parameter variable">-s</span> <span class="token string">"Alert"</span> admin@example.com
+<span class="token keyword">fi</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="7️⃣-应用重启处理"><a href="#7️⃣-应用重启处理" class="headerlink" title="7️⃣ 应用重启处理"></a><strong>7️⃣ 应用重启处理</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># logrotate postrotate 脚本示例</span>
+postrotate
+    <span class="token comment"># 发送信号让应用重新打开日志文件</span>
+    /bin/kill <span class="token parameter variable">-HUP</span> <span class="token variable"><span class="token variable">`</span><span class="token function">cat</span> /var/run/myapp.pid <span class="token operator"><span class="token file-descriptor important">2</span>></span> /dev/null<span class="token variable">`</span></span> <span class="token operator"><span class="token file-descriptor important">2</span>></span> /dev/null <span class="token operator">||</span> <span class="token boolean">true</span>
+    
+    <span class="token comment"># 或者使用 systemd</span>
+    systemctl reload myapp <span class="token operator">||</span> <span class="token boolean">true</span>
+endscript<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="8️⃣-常见问题排查"><a href="#8️⃣-常见问题排查" class="headerlink" title="8️⃣ 常见问题排查"></a><strong>8️⃣ 常见问题排查</strong></h3><h4 id="问题-1：日志轮转后应用还在写旧文件"><a href="#问题-1：日志轮转后应用还在写旧文件" class="headerlink" title="问题 1：日志轮转后应用还在写旧文件"></a><strong>问题 1：日志轮转后应用还在写旧文件</strong></h4><p><strong>原因：</strong> 应用没有重新打开日志文件</p>
+<p><strong>解决：</strong> 在 postrotate 脚本中发送信号让应用重新打开文件</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">postrotate
+    /bin/kill <span class="token parameter variable">-HUP</span> <span class="token variable"><span class="token variable">`</span><span class="token function">cat</span> /var/run/myapp.pid<span class="token variable">`</span></span>
+endscript<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="问题-2：磁盘空间仍然不足"><a href="#问题-2：磁盘空间仍然不足" class="headerlink" title="问题 2：磁盘空间仍然不足"></a><strong>问题 2：磁盘空间仍然不足</strong></h4><p><strong>原因：</strong> 保留策略设置过大</p>
+<p><strong>解决：</strong> 调整保留天数或总大小限制</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rotate <span class="token number">7</span>          <span class="token comment"># 减少保留天数</span>
+totalSizeCap 5GB  <span class="token comment"># 设置总大小限制</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="问题-3：轮转不生效"><a href="#问题-3：轮转不生效" class="headerlink" title="问题 3：轮转不生效"></a><strong>问题 3：轮转不生效</strong></h4><p><strong>原因：</strong> 配置文件语法错误或权限问题</p>
+<p><strong>解决：</strong> 检查配置和权限</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 测试配置</span>
+<span class="token function">logrotate</span> <span class="token parameter variable">-d</span> /etc/logrotate.d/myapp
+
+<span class="token comment"># 检查权限</span>
+<span class="token function">ls</span> <span class="token parameter variable">-l</span> /var/log/myapp/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="九、完整配置示例"><a href="#九、完整配置示例" class="headerlink" title="九、完整配置示例"></a>九、完整配置示例</h2><h3 id="1️⃣-logrotate-完整配置"><a href="#1️⃣-logrotate-完整配置" class="headerlink" title="1️⃣ logrotate 完整配置"></a><strong>1️⃣ logrotate 完整配置</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># /etc/logrotate.d/myapp</span>
+/var/log/myapp/*.log <span class="token punctuation">&#123;</span>
+    <span class="token comment"># 轮转策略</span>
+    size 500M
+    daily
+    rotate <span class="token number">30</span>
+    
+    <span class="token comment"># 压缩</span>
+    compress
+    delaycompress
+    compresscmd /bin/gzip
+    uncompresscmd /bin/gunzip
+    compressext .gz
+    
+    <span class="token comment"># 文件处理</span>
+    missingok
+    notifempty
+    create 0644 app app
+    
+    <span class="token comment"># 日期后缀</span>
+    dateext
+    dateformat -%Y%m%d
+    
+    <span class="token comment"># 脚本</span>
+    sharedscripts
+    postrotate
+        /bin/kill <span class="token parameter variable">-HUP</span> <span class="token variable"><span class="token variable">`</span><span class="token function">cat</span> /var/run/myapp.pid <span class="token operator"><span class="token file-descriptor important">2</span>></span> /dev/null<span class="token variable">`</span></span> <span class="token operator"><span class="token file-descriptor important">2</span>></span> /dev/null <span class="token operator">||</span> <span class="token boolean">true</span>
+    endscript
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2️⃣-Logback-完整配置"><a href="#2️⃣-Logback-完整配置" class="headerlink" title="2️⃣ Logback 完整配置"></a><strong>2️⃣ Logback 完整配置</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>LOG_HOME<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/var/log/myapp<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>LOG_PATTERN<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;50&#125; - %msg%n<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FILE<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.RollingFileAppender<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>file</span><span class="token punctuation">></span></span>$&#123;LOG_HOME&#125;/app.log<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>file</span><span class="token punctuation">></span></span>
+        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rollingPolicy</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>fileNamePattern</span><span class="token punctuation">></span></span>$&#123;LOG_HOME&#125;/app.%d&#123;yyyy-MM-dd&#125;.%i.log.gz<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>fileNamePattern</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxFileSize</span><span class="token punctuation">></span></span>500MB<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxFileSize</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxHistory</span><span class="token punctuation">></span></span>30<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxHistory</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>totalSizeCap</span><span class="token punctuation">></span></span>10GB<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>totalSizeCap</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rollingPolicy</span><span class="token punctuation">></span></span>
+        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>encoder</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pattern</span><span class="token punctuation">></span></span>$&#123;LOG_PATTERN&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pattern</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>encoder</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>appender</span><span class="token punctuation">></span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ERROR_FILE<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.RollingFileAppender<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>file</span><span class="token punctuation">></span></span>$&#123;LOG_HOME&#125;/error.log<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>file</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>filter</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.classic.filter.ThresholdFilter<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>level</span><span class="token punctuation">></span></span>ERROR<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>level</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>filter</span><span class="token punctuation">></span></span>
+        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>rollingPolicy</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>fileNamePattern</span><span class="token punctuation">></span></span>$&#123;LOG_HOME&#125;/error.%d&#123;yyyy-MM-dd&#125;.%i.log.gz<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>fileNamePattern</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxFileSize</span><span class="token punctuation">></span></span>100MB<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxFileSize</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>maxHistory</span><span class="token punctuation">></span></span>90<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>maxHistory</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>totalSizeCap</span><span class="token punctuation">></span></span>5GB<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>totalSizeCap</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>rollingPolicy</span><span class="token punctuation">></span></span>
+        
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>encoder</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pattern</span><span class="token punctuation">></span></span>$&#123;LOG_PATTERN&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pattern</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>encoder</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>appender</span><span class="token punctuation">></span></span>
+    
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>root</span> <span class="token attr-name">level</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>INFO<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender-ref</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>FILE<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>appender-ref</span> <span class="token attr-name">ref</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ERROR_FILE<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>root</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="十、总结"><a href="#十、总结" class="headerlink" title="十、总结"></a>十、总结</h2><h3 id="核心要点"><a href="#核心要点" class="headerlink" title="核心要点"></a><strong>核心要点</strong></h3><ol>
+<li><strong>日志轮转是必须的</strong>：防止日志文件无限增长</li>
+<li><strong>选择合适的策略</strong>：按大小、按时间或两者结合</li>
+<li><strong>合理设置保留策略</strong>：平衡存储成本和历史追溯需求</li>
+<li><strong>启用压缩</strong>：大幅节省磁盘空间</li>
+<li><strong>处理应用重启</strong>：确保轮转后应用正常写入</li>
+</ol>
+<h3 id="推荐配置"><a href="#推荐配置" class="headerlink" title="推荐配置"></a><strong>推荐配置</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 通用推荐</span>
+轮转条件：大小 500MB 或 每天
+保留策略：30 天或 10GB
+压缩：启用
+文件命名：包含日期和索引<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="工具选择"><a href="#工具选择" class="headerlink" title="工具选择"></a><strong>工具选择</strong></h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐工具</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Linux 系统日志</td>
+<td>logrotate</td>
+</tr>
+<tr>
+<td>Java 应用</td>
+<td>Logback &#x2F; Log4j2</td>
+</tr>
+<tr>
+<td>Python 应用</td>
+<td>logging.handlers</td>
+</tr>
+<tr>
+<td>Node.js 应用</td>
+<td>winston-daily-rotate-file</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="💡-延伸阅读"><a href="#💡-延伸阅读" class="headerlink" title="💡 延伸阅读"></a>💡 延伸阅读</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://linux.die.net/man/8/logrotate">logrotate 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="http://logback.qos.ch/documentation.html">Logback 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://logging.apache.org/log4j/2.x/manual/index.html">Log4j2 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/logging.handlers.html">Python logging 文档</a></li>
+</ul>
+<hr>
+<p><strong>如果你觉得这篇文章有用，欢迎收藏！下次遇到日志管理问题时，拿出来对照一下，就能快速配置专业的日志轮转策略。</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%A7-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%BF%9B%E9%98%B6%EF%BC%9ALinux-%E6%97%A5%E5%BF%97%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%9B%91%E6%8E%A7%E5%AE%9E%E6%88%98/" class="category-chain-item">🐧 服务端进阶：Linux 日志、性能与监控实战</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%A7-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%BF%9B%E9%98%B6%EF%BC%9ALinux-%E6%97%A5%E5%BF%97%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%9B%91%E6%8E%A7%E5%AE%9E%E6%88%98/%E5%BC%80%E5%8F%91%E4%B8%8E%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">开发与技术栈</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/" class="print-no-link">#日志管理</a>
+      
+        <a href="/fluid-blog/tags/%E6%97%A5%E5%BF%97%E8%BD%AE%E8%BD%AC/" class="print-no-link">#日志轮转</a>
+      
+        <a href="/fluid-blog/tags/logrotate/" class="print-no-link">#logrotate</a>
+      
+        <a href="/fluid-blog/tags/logback/" class="print-no-link">#logback</a>
+      
+        <a href="/fluid-blog/tags/log4j/" class="print-no-link">#log4j</a>
+      
+        <a href="/fluid-blog/tags/%E8%BF%90%E7%BB%B4/" class="print-no-link">#运维</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>📋 日志轮转完全指南：从原理到实践，让你的日志管理更专业</div>
+      <div>https://linn0813.github.io/2025/12/31/2025-12-31-log-rotation-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/01/2026-01-01-testing-standards-guide/" title="📐 测试标准完全指南：从 ISO/IEC 到企业实践，构建专业的测试体系">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">📐 测试标准完全指南：从 ISO/IEC 到企业实践，构建专业的测试体系</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/30/2025-12-30-third-party-callback-guide/" title="🔄 第三方平台回调接口完整指南：从 OAuth 授权到 Webhook 设计">
+                        <span class="hidden-mobile">🔄 第三方平台回调接口完整指南：从 OAuth 授权到 Webhook 设计</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

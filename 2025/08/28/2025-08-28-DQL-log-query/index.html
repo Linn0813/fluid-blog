@@ -1,0 +1,810 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="OpenSearch Dashboards, DQL, 日志查询, 测试实战">
+  
+    <meta name="description" content="本文分享 OpenSearch Dashboards 日志查询全攻略，涵盖 DQL 查询技巧、半结构化日志处理方法以及测试实战经验，帮助你快速掌握日志查询技能，提升问题排查效率。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🚀 OpenSearch Dashboards 日志查询全攻略：DQL 技巧与测试实战经验分享">
+<meta property="og:url" content="https://linn0813.github.io/2025/08/28/2025-08-28-DQL-log-query/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="本文分享 OpenSearch Dashboards 日志查询全攻略，涵盖 DQL 查询技巧、半结构化日志处理方法以及测试实战经验，帮助你快速掌握日志查询技能，提升问题排查效率。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/opensearch-dashboards.png">
+<meta property="article:published_time" content="2025-08-28T11:51:12.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.625Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="OpenSearch Dashboards">
+<meta property="article:tag" content="DQL">
+<meta property="article:tag" content="日志查询">
+<meta property="article:tag" content="测试实战">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/opensearch-dashboards.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🚀 OpenSearch Dashboards 日志查询全攻略：DQL 技巧与测试实战经验分享 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🚀 OpenSearch Dashboards 日志查询全攻略：DQL 技巧与测试实战经验分享"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-08-28 19:51" pubdate>
+          2025年8月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🚀 OpenSearch Dashboards 日志查询全攻略：DQL 技巧与测试实战经验分享</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🚀-OpenSearch-Dashboards-日志查询全攻略：DQL-技巧与测试实战经验分享"><a href="#🚀-OpenSearch-Dashboards-日志查询全攻略：DQL-技巧与测试实战经验分享" class="headerlink" title="🚀 OpenSearch Dashboards 日志查询全攻略：DQL 技巧与测试实战经验分享"></a>🚀 OpenSearch Dashboards 日志查询全攻略：DQL 技巧与测试实战经验分享</h1><p>在软件测试和运维中，日志是排查问题和验证功能的重要工具。作为测试工程师，我在日常工作中大量使用 <strong>OpenSearch Dashboards</strong> 来分析日志，并积累了一些实战技巧。本文将分享 <strong>DQL 查询技巧、半结构化日志处理方法</strong>，以及我的测试经验和心得，希望对大家有所帮助。</p>
+<hr>
+<h2 id="1️⃣-为什么选择-OpenSearch-Dashboards"><a href="#1️⃣-为什么选择-OpenSearch-Dashboards" class="headerlink" title="1️⃣ 为什么选择 OpenSearch Dashboards"></a>1️⃣ 为什么选择 OpenSearch Dashboards</h2><p>OpenSearch Dashboards 是 Elasticsearch 的可视化工具，能够帮助我们：</p>
+<ul>
+<li><strong>快速查询日志</strong>：通过条件搜索、关键字匹配和时间范围筛选</li>
+<li><strong>可视化分析</strong>：折线图、柱状图展示日志趋势</li>
+<li><strong>导出与报告</strong>：支持 CSV&#x2F;JSON 导出，便于离线分析</li>
+</ul>
+<p>💡 在测试中，我经常用它来验证功能触发日志、算法输出、异常事件，快速定位问题。</p>
+<hr>
+<h2 id="2️⃣-测试工程师的快速入门指南"><a href="#2️⃣-测试工程师的快速入门指南" class="headerlink" title="2️⃣ 测试工程师的快速入门指南"></a>2️⃣ 测试工程师的快速入门指南</h2><h3 id="2-1-访问入口"><a href="#2-1-访问入口" class="headerlink" title="2.1 访问入口"></a>2.1 访问入口</h3><p>通过浏览器打开 <strong>OpenSearch Dashboards → Discover 页面</strong> 即可开始查询日志。</p>
+<blockquote>
+<p>可以直接使用日志查询链接进入预置索引，方便测试或演示。</p>
+</blockquote>
+<h3 id="2-2-基本操作"><a href="#2-2-基本操作" class="headerlink" title="2.2 基本操作"></a>2.2 基本操作</h3><ul>
+<li><strong>调整时间范围</strong>：确保覆盖测试过程中所有日志</li>
+<li><strong>选择列字段</strong>：例如 <code>log</code>、<code>user_id</code>、<code>timestamp</code>，方便阅读</li>
+<li><strong>导出结果</strong>：CSV 或 JSON，方便离线分析或归档</li>
+</ul>
+<p>💡 小技巧：在测试前先确认索引和时间范围，避免漏查或查错日志。</p>
+<hr>
+<h2 id="3️⃣-DQL-查询基础"><a href="#3️⃣-DQL-查询基础" class="headerlink" title="3️⃣ DQL 查询基础"></a>3️⃣ DQL 查询基础</h2><p>DQL 是 OpenSearch Dashboards 的查询语言，灵活又强大。</p>
+<h3 id="3-1-结构化字段匹配"><a href="#3-1-结构化字段匹配" class="headerlink" title="3.1 结构化字段匹配"></a>3.1 结构化字段匹配</h3><figure><div class="code-wrapper"><pre class="line-numbers language-dql" data-language="dql"><code class="language-dql">log : &quot;EventName&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li>匹配 <code>log</code> 字段中包含指定事件名</li>
+<li>对独立字段效果最佳，例如 <code>user_id</code>、<code>event_type</code></li>
+</ul>
+<h3 id="3-2-多条件组合查询"><a href="#3-2-多条件组合查询" class="headerlink" title="3.2 多条件组合查询"></a>3.2 多条件组合查询</h3><figure><div class="code-wrapper"><pre class="line-numbers language-dql" data-language="dql"><code class="language-dql">user_id : 12345 AND log : &quot;EventName&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li>查询指定用户的事件日志<br>⚠️ 对半结构化日志中嵌入的 userId 可能无效，需要文本匹配或正则处理</li>
+</ul>
+<hr>
+<h2 id="4️⃣-半结构化日志查询技巧"><a href="#4️⃣-半结构化日志查询技巧" class="headerlink" title="4️⃣ 半结构化日志查询技巧"></a>4️⃣ 半结构化日志查询技巧</h2><p>实际测试中，日志往往是半结构化或者 JSON 嵌入文本，字段不是独立存储。例如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">事件EventName|输入参数&#123;userId&#x3D;12345, eventType&#x3D;1, ...&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="4-1-关键字匹配"><a href="#4-1-关键字匹配" class="headerlink" title="4.1 关键字匹配"></a>4.1 关键字匹配</h3><figure><div class="code-wrapper"><pre class="line-numbers language-dql" data-language="dql"><code class="language-dql">EventName AND 12345<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li>快速定位指定用户和事件<br>💡 经验分享：在验证算法触发时，我会先用这种方式确认事件是否正常生成。</li>
+</ul>
+<h3 id="4-2-多关键字-OR-查询"><a href="#4-2-多关键字-OR-查询" class="headerlink" title="4.2 多关键字 OR 查询"></a>4.2 多关键字 OR 查询</h3><figure><div class="code-wrapper"><pre class="line-numbers language-dql" data-language="dql"><code class="language-dql">(EventA OR EventB) AND 12345<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li>同时匹配多种事件</li>
+<li>实战经验：验证多个触发点时非常实用，一次查询覆盖多个日志来源。</li>
+</ul>
+<h3 id="4-3-排除条件-NOT"><a href="#4-3-排除条件-NOT" class="headerlink" title="4.3 排除条件 NOT"></a>4.3 排除条件 NOT</h3><figure><div class="code-wrapper"><pre class="line-numbers language-dql" data-language="dql"><code class="language-dql">EventName AND NOT &quot;eventType&#x3D;2&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li>排除非目标类型的日志，快速聚焦问题<br>💡 测试心得：排除干扰日志能显著提升排查效率。</li>
+</ul>
+<h3 id="4-4-通配符与正则"><a href="#4-4-通配符与正则" class="headerlink" title="4.4 通配符与正则"></a>4.4 通配符与正则</h3><ul>
+<li><strong>前缀匹配</strong>：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-dql" data-language="dql"><code class="language-dql">Event*<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li><strong>子字符串匹配</strong>：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-dql" data-language="dql"><code class="language-dql">*ventNam*<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li><strong>正则匹配</strong>：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-dql" data-language="dql"><code class="language-dql">log:&#x2F;EventName.*eventType&#x3D;1&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>💡 小技巧：处理复杂嵌入字段时，正则匹配非常有效。</p>
+<hr>
+<h2 id="5️⃣-测试工程师经验分享"><a href="#5️⃣-测试工程师经验分享" class="headerlink" title="5️⃣ 测试工程师经验分享"></a>5️⃣ 测试工程师经验分享</h2><p>在多次测试和问题排查中，我总结了几个关键经验：</p>
+<h3 id="5-1-验证日志触发"><a href="#5-1-验证日志触发" class="headerlink" title="5.1 验证日志触发"></a>5.1 验证日志触发</h3><ul>
+<li>功能测试前，先确认测试数据是否会触发目标日志</li>
+<li>用 DQL 快速确认事件触发情况和次数</li>
+</ul>
+<h3 id="5-2-排查半结构化日志"><a href="#5-2-排查半结构化日志" class="headerlink" title="5.2 排查半结构化日志"></a>5.2 排查半结构化日志</h3><ul>
+<li><p>半结构化日志嵌入大量参数</p>
+</li>
+<li><p>常用策略：</p>
+<ol>
+<li>关键字 + 用户 ID 定位</li>
+<li>OR 多关键字组合覆盖多触发路径</li>
+<li>NOT 排除干扰日志</li>
+</ol>
+</li>
+</ul>
+<h3 id="5-3-跨版本日志验证"><a href="#5-3-跨版本日志验证" class="headerlink" title="5.3 跨版本日志验证"></a>5.3 跨版本日志验证</h3><ul>
+<li>不同版本的日志字段可能略有差异</li>
+<li>使用通配符或正则匹配，确保覆盖多版本数据</li>
+</ul>
+<h3 id="5-4-导出和离线分析"><a href="#5-4-导出和离线分析" class="headerlink" title="5.4 导出和离线分析"></a>5.4 导出和离线分析</h3><ul>
+<li>对大量日志，直接在 Dashboards 查看不便</li>
+<li>导出 CSV&#x2F;JSON 后，结合 Python 或 Excel 做深度分析</li>
+<li>在回归测试或性能测试中非常实用</li>
+</ul>
+<hr>
+<h2 id="6️⃣-高级技巧与最佳实践"><a href="#6️⃣-高级技巧与最佳实践" class="headerlink" title="6️⃣ 高级技巧与最佳实践"></a>6️⃣ 高级技巧与最佳实践</h2><ul>
+<li><strong>组合查询</strong>：灵活使用 AND &#x2F; OR &#x2F; NOT</li>
+<li><strong>时间过滤</strong>：配合时间范围快速定位问题</li>
+<li><strong>字段化日志</strong>：拆分半结构化字段，提高查询效率</li>
+<li><strong>批量关键字匹配</strong>：一次性覆盖多个事件</li>
+</ul>
+<p>💡 总结：日志分析不仅是查数据，更是测试验证、异常排查、优化流程的重要手段。</p>
+<hr>
+<h2 id="7️⃣-总结"><a href="#7️⃣-总结" class="headerlink" title="7️⃣ 总结"></a>7️⃣ 总结</h2><ul>
+<li>OpenSearch Dashboards 提供强大可视化和查询能力</li>
+<li>DQL 查询适合结构化和半结构化日志</li>
+<li>结合关键字、通配符、正则、排除条件，可快速锁定问题</li>
+<li>测试经验分享：日志分析是验证触发、排查异常和测试验证的核心环节</li>
+</ul>
+<p>🎯 掌握这些技巧，你可以在测试、回归、性能和问题排查中快速定位日志，显著提高效率。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%A7-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%BF%9B%E9%98%B6%EF%BC%9ALinux-%E6%97%A5%E5%BF%97%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%9B%91%E6%8E%A7%E5%AE%9E%E6%88%98/" class="category-chain-item">🐧 服务端进阶：Linux 日志、性能与监控实战</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%A7-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%BF%9B%E9%98%B6%EF%BC%9ALinux-%E6%97%A5%E5%BF%97%E3%80%81%E6%80%A7%E8%83%BD%E4%B8%8E%E7%9B%91%E6%8E%A7%E5%AE%9E%E6%88%98/%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3/" class="category-chain-item">问题与解决</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/OpenSearch-Dashboards/" class="print-no-link">#OpenSearch Dashboards</a>
+      
+        <a href="/fluid-blog/tags/DQL/" class="print-no-link">#DQL</a>
+      
+        <a href="/fluid-blog/tags/%E6%97%A5%E5%BF%97%E6%9F%A5%E8%AF%A2/" class="print-no-link">#日志查询</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E5%AE%9E%E6%88%98/" class="print-no-link">#测试实战</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🚀 OpenSearch Dashboards 日志查询全攻略：DQL 技巧与测试实战经验分享</div>
+      <div>https://linn0813.github.io/2025/08/28/2025-08-28-DQL-log-query/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年8月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/10/01/2025-10-01-pytest-automation-testing-guide/" title="🚀 Pytest自动化测试框架入门到实战：我的学习笔记与实战经验">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🚀 Pytest自动化测试框架入门到实战：我的学习笔记与实战经验</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/08/26/2025-08-26-fiddler-mobile-capture-and-practical-tips/" title="Fiddler 移动端抓包与实战技巧 📱🕵️‍♂️">
+                        <span class="hidden-mobile">Fiddler 移动端抓包与实战技巧 📱🕵️‍♂️</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

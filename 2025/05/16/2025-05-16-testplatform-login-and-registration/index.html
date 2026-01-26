@@ -1,0 +1,1036 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="登录注册功能, 自动化测试平台, MySQL, Flask, Vue3, 数据库搭建">
+  
+    <meta name="description" content="以实际项目为例，详细介绍为自动化测试平台添加登录注册功能的全流程，涵盖数据库表结构设计、Flask 后端代码实现、Vue 3 + Element Plus + Vue Router 前端代码实现等内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动化测试平台添加登录注册功能 🚀">
+<meta property="og:url" content="https://linn0813.github.io/2025/05/16/2025-05-16-testplatform-login-and-registration/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="以实际项目为例，详细介绍为自动化测试平台添加登录注册功能的全流程，涵盖数据库表结构设计、Flask 后端代码实现、Vue 3 + Element Plus + Vue Router 前端代码实现等内容。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/testplatform-login-and-registration.png">
+<meta property="article:published_time" content="2025-05-16T07:16:55.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.613Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="登录注册功能">
+<meta property="article:tag" content="自动化测试平台">
+<meta property="article:tag" content="Flask">
+<meta property="article:tag" content="Vue3">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/testplatform-login-and-registration.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>自动化测试平台添加登录注册功能 🚀 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="自动化测试平台添加登录注册功能 🚀"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-16 15:16" pubdate>
+          2025年5月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">自动化测试平台添加登录注册功能 🚀</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="自动化测试平台添加登录注册功能-🚀"><a href="#自动化测试平台添加登录注册功能-🚀" class="headerlink" title="自动化测试平台添加登录注册功能 🚀"></a>自动化测试平台添加登录注册功能 🚀</h1><p>在上一篇博客中，我们详细介绍了如何使用 MySQL 搭建一个用于登录注册模块的数据库🛢️。有了这个坚实的基础，接下来我们就可以为自动化测试平台添加登录注册功能啦👏。下面，我们将从数据库表结构设计、后端代码实现和前端代码实现三个方面来详细介绍。</p>
+<h2 id="一、数据库表结构-📋"><a href="#一、数据库表结构-📋" class="headerlink" title="一、数据库表结构 📋"></a>一、数据库表结构 📋</h2><p>我们已经在 MySQL 中创建了 <code>users</code> 表用于存储用户信息，这个表包含了用户 ID、用户名、密码和用户角色等字段。它就像是一个“信息仓库”，为我们存储和管理用户数据提供了便利。回顾一下创建 <code>users</code> 表的 SQL 语句：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 创建 users 表</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> users <span class="token punctuation">(</span>
+    id <span class="token keyword">INT</span> <span class="token keyword">AUTO_INCREMENT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span>
+    username <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span> <span class="token keyword">UNIQUE</span><span class="token punctuation">,</span>
+    password <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    role <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>这个表结构是登录注册功能的基础，后续的操作都将围绕它展开。</p>
+<h2 id="二、后端代码实现（Flask）-💻"><a href="#二、后端代码实现（Flask）-💻" class="headerlink" title="二、后端代码实现（Flask） 💻"></a>二、后端代码实现（Flask） 💻</h2><h3 id="1-新增-models-user-py"><a href="#1-新增-models-user-py" class="headerlink" title="1. 新增 models/user.py"></a>1. 新增 <code>models/user.py</code></h3><p>在后端代码中，我们首先要新增 <code>models/user.py</code> 文件，用于处理与数据库的交互。以下是该文件的详细代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> hashlib
+<span class="token keyword">import</span> pymysql
+<span class="token keyword">import</span> logging
+
+log <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MySqlConfig</span><span class="token punctuation">:</span>
+    TEST_PLATFORM <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">'host'</span><span class="token punctuation">:</span> <span class="token string">'localhost'</span><span class="token punctuation">,</span>
+        <span class="token string">'port'</span><span class="token punctuation">:</span> <span class="token number">3306</span><span class="token punctuation">,</span>
+        <span class="token string">'user'</span><span class="token punctuation">:</span> <span class="token string">'root'</span><span class="token punctuation">,</span>
+        <span class="token string">'passwd'</span><span class="token punctuation">:</span> <span class="token string">'password'</span><span class="token punctuation">,</span>
+        <span class="token string">'db'</span><span class="token punctuation">:</span> <span class="token string">'test_platform'</span><span class="token punctuation">,</span>
+        <span class="token string">'charset'</span><span class="token punctuation">:</span> <span class="token string">'utf8'</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token keyword">def</span> <span class="token function">get_connection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        config <span class="token operator">=</span> MySqlConfig<span class="token punctuation">.</span>TEST_PLATFORM
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"尝试连接数据库: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>config<span class="token punctuation">[</span><span class="token string">'host'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">:</span><span class="token interpolation"><span class="token punctuation">&#123;</span>config<span class="token punctuation">[</span><span class="token string">'port'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">/</span><span class="token interpolation"><span class="token punctuation">&#123;</span>config<span class="token punctuation">[</span><span class="token string">'db'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        conn <span class="token operator">=</span> pymysql<span class="token punctuation">.</span>connect<span class="token punctuation">(</span>
+            host<span class="token operator">=</span>config<span class="token punctuation">[</span><span class="token string">'host'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            port<span class="token operator">=</span>config<span class="token punctuation">[</span><span class="token string">'port'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            user<span class="token operator">=</span>config<span class="token punctuation">[</span><span class="token string">'user'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            passwd<span class="token operator">=</span>config<span class="token punctuation">[</span><span class="token string">'passwd'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            db<span class="token operator">=</span>config<span class="token punctuation">[</span><span class="token string">'db'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            charset<span class="token operator">=</span>config<span class="token punctuation">[</span><span class="token string">'charset'</span><span class="token punctuation">]</span>
+        <span class="token punctuation">)</span>
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">"数据库连接成功"</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> conn
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"数据库连接失败: </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token builtin">str</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">raise</span>
+
+<span class="token keyword">def</span> <span class="token function">init_db</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> get_connection<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">"初始化用户表"</span><span class="token punctuation">)</span>
+        cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">'''
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(50) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL
+        )
+        '''</span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string">"用户表初始化完成"</span><span class="token punctuation">)</span>
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户表初始化失败: </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token builtin">str</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>rollback<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">finally</span><span class="token punctuation">:</span>
+        cursor<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">hash_password</span><span class="token punctuation">(</span>password<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> hashlib<span class="token punctuation">.</span>sha256<span class="token punctuation">(</span>password<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>hexdigest<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">create_user</span><span class="token punctuation">(</span>username<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> get_connection<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        hashed <span class="token operator">=</span> hash_password<span class="token punctuation">(</span>password<span class="token punctuation">)</span>
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"尝试创建用户: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">'INSERT INTO users (username, password) VALUES (%s, %s)'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>username<span class="token punctuation">,</span> hashed<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 创建成功"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span>
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        conn<span class="token punctuation">.</span>rollback<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        log<span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 创建失败: </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token builtin">str</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token boolean">False</span>
+    <span class="token keyword">finally</span><span class="token punctuation">:</span>
+        cursor<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">get_user</span><span class="token punctuation">(</span>username<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    conn <span class="token operator">=</span> get_connection<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span>pymysql<span class="token punctuation">.</span>cursors<span class="token punctuation">.</span>DictCursor<span class="token punctuation">)</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"尝试查询用户: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token string">'SELECT * FROM users WHERE username = %s'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>username<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        user <span class="token operator">=</span> cursor<span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> user<span class="token punctuation">:</span>
+            log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 查询成功"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 未找到"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> user
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 查询失败: </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token builtin">str</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token boolean">None</span>
+    <span class="token keyword">finally</span><span class="token punctuation">:</span>
+        cursor<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>这段代码实现了数据库连接、用户表初始化、密码加密、用户创建和用户查询等功能。其中，<code>get_connection</code> 函数用于建立与数据库的连接，<code>init_db</code> 函数用于初始化用户表，<code>hash_password</code> 函数用于对密码进行加密，<code>create_user</code> 函数用于创建新用户，<code>get_user</code> 函数用于查询用户信息。</p>
+<h3 id="2-新增-apis-user-api-py"><a href="#2-新增-apis-user-api-py" class="headerlink" title="2. 新增 apis/user_api.py"></a>2. 新增 <code>apis/user_api.py</code></h3><p>接下来，我们要新增 <code>apis/user_api.py</code> 文件，用于处理用户注册和登录的 API 请求。以下是该文件的详细代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> flask <span class="token keyword">import</span> Blueprint<span class="token punctuation">,</span> request<span class="token punctuation">,</span> jsonify
+<span class="token keyword">from</span> <span class="token punctuation">.</span><span class="token punctuation">.</span>backend<span class="token punctuation">.</span>models<span class="token punctuation">.</span>user <span class="token keyword">import</span> create_user<span class="token punctuation">,</span> get_user<span class="token punctuation">,</span> hash_password
+<span class="token keyword">import</span> logging
+
+log <span class="token operator">=</span> logging<span class="token punctuation">.</span>getLogger<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+
+user_bp <span class="token operator">=</span> Blueprint<span class="token punctuation">(</span><span class="token string">'user'</span><span class="token punctuation">,</span> __name__<span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@user_bp<span class="token punctuation">.</span>route</span><span class="token punctuation">(</span><span class="token string">'/api/register'</span><span class="token punctuation">,</span> methods<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'POST'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token keyword">def</span> <span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    data <span class="token operator">=</span> request<span class="token punctuation">.</span>get_json<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"接收到的注册数据: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>data<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录接收到的注册数据</span>
+    username <span class="token operator">=</span> data<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">)</span>
+    password <span class="token operator">=</span> data<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'password'</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token keyword">not</span> username <span class="token keyword">or</span> <span class="token keyword">not</span> password<span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>warning<span class="token punctuation">(</span><span class="token string">"用户名和密码不能为空"</span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录验证失败信息</span>
+        <span class="token keyword">return</span> jsonify<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span> <span class="token string">'error'</span><span class="token punctuation">,</span> <span class="token string">'message'</span><span class="token punctuation">:</span> <span class="token string">'用户名和密码不能为空'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> get_user<span class="token punctuation">(</span>username<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>warning<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户名 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 已存在"</span></span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录用户名已存在信息</span>
+        <span class="token keyword">return</span> jsonify<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span> <span class="token string">'error'</span><span class="token punctuation">,</span> <span class="token string">'message'</span><span class="token punctuation">:</span> <span class="token string">'用户名已存在'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> create_user<span class="token punctuation">(</span>username<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 注册成功"</span></span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录注册成功信息</span>
+        <span class="token keyword">return</span> jsonify<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span> <span class="token string">'success'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    log<span class="token punctuation">.</span>error<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 注册失败"</span></span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录注册失败信息</span>
+    <span class="token keyword">return</span> jsonify<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span> <span class="token string">'error'</span><span class="token punctuation">,</span> <span class="token string">'message'</span><span class="token punctuation">:</span> <span class="token string">'注册失败'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@user_bp<span class="token punctuation">.</span>route</span><span class="token punctuation">(</span><span class="token string">'/api/login'</span><span class="token punctuation">,</span> methods<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'POST'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token keyword">def</span> <span class="token function">login</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    data <span class="token operator">=</span> request<span class="token punctuation">.</span>get_json<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"接收到的登录数据: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>data<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录接收到的登录数据</span>
+    username <span class="token operator">=</span> data<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'username'</span><span class="token punctuation">)</span>
+    password <span class="token operator">=</span> data<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'password'</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token keyword">not</span> username <span class="token keyword">or</span> <span class="token keyword">not</span> password<span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>warning<span class="token punctuation">(</span><span class="token string">"用户名和密码不能为空"</span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录验证失败信息</span>
+        <span class="token keyword">return</span> jsonify<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span> <span class="token string">'error'</span><span class="token punctuation">,</span> <span class="token string">'message'</span><span class="token punctuation">:</span> <span class="token string">'用户名和密码不能为空'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    user <span class="token operator">=</span> get_user<span class="token punctuation">(</span>username<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token keyword">not</span> user<span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>warning<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 不存在"</span></span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录用户不存在信息</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 的密码哈希值: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>user<span class="token punctuation">[</span><span class="token string">'password'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录用户密码哈希值</span>
+        log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"输入密码的哈希值: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>hash_password<span class="token punctuation">(</span>password<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录输入密码的哈希值</span>
+    <span class="token keyword">if</span> <span class="token keyword">not</span> user <span class="token keyword">or</span> user<span class="token punctuation">[</span><span class="token string">'password'</span><span class="token punctuation">]</span> <span class="token operator">!=</span> hash_password<span class="token punctuation">(</span>password<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        log<span class="token punctuation">.</span>warning<span class="token punctuation">(</span><span class="token string">"用户名或密码错误"</span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录验证失败信息</span>
+        <span class="token keyword">return</span> jsonify<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span> <span class="token string">'error'</span><span class="token punctuation">,</span> <span class="token string">'message'</span><span class="token punctuation">:</span> <span class="token string">'用户名或密码错误'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    log<span class="token punctuation">.</span>info<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"用户 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>username<span class="token punctuation">&#125;</span></span><span class="token string"> 登录成功"</span></span><span class="token punctuation">)</span>  <span class="token comment"># 使用日志记录登录成功信息</span>
+    <span class="token keyword">return</span> jsonify<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'status'</span><span class="token punctuation">:</span> <span class="token string">'success'</span><span class="token punctuation">,</span> <span class="token string">'token'</span><span class="token punctuation">:</span> <span class="token string">'dummy_token'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>这段代码定义了两个 API 接口：<code>/api/register</code> 用于用户注册，<code>/api/login</code> 用于用户登录。在注册接口中，会先验证用户名和密码是否为空，以及用户名是否已存在，然后调用 <code>create_user</code> 函数创建新用户。在登录接口中，会先验证用户名和密码是否为空，然后查询用户信息并验证密码是否正确，若验证通过则返回登录成功信息和一个虚拟的 <code>token</code>。</p>
+<h3 id="3-修改-app-py"><a href="#3-修改-app-py" class="headerlink" title="3. 修改 app.py"></a>3. 修改 <code>app.py</code></h3><p>最后，我们要修改 <code>app.py</code> 文件，将用户 API 蓝图注册到 Flask 应用中。以下是修改后的代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> flask <span class="token keyword">import</span> Flask<span class="token punctuation">,</span> jsonify
+<span class="token keyword">from</span> <span class="token punctuation">.</span><span class="token punctuation">.</span>backend<span class="token punctuation">.</span>apis<span class="token punctuation">.</span>binding_number_api <span class="token keyword">import</span> binding_number_bp
+<span class="token keyword">from</span> <span class="token punctuation">.</span><span class="token punctuation">.</span>backend<span class="token punctuation">.</span>apis<span class="token punctuation">.</span>user_api <span class="token keyword">import</span> user_bp
+<span class="token keyword">from</span> flask_cors <span class="token keyword">import</span> CORS
+
+app <span class="token operator">=</span> Flask<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+CORS<span class="token punctuation">(</span>app<span class="token punctuation">,</span> supports_credentials<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+app<span class="token punctuation">.</span>register_blueprint<span class="token punctuation">(</span>binding_number_bp<span class="token punctuation">)</span>
+app<span class="token punctuation">.</span>register_blueprint<span class="token punctuation">(</span>user_bp<span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>route</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> methods<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'GET'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token keyword">def</span> <span class="token function">get_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    data <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"message"</span><span class="token punctuation">:</span> <span class="token string">"Hello from Flask!"</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> jsonify<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>debug<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> threaded<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>通过以上修改，我们将用户 API 集成到了 Flask 应用中，使得应用能够处理用户注册和登录的请求。</p>
+<h2 id="三、前端代码实现（Vue-3-Element-Plus-Vue-Router）-🖥️"><a href="#三、前端代码实现（Vue-3-Element-Plus-Vue-Router）-🖥️" class="headerlink" title="三、前端代码实现（Vue 3 + Element Plus + Vue Router） 🖥️"></a>三、前端代码实现（Vue 3 + Element Plus + Vue Router） 🖥️</h2><h3 id="1-路由配置"><a href="#1-路由配置" class="headerlink" title="1. 路由配置"></a>1. 路由配置</h3><p>在 <code>src/router/index.js</code> 中添加登录和注册页面的路由。以下是配置代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token punctuation">&#123;</span> createRouter<span class="token punctuation">,</span> createWebHistory <span class="token punctuation">&#125;</span> <span class="token keyword">from</span> <span class="token string">'vue-router'</span>
+<span class="token keyword">import</span> BindingNumber <span class="token keyword">from</span> <span class="token string">'../views/tools/BindingNumber.vue'</span>
+<span class="token keyword">import</span> Login <span class="token keyword">from</span> <span class="token string">'../views/Login.vue'</span>
+
+<span class="token keyword">const</span> routes <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span> <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token literal-property property">redirect</span><span class="token operator">:</span> <span class="token string">'/tools/binding_number'</span> <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span> <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">'/login'</span><span class="token punctuation">,</span> <span class="token literal-property property">component</span><span class="token operator">:</span> Login <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span> <span class="token literal-property property">path</span><span class="token operator">:</span> <span class="token string">'/tools/binding_number'</span><span class="token punctuation">,</span> <span class="token literal-property property">component</span><span class="token operator">:</span> BindingNumber <span class="token punctuation">&#125;</span>
+<span class="token punctuation">]</span>
+
+<span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token function">createRouter</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">history</span><span class="token operator">:</span> <span class="token function">createWebHistory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    routes
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+router<span class="token punctuation">.</span><span class="token function">beforeEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">to<span class="token punctuation">,</span> from<span class="token punctuation">,</span> next</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> token <span class="token operator">=</span> localStorage<span class="token punctuation">.</span><span class="token function">getItem</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>token <span class="token operator">&amp;&amp;</span> to<span class="token punctuation">.</span>path<span class="token operator">!==</span> <span class="token string">'/login'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">next</span><span class="token punctuation">(</span><span class="token string">'/login'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>token <span class="token operator">&amp;&amp;</span> to<span class="token punctuation">.</span>path <span class="token operator">===</span> <span class="token string">'/login'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">next</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> router<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>这段代码配置了路由规则，当用户访问根路径时会重定向到 <code>/tools/binding_number</code> 页面，当用户访问 <code>/login</code> 页面时会显示登录页面。同时，使用 <code>router.beforeEach</code> 进行路由守卫，确保未登录用户只能访问登录页面。</p>
+<h3 id="2-登录页面（src-views-Login-vue）"><a href="#2-登录页面（src-views-Login-vue）" class="headerlink" title="2. 登录页面（src/views/Login.vue）"></a>2. 登录页面（<code>src/views/Login.vue</code>）</h3><p>以下是登录页面的代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-vue" data-language="vue"><code class="language-vue">&lt;template&gt;
+    &lt;div class&#x3D;&quot;login-bg&quot;&gt;
+        &lt;el-card class&#x3D;&quot;login-card&quot;&gt;
+            &lt;div class&#x3D;&quot;login-icon&quot;&gt;
+                &lt;el-icon size&#x3D;&quot;40&quot;&gt;&lt;Lock &#x2F;&gt;&lt;&#x2F;el-icon&gt;
+            &lt;&#x2F;div&gt;
+            &lt;div class&#x3D;&quot;login-title&quot;&gt;&#123;&#123; isLogin ? &#39;登录&#39; : &#39;注册&#39; &#125;&#125;&lt;&#x2F;div&gt;
+            &lt;el-form :model&#x3D;&quot;form&quot; :rules&#x3D;&quot;rules&quot; ref&#x3D;&quot;formRef&quot; class&#x3D;&quot;login-form&quot;&gt;
+                &lt;el-form-item prop&#x3D;&quot;username&quot;&gt;
+                    &lt;el-input v-model&#x3D;&quot;form.username&quot; placeholder&#x3D;&quot;用户名&quot; &#x2F;&gt;
+                &lt;&#x2F;el-form-item&gt;
+                &lt;el-form-item prop&#x3D;&quot;password&quot;&gt;
+                    &lt;el-input v-model&#x3D;&quot;form.password&quot; type&#x3D;&quot;password&quot; placeholder&#x3D;&quot;密码&quot; &#x2F;&gt;
+                &lt;&#x2F;el-form-item&gt;
+                &lt;el-form-item&gt;
+                    &lt;el-button type&#x3D;&quot;primary&quot; style&#x3D;&quot;width:100%&quot; @click&#x3D;&quot;onSubmit&quot;&gt;&#123;&#123; isLogin ? &#39;登录&#39; : &#39;注册&#39; &#125;&#125;&lt;&#x2F;el-button&gt;
+                &lt;&#x2F;el-form-item&gt;
+            &lt;&#x2F;el-form&gt;
+            &lt;div class&#x3D;&quot;login-switch&quot;&gt;
+                &lt;span&gt;&#123;&#123; isLogin ? &#39;没有账号？&#39; : &#39;已有账号？&#39; &#125;&#125;&lt;&#x2F;span&gt;
+                &lt;el-link type&#x3D;&quot;primary&quot; @click&#x3D;&quot;isLogin &#x3D;!isLogin&quot;&gt;&#123;&#123; isLogin ? &#39;立即注册&#39; : &#39;去登录&#39; &#125;&#125;&lt;&#x2F;el-link&gt;
+            &lt;&#x2F;div&gt;
+        &lt;&#x2F;el-card&gt;
+    &lt;&#x2F;div&gt;
+&lt;&#x2F;template&gt;
+
+&lt;script setup&gt;
+import &#123; ref &#125; from &#39;vue&#39;
+import &#123; ElMessage &#125; from &#39;element-plus&#39;
+import &#123; Lock &#125; from &#39;@element-plus&#x2F;icons-vue&#39;
+import &#123; useRouter &#125; from &#39;vue-router&#39;
+import &#123; login, register &#125; from &#39;..&#x2F;api&#x2F;user&#39;
+
+const router &#x3D; useRouter()
+const isLogin &#x3D; ref(true)
+const form &#x3D; ref(&#123; username: &#39;&#39;, password: &#39;&#39; &#125;)
+const formRef &#x3D; ref(null)
+const rules &#x3D; &#123;
+    username: [ &#123; required: true, message: &#39;请输入用户名&#39;, trigger: &#39;blur&#39; &#125; ],
+    password: [ &#123; required: true, message: &#39;请输入密码&#39;, trigger: &#39;blur&#39; &#125; ]
+&#125;
+
+const onSubmit &#x3D; () &#x3D;&gt; &#123;
+    formRef.value.validate(async (valid) &#x3D;&gt; &#123;
+        if (!valid) return
+        try &#123;
+            if (isLogin.value) &#123;
+                const res &#x3D; await login(form.value)
+                if (res.data.status &#x3D;&#x3D;&#x3D; &#39;success&#39;) &#123;
+                    localStorage.setItem(&#39;token&#39;, res.data.token)
+                    ElMessage.success(&#39;登录成功&#39;)
+                    router.push(&#39;&#x2F;&#39;)
+                &#125; else &#123;
+                    ElMessage.error(res.data.message || &#39;登录失败&#39;)
+                &#125;
+            &#125; else &#123;
+                const res &#x3D; await register(form.value)
+                if (res.data.status &#x3D;&#x3D;&#x3D; &#39;success&#39;) &#123;
+                    ElMessage.success(&#39;注册成功，请登录&#39;)
+                    isLogin.value &#x3D; true
+                &#125; else &#123;
+                    ElMessage.error(res.data.message || &#39;注册失败&#39;)
+                &#125;
+            &#125;
+        &#125; catch (e) &#123;
+            ElMessage.error(&#39;请求失败&#39;)
+        &#125;
+    &#125;)
+&#125;
+&lt;&#x2F;script&gt;
+
+&lt;style scoped&gt;
+.login-bg &#123;
+    min-height: 100vh;
+    background: #f7f8fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+&#125;
+.login-card &#123;
+    width: 360px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px #0000000d;
+    padding: 32px 32px 16px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+&#125;
+.login-icon &#123;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+&#125;
+.login-title &#123;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 18px;
+&#125;
+.login-form &#123;
+    width: 100%;
+&#125;
+.login-switch &#123;
+    text-align: center;
+    margin-top: 8px;
+    color: #888;
+    font-size: 14px;
+&#125;
+&lt;&#x2F;style&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>这个登录页面使用了 Vue 3 和 Element Plus 组件库，实现了登录和注册功能的切换。用户可以输入用户名和密码，点击“登录”或“注册”按钮进行相应操作。若操作成功，会给出相应的提示信息，并进行页面跳转。</p>
+<h3 id="3-接口（src-api-user-js）"><a href="#3-接口（src-api-user-js）" class="headerlink" title="3. 接口（src/api/user.js）"></a>3. 接口（<code>src/api/user.js</code>）</h3><p>以下是处理登录和注册请求的接口代码：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'axios'</span>
+
+<span class="token comment">// 获取 API 基础地址</span>
+<span class="token keyword">const</span> baseUrl <span class="token operator">=</span> <span class="token keyword">import</span><span class="token punctuation">.</span>meta<span class="token punctuation">.</span>env<span class="token punctuation">.</span><span class="token constant">VITE_API_BASE_URL</span>
+
+<span class="token comment">// 登录接口</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">login</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>baseUrl<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/api/login</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> data<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// 注册接口</span>
+<span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">register</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> axios<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>baseUrl<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/api/register</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> data<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<p>这段代码使用 <code>axios</code> 库发送登录和注册请求，将用户输入的数据发送到后端 API 接口。</p>
+<p>通过以上步骤，我们成功地为自动化测试平台添加了登录注册功能🎉。从数据库的搭建到后端接口的实现，再到前端页面的开发，每一步都紧密相连，共同构建了一个完整的登录注册系统。希望这篇博客能对你有所帮助，让我们一起在技术的道路上不断前行🚀！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/" class="category-chain-item">🏗️ 测试平台开发实战手记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/%E5%B7%A5%E5%85%B7%E4%B8%8E%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91/" class="category-chain-item">工具与平台开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/MySQL/" class="print-no-link">#MySQL</a>
+      
+        <a href="/fluid-blog/tags/%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD/" class="print-no-link">#登录注册功能</a>
+      
+        <a href="/fluid-blog/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0/" class="print-no-link">#自动化测试平台</a>
+      
+        <a href="/fluid-blog/tags/Flask/" class="print-no-link">#Flask</a>
+      
+        <a href="/fluid-blog/tags/Vue3/" class="print-no-link">#Vue3</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>自动化测试平台添加登录注册功能 🚀</div>
+      <div>https://linn0813.github.io/2025/05/16/2025-05-16-testplatform-login-and-registration/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/18/2025-05-18-postman/" title="📨 Postman 使用指南 —— 测试工程师的快乐源泉">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">📨 Postman 使用指南 —— 测试工程师的快乐源泉</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/15/2025-05-15-user-module-database/" title="使用 MySQL 搭建登录注册模块数据库 🛢️">
+                        <span class="hidden-mobile">使用 MySQL 搭建登录注册模块数据库 🛢️</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

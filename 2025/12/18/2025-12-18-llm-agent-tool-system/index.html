@@ -1,0 +1,1462 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, Function Calling, Tools, 工具系统, Tool Schema, Executor, 工具封装, 权限治理">
+  
+    <meta name="description" content="深入解析 Agent 工具系统：从 Function Calling 机制、工具封装规范化设计到安全权限治理，让 Agent 拥有连接外部世界的能力">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/18/2025-12-18-llm-agent-tool-system/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 Agent 工具系统：从 Function Calling 机制、工具封装规范化设计到安全权限治理，让 Agent 拥有连接外部世界的能力">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-tool-system.png">
+<meta property="article:published_time" content="2025-12-18T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.634Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Tools">
+<meta property="article:tag" content="Function Calling">
+<meta property="article:tag" content="工具系统">
+<meta property="article:tag" content="Executor">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-tool-system.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-18 18:00" pubdate>
+          2025年12月18日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          36 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 9 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们深入解析了 Agent 的记忆管理，探讨了如何突破 Context Window 限制，实现长期且连贯的记忆系统。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将聚焦 Agent 的工具系统，解析 Function Calling 机制与工具标准化设计，让 Agent 拥有连接外部世界的能力。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-让-Agent-拥有”手脚”"><a href="#🚀-导言-—-让-Agent-拥有”手脚”" class="headerlink" title="🚀 导言 — 让 Agent 拥有”手脚”"></a>🚀 导言 — 让 Agent 拥有”手脚”</h2><p>在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-17-llm-agent-memory-management/">第8篇</a>中，我们掌握了 Agent 如何记住历史信息。在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-16-llm-agent-decision-engine/">第7篇</a>中，我们了解了 Agent 如何思考和决策。</p>
+<p>但 Agent 还有一个关键问题：</p>
+<blockquote>
+<p><strong>Agent 如何执行实际操作？</strong><br><strong>如何让 Agent 调用外部工具？</strong><br><strong>如何安全地让 Agent 连接外部世界？</strong></p>
+</blockquote>
+<p>Agent 的核心是 <strong>ReAct 循环</strong>，其中 **Action（行动）**环节必须依赖外部工具才能执行。工具是 Agent 与现实世界的唯一通道，赋予它搜索、计算、操作数据库、发送邮件等实际能力。</p>
+<h3 id="🤔-先理解几个基础概念"><a href="#🤔-先理解几个基础概念" class="headerlink" title="🤔 先理解几个基础概念"></a>🤔 先理解几个基础概念</h3><p><strong>1. Function Calling（函数调用）</strong></p>
+<blockquote>
+<p>简单理解：让 LLM 能够调用外部函数（工具），就像人使用工具一样。</p>
+<p>例如：</p>
+<ul>
+<li>LLM 想查询数据库，不能直接查</li>
+<li>但可以调用 <code>query_database()</code> 函数</li>
+<li>Function Calling 就是让 LLM 能够”告诉程序”调用哪个函数</li>
+</ul>
+</blockquote>
+<p><strong>2. Tool Schema（工具模式）</strong></p>
+<blockquote>
+<p>简单理解：工具的”说明书”，告诉 LLM 有哪些工具可用，每个工具做什么，需要什么参数。</p>
+<p>例如：</p>
+<ul>
+<li>工具名：<code>query_database</code></li>
+<li>功能：查询数据库</li>
+<li>参数：<code>sql</code>（SQL 查询语句）</li>
+</ul>
+</blockquote>
+<p><strong>3. Executor（执行器）</strong></p>
+<blockquote>
+<p>简单理解：实际执行工具调用的”工人”，负责解析 LLM 的输出，调用真实的函数。</p>
+<p>例如：</p>
+<ul>
+<li>LLM 输出：<code>&#123;&quot;function&quot;: &quot;query_database&quot;, &quot;arguments&quot;: &#123;&quot;sql&quot;: &quot;SELECT * FROM users&quot;&#125;&#125;</code></li>
+<li>Executor 解析后，调用真实的 <code>query_database()</code> 函数</li>
+</ul>
+</blockquote>
+<h3 id="💡-为什么需要工具系统？"><a href="#💡-为什么需要工具系统？" class="headerlink" title="💡 为什么需要工具系统？"></a>💡 为什么需要工具系统？</h3><p><strong>问题1：LLM 无法直接操作外部系统</strong></p>
+<blockquote>
+<p>LLM 只能”说”，不能”做”。它无法查询数据库、调用 API、发送邮件。</p>
+</blockquote>
+<p><strong>问题2：LLM 输出不稳定</strong></p>
+<blockquote>
+<p>LLM 输出的是文本，程序难以解析和执行。</p>
+</blockquote>
+<p><strong>问题3：安全性问题</strong></p>
+<blockquote>
+<p>如果让 LLM 直接执行代码，会有安全风险。</p>
+</blockquote>
+<p><strong>解决方案：Function Calling</strong></p>
+<blockquote>
+<ul>
+<li>LLM 输出结构化的 JSON（函数调用指令）</li>
+<li>Executor 解析 JSON，调用真实函数</li>
+<li>安全可控，易于管理</li>
+</ul>
+</blockquote>
+<h3 id="📋-本篇学习目标"><a href="#📋-本篇学习目标" class="headerlink" title="📋 本篇学习目标"></a>📋 本篇学习目标</h3><p>本篇将从<strong>简单到复杂</strong>，帮你掌握：</p>
+<ol>
+<li><strong>Function Calling 机制</strong>：LLM 如何调用外部工具？</li>
+<li><strong>工具封装设计</strong>：如何设计好的工具？</li>
+<li><strong>工具系统安全</strong>：如何确保工具调用的安全性？</li>
+<li><strong>工程实践</strong>：如何实现完整的工具系统？</li>
+</ol>
+<blockquote>
+<p>💡 <strong>提示</strong>：工具系统是 Agent 连接外部世界的桥梁，理解它有助于设计更强大的 Agent。</p>
+</blockquote>
+<hr>
+<h2 id="一、Function-Calling-的机制本质"><a href="#一、Function-Calling-的机制本质" class="headerlink" title="一、Function Calling 的机制本质"></a>一、Function Calling 的机制本质</h2><p>Function Calling 是 LLM 提供的一种高级能力，将自由文本输出转化为 <strong>结构化函数调用对象</strong>，使 LLM 能够安全、可控地调用外部工具。</p>
+<h3 id="1-1-核心流程：Schema-→-JSON-→-执行"><a href="#1-1-核心流程：Schema-→-JSON-→-执行" class="headerlink" title="1.1 核心流程：Schema → JSON → 执行"></a>1.1 核心流程：Schema → JSON → 执行</h3><ol>
+<li><p><strong>Tool Schema 注入（定义）</strong></p>
+<ul>
+<li><p>开发者将可用工具规范描述注入 LLM（通常为 JSON Schema）</p>
+</li>
+<li><p>包含工具名、功能描述、参数及类型</p>
+</li>
+</ul>
+</li>
+<li><p><strong>LLM 推理（决策）</strong></p>
+<ul>
+<li><p>LLM 接收到用户指令和工具 Schema</p>
+</li>
+<li><p>在 ReAct 循环中判断是否调用工具</p>
+</li>
+<li><p>生成符合 Schema 的 <strong>Action Call JSON 对象</strong></p>
+</li>
+</ul>
+</li>
+<li><p><strong>Executor 执行（行动）</strong></p>
+<ul>
+<li><p>解析 JSON，调用真实函数</p>
+</li>
+<li><p>执行结果返回给 LLM 作为 <strong>Observation</strong></p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="1-2-Function-Calling-的优势"><a href="#1-2-Function-Calling-的优势" class="headerlink" title="1.2 Function Calling 的优势"></a>1.2 Function Calling 的优势</h3><ul>
+<li><p><strong>高稳定性：</strong> 模型底层优化输出 JSON，解析成功率高</p>
+</li>
+<li><p><strong>减少歧义：</strong> LLM 仅可选择预定义工具，参数明确</p>
+</li>
+<li><p><strong>安全性：</strong> LLM 输出的是 JSON，而非直接代码，确保执行环境受控</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>💡 名词卡片</strong></p>
+<ul>
+<li><strong>Tool Schema：</strong> 使用 JSON Schema 定义的工具蓝图</li>
+<li><strong>Function Calling：</strong> 结构化 JSON 输出，指示函数调用</li>
+<li><strong>Executor：</strong> 解析 JSON 并实际执行工具的模块</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🛠️-二、工具封装与规范化设计"><a href="#🛠️-二、工具封装与规范化设计" class="headerlink" title="🛠️ 二、工具封装与规范化设计"></a>🛠️ 二、工具封装与规范化设计</h2><p>并非所有代码都适合作为 Agent 工具。优质工具必须遵循 <strong>原子性（Atomicity）</strong> 与 <strong>可理解性（Descriptiveness）</strong> 原则。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像设计 API：</p>
+<ul>
+<li><strong>原子性</strong>：一个工具只做一件事（就像 RESTful API 的设计原则）</li>
+<li><strong>可理解性</strong>：工具的描述要清晰，让 LLM 知道什么时候用它</li>
+</ul>
+</blockquote>
+<h3 id="2-1-工具封装核心原则"><a href="#2-1-工具封装核心原则" class="headerlink" title="2.1 工具封装核心原则"></a>2.1 工具封装核心原则</h3><h4 id="1-原子性（Atomicity）"><a href="#1-原子性（Atomicity）" class="headerlink" title="1. 原子性（Atomicity）"></a>1. 原子性（Atomicity）</h4><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>一个工具只做一件事，不要把所有功能都塞到一个工具里。</p>
+</blockquote>
+<p><strong>生活例子</strong>：</p>
+<blockquote>
+<ul>
+<li>❌ <strong>错误</strong>：一个工具既能”处理数据”又能”发送邮件”</li>
+<li>✅ <strong>正确</strong>：<code>AnalyzeData()</code> 和 <code>SendEmail()</code> 分开</li>
+</ul>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># ❌ 错误：违反原子性原则</span>
+
+<span class="token keyword">def</span> <span class="token function">process_data_and_send_email</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> recipient<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""处理数据并发送邮件"""</span>
+    <span class="token comment"># 处理数据</span>
+    processed_data <span class="token operator">=</span> analyze_data<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 发送邮件</span>
+    send_email<span class="token punctuation">(</span>recipient<span class="token punctuation">,</span> processed_data<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> <span class="token string">"完成"</span>
+
+<span class="token comment"># ✅ 正确：拆分成两个原子工具</span>
+
+<span class="token keyword">def</span> <span class="token function">analyze_data</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""分析数据"""</span>
+    <span class="token comment"># 只做数据分析</span>
+    result <span class="token operator">=</span> perform_analysis<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> result
+
+<span class="token keyword">def</span> <span class="token function">send_email</span><span class="token punctuation">(</span>recipient<span class="token punctuation">,</span> content<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""发送邮件"""</span>
+    <span class="token comment"># 只做发送邮件</span>
+    result <span class="token operator">=</span> email_service<span class="token punctuation">.</span>send<span class="token punctuation">(</span>recipient<span class="token punctuation">,</span> content<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> result<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>为什么需要原子性？</strong></p>
+<blockquote>
+<ul>
+<li><strong>可复用性</strong>：工具可以独立使用</li>
+<li><strong>可组合性</strong>：多个工具可以组合完成复杂任务</li>
+<li><strong>可测试性</strong>：每个工具可以独立测试</li>
+<li><strong>可理解性</strong>：LLM 更容易理解每个工具的用途</li>
+</ul>
+</blockquote>
+<h4 id="2-描述性（Descriptiveness）"><a href="#2-描述性（Descriptiveness）" class="headerlink" title="2. 描述性（Descriptiveness）"></a>2. 描述性（Descriptiveness）</h4><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>工具的描述要清晰、详细，让 LLM 知道什么时候用它。</p>
+</blockquote>
+<p><strong>生活例子</strong>：</p>
+<blockquote>
+<ul>
+<li>❌ <strong>错误</strong>：<code>tool_1: Search DB</code>（太简单，不知道什么时候用）</li>
+<li>✅ <strong>正确</strong>：<code>tool_1: 专业数据库查询工具，用于检索公司最新销售数据，参数必须包含时间范围和产品名称</code>（清晰明确）</li>
+</ul>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># ❌ 错误：描述不够清晰</span>
+
+tool_schema <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"search_db"</span><span class="token punctuation">,</span>
+    <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"Search database"</span><span class="token punctuation">,</span>  <span class="token comment"># 太简单</span>
+    <span class="token string">"parameters"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+        <span class="token string">"properties"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"query"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"string"</span><span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment"># ✅ 正确：描述清晰详细</span>
+
+tool_schema <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"query_sales_database"</span><span class="token punctuation">,</span>
+    <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token triple-quoted-string string">"""
+    专业数据库查询工具，用于检索公司最新销售数据。
+    
+    使用场景：
+    - 需要查询销售数据时
+    - 需要分析销售趋势时
+    
+    参数要求：
+    - date_range: 时间范围（必填），格式：YYYY-MM-DD 到 YYYY-MM-DD
+    - product_name: 产品名称（可选），如果不提供则查询所有产品
+    
+    返回格式：
+    - JSON 格式，包含销售数据列表
+    """</span><span class="token punctuation">,</span>
+    <span class="token string">"parameters"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"object"</span><span class="token punctuation">,</span>
+        <span class="token string">"properties"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"date_range"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+                <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"时间范围，格式：YYYY-MM-DD 到 YYYY-MM-DD"</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+            <span class="token string">"product_name"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"string"</span><span class="token punctuation">,</span>
+                <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"产品名称（可选）"</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token string">"required"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"date_range"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>描述性检查清单</strong>：</p>
+<blockquote>
+<ul>
+<li>✅ 工具做什么？（功能）</li>
+<li>✅ 什么时候用？（使用场景）</li>
+<li>✅ 需要什么参数？（参数说明）</li>
+<li>✅ 返回什么？（返回格式）</li>
+</ul>
+</blockquote>
+<h4 id="3-明确的输入-输出"><a href="#3-明确的输入-输出" class="headerlink" title="3. 明确的输入&#x2F;输出"></a>3. 明确的输入&#x2F;输出</h4><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>工具的输入和输出要明确，最好是结构化的数据。</p>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># ❌ 错误：输出不明确</span>
+
+<span class="token keyword">def</span> <span class="token function">query_database</span><span class="token punctuation">(</span>sql<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""查询数据库"""</span>
+    <span class="token comment"># 返回冗长的日志</span>
+    <span class="token keyword">return</span> <span class="token triple-quoted-string string">"""
+    [2025-12-18 10:00:00] 开始查询数据库
+    [2025-12-18 10:00:01] 连接数据库成功
+    [2025-12-18 10:00:02] 执行 SQL: SELECT * FROM users
+    [2025-12-18 10:00:03] 查询成功，返回 1000 条记录
+    [2025-12-18 10:00:04] 关闭数据库连接
+    """</span>
+
+<span class="token comment"># ✅ 正确：输出结构化</span>
+
+<span class="token keyword">def</span> <span class="token function">query_database</span><span class="token punctuation">(</span>sql<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""查询数据库"""</span>
+    <span class="token comment"># 执行查询</span>
+    results <span class="token operator">=</span> db<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>sql<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 返回结构化数据</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span>
+        <span class="token string">"count"</span><span class="token punctuation">:</span> <span class="token builtin">len</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"data"</span><span class="token punctuation">:</span> results<span class="token punctuation">,</span>
+        <span class="token string">"message"</span><span class="token punctuation">:</span> <span class="token string">"查询成功"</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>输出格式建议</strong>：</p>
+<blockquote>
+<ul>
+<li>✅ <strong>JSON 格式</strong>：结构化，易于解析</li>
+<li>✅ <strong>简洁文本</strong>：如果必须返回文本，要简洁明了</li>
+<li>❌ <strong>冗长日志</strong>：避免返回调试日志</li>
+<li>❌ <strong>非结构化</strong>：避免返回难以解析的数据</li>
+</ul>
+</blockquote>
+<h3 id="2-2-工具设计最佳实践"><a href="#2-2-工具设计最佳实践" class="headerlink" title="2.2 工具设计最佳实践"></a>2.2 工具设计最佳实践</h3><p><strong>设计检查清单</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>原则</th>
+<th>检查项</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>原子性</strong></td>
+<td>一个工具只做一件事</td>
+<td>✅ <code>query_database()</code> 只查询数据库<br>❌ <code>process_and_send()</code> 既处理又发送</td>
+</tr>
+<tr>
+<td><strong>描述性</strong></td>
+<td>描述清晰、详细</td>
+<td>✅ “专业数据库查询工具，用于…”<br>❌ “Search DB”</td>
+</tr>
+<tr>
+<td><strong>输入&#x2F;输出</strong></td>
+<td>输入明确，输出结构化</td>
+<td>✅ JSON 格式返回<br>❌ 返回冗长日志</td>
+</tr>
+<tr>
+<td><strong>错误处理</strong></td>
+<td>有明确的错误处理</td>
+<td>✅ 返回 <code>&#123;&quot;success&quot;: False, &quot;error&quot;: &quot;...&quot;&#125;</code><br>❌ 抛出异常但不处理</td>
+</tr>
+<tr>
+<td><strong>可测试性</strong></td>
+<td>工具可以独立测试</td>
+<td>✅ 有单元测试<br>❌ 依赖外部状态</td>
+</tr>
+</tbody></table>
+<h3 id="2-3-工具与-RAG-的集成"><a href="#2-3-工具与-RAG-的集成" class="headerlink" title="2.3 工具与 RAG 的集成"></a>2.3 工具与 RAG 的集成</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>RAG 也可以作为一个工具，让 Agent 在需要时检索知识。</p>
+</blockquote>
+<p><strong>机制</strong>：</p>
+<blockquote>
+<ul>
+<li><strong>RAG 作为工具</strong>：<code>RetrieveKnowledge(query)</code></li>
+<li><strong>功能</strong>：调用向量数据库，返回最相关的 Top K 记忆片段</li>
+<li><strong>Agent 使用场景</strong>：当 LLM 缺乏事实信息时执行 Action，补充 Context</li>
+</ul>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># RAG 作为工具（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">retrieve_knowledge</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> top_k<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    RAG 检索工具：从知识库检索相关信息
+    
+    参数：
+    - query: 查询文本
+    - top_k: 返回最相关的 K 条结果
+    
+    返回：
+    - 最相关的知识片段列表
+    """</span>
+    <span class="token comment"># 1. 生成查询向量</span>
+    query_vector <span class="token operator">=</span> embedding_model<span class="token punctuation">.</span>embed<span class="token punctuation">(</span>query<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. 从向量数据库检索</span>
+    results <span class="token operator">=</span> vector_db<span class="token punctuation">.</span>similarity_search<span class="token punctuation">(</span>query_vector<span class="token punctuation">,</span> top_k<span class="token operator">=</span>top_k<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 3. 返回结构化结果</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span>
+        <span class="token string">"count"</span><span class="token punctuation">:</span> <span class="token builtin">len</span><span class="token punctuation">(</span>results<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"knowledge"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token string">"text"</span><span class="token punctuation">:</span> r<span class="token punctuation">[</span><span class="token string">"text"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"score"</span><span class="token punctuation">:</span> r<span class="token punctuation">[</span><span class="token string">"similarity_score"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                <span class="token string">"source"</span><span class="token punctuation">:</span> r<span class="token punctuation">[</span><span class="token string">"metadata"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">"source"</span><span class="token punctuation">]</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">for</span> r <span class="token keyword">in</span> results
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 在 Agent 中使用</span>
+tools <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"query_database"</span><span class="token punctuation">:</span> query_database<span class="token punctuation">,</span>
+    <span class="token string">"retrieve_knowledge"</span><span class="token punctuation">:</span> retrieve_knowledge<span class="token punctuation">,</span>  <span class="token comment"># RAG 作为工具</span>
+    <span class="token string">"send_email"</span><span class="token punctuation">:</span> send_email
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment"># Agent 可以根据需要调用 RAG 工具检索知识</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>使用场景</strong>：</p>
+<blockquote>
+<ul>
+<li>Agent 需要事实信息时，调用 <code>retrieve_knowledge()</code> 检索知识</li>
+<li>检索到的知识作为 Context 注入到 LLM Prompt 中</li>
+<li>Agent 基于检索到的知识进行推理和决策</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔒-三、工具系统的安全与权限治理"><a href="#🔒-三、工具系统的安全与权限治理" class="headerlink" title="🔒 三、工具系统的安全与权限治理"></a>🔒 三、工具系统的安全与权限治理</h2><p>Agent 可以执行数据库写入、文件操作等实际行为，安全治理是落地生产的最高优先级。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像给员工分配权限：</p>
+<ul>
+<li><strong>最小权限原则</strong>：只给必要的权限</li>
+<li><strong>权限隔离</strong>：不同员工有不同的权限</li>
+<li><strong>高风险操作审批</strong>：重要操作需要审批</li>
+</ul>
+</blockquote>
+<h3 id="3-1-权限分级与最小权限原则"><a href="#3-1-权限分级与最小权限原则" class="headerlink" title="3.1 权限分级与最小权限原则"></a>3.1 权限分级与最小权限原则</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p><strong>最小权限原则</strong>：Agent 只拥有完成任务所需的最小权限，不要给太多权限。</p>
+</blockquote>
+<p><strong>生活例子</strong>：</p>
+<blockquote>
+<ul>
+<li>❌ <strong>错误</strong>：给所有 Agent 所有权限（包括删除数据库）</li>
+<li>✅ <strong>正确</strong>：查询 Agent 只能查询，不能删除；管理 Agent 才能删除</li>
+</ul>
+</blockquote>
+<p><strong>权限分级示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 权限分级（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">PermissionLevel</span><span class="token punctuation">:</span>
+    READ_ONLY <span class="token operator">=</span> <span class="token string">"read_only"</span>      <span class="token comment"># 只读权限</span>
+    READ_WRITE <span class="token operator">=</span> <span class="token string">"read_write"</span>    <span class="token comment"># 读写权限</span>
+    ADMIN <span class="token operator">=</span> <span class="token string">"admin"</span>              <span class="token comment"># 管理员权限</span>
+
+<span class="token comment"># Agent 权限配置</span>
+agent_permissions <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"query_agent"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"level"</span><span class="token punctuation">:</span> PermissionLevel<span class="token punctuation">.</span>READ_ONLY<span class="token punctuation">,</span>
+        <span class="token string">"allowed_tools"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"query_database"</span><span class="token punctuation">,</span> <span class="token string">"retrieve_knowledge"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token string">"admin_agent"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"level"</span><span class="token punctuation">:</span> PermissionLevel<span class="token punctuation">.</span>ADMIN<span class="token punctuation">,</span>
+        <span class="token string">"allowed_tools"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"query_database"</span><span class="token punctuation">,</span> <span class="token string">"delete_database"</span><span class="token punctuation">,</span> <span class="token string">"send_email"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>最小权限原则</strong>：</p>
+<blockquote>
+<ul>
+<li>Agent 仅拥有完成任务所需权限</li>
+<li>不要给不必要的权限</li>
+<li>定期审查权限，及时回收不需要的权限</li>
+</ul>
+</blockquote>
+<p><strong>权限隔离</strong>：</p>
+<blockquote>
+<ul>
+<li>不同 Agent 实例使用不同 API Key</li>
+<li>工具集互相隔离</li>
+<li>避免权限泄露</li>
+</ul>
+</blockquote>
+<h3 id="3-2-沙箱机制与风险隔离"><a href="#3-2-沙箱机制与风险隔离" class="headerlink" title="3.2 沙箱机制与风险隔离"></a>3.2 沙箱机制与风险隔离</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p><strong>沙箱</strong>：就像”隔离房间”，在隔离环境中运行代码，即使出错也不会影响主系统。</p>
+</blockquote>
+<p><strong>生活例子</strong>：</p>
+<blockquote>
+<ul>
+<li>就像在实验室做实验，即使爆炸也不会影响外面</li>
+</ul>
+</blockquote>
+<p><strong>沙箱机制</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 沙箱机制（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SandboxExecutor</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>docker_client <span class="token operator">=</span> DockerClient<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># Docker 客户端</span>
+    
+    <span class="token keyword">def</span> <span class="token function">execute_in_sandbox</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> tool_name<span class="token punctuation">,</span> args<span class="token punctuation">,</span> code<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""在沙箱中执行代码"""</span>
+        <span class="token comment"># 1. 创建隔离容器</span>
+        container <span class="token operator">=</span> self<span class="token punctuation">.</span>docker_client<span class="token punctuation">.</span>create_container<span class="token punctuation">(</span>
+            image<span class="token operator">=</span><span class="token string">"python:3.9"</span><span class="token punctuation">,</span>
+            command<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"python"</span><span class="token punctuation">,</span> <span class="token string">"-c"</span><span class="token punctuation">,</span> code<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            network_disabled<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>  <span class="token comment"># 禁用网络</span>
+            read_only<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>         <span class="token comment"># 只读文件系统</span>
+            mem_limit<span class="token operator">=</span><span class="token string">"512m"</span>        <span class="token comment"># 内存限制</span>
+        <span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 启动容器</span>
+        container<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 3. 等待执行完成</span>
+        container<span class="token punctuation">.</span>wait<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 4. 获取结果</span>
+        logs <span class="token operator">=</span> container<span class="token punctuation">.</span>logs<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 5. 删除容器</span>
+        container<span class="token punctuation">.</span>remove<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> logs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>高风险操作审批</strong>：</p>
+<blockquote>
+<p>关键操作如数据库写入需 <strong>Human-in-the-Loop</strong> 审批</p>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 高风险操作审批（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SecureExecutor</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> approval_service<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>approval_service <span class="token operator">=</span> approval_service
+        self<span class="token punctuation">.</span>high_risk_tools <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"delete_database"</span><span class="token punctuation">,</span> <span class="token string">"drop_table"</span><span class="token punctuation">,</span> <span class="token string">"send_email"</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">execute</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> tool_name<span class="token punctuation">,</span> args<span class="token punctuation">,</span> agent_id<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""执行工具，高风险操作需要审批"""</span>
+        <span class="token comment"># 1. 检查是否是高风险操作</span>
+        <span class="token keyword">if</span> tool_name <span class="token keyword">in</span> self<span class="token punctuation">.</span>high_risk_tools<span class="token punctuation">:</span>
+            <span class="token comment"># 2. 需要人工审批</span>
+            approval <span class="token operator">=</span> self<span class="token punctuation">.</span>approval_service<span class="token punctuation">.</span>request_approval<span class="token punctuation">(</span>
+                agent_id<span class="token operator">=</span>agent_id<span class="token punctuation">,</span>
+                tool_name<span class="token operator">=</span>tool_name<span class="token punctuation">,</span>
+                args<span class="token operator">=</span>args
+            <span class="token punctuation">)</span>
+            
+            <span class="token keyword">if</span> <span class="token keyword">not</span> approval<span class="token punctuation">.</span>approved<span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+                    <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
+                    <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"操作未获得审批"</span>
+                <span class="token punctuation">&#125;</span>
+        
+        <span class="token comment"># 3. 执行工具</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>_execute_tool<span class="token punctuation">(</span>tool_name<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-3-完整的安全校验流程"><a href="#3-3-完整的安全校验流程" class="headerlink" title="3.3 完整的安全校验流程"></a>3.3 完整的安全校验流程</h3><p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 完整的安全校验（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SecureExecutor</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> permission_manager<span class="token punctuation">,</span> sandbox<span class="token punctuation">,</span> approval_service<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>permission_manager <span class="token operator">=</span> permission_manager
+        self<span class="token punctuation">.</span>sandbox <span class="token operator">=</span> sandbox
+        self<span class="token punctuation">.</span>approval_service <span class="token operator">=</span> approval_service
+    
+    <span class="token keyword">def</span> <span class="token function">execute_tool</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> tool_name<span class="token punctuation">,</span> args<span class="token punctuation">,</span> agent_id<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""执行工具，包含完整的安全校验"""</span>
+        
+        <span class="token comment"># 1. 权限检查</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> self<span class="token punctuation">.</span>permission_manager<span class="token punctuation">.</span>has_permission<span class="token punctuation">(</span>agent_id<span class="token punctuation">,</span> tool_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">raise</span> PermissionError<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Agent </span><span class="token interpolation"><span class="token punctuation">&#123;</span>agent_id<span class="token punctuation">&#125;</span></span><span class="token string"> 没有权限调用 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>tool_name<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 参数清理（防止注入攻击）</span>
+        sanitized_args <span class="token operator">=</span> self<span class="token punctuation">.</span>sanitize_args<span class="token punctuation">(</span>args<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 3. 高风险操作审批</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>is_high_risk_tool<span class="token punctuation">(</span>tool_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            approval <span class="token operator">=</span> self<span class="token punctuation">.</span>approval_service<span class="token punctuation">.</span>request_approval<span class="token punctuation">(</span>
+                agent_id<span class="token operator">=</span>agent_id<span class="token punctuation">,</span>
+                tool_name<span class="token operator">=</span>tool_name<span class="token punctuation">,</span>
+                args<span class="token operator">=</span>sanitized_args
+            <span class="token punctuation">)</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> approval<span class="token punctuation">.</span>approved<span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+                    <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
+                    <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"操作未获得审批"</span>
+                <span class="token punctuation">&#125;</span>
+        
+        <span class="token comment"># 4. 在沙箱中执行（如果是代码执行工具）</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>is_code_execution_tool<span class="token punctuation">(</span>tool_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            result <span class="token operator">=</span> self<span class="token punctuation">.</span>sandbox<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>tool_name<span class="token punctuation">,</span> sanitized_args<span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token comment"># 5. 直接执行（如果是 API 调用）</span>
+            result <span class="token operator">=</span> self<span class="token punctuation">.</span>_execute_tool<span class="token punctuation">(</span>tool_name<span class="token punctuation">,</span> sanitized_args<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 6. 记录日志</span>
+        self<span class="token punctuation">.</span>log_execution<span class="token punctuation">(</span>agent_id<span class="token punctuation">,</span> tool_name<span class="token punctuation">,</span> sanitized_args<span class="token punctuation">,</span> result<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> result
+    
+    <span class="token keyword">def</span> <span class="token function">sanitize_args</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> args<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""清理参数，防止注入攻击"""</span>
+        sanitized <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+        <span class="token keyword">for</span> key<span class="token punctuation">,</span> value <span class="token keyword">in</span> args<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token comment"># 移除危险字符</span>
+            <span class="token keyword">if</span> <span class="token builtin">isinstance</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> <span class="token builtin">str</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                sanitized<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">";"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">"--"</span><span class="token punctuation">,</span> <span class="token string">""</span><span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                sanitized<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> value
+        <span class="token keyword">return</span> sanitized
+    
+    <span class="token keyword">def</span> <span class="token function">is_high_risk_tool</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> tool_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""判断是否是高风险工具"""</span>
+        high_risk_tools <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"delete_database"</span><span class="token punctuation">,</span> <span class="token string">"drop_table"</span><span class="token punctuation">,</span> <span class="token string">"send_email"</span><span class="token punctuation">,</span> <span class="token string">"execute_code"</span><span class="token punctuation">]</span>
+        <span class="token keyword">return</span> tool_name <span class="token keyword">in</span> high_risk_tools
+    
+    <span class="token keyword">def</span> <span class="token function">is_code_execution_tool</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> tool_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""判断是否是代码执行工具"""</span>
+        code_tools <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"execute_python"</span><span class="token punctuation">,</span> <span class="token string">"execute_sql"</span><span class="token punctuation">,</span> <span class="token string">"execute_shell"</span><span class="token punctuation">]</span>
+        <span class="token keyword">return</span> tool_name <span class="token keyword">in</span> code_tools
+
+<span class="token comment"># 使用示例</span>
+executor <span class="token operator">=</span> SecureExecutor<span class="token punctuation">(</span>
+    permission_manager<span class="token operator">=</span>PermissionManager<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    sandbox<span class="token operator">=</span>SandboxExecutor<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    approval_service<span class="token operator">=</span>ApprovalService<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+
+result <span class="token operator">=</span> executor<span class="token punctuation">.</span>execute_tool<span class="token punctuation">(</span>
+    tool_name<span class="token operator">=</span><span class="token string">"query_database"</span><span class="token punctuation">,</span>
+    args<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"sql"</span><span class="token punctuation">:</span> <span class="token string">"SELECT * FROM users"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    agent_id<span class="token operator">=</span><span class="token string">"agent_123"</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-4-安全最佳实践"><a href="#3-4-安全最佳实践" class="headerlink" title="3.4 安全最佳实践"></a>3.4 安全最佳实践</h3><p><strong>安全检查清单</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>安全措施</th>
+<th>说明</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>权限分级</strong></td>
+<td>不同 Agent 有不同的权限</td>
+<td>只给必要的权限</td>
+</tr>
+<tr>
+<td><strong>权限隔离</strong></td>
+<td>不同 Agent 使用不同的 API Key</td>
+<td>避免权限泄露</td>
+</tr>
+<tr>
+<td><strong>参数清理</strong></td>
+<td>清理用户输入，防止注入攻击</td>
+<td>过滤危险字符</td>
+</tr>
+<tr>
+<td><strong>沙箱机制</strong></td>
+<td>在隔离环境中执行代码</td>
+<td>即使出错也不影响主系统</td>
+</tr>
+<tr>
+<td><strong>高风险审批</strong></td>
+<td>重要操作需要人工审批</td>
+<td>防止误操作</td>
+</tr>
+<tr>
+<td><strong>日志记录</strong></td>
+<td>记录所有操作日志</td>
+<td>便于审计和追踪</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>关键理解</strong>：</p>
+<ul>
+<li><strong>最小权限原则</strong>：只给必要的权限</li>
+<li><strong>权限隔离</strong>：不同 Agent 有不同的权限</li>
+<li><strong>沙箱机制</strong>：在隔离环境中执行代码</li>
+<li><strong>高风险审批</strong>：重要操作需要人工审批</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔍-总结：工具决定-Agent-的能力边界"><a href="#🔍-总结：工具决定-Agent-的能力边界" class="headerlink" title="🔍 总结：工具决定 Agent 的能力边界"></a>🔍 总结：工具决定 Agent 的能力边界</h2><h3 id="💡-快速回顾：你学到了什么？"><a href="#💡-快速回顾：你学到了什么？" class="headerlink" title="💡 快速回顾：你学到了什么？"></a>💡 快速回顾：你学到了什么？</h3><ol>
+<li><strong>Function Calling 机制</strong>：LLM 如何调用外部工具（Schema → JSON → 执行）</li>
+<li><strong>工具封装设计</strong>：原子性、描述性、明确的输入&#x2F;输出</li>
+<li><strong>工具系统安全</strong>：权限分级、沙箱机制、高风险审批</li>
+<li><strong>工程实践</strong>：如何实现完整的工具系统</li>
+</ol>
+<h3 id="工具系统的核心作用"><a href="#工具系统的核心作用" class="headerlink" title="工具系统的核心作用"></a>工具系统的核心作用</h3><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Planner（大脑）</strong></td>
+<td>决定智能上限</td>
+<td>Agent 的思考能力</td>
+</tr>
+<tr>
+<td><strong>工具集（手脚）</strong></td>
+<td>决定能力边界与实用价值</td>
+<td>Agent 的执行能力</td>
+</tr>
+</tbody></table>
+<p><strong>关键理解</strong>：</p>
+<blockquote>
+<ul>
+<li><strong>Planner（大脑）</strong> 决定智能上限</li>
+<li><strong>工具集（手脚）</strong> 决定能力边界与实用价值</li>
+</ul>
+<p>高效、安全的 Agent 系统依赖于 <strong>Function Calling 机制 + 原子化工具 + 权限治理</strong>，是 Agent 从”思考”到”改变世界”的关键一步。</p>
+</blockquote>
+<h3 id="设计原则总结"><a href="#设计原则总结" class="headerlink" title="设计原则总结"></a>设计原则总结</h3><table>
+<thead>
+<tr>
+<th>原则</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>原子性</strong></td>
+<td>一个工具只做一件事</td>
+<td>✅ <code>query_database()</code><br>❌ <code>process_and_send()</code></td>
+</tr>
+<tr>
+<td><strong>描述性</strong></td>
+<td>描述清晰、详细</td>
+<td>✅ “专业数据库查询工具，用于…”<br>❌ “Search DB”</td>
+</tr>
+<tr>
+<td><strong>安全性</strong></td>
+<td>权限控制、沙箱隔离</td>
+<td>✅ 最小权限原则<br>❌ 给所有权限</td>
+</tr>
+<tr>
+<td><strong>可测试性</strong></td>
+<td>工具可以独立测试</td>
+<td>✅ 有单元测试<br>❌ 依赖外部状态</td>
+</tr>
+</tbody></table>
+<h3 id="实战建议"><a href="#实战建议" class="headerlink" title="实战建议"></a>实战建议</h3><ol>
+<li><strong>从简单开始</strong>：先实现基本的 Function Calling，再逐步优化</li>
+<li><strong>遵循原子性</strong>：一个工具只做一件事，不要把所有功能都塞到一个工具里</li>
+<li><strong>重视安全性</strong>：权限控制、参数清理、沙箱隔离，一个都不能少</li>
+<li><strong>完善文档</strong>：工具的描述要清晰详细，让 LLM 知道什么时候用它</li>
+</ol>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：<br>工具系统是 Agent 连接外部世界的桥梁，设计好的工具系统能让 Agent 更强大、更安全、更可靠。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h2><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h3 id="🔧-Function-Calling"><a href="#🔧-Function-Calling" class="headerlink" title="🔧 Function Calling"></a>🔧 Function Calling</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/function-calling"><strong>OpenAI Function Calling 文档（OpenAI 函数调用官方文档）</strong></a>：OpenAI Function Calling 的官方文档，包含详细的 API 说明和示例。<strong>必读</strong>，适合使用 OpenAI API 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.anthropic.com/claude/docs/tool-use"><strong>Anthropic Tool Use（Claude 工具使用）</strong></a>：Anthropic 的工具使用文档。适合使用 Claude 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/tools/"><strong>LangChain Tools（LangChain 工具）</strong></a>：LangChain 的工具实现，包含丰富的工具示例。<strong>强烈推荐</strong>，适合使用 LangChain 的开发者。</p>
+</li>
+</ul>
+<h3 id="🛠️-工具设计原则"><a href="#🛠️-工具设计原则" class="headerlink" title="🛠️ 工具设计原则"></a>🛠️ 工具设计原则</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.langchain.com/docs/modules/agents/toolkits/"><strong>Agent Tool Design Principles（Agent 工具设计原则）</strong></a>：LangChain 的工具设计原则和最佳实践。适合想设计好工具的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/techniques/tool_use"><strong>Tool Calling Best Practices（工具调用最佳实践）</strong></a>：工具调用的最佳实践指南。适合想优化工具调用的开发者。</p>
+</li>
+</ul>
+<h3 id="🔒-Agent-安全"><a href="#🔒-Agent-安全" class="headerlink" title="🔒 Agent 安全"></a>🔒 Agent 安全</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.17592"><strong>LLM Agent Security &amp; Sandboxing（LLM Agent 安全与沙箱）</strong></a>：LLM Agent 安全性的研究论文。适合想了解 Agent 安全性的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.langchain.com/docs/security/"><strong>Agent Security Best Practices（Agent 安全最佳实践）</strong></a>：LangChain 的安全最佳实践。适合想确保 Agent 安全的开发者。</p>
+</li>
+</ul>
+<h3 id="🔨-Executor-实现"><a href="#🔨-Executor-实现" class="headerlink" title="🔨 Executor 实现"></a>🔨 Executor 实现</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/langchain-ai/langchain/tree/main/libs/langchain/langchain/agents"><strong>LangChain Executor 源码分析（LangChain 执行器源码）</strong></a>：LangChain Executor 的源码实现。适合想深入了解 Executor 实现的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/"><strong>LlamaIndex Agent Executor（LlamaIndex Agent 执行器）</strong></a>：LlamaIndex 的 Agent Executor 实现。适合使用 LlamaIndex 的开发者。</p>
+</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>工具系统让 Agent 能够连接外部世界，但 Agent 的行为需要监控和管理。</p>
+<p><strong>第 10 篇将深入监控与治理</strong>：</p>
+<blockquote>
+<p><strong>《主题10｜Agent 监控与治理：日志、可观测性与安全审计》</strong></p>
+</blockquote>
+<ul>
+<li>如何监控 Agent 的行为？</li>
+<li>如何记录和分析 Agent 的执行日志？</li>
+<li>如何实现 Agent 的可观测性？</li>
+<li>Agent 安全审计的最佳实践</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/Tools/" class="print-no-link">#Tools</a>
+      
+        <a href="/fluid-blog/tags/Function-Calling/" class="print-no-link">#Function Calling</a>
+      
+        <a href="/fluid-blog/tags/%E5%B7%A5%E5%85%B7%E7%B3%BB%E7%BB%9F/" class="print-no-link">#工具系统</a>
+      
+        <a href="/fluid-blog/tags/Executor/" class="print-no-link">#Executor</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接</div>
+      <div>https://linn0813.github.io/2025/12/18/2025-12-18-llm-agent-tool-system/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/19/2025-12-19-llm-agent-task-planning/" title="🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/17/2025-12-17-llm-agent-memory-management/" title="🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体">
+                        <span class="hidden-mobile">🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

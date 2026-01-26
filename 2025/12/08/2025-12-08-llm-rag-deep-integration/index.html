@@ -1,0 +1,1506 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, RAG, 检索增强生成, Embedding, Vector Database, Chunking, Re-ranking, Query Transformation, 知识增强系统">
+  
+    <meta name="description" content="深入解析 RAG 机制：从三阶段工作流、核心组件到进阶优化策略，构建高精度、可追溯的知识增强系统，突破 LLM 的知识时效性和幻觉问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🧠 主题4｜解决&quot;幻觉&quot;：RAG机制与外部知识融合">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/08/2025-12-08-llm-rag-deep-integration/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 RAG 机制：从三阶段工作流、核心组件到进阶优化策略，构建高精度、可追溯的知识增强系统，突破 LLM 的知识时效性和幻觉问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-rag-deep-integration.png">
+<meta property="article:published_time" content="2025-12-08T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.630Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="Embedding">
+<meta property="article:tag" content="检索增强生成">
+<meta property="article:tag" content="Vector Database">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-rag-deep-integration.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-08 18:00" pubdate>
+          2025年12月8日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 4 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们掌握了 Prompt 工程的三大核心技巧，实现了稳定、可解析的结构化输出。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将深入解析 RAG（检索增强生成）机制，构建抗幻觉的知识增强系统，突破 LLM 的知识时效性和准确性限制。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-突破-LLM-知识的”围墙”"><a href="#🚀-导言-—-突破-LLM-知识的”围墙”" class="headerlink" title="🚀 导言 — 突破 LLM 知识的”围墙”"></a>🚀 导言 — 突破 LLM 知识的”围墙”</h2><p>在前三篇中，我们掌握了 LLM 的工作原理、Prompt 工程技巧和结构化输出方法。</p>
+<p>但当你真正用 LLM 做项目时，会发现三个令人头疼的问题：</p>
+<blockquote>
+<p><strong>模型的知识截止到训练时间，无法获取最新信息；</strong><br><strong>模型可能产生”幻觉”，编造不存在的信息；</strong><br><strong>模型无法访问私有知识库或专业文档。</strong></p>
+</blockquote>
+<p>这不是模型能力的问题，而是 <strong>知识来源的问题</strong>。</p>
+<p><strong>RAG（Retrieval-Augmented Generation，检索增强生成）<strong>机制应运而生，它将 LLM 从被动的”百科全书”升级为</strong>“有据可查的专家”</strong>。</p>
+<p>本篇将深入解析 RAG 的三阶段工作流、核心组件及进阶优化策略，帮助你构建高精度、可追溯的知识增强系统。</p>
+<hr>
+<h2 id="📋-一、RAG-核心机制：三阶段工作流"><a href="#📋-一、RAG-核心机制：三阶段工作流" class="headerlink" title="📋 一、RAG 核心机制：三阶段工作流"></a>📋 一、RAG 核心机制：三阶段工作流</h2><p>RAG 的本质是将传统的 <strong>生成式问答</strong> 转变为 <strong>检索 + 生成闭环</strong>。</p>
+<h3 id="1-1-为什么需要-RAG？"><a href="#1-1-为什么需要-RAG？" class="headerlink" title="1.1 为什么需要 RAG？"></a>1.1 为什么需要 RAG？</h3><p>在深入技术细节之前，我们先理解 RAG 要解决的核心问题：</p>
+<p><strong>传统 LLM 的局限</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>表现</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>知识时效性</strong></td>
+<td>训练数据截止到某个时间点</td>
+<td>无法回答最新事件、政策、技术</td>
+</tr>
+<tr>
+<td><strong>知识范围</strong></td>
+<td>只能使用训练时的数据</td>
+<td>无法访问企业私有文档、内部知识库</td>
+</tr>
+<tr>
+<td><strong>幻觉问题</strong></td>
+<td>可能编造看似合理但错误的信息</td>
+<td>答案不可信，无法验证来源</td>
+</tr>
+<tr>
+<td><strong>上下文限制</strong></td>
+<td>Context Window 有限</td>
+<td>无法处理超长文档或大量知识</td>
+</tr>
+</tbody></table>
+<p><strong>RAG 的解决方案</strong>：</p>
+<blockquote>
+<p>将外部知识库与 LLM 结合，让模型在生成答案前先检索相关文档，然后基于检索到的内容生成答案。</p>
+</blockquote>
+<p>这样既保证了答案的准确性（有据可查），又突破了知识时效性和范围的限制。</p>
+<h3 id="1-2-RAG-的三阶段工作流"><a href="#1-2-RAG-的三阶段工作流" class="headerlink" title="1.2 RAG 的三阶段工作流"></a>1.2 RAG 的三阶段工作流</h3><p>RAG 的工作流程可以概括为三个阶段：</p>
+<table>
+<thead>
+<tr>
+<th align="left">阶段</th>
+<th align="left">核心任务</th>
+<th align="left">机制概述</th>
+<th align="left">核心挑战</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>1. 检索（Retrieval）</strong></td>
+<td align="left">在海量文档中定位与用户查询语义相关的片段</td>
+<td align="left">使用 <strong>Embedding Model</strong> 将文本转向量并进行向量搜索</td>
+<td align="left"><strong>召回率低</strong>：可能漏掉重要信息</td>
+</tr>
+<tr>
+<td align="left"><strong>2. 增强（Augmentation）</strong></td>
+<td align="left">将检索到的片段注入 LLM Prompt</td>
+<td align="left">Prompt 重构，将上下文作为参考资料</td>
+<td align="left"><strong>上下文污染</strong>：无关信息可能误导模型</td>
+</tr>
+<tr>
+<td align="left"><strong>3. 生成（Generation）</strong></td>
+<td align="left">LLM 基于注入的上下文生成答案</td>
+<td align="left">条件生成，结合 Schema 或 Prompt 约束</td>
+<td align="left"><strong>整合能力</strong>：综合多个片段准确生成答案</td>
+</tr>
+</tbody></table>
+<p><strong>完整流程示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># RAG 三阶段流程（伪代码）</span>
+
+<span class="token comment"># 阶段1：检索（Retrieval）</span>
+user_query <span class="token operator">=</span> <span class="token string">"用户登录功能如何实现？"</span>
+query_embedding <span class="token operator">=</span> embed_model<span class="token punctuation">.</span>encode<span class="token punctuation">(</span>user_query<span class="token punctuation">)</span>
+relevant_chunks <span class="token operator">=</span> vector_db<span class="token punctuation">.</span>search<span class="token punctuation">(</span>query_embedding<span class="token punctuation">,</span> top_k<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+<span class="token comment"># 输出：5个相关的文档片段</span>
+
+<span class="token comment"># 阶段2：增强（Augmentation）</span>
+context <span class="token operator">=</span> <span class="token string">"\n\n"</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">[</span>chunk<span class="token punctuation">.</span>text <span class="token keyword">for</span> chunk <span class="token keyword">in</span> relevant_chunks<span class="token punctuation">]</span><span class="token punctuation">)</span>
+prompt <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"""
+基于以下文档内容，回答用户问题：
+
+文档内容：
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span>context<span class="token punctuation">&#125;</span></span><span class="token string">
+
+用户问题：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>user_query<span class="token punctuation">&#125;</span></span><span class="token string">
+
+请基于文档内容回答，如果文档中没有相关信息，请说明"文档中未找到相关信息"。
+"""</span></span>
+
+<span class="token comment"># 阶段3：生成（Generation）</span>
+answer <span class="token operator">=</span> llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span>
+<span class="token comment"># 输出：基于检索到的文档生成的答案</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="1-3-RAG-的优势对比-Fine-Tuning"><a href="#1-3-RAG-的优势对比-Fine-Tuning" class="headerlink" title="1.3 RAG 的优势对比 Fine-Tuning"></a>1.3 RAG 的优势对比 Fine-Tuning</h3><p>在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-03-llm-prompt-context-in-context-learning/#33-fine-tuning%E5%BE%AE%E8%B0%83%E8%AF%A6%E8%A7%A3">第2篇</a>中，我们详细讲解了 Fine-Tuning（微调）。这里我们对比 RAG 和 Fine-Tuning，帮助你选择合适的技术方案：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>RAG</th>
+<th>Fine-Tuning</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>知识更新</strong></td>
+<td>实时&#x2F;高效：更新知识库即可</td>
+<td>滞后&#x2F;高成本：需重新训练模型</td>
+<td>RAG 只需更新向量数据库，Fine-Tuning 需要重新训练</td>
+</tr>
+<tr>
+<td><strong>知识来源</strong></td>
+<td>外部&#x2F;可追溯：答案可链接原始文档</td>
+<td>内部&#x2F;不可见：知识融入模型参数</td>
+<td>RAG 可以追溯答案来源，Fine-Tuning 无法追溯</td>
+</tr>
+<tr>
+<td><strong>知识范围</strong></td>
+<td>可访问海量外部文档</td>
+<td>受训练数据限制</td>
+<td>RAG 可以访问任意文档，Fine-Tuning 只能使用训练数据</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>低：主要是存储和检索成本</td>
+<td>高：需要 GPU 训练</td>
+<td>RAG 成本低，Fine-Tuning 成本高</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>快速变化的领域、访问海量私有数据、需要可追溯答案</td>
+<td>改变模型风格、格式或语气、领域特定任务</td>
+<td>场景不同，选择不同</td>
+</tr>
+</tbody></table>
+<p><strong>决策指南</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>需求</th>
+<th>推荐方案</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>需要访问最新信息</td>
+<td>RAG</td>
+<td>可以实时更新知识库</td>
+</tr>
+<tr>
+<td>需要访问企业私有文档</td>
+<td>RAG</td>
+<td>可以访问任意外部文档</td>
+</tr>
+<tr>
+<td>需要可追溯的答案</td>
+<td>RAG</td>
+<td>答案可以链接到原始文档</td>
+</tr>
+<tr>
+<td>需要改变模型输出风格</td>
+<td>Fine-Tuning</td>
+<td>可以训练模型改变风格</td>
+</tr>
+<tr>
+<td>需要领域特定能力</td>
+<td>Fine-Tuning</td>
+<td>可以通过训练提升领域能力</td>
+</tr>
+<tr>
+<td>需要快速上线</td>
+<td>RAG</td>
+<td>实现简单，成本低</td>
+</tr>
+<tr>
+<td>需要长期稳定使用</td>
+<td>Fine-Tuning</td>
+<td>训练后模型行为稳定</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：</p>
+<ul>
+<li><strong>RAG</strong> 更适合”知识动态更新 + 高可信度 + 可追溯”的场景</li>
+<li><strong>Fine-Tuning</strong> 更适合”风格与格式调整 + 领域特定能力”的场景</li>
+<li><strong>两者可以结合</strong>：Fine-Tuning 后的模型仍可使用 RAG 访问外部知识</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🧱-二、基础组件深度解析：构建知识库"><a href="#🧱-二、基础组件深度解析：构建知识库" class="headerlink" title="🧱 二、基础组件深度解析：构建知识库"></a>🧱 二、基础组件深度解析：构建知识库</h2><p>一个高效的 RAG 系统依赖三个核心组件：<strong>Chunking、Embedding、Vector Database</strong>。</p>
+<p>这三个组件构成了 RAG 系统的”基础设施”，理解它们的工作原理是构建高质量 RAG 系统的前提。</p>
+<h3 id="2-1-Chunking（分块）：语义完整性的艺术"><a href="#2-1-Chunking（分块）：语义完整性的艺术" class="headerlink" title="2.1 Chunking（分块）：语义完整性的艺术"></a>2.1 Chunking（分块）：语义完整性的艺术</h3><p><strong>定义</strong>：将大型文档（PDF、网页、报告）拆成适合检索和 LLM Context Window 的小片段（Chunk）。</p>
+<p><strong>关键原则</strong>：每个 Chunk 应在语义上完整，否则模型收到的信息可能断裂。</p>
+<h4 id="为什么需要分块？"><a href="#为什么需要分块？" class="headerlink" title="为什么需要分块？"></a>为什么需要分块？</h4><ul>
+<li><strong>Context Window 限制</strong>：LLM 的上下文窗口有限（如 GPT-4 是 128k Token），无法一次性处理整本书</li>
+<li><strong>检索精度</strong>：小片段更容易精确匹配用户查询</li>
+<li><strong>计算效率</strong>：处理小片段比处理整个文档更高效</li>
+</ul>
+<h4 id="常用分块策略"><a href="#常用分块策略" class="headerlink" title="常用分块策略"></a>常用分块策略</h4><p><strong>1. 固定大小分块（Fixed Size Chunking）</strong></p>
+<ul>
+<li><strong>方法</strong>：按固定字符数或 Token 数切分（如每 500 字符一段）</li>
+<li><strong>优点</strong>：简单易用，实现成本低</li>
+<li><strong>缺点</strong>：容易切断句子，破坏语义完整性</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 固定大小分块（伪代码）</span>
+chunks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+chunk_size <span class="token operator">=</span> <span class="token number">500</span>  <span class="token comment"># 字符数</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>document<span class="token punctuation">)</span><span class="token punctuation">,</span> chunk_size<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    chunk <span class="token operator">=</span> document<span class="token punctuation">[</span>i<span class="token punctuation">:</span>i<span class="token operator">+</span>chunk_size<span class="token punctuation">]</span>
+    chunks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>chunk<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>2. 语义分块（Semantic Chunking）</strong></p>
+<p><strong>方法</strong>：不是机械地按固定大小切分，而是<strong>按照文档的自然结构</strong>（标题、段落、句子边界）或使用 NLP 技术识别语义边界，保证每个 Chunk 包含完整主题。</p>
+<p><strong>具体做法</strong>：</p>
+<ul>
+<li><strong>基于段落</strong>：按段落（<code>\n\n</code>）分割，每个段落作为一个 Chunk</li>
+<li><strong>基于标题</strong>：识别文档中的标题（如 <code># 标题</code>），每个标题下的内容作为一个 Chunk</li>
+<li><strong>基于句子边界</strong>：在段落内按句子（<code>。</code>、<code>.</code>）分割，组合句子直到达到合适大小</li>
+<li><strong>基于 NLP 技术</strong>：使用语义相似度计算，找到语义边界（如 LangChain 的 <code>SemanticChunker</code>）</li>
+</ul>
+<p><strong>优点</strong>：保持语义完整性，检索更准确</p>
+<p><strong>缺点</strong>：实现复杂，需要理解文档结构</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 语义分块（伪代码）</span>
+
+<span class="token comment"># 方法1：基于段落分块</span>
+paragraphs <span class="token operator">=</span> document<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'\n\n'</span><span class="token punctuation">)</span>  <span class="token comment"># 按段落分割</span>
+chunks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> para <span class="token keyword">in</span> paragraphs<span class="token punctuation">:</span>
+    <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>para<span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">500</span><span class="token punctuation">:</span>  <span class="token comment"># 段落太长，继续分割</span>
+        <span class="token comment"># 按句子分割</span>
+        sentences <span class="token operator">=</span> para<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'。'</span><span class="token punctuation">)</span>
+        <span class="token comment"># 组合句子直到达到合适大小</span>
+        current_chunk <span class="token operator">=</span> <span class="token string">""</span>
+        <span class="token keyword">for</span> sentence <span class="token keyword">in</span> sentences<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>current_chunk <span class="token operator">+</span> sentence<span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">500</span><span class="token punctuation">:</span>
+                current_chunk <span class="token operator">+=</span> sentence
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                chunks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>current_chunk<span class="token punctuation">)</span>
+                current_chunk <span class="token operator">=</span> sentence
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        chunks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>para<span class="token punctuation">)</span>
+
+<span class="token comment"># 方法2：基于标题分块（Markdown 文档）</span>
+<span class="token keyword">import</span> re
+<span class="token comment"># 识别 Markdown 标题（如 # 标题、## 子标题）</span>
+headings <span class="token operator">=</span> re<span class="token punctuation">.</span>findall<span class="token punctuation">(</span><span class="token string">r'^#+\s+(.+)$'</span><span class="token punctuation">,</span> document<span class="token punctuation">,</span> re<span class="token punctuation">.</span>MULTILINE<span class="token punctuation">)</span>
+<span class="token comment"># 按标题分割文档</span>
+<span class="token keyword">for</span> heading <span class="token keyword">in</span> headings<span class="token punctuation">:</span>
+    <span class="token comment"># 提取该标题下的内容作为一个 Chunk</span>
+    chunk <span class="token operator">=</span> extract_content_under_heading<span class="token punctuation">(</span>document<span class="token punctuation">,</span> heading<span class="token punctuation">)</span>
+    chunks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>chunk<span class="token punctuation">)</span>
+
+<span class="token comment"># 方法3：基于 NLP 语义相似度（使用 LangChain）</span>
+<span class="token keyword">from</span> langchain<span class="token punctuation">.</span>text_splitter <span class="token keyword">import</span> SemanticChunker
+splitter <span class="token operator">=</span> SemanticChunker<span class="token punctuation">(</span><span class="token punctuation">)</span>
+chunks <span class="token operator">=</span> splitter<span class="token punctuation">.</span>create_documents<span class="token punctuation">(</span><span class="token punctuation">[</span>document<span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>3. 父文档&#x2F;子文档策略（Parent-Document RAG）</strong></p>
+<ul>
+<li><strong>方法</strong>：检索小而精准的子 Chunk，增强阶段注入整个父 Chunk，确保上下文完整</li>
+<li><strong>优点</strong>：兼顾检索精度和上下文完整性</li>
+<li><strong>适用场景</strong>：文档结构清晰，有明确的父子关系</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 父文档/子文档策略（伪代码）</span>
+<span class="token comment"># 第一层：大块（父文档）</span>
+parent_chunks <span class="token operator">=</span> split_by_section<span class="token punctuation">(</span>document<span class="token punctuation">)</span>  <span class="token comment"># 按章节分割</span>
+
+<span class="token comment"># 第二层：小块（子文档）</span>
+child_chunks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> parent <span class="token keyword">in</span> parent_chunks<span class="token punctuation">:</span>
+    children <span class="token operator">=</span> split_by_paragraph<span class="token punctuation">(</span>parent<span class="token punctuation">)</span>  <span class="token comment"># 按段落分割</span>
+    child_chunks<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>children<span class="token punctuation">)</span>
+    <span class="token comment"># 记录父子关系</span>
+    <span class="token keyword">for</span> child <span class="token keyword">in</span> children<span class="token punctuation">:</span>
+        child<span class="token punctuation">.</span>parent <span class="token operator">=</span> parent
+
+<span class="token comment"># 检索时：用子 Chunk 检索（精确）</span>
+<span class="token comment"># 增强时：用父 Chunk 增强（完整上下文）</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>📝 <strong>比喻理解</strong>：Chunk 就像”知识砖块”，分块方式决定了模型搭建知识大厦的稳定性。</p>
+<ul>
+<li>固定大小 &#x3D; 机械切割，可能切坏砖块</li>
+<li>语义分块 &#x3D; 按纹理切割，保持砖块完整</li>
+<li>父文档策略 &#x3D; 小砖块定位，大砖块使用</li>
+</ul>
+</blockquote>
+<h3 id="2-2-Embedding-Model（嵌入模型）：语言的数字指纹"><a href="#2-2-Embedding-Model（嵌入模型）：语言的数字指纹" class="headerlink" title="2.2 Embedding Model（嵌入模型）：语言的数字指纹"></a>2.2 Embedding Model（嵌入模型）：语言的数字指纹</h3><p><strong>定义</strong>：将文本 Chunk 转换为高维向量（Embedding）的模型。</p>
+<p><strong>功能</strong>：语义相似的 Chunk 在向量空间距离更近，使得向量搜索能够找到语义相关的内容。</p>
+<h4 id="Embedding-的工作原理"><a href="#Embedding-的工作原理" class="headerlink" title="Embedding 的工作原理"></a>Embedding 的工作原理</h4><p>还记得<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-02-llm-working-principle-token-embedding-transformer/">第1篇</a>中我们讲的 Token Embedding 吗？</p>
+<ul>
+<li><strong>Token Embedding</strong>：将单个 Token 转换为向量（词级别）</li>
+<li><strong>Text Embedding</strong>：将整个文本（句子、段落）转换为向量（文本级别）</li>
+</ul>
+<p>RAG 中使用的是 <strong>Text Embedding</strong>，它将整个 Chunk 转换为一个固定维度的向量（如 768 维、1536 维）。</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Embedding 示例（伪代码）</span>
+<span class="token keyword">from</span> sentence_transformers <span class="token keyword">import</span> SentenceTransformer
+
+<span class="token comment"># 加载 Embedding 模型</span>
+model <span class="token operator">=</span> SentenceTransformer<span class="token punctuation">(</span><span class="token string">'all-MiniLM-L6-v2'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 将文本转换为向量</span>
+text <span class="token operator">=</span> <span class="token string">"用户登录功能需要验证用户名和密码"</span>
+embedding <span class="token operator">=</span> model<span class="token punctuation">.</span>encode<span class="token punctuation">(</span>text<span class="token punctuation">)</span>
+<span class="token comment"># 输出：一个 384 维的向量，如 [0.1, -0.3, 0.5, ...]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="选型原则"><a href="#选型原则" class="headerlink" title="选型原则"></a>选型原则</h4><table>
+<thead>
+<tr>
+<th>考虑因素</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>语言匹配</strong></td>
+<td>中文知识库用中文 Embedding 模型</td>
+<td><code>text2vec-chinese</code>、<code>m3e-base</code></td>
+</tr>
+<tr>
+<td><strong>领域匹配</strong></td>
+<td>专业领域用领域模型</td>
+<td>医学领域用医学 Embedding 模型</td>
+</tr>
+<tr>
+<td><strong>维度平衡</strong></td>
+<td>维度越高精度越好，但计算成本越高</td>
+<td>768 维 vs 1536 维</td>
+</tr>
+<tr>
+<td><strong>模型大小</strong></td>
+<td>大模型效果好但推理慢</td>
+<td>小模型速度快但精度略低</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>实战提示</strong>：</p>
+<ul>
+<li><strong>中文场景</strong>：推荐 <code>text2vec-chinese</code>、<code>m3e-base</code></li>
+<li><strong>多语言场景</strong>：推荐 <code>multilingual-e5-base</code></li>
+<li><strong>英文场景</strong>：推荐 <code>all-MiniLM-L6-v2</code>、<code>text-embedding-ada-002</code></li>
+</ul>
+</blockquote>
+<h3 id="2-3-Vector-Database（向量数据库）：高效检索核心"><a href="#2-3-Vector-Database（向量数据库）：高效检索核心" class="headerlink" title="2.3 Vector Database（向量数据库）：高效检索核心"></a>2.3 Vector Database（向量数据库）：高效检索核心</h3><p><strong>定义</strong>：存储与管理所有 Chunk 向量的数据库。</p>
+<p><strong>核心功能</strong>：当用户查询向量输入时，通过 <strong>ANN（Approximate Nearest Neighbor，近似最近邻）</strong> 搜索快速返回 Top K 相关 Chunk。</p>
+<h4 id="为什么需要向量数据库？"><a href="#为什么需要向量数据库？" class="headerlink" title="为什么需要向量数据库？"></a>为什么需要向量数据库？</h4><p>传统数据库无法高效处理向量相似度搜索。向量数据库专门优化了向量检索，能够在百万级甚至千万级向量中快速找到最相似的 Top K 个结果。</p>
+<h4 id="关键技术：HNSW-索引"><a href="#关键技术：HNSW-索引" class="headerlink" title="关键技术：HNSW 索引"></a>关键技术：HNSW 索引</h4><p><strong>HNSW（Hierarchical Navigable Small World）</strong> 是向量数据库常用的索引算法：</p>
+<ul>
+<li><strong>原理</strong>：构建多层图结构，从粗到细逐层搜索</li>
+<li><strong>优势</strong>：检索速度快（O(log n)），精度高</li>
+<li><strong>适用场景</strong>：大规模向量检索（百万级以上）</li>
+</ul>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像地图导航：先看国家地图找到大致区域，再看城市地图找到具体位置，最后看街道地图找到精确地址。</p>
+</blockquote>
+<h4 id="常见向量数据库对比"><a href="#常见向量数据库对比" class="headerlink" title="常见向量数据库对比"></a>常见向量数据库对比</h4><table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Pinecone</strong></td>
+<td>云服务，易用，性能好</td>
+<td>快速原型、中小规模项目</td>
+</tr>
+<tr>
+<td><strong>Weaviate</strong></td>
+<td>开源，功能丰富，支持多模态</td>
+<td>中大规模项目，需要复杂查询</td>
+</tr>
+<tr>
+<td><strong>Milvus</strong></td>
+<td>开源，性能强，可扩展</td>
+<td>大规模项目，需要自部署</td>
+</tr>
+<tr>
+<td><strong>Qdrant</strong></td>
+<td>开源，Rust 实现，性能好</td>
+<td>对性能要求高的项目</td>
+</tr>
+<tr>
+<td><strong>Chroma</strong></td>
+<td>轻量级，易集成</td>
+<td>小规模项目，快速开发</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>🔹 <strong>实战提示</strong>：</p>
+<ul>
+<li><strong>快速原型</strong>：使用 Pinecone 或 Chroma</li>
+<li><strong>生产环境</strong>：根据规模选择 Milvus 或 Weaviate</li>
+<li><strong>关键要求</strong>：支持动态更新（新增文档）、高并发查询、持久化存储</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🚀-三、进阶优化策略：打造高精度-RAG"><a href="#🚀-三、进阶优化策略：打造高精度-RAG" class="headerlink" title="🚀 三、进阶优化策略：打造高精度 RAG"></a>🚀 三、进阶优化策略：打造高精度 RAG</h2><p>基础 RAG 容易出现 <strong>低召回率</strong>（漏掉重要信息）和 <strong>上下文污染</strong>（无关信息误导模型），生产环境需要进阶策略。</p>
+<h3 id="基础-RAG-的问题"><a href="#基础-RAG-的问题" class="headerlink" title="基础 RAG 的问题"></a>基础 RAG 的问题</h3><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>表现</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>低召回率</strong></td>
+<td>检索不到相关文档</td>
+<td>查询与文档的语义不匹配</td>
+</tr>
+<tr>
+<td><strong>低精确率</strong></td>
+<td>检索到不相关文档</td>
+<td>向量搜索只考虑相似度，不考虑实际相关性</td>
+</tr>
+<tr>
+<td><strong>上下文污染</strong></td>
+<td>检索到的文档包含无关信息</td>
+<td>没有对检索结果进行筛选和排序</td>
+</tr>
+<tr>
+<td><strong>单轮限制</strong></td>
+<td>无法处理多步骤推理</td>
+<td>一次检索无法回答复杂问题</td>
+</tr>
+</tbody></table>
+<h3 id="3-1-Re-ranking（重排）：提升精确率"><a href="#3-1-Re-ranking（重排）：提升精确率" class="headerlink" title="3.1 Re-ranking（重排）：提升精确率"></a>3.1 Re-ranking（重排）：提升精确率</h3><p><strong>问题</strong>：初步向量检索可能返回低相关 Chunk，因为向量搜索只考虑语义相似度，不考虑实际相关性。</p>
+<p><strong>机制</strong>：使用 <strong>Cross-Encoder</strong> 对 Top N Chunk 二次排序，计算查询-Chunk 交互相关性得分。</p>
+<h4 id="为什么需要-Re-ranking？"><a href="#为什么需要-Re-ranking？" class="headerlink" title="为什么需要 Re-ranking？"></a>为什么需要 Re-ranking？</h4><p><strong>向量检索的局限</strong>：</p>
+<ul>
+<li>向量搜索是”单向”的：只考虑文档本身的语义，不考虑查询意图</li>
+<li>可能返回语义相似但实际不相关的文档</li>
+</ul>
+<p><strong>Re-ranking 的优势</strong>：</p>
+<ul>
+<li><strong>双向交互</strong>：同时考虑查询和文档，计算它们的交互相关性</li>
+<li><strong>更准确</strong>：能够识别”看似相关但实际不相关”的文档</li>
+</ul>
+<h4 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h4><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Re-ranking 流程（伪代码）</span>
+
+<span class="token comment"># 第一步：向量检索（快速，但不够精确）</span>
+query_embedding <span class="token operator">=</span> embed_model<span class="token punctuation">.</span>encode<span class="token punctuation">(</span>user_query<span class="token punctuation">)</span>
+top_n_chunks <span class="token operator">=</span> vector_db<span class="token punctuation">.</span>search<span class="token punctuation">(</span>query_embedding<span class="token punctuation">,</span> top_k<span class="token operator">=</span><span class="token number">20</span><span class="token punctuation">)</span>  <span class="token comment"># 检索 Top 20</span>
+
+<span class="token comment"># 第二步：Re-ranking（慢，但精确）</span>
+reranker <span class="token operator">=</span> CrossEncoder<span class="token punctuation">(</span><span class="token string">'cross-encoder/ms-marco-MiniLM-L-6-v2'</span><span class="token punctuation">)</span>
+scores <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> chunk <span class="token keyword">in</span> top_n_chunks<span class="token punctuation">:</span>
+    <span class="token comment"># 计算查询和文档的交互得分</span>
+    score <span class="token operator">=</span> reranker<span class="token punctuation">.</span>predict<span class="token punctuation">(</span><span class="token punctuation">[</span>user_query<span class="token punctuation">,</span> chunk<span class="token punctuation">.</span>text<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    scores<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">(</span>score<span class="token punctuation">,</span> chunk<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 第三步：按得分排序，取 Top K</span>
+top_k_chunks <span class="token operator">=</span> <span class="token builtin">sorted</span><span class="token punctuation">(</span>scores<span class="token punctuation">,</span> reverse<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">5</span><span class="token punctuation">]</span>  <span class="token comment"># 取 Top 5</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>效果对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>精确率</th>
+<th>速度</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>仅向量检索</strong></td>
+<td>中等</td>
+<td>快</td>
+<td>对精度要求不高的场景</td>
+</tr>
+<tr>
+<td><strong>向量检索 + Re-ranking</strong></td>
+<td>高</td>
+<td>中等</td>
+<td>生产环境，对精度要求高</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>实战提示</strong>：</p>
+<ul>
+<li><strong>检索阶段</strong>：用向量检索快速筛选（Top 20-50）</li>
+<li><strong>重排阶段</strong>：用 Cross-Encoder 精确排序（Top 5-10）</li>
+<li><strong>平衡点</strong>：在精度和速度之间找到平衡</li>
+</ul>
+</blockquote>
+<h3 id="3-2-Query-Transformation（查询转换）：提升召回率"><a href="#3-2-Query-Transformation（查询转换）：提升召回率" class="headerlink" title="3.2 Query Transformation（查询转换）：提升召回率"></a>3.2 Query Transformation（查询转换）：提升召回率</h3><p><strong>问题</strong>：用户查询简短、模糊或依赖历史上下文，导致向量搜索无法找到相关文档。</p>
+<p><strong>机制</strong>：使用 LLM 对查询进行优化，提升向量搜索的命中率。</p>
+<h4 id="查询重写（Query-Rewriting）"><a href="#查询重写（Query-Rewriting）" class="headerlink" title="查询重写（Query Rewriting）"></a>查询重写（Query Rewriting）</h4><p><strong>场景</strong>：用户查询依赖上下文，如”这个功能怎么用？”（需要知道”这个功能”是什么）</p>
+<p><strong>方法</strong>：使用 LLM 将依赖上下文的查询转为独立完整的句子。</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 查询重写（伪代码）</span>
+
+<span class="token comment"># 原始查询（依赖上下文）</span>
+user_query <span class="token operator">=</span> <span class="token string">"这个功能怎么用？"</span>
+conversation_history <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token string">"用户：我想了解用户登录功能"</span><span class="token punctuation">,</span>
+    <span class="token string">"助手：用户登录功能支持邮箱和手机号登录..."</span>
+<span class="token punctuation">]</span>
+
+<span class="token comment"># 使用 LLM 重写查询</span>
+rewritten_query <span class="token operator">=</span> llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"""
+请将以下查询改写为独立完整的句子，不依赖上下文：
+
+历史对话：
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span>conversation_history<span class="token punctuation">&#125;</span></span><span class="token string">
+
+当前查询：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>user_query<span class="token punctuation">&#125;</span></span><span class="token string">
+
+改写后的查询：
+"""</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 输出：用户登录功能怎么用？</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="查询扩展（Query-Expansion-RAG-Fusion）"><a href="#查询扩展（Query-Expansion-RAG-Fusion）" class="headerlink" title="查询扩展（Query Expansion &#x2F; RAG-Fusion）"></a>查询扩展（Query Expansion &#x2F; RAG-Fusion）</h4><p><strong>场景</strong>：用户查询简短，可能遗漏相关关键词。</p>
+<p><strong>方法</strong>：添加同义词或相关关键词，生成多个查询版本，分别检索后合并结果。</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 查询扩展（伪代码）</span>
+
+<span class="token comment"># 原始查询</span>
+user_query <span class="token operator">=</span> <span class="token string">"登录"</span>
+
+<span class="token comment"># 使用 LLM 扩展查询</span>
+expanded_queries <span class="token operator">=</span> llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"""
+请为以下查询生成3个相关的查询变体：
+
+原始查询：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>user_query<span class="token punctuation">&#125;</span></span><span class="token string">
+
+查询变体：
+1. 
+2. 
+3. 
+"""</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 输出：</span>
+<span class="token comment"># 1. 用户登录</span>
+<span class="token comment"># 2. 账号登录</span>
+<span class="token comment"># 3. 登录验证</span>
+
+<span class="token comment"># 分别检索每个查询</span>
+all_results <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> query <span class="token keyword">in</span> <span class="token punctuation">[</span>user_query<span class="token punctuation">]</span> <span class="token operator">+</span> expanded_queries<span class="token punctuation">:</span>
+    results <span class="token operator">=</span> vector_db<span class="token punctuation">.</span>search<span class="token punctuation">(</span>embed<span class="token punctuation">(</span>query<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    all_results<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>results<span class="token punctuation">)</span>
+
+<span class="token comment"># 合并并去重</span>
+final_results <span class="token operator">=</span> merge_and_deduplicate<span class="token punctuation">(</span>all_results<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>效果对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>召回率</th>
+<th>计算成本</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>原始查询</strong></td>
+<td>低</td>
+<td>低</td>
+<td>查询已经很完整</td>
+</tr>
+<tr>
+<td><strong>查询重写</strong></td>
+<td>中</td>
+<td>中</td>
+<td>查询依赖上下文</td>
+</tr>
+<tr>
+<td><strong>查询扩展</strong></td>
+<td>高</td>
+<td>高</td>
+<td>查询简短，需要高召回率</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>实战提示</strong>：</p>
+<ul>
+<li><strong>简单查询</strong>：直接使用原始查询</li>
+<li><strong>依赖上下文</strong>：使用查询重写</li>
+<li><strong>需要高召回率</strong>：使用查询扩展</li>
+</ul>
+</blockquote>
+<h3 id="3-3-RAG-与-Agent-的集成（Multi-Hop-RAG）"><a href="#3-3-RAG-与-Agent-的集成（Multi-Hop-RAG）" class="headerlink" title="3.3 RAG 与 Agent 的集成（Multi-Hop RAG）"></a>3.3 RAG 与 Agent 的集成（Multi-Hop RAG）</h3><p><strong>场景</strong>：多步骤推理任务，单轮 RAG 无法回答，如”总结 A 文档对 B 项目的影响”。</p>
+<p><strong>机制</strong>：Agent 将复杂任务拆成子问题，分别调用 RAG 检索知识，收集 Observation 后综合生成最终答案。</p>
+<h4 id="为什么需要-Multi-Hop-RAG？"><a href="#为什么需要-Multi-Hop-RAG？" class="headerlink" title="为什么需要 Multi-Hop RAG？"></a>为什么需要 Multi-Hop RAG？</h4><p><strong>单轮 RAG 的局限</strong>：</p>
+<ul>
+<li>一次检索只能回答一个问题</li>
+<li>无法处理需要多步骤推理的复杂问题</li>
+<li>无法融合多个文档的知识</li>
+</ul>
+<p><strong>Multi-Hop RAG 的优势</strong>：</p>
+<ul>
+<li>支持多步骤推理</li>
+<li>可以融合多个文档的知识</li>
+<li>可以处理复杂的决策任务</li>
+</ul>
+<h4 id="工作原理-1"><a href="#工作原理-1" class="headerlink" title="工作原理"></a>工作原理</h4><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Multi-Hop RAG 示例（伪代码）</span>
+
+<span class="token comment"># 用户查询</span>
+user_query <span class="token operator">=</span> <span class="token string">"总结用户登录功能文档对测试平台项目的影响"</span>
+
+<span class="token comment"># Agent 拆解任务</span>
+sub_questions <span class="token operator">=</span> agent<span class="token punctuation">.</span>plan<span class="token punctuation">(</span>user_query<span class="token punctuation">)</span>
+<span class="token comment"># 输出：</span>
+<span class="token comment"># 1. 用户登录功能文档的主要内容是什么？</span>
+<span class="token comment"># 2. 测试平台项目的当前状态是什么？</span>
+<span class="token comment"># 3. 用户登录功能如何影响测试平台？</span>
+
+<span class="token comment"># 多轮检索和推理</span>
+observations <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> question <span class="token keyword">in</span> sub_questions<span class="token punctuation">:</span>
+    <span class="token comment"># 检索相关文档</span>
+    relevant_docs <span class="token operator">=</span> rag<span class="token punctuation">.</span>retrieve<span class="token punctuation">(</span>question<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 生成观察结果</span>
+    observation <span class="token operator">=</span> llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"""
+    问题：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>question<span class="token punctuation">&#125;</span></span><span class="token string">
+    
+    相关文档：
+    </span><span class="token interpolation"><span class="token punctuation">&#123;</span>relevant_docs<span class="token punctuation">&#125;</span></span><span class="token string">
+    
+    请基于文档回答这个问题：
+    """</span></span><span class="token punctuation">)</span>
+    observations<span class="token punctuation">.</span>append<span class="token punctuation">(</span>observation<span class="token punctuation">)</span>
+
+<span class="token comment"># 综合所有观察结果，生成最终答案</span>
+final_answer <span class="token operator">=</span> llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"""
+原始问题：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>user_query<span class="token punctuation">&#125;</span></span><span class="token string">
+
+子问题和答案：
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span>observations<span class="token punctuation">&#125;</span></span><span class="token string">
+
+请综合以上信息，回答原始问题：
+"""</span></span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="与-ReAct-结合"><a href="#与-ReAct-结合" class="headerlink" title="与 ReAct 结合"></a>与 ReAct 结合</h4><p>Multi-Hop RAG 可以与 <a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-04-llm-prompt-engineering-practices/#%E6%8A%80%E5%B7%A7%E4%BA%8C%E6%80%9D%E7%BB%B4%E9%93%BE%E8%BF%9B%E9%98%B6advanced-cot-react">ReAct 思维链</a>结合，让 LLM 在每一步检索后都进行推理与自我修正。</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">Thought: 用户问的是"总结用户登录功能文档对测试平台项目的影响"，这需要：
+1. 先检索用户登录功能文档
+2. 再检索测试平台项目文档
+3. 最后综合分析两者的关系
+
+Action: retrieve(query="用户登录功能文档")
+
+Observation: [检索到的文档内容]
+
+Thought: 现在我了解了用户登录功能的内容，接下来需要检索测试平台项目的信息。
+
+Action: retrieve(query="测试平台项目当前状态")
+
+Observation: [检索到的文档内容]
+
+Thought: 现在我有足够的信息来回答问题了。
+
+Final Answer: [综合两个文档的信息，生成最终答案]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>实战提示</strong>：</p>
+<ul>
+<li><strong>简单问题</strong>：使用单轮 RAG</li>
+<li><strong>复杂问题</strong>：使用 Multi-Hop RAG</li>
+<li><strong>需要推理</strong>：结合 ReAct 思维链</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔍-总结：RAG-的工程化价值"><a href="#🔍-总结：RAG-的工程化价值" class="headerlink" title="🔍 总结：RAG 的工程化价值"></a>🔍 总结：RAG 的工程化价值</h2><p>RAG 将 LLM 从”静态百科全书”升级为<strong>动态知识专家</strong>，解决了 LLM 的两大核心问题：</p>
+<h3 id="RAG-的核心价值"><a href="#RAG-的核心价值" class="headerlink" title="RAG 的核心价值"></a>RAG 的核心价值</h3><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>传统 LLM</th>
+<th>RAG 解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>知识时效性</strong></td>
+<td>训练数据截止到某个时间点</td>
+<td>实时访问最新信息和私有数据</td>
+</tr>
+<tr>
+<td><strong>知识范围</strong></td>
+<td>只能使用训练时的数据</td>
+<td>可以访问企业私有文档、内部知识库</td>
+</tr>
+<tr>
+<td><strong>幻觉问题</strong></td>
+<td>可能编造错误信息</td>
+<td>答案可追溯、可验证，有据可查</td>
+</tr>
+<tr>
+<td><strong>上下文限制</strong></td>
+<td>Context Window 有限</td>
+<td>通过检索只注入相关文档，突破限制</td>
+</tr>
+</tbody></table>
+<h3 id="构建高效-RAG-系统的关键环节"><a href="#构建高效-RAG-系统的关键环节" class="headerlink" title="构建高效 RAG 系统的关键环节"></a>构建高效 RAG 系统的关键环节</h3><ol>
+<li><strong>分块（Chunking）</strong>：保证语义完整性，选择合适的分块策略</li>
+<li><strong>向量化（Embedding）</strong>：选择合适的 Embedding 模型，确保检索精度</li>
+<li><strong>索引（Vector Database）</strong>：选择高性能向量数据库，支持大规模检索</li>
+<li><strong>后处理（Re-ranking、Query Transformation）</strong>：提升精确率和召回率</li>
+</ol>
+<h3 id="RAG-与-Agent-的结合"><a href="#RAG-与-Agent-的结合" class="headerlink" title="RAG 与 Agent 的结合"></a>RAG 与 Agent 的结合</h3><p>RAG 不仅是知识检索工具，更是 Agent 的”知识库”：</p>
+<ul>
+<li><strong>单轮 RAG</strong>：回答简单问题，提供知识支持</li>
+<li><strong>Multi-Hop RAG</strong>：处理复杂推理任务，融合多文档知识</li>
+<li><strong>RAG + ReAct</strong>：结合思维链，实现可控的知识检索和推理</li>
+</ul>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：RAG 是 Agent 时代高可信度回答的基石。掌握了 RAG，你就掌握了让 LLM 访问外部知识、突破知识限制的关键技术。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h2><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h3 id="🔍-RAG-综述与原理"><a href="#🔍-RAG-综述与原理" class="headerlink" title="🔍 RAG 综述与原理"></a>🔍 RAG 综述与原理</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2303.07293"><strong>A Survey on Retrieval-Augmented Generation（RAG 综述论文）</strong></a>：RAG 领域的全面综述，涵盖原理、应用和最新进展。<strong>必读论文</strong>，适合想系统了解 RAG 的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2005.11401"><strong>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks（RAG 原始论文）</strong></a>：RAG 的开创性论文，首次提出 RAG 架构。<strong>必读论文</strong>，适合想理解 RAG 原理的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-06-30-rag/"><strong>RAG 技术详解（中文博客）</strong></a>：Lilian Weng 的 RAG 技术详解，有中文翻译版本。适合中文读者，内容深入。</p>
+</li>
+</ul>
+<h3 id="🧱-Chunking（分块）"><a href="#🧱-Chunking（分块）" class="headerlink" title="🧱 Chunking（分块）"></a>🧱 Chunking（分块）</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.langchain.com/docs/modules/data_connection/text_splitters/"><strong>LangChain 文档 — Text Splitter（文本分割器）</strong></a>：LangChain 的文本分割器文档，包含多种分块策略。<strong>强烈推荐</strong>，适合需要实现分块的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.pinecone.io/learn/chunking-strategies/"><strong>Semantic Chunking（语义分块）</strong></a>：Pinecone 的语义分块指南，包含实战示例。适合想深入了解语义分块的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/data_retrievers/parent_document_retriever/"><strong>Parent-Document Retriever（父文档检索器）</strong></a>：LangChain 的父文档检索器实现。适合需要实现父文档策略的开发者。</p>
+</li>
+</ul>
+<h3 id="🔢-Embedding（嵌入）"><a href="#🔢-Embedding（嵌入）" class="headerlink" title="🔢 Embedding（嵌入）"></a>🔢 Embedding（嵌入）</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.sbert.net/"><strong>Sentence Transformers 官方文档</strong></a>：Sentence Transformers 的官方文档，包含模型列表和使用指南。<strong>强烈推荐</strong>，适合需要选择 Embedding 模型的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://huggingface.co/spaces/mteb/leaderboard"><strong>MTEB: Massive Text Embedding Benchmark（Embedding 模型排行榜）</strong></a>：Embedding 模型的性能排行榜。适合需要选择最佳模型的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/FlagOpen/FlagEmbedding"><strong>中文 Embedding 模型推荐</strong></a>：FlagEmbedding 项目，包含多个中文 Embedding 模型。适合中文场景的开发者。</p>
+</li>
+</ul>
+<h3 id="🗄️-Vector-Database（向量数据库）"><a href="#🗄️-Vector-Database（向量数据库）" class="headerlink" title="🗄️ Vector Database（向量数据库）"></a>🗄️ Vector Database（向量数据库）</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.pinecone.io/"><strong>Pinecone 官方文档</strong></a>：Pinecone 的官方文档，包含快速入门和最佳实践。适合使用 Pinecone 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://milvus.io/docs"><strong>Milvus 官方文档</strong></a>：Milvus 的官方文档，包含部署和使用指南。适合需要自部署向量数据库的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://weaviate.io/developers/weaviate"><strong>Weaviate 官方文档</strong></a>：Weaviate 的官方文档，包含多模态检索功能。适合需要复杂查询的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1603.09320"><strong>HNSW Algorithm Explained（HNSW 算法详解）</strong></a>：HNSW 索引算法的原始论文。适合想理解向量检索原理的读者。</p>
+</li>
+</ul>
+<h3 id="🚀-进阶优化"><a href="#🚀-进阶优化" class="headerlink" title="🚀 进阶优化"></a>🚀 进阶优化</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/"><strong>LlamaIndex 官方教程</strong></a>：LlamaIndex 的官方教程，包含 Query Rewriting、RAG-Fusion 等进阶技巧。<strong>强烈推荐</strong>，适合想深入学习 RAG 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.sbert.net/examples/applications/cross-encoder/README.html"><strong>Re-ranking with Cross-Encoders（重排序）</strong></a>：Sentence Transformers 的 Cross-Encoder 使用指南。适合需要实现 Re-ranking 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/examples/query_engine/sub_question_query_engine.html"><strong>Multi-Hop RAG（多跳检索）</strong></a>：LlamaIndex 的多跳检索实现。适合需要处理复杂查询的开发者。</p>
+</li>
+</ul>
+<h3 id="🛠️-实战框架"><a href="#🛠️-实战框架" class="headerlink" title="🛠️ 实战框架"></a>🛠️ 实战框架</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/use_cases/question_answering/"><strong>LangChain RAG 教程</strong></a>：LangChain 的 RAG 实战教程，包含完整示例。<strong>强烈推荐</strong>，适合想快速上手的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/getting_started/concepts.html"><strong>LlamaIndex RAG 教程</strong></a>：LlamaIndex 的 RAG 教程，包含多种检索策略。适合想系统学习的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://haystack.deepset.ai/tutorials/01_basic_qa_pipeline"><strong>Haystack RAG 教程</strong></a>：Haystack 的 RAG 教程，包含完整流程。适合使用 Haystack 的开发者。</p>
+</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>理解了 LLM 的工作原理、Prompt 工程技巧和 RAG 机制后，我们已经掌握了”模型是大脑”的核心知识。</p>
+<p>接下来，我们将进入 <strong>Part II: Agent 核心架构与决策机制</strong>，揭秘 LLM 如何进化为自主决策工具。</p>
+<p><strong>第 5 篇将深入模型评估与选型</strong>：</p>
+<blockquote>
+<p><strong>《主题5｜评估与选型：参数量、推理速度、开源&#x2F;闭源模型对比》</strong></p>
+</blockquote>
+<ul>
+<li>GPT-4 &#x2F; GPT-5 &#x2F; Claude &#x2F; Llama 的定位到底有何不同？</li>
+<li>如何根据场景选择合适的模型？</li>
+<li>参数量、推理速度、成本如何权衡？</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/RAG/" class="print-no-link">#RAG</a>
+      
+        <a href="/fluid-blog/tags/Embedding/" class="print-no-link">#Embedding</a>
+      
+        <a href="/fluid-blog/tags/%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90/" class="print-no-link">#检索增强生成</a>
+      
+        <a href="/fluid-blog/tags/Vector-Database/" class="print-no-link">#Vector Database</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合</div>
+      <div>https://linn0813.github.io/2025/12/08/2025-12-08-llm-rag-deep-integration/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/09/2025-12-09-llm-model-evaluation-selection/" title="🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/04/2025-12-04-llm-prompt-engineering-practices/" title="🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出">
+                        <span class="hidden-mobile">🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

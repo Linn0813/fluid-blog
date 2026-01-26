@@ -1,0 +1,754 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="数据分析, SACA课程, 神策分析师认证, 数据挖掘, 数据闭环方法论">
+  
+    <meta name="description" content="记录SACA（神策分析师认证）课程第一章的学习内容，涵盖数据分析核心概念、三维能力模型、发展阶段、流程以及SDAF数据闭环方法论，同时包含相关考试题目及解析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SA分析师认证课程 - 第一章 走进数据分析📊">
+<meta property="og:url" content="https://linn0813.github.io/2025/05/20/2025-05-20-SACA-chapter1/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="记录SACA（神策分析师认证）课程第一章的学习内容，涵盖数据分析核心概念、三维能力模型、发展阶段、流程以及SDAF数据闭环方法论，同时包含相关考试题目及解析。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/SACA-chapter1.png">
+<meta property="article:published_time" content="2025-05-20T09:26:12.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.613Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="数据分析">
+<meta property="article:tag" content="SACA课程">
+<meta property="article:tag" content="神策分析师认证">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/SACA-chapter1.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>SA分析师认证课程 - 第一章 走进数据分析📊 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SA分析师认证课程 - 第一章 走进数据分析📊"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-20 17:26" pubdate>
+          2025年5月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SA分析师认证课程 - 第一章 走进数据分析📊</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="SA分析师认证课程-第一章-走进数据分析📊"><a href="#SA分析师认证课程-第一章-走进数据分析📊" class="headerlink" title="SA分析师认证课程 - 第一章 走进数据分析📊"></a>SA分析师认证课程 - 第一章 走进数据分析📊</h1><p>最近我正在参加SACA（Sensors Analytics Certification-Analyst，神策分析师认证）课程考试，为了记录自己的学习过程，同时也希望能和更多的数据分析爱好者分享学习心得，我决定用博客的形式把每一次的学习内容都记录下来🤓。</p>
+<p>SACA课程是神策学堂推出的专业认证课程，集工具实操、方法实战、官方认证于一体，由神策专家们联袂打造，适合0 - 5年数据分析爱好者及神策分析使用者。通过学习这个课程，学员可以更懂数据、懂分析、懂行业、懂应用，紧跟市场发展趋势，综合提升知识技能。如果你对这个课程感兴趣，可以点击<a target="_blank" rel="noopener" href="https://school.sensorsdata.cn/">神策学堂</a>了解更多详情。</p>
+<p>在当今数字化的时代，数据分析已经成为了各个行业中不可或缺的一部分🤖。它就像是一把神奇的钥匙🔑，能够帮助我们打开数据背后隐藏的秘密，为企业的决策提供有力的支持💪。</p>
+<p>今天，就让我们一起走进SA分析师认证课程的第一章，开启数据分析的奇妙之旅吧🎉！</p>
+<h2 id="第一章课堂笔记"><a href="#第一章课堂笔记" class="headerlink" title="第一章课堂笔记"></a>第一章课堂笔记</h2><h3 id="一、课程核心内容回顾"><a href="#一、课程核心内容回顾" class="headerlink" title="一、课程核心内容回顾"></a>一、课程核心内容回顾</h3><h4 id="（一）数据分析：从数据、信息到知识的过程"><a href="#（一）数据分析：从数据、信息到知识的过程" class="headerlink" title="（一）数据分析：从数据、信息到知识的过程"></a>（一）数据分析：从数据、信息到知识的过程</h4><p>数据分析不仅仅是对数据的简单处理，更是一个从数据中提取信息，再将信息转化为知识的过程。数据是原始的素材，信息是经过初步整理和解读的数据，而知识则是对信息的深入理解和应用，能够帮助我们做出明智的决策。</p>
+<h4 id="（二）数据分析三维能力模型"><a href="#（二）数据分析三维能力模型" class="headerlink" title="（二）数据分析三维能力模型"></a>（二）数据分析三维能力模型</h4><p>数据分析三维能力模型包括数据分析工具、业务理解洞察和数据统计思维。这三个方面相辅相成，共同支撑起数据分析的工作。</p>
+<ul>
+<li><strong>数据分析工具</strong>：掌握数据分析工具可以帮助分析师更高效地处理和分析数据。常见的工具如SQL、Python、Excel等，它们能助力分析师从海量数据中提取有价值的信息。</li>
+<li><strong>业务理解洞察</strong>：具备业务理解洞察能力能够深入理解业务需求和问题，使数据分析更有针对性。分析师需将数据与实际业务相结合，为业务决策提供有价值的建议。</li>
+<li><strong>数据统计思维</strong>：数据统计思维则是运用统计学的方法和原理对数据进行分析和解读。通过合理抽样、假设检验、回归分析等，得出准确可靠的结论。</li>
+</ul>
+<h4 id="（三）数据分析手段发展阶段"><a href="#（三）数据分析手段发展阶段" class="headerlink" title="（三）数据分析手段发展阶段"></a>（三）数据分析手段发展阶段</h4><p>数据分析手段经历了从常规分析到数据智能的发展阶段，每个阶段都有其独特的特点和应用场景。</p>
+<ul>
+<li><strong>常规分析</strong>：是数据分析的基础阶段，主要运用一些常见的分析方法，如结构分析、分组分析、预警分析、杜邦分析等，对数据进行初步的处理和分析，以了解数据的基本特征和规律。</li>
+<li><strong>商务智能</strong>：更注重数据的整合和可视化展示，为决策提供支持。它就像一个数据的仪表盘，帮助决策者快速了解业务的整体情况和发展趋势。</li>
+<li><strong>数据挖掘</strong>：侧重于从大量数据中发现潜在的模式和知识。通过运用各种数据挖掘算法和技术，挖掘出有价值的信息和知识，助力企业发现新商机、优化业务流程。</li>
+<li><strong>数据智能</strong>：利用人工智能等技术实现更自动化和智能化的数据分析。它能自动分析处理数据，发现隐藏模式和规律，并做出预测和决策，提高企业决策的效率和精准度。</li>
+</ul>
+<h4 id="（四）数据分析流程"><a href="#（四）数据分析流程" class="headerlink" title="（四）数据分析流程"></a>（四）数据分析流程</h4><p>数据分析流程包括业务理解、数据理解、数据准备、建立模型、模型评估和部署应用六个步骤。</p>
+<ol>
+<li><strong>业务理解</strong>：在进行数据分析时，首先要对业务有清晰的理解，明确分析的目标和问题所在。这是数据分析的起点，决定了后续工作的方向。</li>
+<li><strong>数据理解</strong>：接着对数据进行理解，了解数据的来源、结构、含义等。只有充分了解数据，才能更好地进行后续的加工和处理。</li>
+<li><strong>数据准备</strong>：然后进行数据准备，包括数据清洗、转换等操作，使数据适合后续分析。这一步就像做饭前对食材的清洗和处理，保证数据的质量。</li>
+<li><strong>建立模型</strong>：之后建立模型，运用合适的分析方法和算法进行建模。通过建立模型，深入分析和挖掘数据，发现其中隐藏的模式和规律。</li>
+<li><strong>模型评估</strong>：对建立的模型进行评估，判断其准确性和有效性。通过评估，了解模型的性能和效果，判断是否满足需求。</li>
+<li><strong>部署应用</strong>：最后将评估通过的模型进行部署应用，为业务决策提供支持。将数据分析的结果转化为实际价值，推动企业的发展。</li>
+</ol>
+<h4 id="（五）数据闭环方法论SDAF模型"><a href="#（五）数据闭环方法论SDAF模型" class="headerlink" title="（五）数据闭环方法论SDAF模型"></a>（五）数据闭环方法论SDAF模型</h4><p>数据闭环方法论SDAF模型包括Sense（感知）、Decision（决策）、Action（行动）、Feedback（反馈）四个环节。这四个环节形成一个闭环，使企业能够不断地优化业务流程，提高竞争力。</p>
+<ul>
+<li><strong>Sense（感知）</strong>：是对数据和业务情况进行感知和监测。通过实时监测和感知，及时发现业务中存在的问题和异常情况。</li>
+<li><strong>Decision（决策）</strong>：根据感知的结果进行决策。经过分析和思考，做出明智的决策。</li>
+<li><strong>Action（行动）</strong>：是执行决策采取行动。根据决策结果，采取相应的行动，解决业务中存在的问题，推动业务发展。</li>
+<li><strong>Feedback（反馈）</strong>：则是将行动的结果反馈回来，形成闭环，不断优化业务。通过反馈，了解决策的效果和行动的成效，及时调整和优化。</li>
+</ul>
+<h2 id="第一章考试题目及解析"><a href="#第一章考试题目及解析" class="headerlink" title="第一章考试题目及解析"></a>第一章考试题目及解析</h2><h3 id="（AI生成，仅供参考）"><a href="#（AI生成，仅供参考）" class="headerlink" title="（AI生成，仅供参考）"></a>（AI生成，仅供参考）</h3><h4 id="一、单选题"><a href="#一、单选题" class="headerlink" title="一、单选题"></a>一、单选题</h4><h5 id="1-题目：CRISP-DM标准数据挖掘流程的第一步是（-）"><a href="#1-题目：CRISP-DM标准数据挖掘流程的第一步是（-）" class="headerlink" title="1. 题目：CRISP - DM标准数据挖掘流程的第一步是（  ）"></a>1. 题目：CRISP - DM标准数据挖掘流程的第一步是（  ）</h5><p>A. 数据收集<br>B. 业务理解<br>C. 数据选择<br>D. 建立模型 </p>
+<p><strong>答案</strong>：B</p>
+<p><strong>解析</strong>：CRISP - DM标准数据挖掘流程的第一步是业务理解，即明确分析目标，确定分析问题所在。只有明确了业务目标和问题，才能有针对性地进行数据挖掘和分析。所以答案选B。</p>
+<h5 id="2-题目：SDAF闭环中，根据感知到的数据进行决策的环节是（-）"><a href="#2-题目：SDAF闭环中，根据感知到的数据进行决策的环节是（-）" class="headerlink" title="2. 题目：SDAF闭环中，根据感知到的数据进行决策的环节是（  ）"></a>2. 题目：SDAF闭环中，根据感知到的数据进行决策的环节是（  ）</h5><p>A. Sense<br>B. Decision<br>C. Action<br>D. Feedback </p>
+<p><strong>答案</strong>：B</p>
+<p><strong>解析</strong>：在SDAF闭环中，Decision环节是根据Sense环节感知到的数据进行决策。Sense负责观察和收集数据，Decision负责对数据进行分析和思考，做出决策。所以答案选B。</p>
+<h5 id="3-题目：在数据选择环节，不需要进行的操作是（-）"><a href="#3-题目：在数据选择环节，不需要进行的操作是（-）" class="headerlink" title="3. 题目：在数据选择环节，不需要进行的操作是（  ）"></a>3. 题目：在数据选择环节，不需要进行的操作是（  ）</h5><p>A. 筛选数据<br>B. 清洗数据<br>C. 构造数据结构<br>D. 选择建模技术 </p>
+<p><strong>答案</strong>：D</p>
+<p><strong>解析</strong>：数据选择环节主要是对数据进行筛选、清洗，构造合适的数据结构。选择建模技术是建立模型环节的操作。所以答案选D。</p>
+<h4 id="二、多选题"><a href="#二、多选题" class="headerlink" title="二、多选题"></a>二、多选题</h4><h5 id="1-题目：以下属于SDAF闭环环节的有（-）"><a href="#1-题目：以下属于SDAF闭环环节的有（-）" class="headerlink" title="1. 题目：以下属于SDAF闭环环节的有（  ）"></a>1. 题目：以下属于SDAF闭环环节的有（  ）</h5><p>A. Sense<br>B. Decision<br>C. Action<br>D. Feedback </p>
+<p><strong>答案</strong>：ABCD</p>
+<p><strong>解析</strong>：SDAF闭环包括Sense（感知）、Decision（决策）、Action（行动）、Feedback（反馈）四个环节。这四个环节相互关联、相互影响，形成一个闭环，使企业能够不断地优化业务流程，提高竞争力。所以答案选ABCD。</p>
+<h5 id="2-题目：CRISP-DM标准数据挖掘流程包括以下哪些步骤（-）"><a href="#2-题目：CRISP-DM标准数据挖掘流程包括以下哪些步骤（-）" class="headerlink" title="2. 题目：CRISP - DM标准数据挖掘流程包括以下哪些步骤（  ）"></a>2. 题目：CRISP - DM标准数据挖掘流程包括以下哪些步骤（  ）</h5><p>A. 业务理解<br>B. 数据收集<br>C. 建立模型<br>D. 评估<br>E. 部署 </p>
+<p><strong>答案</strong>：ABCDE</p>
+<p><strong>解析</strong>：CRISP - DM标准数据挖掘流程包括业务理解、数据收集、数据选择、建立模型、评估、部署六个步骤。这六个步骤紧密相连，缺一不可，只有每个步骤都做好了，才能最终完成数据挖掘的任务。所以答案选ABCDE。</p>
+<h5 id="3-题目：在数据挖掘与分析中，可以使用的工具包括（-）"><a href="#3-题目：在数据挖掘与分析中，可以使用的工具包括（-）" class="headerlink" title="3. 题目：在数据挖掘与分析中，可以使用的工具包括（  ）"></a>3. 题目：在数据挖掘与分析中，可以使用的工具包括（  ）</h5><p>A. sql<br>B. Python<br>C. excel<br>D. BI<br>E. 神策分析 </p>
+<p><strong>答案</strong>：ABCDE</p>
+<p><strong>解析</strong>：在数据挖掘与分析中，可以使用sql、Python、excel、BI、神策分析等工具。这些工具各有优缺点，适用于不同的场景和需求。所以答案选ABCDE。</p>
+<h4 id="三、判断题"><a href="#三、判断题" class="headerlink" title="三、判断题"></a>三、判断题</h4><h5 id="1-题目：数据挖掘就是从大量数据中挖掘有价值信息。（-）"><a href="#1-题目：数据挖掘就是从大量数据中挖掘有价值信息。（-）" class="headerlink" title="1. 题目：数据挖掘就是从大量数据中挖掘有价值信息。（  ）"></a>1. 题目：数据挖掘就是从大量数据中挖掘有价值信息。（  ）</h5><p><strong>答案</strong>：对</p>
+<p><strong>解析</strong>：数据挖掘的定义就是从大量的数据中挖掘有价值的信息。所以该说法正确。</p>
+<h5 id="2-题目：SDAF闭环中，Action环节是将行动的结果反馈回来。（-）"><a href="#2-题目：SDAF闭环中，Action环节是将行动的结果反馈回来。（-）" class="headerlink" title="2. 题目：SDAF闭环中，Action环节是将行动的结果反馈回来。（  ）"></a>2. 题目：SDAF闭环中，Action环节是将行动的结果反馈回来。（  ）</h5><p><strong>答案</strong>：错</p>
+<p><strong>解析</strong>：在SDAF闭环中，Feedback环节是将行动的结果反馈回来，而Action环节是执行决策，采取相应的行动。所以该说法错误。</p>
+<h5 id="3-题目：在建立模型环节，不需要确定模型参数。（-）"><a href="#3-题目：在建立模型环节，不需要确定模型参数。（-）" class="headerlink" title="3. 题目：在建立模型环节，不需要确定模型参数。（  ）"></a>3. 题目：在建立模型环节，不需要确定模型参数。（  ）</h5><p><strong>答案</strong>：错</p>
+<p><strong>解析</strong>：在建立模型环节，需要选择合适的建模技术，并确定模型参数，完成模型构建。所以该说法错误。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%93%8A-SACA%E7%A5%9E%E7%AD%96%E5%88%86%E6%9E%90%E5%B8%88%E8%AE%A4%E8%AF%81%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0/" class="category-chain-item">📊 SACA神策分析师认证：数据分析实战笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%93%8A-SACA%E7%A5%9E%E7%AD%96%E5%88%86%E6%9E%90%E5%B8%88%E8%AE%A4%E8%AF%81%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0/%E6%B5%8B%E8%AF%95%E7%9F%A5%E8%AF%86%E6%B2%89%E6%B7%80/" class="category-chain-item">测试知识沉淀</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" class="print-no-link">#数据分析</a>
+      
+        <a href="/fluid-blog/tags/SACA%E8%AF%BE%E7%A8%8B/" class="print-no-link">#SACA课程</a>
+      
+        <a href="/fluid-blog/tags/%E7%A5%9E%E7%AD%96%E5%88%86%E6%9E%90%E5%B8%88%E8%AE%A4%E8%AF%81/" class="print-no-link">#神策分析师认证</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SA分析师认证课程 - 第一章 走进数据分析📊</div>
+      <div>https://linn0813.github.io/2025/05/20/2025-05-20-SACA-chapter1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/21/2025-05-21-build-blog/" title="Hexo和Markdown搭建个人博客教程🎈">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hexo和Markdown搭建个人博客教程🎈</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/19/2025-05-19-database-changes/" title="手把手教你：数据库新增字段与调整唯一约束实战指南 📚">
+                        <span class="hidden-mobile">手把手教你：数据库新增字段与调整唯一约束实战指南 📚</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

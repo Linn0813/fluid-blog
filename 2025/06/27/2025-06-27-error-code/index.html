@@ -1,0 +1,829 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="错误码, 错误码设计, 错误处理, API规范, 系统设计, 错误码体系">
+  
+    <meta name="description" content="分享如何构建一个清晰、统一、可扩展的错误码体系，提升系统效率与用户体验，涵盖设计原则、方案对比、实战示例等内容！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🚨 错误码设计指南：让系统出错也能优雅沟通">
+<meta property="og:url" content="https://linn0813.github.io/2025/06/27/2025-06-27-error-code/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="分享如何构建一个清晰、统一、可扩展的错误码体系，提升系统效率与用户体验，涵盖设计原则、方案对比、实战示例等内容！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/error-code.png">
+<meta property="article:published_time" content="2025-06-27T01:44:56.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.871Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="错误码">
+<meta property="article:tag" content="错误码设计">
+<meta property="article:tag" content="错误处理">
+<meta property="article:tag" content="API规范">
+<meta property="article:tag" content="系统设计">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/error-code.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🚨 错误码设计指南：让系统出错也能优雅沟通 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🚨 错误码设计指南：让系统出错也能优雅沟通"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-27 09:44" pubdate>
+          2025年6月27日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🚨 错误码设计指南：让系统出错也能优雅沟通</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🚨-错误码设计指南：让系统出错也能优雅沟通"><a href="#🚨-错误码设计指南：让系统出错也能优雅沟通" class="headerlink" title="🚨 错误码设计指南：让系统出错也能优雅沟通"></a>🚨 错误码设计指南：让系统出错也能优雅沟通</h1><p>在研发中，一个晦涩的 <code>&quot;Internal server error&quot;</code> 不只是用户焦虑，也是开发测试痛点。我们今天要分享的，是如何构建一个 <strong>清晰、统一、可扩展</strong> 的错误码体系——不仅让“出错”更专业，还能真正提升效率与体验。</p>
+<hr>
+<h2 id="1-错误码是什么？为什么要定义？"><a href="#1-错误码是什么？为什么要定义？" class="headerlink" title="1. 错误码是什么？为什么要定义？"></a>1. 错误码是什么？为什么要定义？</h2><p>错误码（Error Code）是系统标识异常状态的数字或字符串，用于精准表达发生的错误类型，配合可变反馈信息（error message）使用：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"code"</span><span class="token operator">:</span> <span class="token number">1001</span><span class="token punctuation">,</span>
+  <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"用户不存在"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>它的重要价值包括：</p>
+<ul>
+<li>✅ <strong>快速定位问题</strong>（日志分析、排查更快）</li>
+<li>🔄 <strong>自动化处理支持</strong>（前端／客户端能识别错误类型）</li>
+<li>🌐 <strong>支持国际化</strong>（统一码 + 多语言 message）</li>
+<li>📦 <strong>接口规范统一</strong>（输出一致、可维护）</li>
+</ul>
+<hr>
+<h2 id="2-最佳实践：如何设计错误码更科学？"><a href="#2-最佳实践：如何设计错误码更科学？" class="headerlink" title="2. 最佳实践：如何设计错误码更科学？"></a>2. 最佳实践：如何设计错误码更科学？</h2><p>结合行业经验与规范，推荐设计原则包括：</p>
+<ol>
+<li>✅ <strong>唯一性</strong>：每个错误码对应一种错误，避免混淆。</li>
+<li>🧱 <strong>层级分明</strong>：按业务模块或错误类型分段管理。</li>
+<li>🧠 <strong>可读性</strong>：配注释或文档，让人一看就懂。</li>
+<li>📊 <strong>合理区间</strong>：模块&#x2F;类型区间划分明确，例如 <code>1000-1999</code> 属于用户模块。</li>
+<li>🔁 <strong>向后兼容</strong>：发布后尽量不变更旧版本错误码。</li>
+<li>📐 <strong>标准结构统一</strong>：符合 RESTful API 返回通用结构。</li>
+</ol>
+<hr>
+<h2 id="3-常见设计方案对比"><a href="#3-常见设计方案对比" class="headerlink" title="3. 常见设计方案对比"></a>3. 常见设计方案对比</h2><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>优点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>模块划分</strong>（1000-1999 用户模块）</td>
+<td>清晰定位，利于分类统计</td>
+<td>中大型业务系统</td>
+</tr>
+<tr>
+<td><strong>错误类型划分</strong>（200-299 登录失败）</td>
+<td>逻辑一致性，易统一处理</td>
+<td>跨模块调用</td>
+</tr>
+<tr>
+<td><strong>复合编码</strong>（<code>1-01-001</code>）</td>
+<td>细粒度定位，兼容子模块场景</td>
+<td>超大规模微服务或子系统</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="4-实战错误码示例"><a href="#4-实战错误码示例" class="headerlink" title="4. 实战错误码示例"></a>4. 实战错误码示例</h2><figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"># 通用
+<span class="token number">0</span><span class="token operator">:</span> <span class="token string">"成功"</span>
+<span class="token number">1</span><span class="token operator">:</span> <span class="token string">"未知错误"</span>
+<span class="token number">2</span><span class="token operator">:</span> <span class="token string">"请求超时"</span>
+<span class="token number">3</span><span class="token operator">:</span> <span class="token string">"非法请求"</span>
+
+# 用户模块
+<span class="token number">1000</span><span class="token operator">:</span> <span class="token string">"参数错误"</span>
+<span class="token number">1001</span><span class="token operator">:</span> <span class="token string">"用户名为空"</span>
+<span class="token number">1002</span><span class="token operator">:</span> <span class="token string">"密码格式错误"</span>
+<span class="token number">1100</span><span class="token operator">:</span> <span class="token string">"用户不存在"</span>
+<span class="token number">1101</span><span class="token operator">:</span> <span class="token string">"用户被禁用"</span>
+<span class="token number">1200</span><span class="token operator">:</span> <span class="token string">"验证码错误"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>建议将这些维护在单独文件或中心注册表中，配合注释与文档使用。</p>
+<hr>
+<h2 id="5-优化实用：实施机制建议"><a href="#5-优化实用：实施机制建议" class="headerlink" title="5. 优化实用：实施机制建议"></a>5. 优化实用：实施机制建议</h2><ul>
+<li>📁 <strong>集中管理</strong>：建立错误码统一维护库，避免重复定义。</li>
+<li>🧪 <strong>CI 校验</strong>：CI 阶段检测重复、空码等风险。</li>
+<li>📃 <strong>标准响应结构</strong>：统一 JSON 返回格式，如：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"code"</span><span class="token operator">:</span> <span class="token number">1100</span><span class="token punctuation">,</span>
+  <span class="token property">"message"</span><span class="token operator">:</span> <span class="token string">"用户不存在"</span><span class="token punctuation">,</span>
+  <span class="token property">"data"</span><span class="token operator">:</span> <span class="token null keyword">null</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<ul>
+<li>🔐 <strong>避免泄露敏感信息</strong>：错误信息不应包含 DB 报错等技术细节。</li>
+<li>🧾 <strong>结合日志与 requestId</strong>：方便定位问题与链路追踪。</li>
+<li>🌏 <strong>支持多语言国际化</strong>：错误 message 可扩展：</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"code"</span><span class="token operator">:</span> <span class="token number">1200</span><span class="token punctuation">,</span>
+  <span class="token property">"zh"</span><span class="token operator">:</span> <span class="token string">"验证码错误"</span><span class="token punctuation">,</span>
+  <span class="token property">"en"</span><span class="token operator">:</span> <span class="token string">"Invalid verification code"</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="6-API-错误处理规范（结合-HTTP-状态码）"><a href="#6-API-错误处理规范（结合-HTTP-状态码）" class="headerlink" title="6. API 错误处理规范（结合 HTTP 状态码）"></a>6. API 错误处理规范（结合 HTTP 状态码）</h2><ul>
+<li>🧭 <strong>HTTP 状态码合理使用</strong>：200 成功，400 参数错误，401 未认证，403 禁止访问，500 服务器异常等。</li>
+<li>📚 <strong>响应结构建议符合 RFC 9457</strong>：如 <code>application/problem+json</code> 标准结构。</li>
+<li>🔍 <strong>错误提示信息应具体可读</strong>：为前端开发&#x2F;用户提供明确提示或文档跳转。</li>
+<li>🔐 <strong>输出需脱敏、安全</strong>。</li>
+<li>🔁 <strong>支持重试建议字段</strong>（如 retry_after）。</li>
+<li>📘 <strong>错误码文档化</strong>：便于客户端快速对接。</li>
+</ul>
+<hr>
+<h2 id="7-客户端与运维的错误处理建议"><a href="#7-客户端与运维的错误处理建议" class="headerlink" title="7. 客户端与运维的错误处理建议"></a>7. 客户端与运维的错误处理建议</h2><p>👨‍💻 前端：</p>
+<ul>
+<li>根据错误码进行提示&#x2F;跳转处理。</li>
+<li>多语言提示统一配置管理。</li>
+</ul>
+<p>🛠️ 运维：</p>
+<ul>
+<li>日志记录 + requestId。</li>
+<li>监控系统抓取高频错误码进行告警。</li>
+</ul>
+<hr>
+<h2 id="8-高级实践：面向架构的错误处理模型"><a href="#8-高级实践：面向架构的错误处理模型" class="headerlink" title="8. 高级实践：面向架构的错误处理模型"></a>8. 高级实践：面向架构的错误处理模型</h2><ul>
+<li>🧱 <strong>Error Object 模式</strong>：封装 error 对象（code&#x2F;message&#x2F;context）。</li>
+<li>🔗 <strong>责任链模式</strong>：不同 Handler 处理不同错误类型。</li>
+<li>🚦 <strong>断路器 + 重试机制</strong>：如在分布式微服务架构中增强鲁棒性。</li>
+</ul>
+<hr>
+<h2 id="✅-总结：小小错误码，大大系统韧性"><a href="#✅-总结：小小错误码，大大系统韧性" class="headerlink" title="✅ 总结：小小错误码，大大系统韧性"></a>✅ 总结：小小错误码，大大系统韧性</h2><p>一个科学规范的错误码体系，不只是“写代码的事”，更是影响用户体验、运维效率、接口可靠性的基石：</p>
+<p>✅ 提高协作效率<br>✅ 减少沟通歧义<br>✅ 降低维护成本<br>✅ 提升系统专业度</p>
+<p>🎯 <strong>落地三步走</strong>：</p>
+<ol>
+<li>梳理当前错误码，建立文档或字典表。</li>
+<li>制定错误码分段方案，并形成使用规范。</li>
+<li>通过平台或 CI 流水线自动校验重复与冲突。</li>
+</ol>
+<hr>
+<p>📢 如果你也在构建企业级系统，别忘了先把“出错方式”设计好，这将是你提升产品质量的第一步。😉</p>
+<p>欢迎留言你项目中的错误码设计经验与踩坑故事，一起讨论学习！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">🐍 全栈开发底座：Python 进阶与前后端工程化</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/" class="category-chain-item">技术学习与行业趋势</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E9%94%99%E8%AF%AF%E7%A0%81/" class="print-no-link">#错误码</a>
+      
+        <a href="/fluid-blog/tags/%E9%94%99%E8%AF%AF%E7%A0%81%E8%AE%BE%E8%AE%A1/" class="print-no-link">#错误码设计</a>
+      
+        <a href="/fluid-blog/tags/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" class="print-no-link">#错误处理</a>
+      
+        <a href="/fluid-blog/tags/API%E8%A7%84%E8%8C%83/" class="print-no-link">#API规范</a>
+      
+        <a href="/fluid-blog/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="print-no-link">#系统设计</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🚨 错误码设计指南：让系统出错也能优雅沟通</div>
+      <div>https://linn0813.github.io/2025/06/27/2025-06-27-error-code/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/27/2025-06-27-api-response-standard/" title="📦 API 返回结构标准化实践指南：让你的接口更健壮、更可维护！">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">📦 API 返回结构标准化实践指南：让你的接口更健壮、更可维护！</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/06/26/2025-06-26-test-indicators/" title="📊 测试指标全景图：如何用一套数据体系提升你的测试价值？">
+                        <span class="hidden-mobile">📊 测试指标全景图：如何用一套数据体系提升你的测试价值？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

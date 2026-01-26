@@ -1,0 +1,978 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, 智能体, RAG, Prompt, 测试自动化, 知识整理">
+  
+    <meta name="description" content="系统梳理 LLM 与 Agent 的概念、组成、原理与实践要点，配套学习路线与清单，助你快速上手智能体开发与应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🧠 LLM 与智能体（Agent）知识记录">
+<meta property="og:url" content="https://linn0813.github.io/2025/10/21/2025-10-21-llm-agent-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="系统梳理 LLM 与 Agent 的概念、组成、原理与实践要点，配套学习路线与清单，助你快速上手智能体开发与应用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/LLM-Agent.png">
+<meta property="article:published_time" content="2025-10-21T13:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.875Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="AI助手">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="RAG">
+<meta property="article:tag" content="Prompt">
+<meta property="article:tag" content="知识整理">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/LLM-Agent.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🧠 LLM 与智能体（Agent）知识记录 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🧠 LLM 与智能体（Agent）知识记录"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-21 21:00" pubdate>
+          2025年10月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🧠 LLM 与智能体（Agent）知识记录</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>📘 本文旨在系统记录 LLM 与 Agent 的概念、组成、原理、应用与实践要点，形成长期可复用的知识材料。你可以将它作为“学习路线 + 实践清单”的参考。✅</p>
+</blockquote>
+<hr>
+<h2 id="基础认知"><a href="#基础认知" class="headerlink" title="基础认知"></a>基础认知</h2><h3 id="一、LLM（Large-Language-Model，大语言模型）-🤖"><a href="#一、LLM（Large-Language-Model，大语言模型）-🤖" class="headerlink" title="一、LLM（Large Language Model，大语言模型） 🤖"></a>一、LLM（Large Language Model，大语言模型） 🤖</h3><h3 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h3><p>LLM 是基于深度学习与海量文本训练的模型，能够理解、生成、推理自然语言，是现代智能体的“核心大脑”。</p>
+<h3 id="1-2-核心特性"><a href="#1-2-核心特性" class="headerlink" title="1.2 核心特性"></a>1.2 核心特性</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>理解能力</td>
+<td>能理解问题、文档、上下文与意图</td>
+</tr>
+<tr>
+<td>生成能力</td>
+<td>能生成文章、代码、摘要、对话等</td>
+</tr>
+<tr>
+<td>推理能力</td>
+<td>能做基础逻辑判断与归纳总结</td>
+</tr>
+<tr>
+<td>可扩展性</td>
+<td>可与知识库、工具、API 联动</td>
+</tr>
+<tr>
+<td>局限性</td>
+<td>幻觉（hallucination）、知识截至训练时间、上下文窗口有限</td>
+</tr>
+</tbody></table>
+<h3 id="1-3-关键概念"><a href="#1-3-关键概念" class="headerlink" title="1.3 关键概念"></a>1.3 关键概念</h3><ul>
+<li><code>Prompt</code>：向模型输入的指令或问题，告诉模型“要做什么”。</li>
+<li><code>Token</code>：模型处理文本的最小单位；长文本消耗更多资源。</li>
+<li><code>Spec</code>（规范&#x2F;说明书）：约束输入输出格式，定义任务规则。</li>
+<li><code>RAG</code>（Retrieval-Augmented Generation）：结合外部知识库提升生成精确度。</li>
+<li><code>上下文（Context）</code>：模型参考的历史对话或文本，用于生成连贯结果。</li>
+</ul>
+<h3 id="1-4-工作原理（简化）"><a href="#1-4-工作原理（简化）" class="headerlink" title="1.4 工作原理（简化）"></a>1.4 工作原理（简化）</h3><ol>
+<li>文本编码：将输入拆分为 Token 并转化为向量；</li>
+<li>模型推理：通过神经网络计算每个 Token 的概率；</li>
+<li>生成输出：根据概率生成下一个 Token；</li>
+<li>拼接文本：输出最终生成的文本结果。</li>
+</ol>
+<hr>
+<h3 id="二、Agent（智能体）-🛠️"><a href="#二、Agent（智能体）-🛠️" class="headerlink" title="二、Agent（智能体） 🛠️"></a>二、Agent（智能体） 🛠️</h3><h3 id="2-1-定义"><a href="#2-1-定义" class="headerlink" title="2.1 定义"></a>2.1 定义</h3><p>Agent 是在 LLM 基础上结合工具调用、流程编排与环境感知的系统，能够自主完成多步任务。</p>
+<h3 id="2-2-核心能力"><a href="#2-2-核心能力" class="headerlink" title="2.2 核心能力"></a>2.2 核心能力</h3><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>观察环境</td>
+<td>接收用户输入、文档、系统信息、API 输出</td>
+</tr>
+<tr>
+<td>规划任务</td>
+<td>拆解目标，制定执行步骤与顺序</td>
+</tr>
+<tr>
+<td>执行操作</td>
+<td>调用工具、接口、脚本、文件系统完成任务</td>
+</tr>
+<tr>
+<td>反馈调整</td>
+<td>根据执行结果优化下一步操作，形成闭环</td>
+</tr>
+</tbody></table>
+<h3 id="2-3-组成模块"><a href="#2-3-组成模块" class="headerlink" title="2.3 组成模块"></a>2.3 组成模块</h3><ul>
+<li>LLM（大脑）：理解任务、生成计划与文本；</li>
+<li>Prompt + Spec（说明书）：定义角色、任务与输出格式；</li>
+<li>工具调用模块（手脚）：API、脚本、数据库操作、文件操作；</li>
+<li>记忆&#x2F;上下文管理：保存历史信息，支持跨任务参考；</li>
+<li>反馈机制：监控执行结果并调整策略。</li>
+</ul>
+<h3 id="2-4-工作流程（示意）"><a href="#2-4-工作流程（示意）" class="headerlink" title="2.4 工作流程（示意）"></a>2.4 工作流程（示意）</h3><p>用户输入 → LLM理解 → 任务规划 → 调用工具 → 执行操作 → 结果反馈 → 上下文更新 → 输出 ✅</p>
+<hr>
+<h3 id="三、LLM-与-Agent-的关系-🔗"><a href="#三、LLM-与-Agent-的关系-🔗" class="headerlink" title="三、LLM 与 Agent 的关系 🔗"></a>三、LLM 与 Agent 的关系 🔗</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>LLM</th>
+<th>Agent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功能</td>
+<td>理解和生成语言</td>
+<td>理解语言 + 执行任务</td>
+</tr>
+<tr>
+<td>主动性</td>
+<td>被动回答</td>
+<td>主动规划与执行</td>
+</tr>
+<tr>
+<td>输入</td>
+<td>Prompt</td>
+<td>Prompt + 任务目标 + 可用工具</td>
+</tr>
+<tr>
+<td>输出</td>
+<td>文本</td>
+<td>文本 + 执行结果</td>
+</tr>
+<tr>
+<td>场景</td>
+<td>问答、写作、摘要</td>
+<td>自动化流程、智能助手、系统执行</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>总结：Agent 是 LLM 的进化，将语言理解与实际执行结合，实现“理解 → 决策 → 行动”的闭环。🧭</p>
+</blockquote>
+<hr>
+<h2 id="轻量实践：自动生成测试用例-📋"><a href="#轻量实践：自动生成测试用例-📋" class="headerlink" title="轻量实践：自动生成测试用例 📋"></a>轻量实践：自动生成测试用例 📋</h2><p>以“从需求文档生成测试用例 Excel”为例：</p>
+<ul>
+<li>用户上传需求文档；</li>
+<li>LLM 理解文档内容与目标；</li>
+<li>Agent 规划字段（模块、用例名、步骤、预期结果）；</li>
+<li>LLM 生成测试用例文本；</li>
+<li>Agent 调脚本生成 Excel 文件；</li>
+<li>返回文件并记录执行日志；</li>
+<li>根据反馈调整生成策略。</li>
+</ul>
+<p>Python 伪代码示例：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">requirements <span class="token operator">=</span> load_doc<span class="token punctuation">(</span><span class="token string">"需求文档.docx"</span><span class="token punctuation">)</span>
+plan <span class="token operator">=</span> llm<span class="token punctuation">.</span>generate_plan<span class="token punctuation">(</span>requirements<span class="token punctuation">,</span> task<span class="token operator">=</span><span class="token string">"生成测试用例"</span><span class="token punctuation">)</span>
+test_cases <span class="token operator">=</span> llm<span class="token punctuation">.</span>generate_test_cases<span class="token punctuation">(</span>plan<span class="token punctuation">)</span>
+excel_file <span class="token operator">=</span> create_excel<span class="token punctuation">(</span>test_cases<span class="token punctuation">)</span>
+send_to_user<span class="token punctuation">(</span>excel_file<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>Spec（规范）片段示例（YAML）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">role</span><span class="token punctuation">:</span> <span class="token string">"测试用例生成器"</span>
+<span class="token key atrule">rules</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">输出必须包含</span><span class="token punctuation">:</span> 模块<span class="token punctuation">,</span> 用例名称<span class="token punctuation">,</span> 前置条件<span class="token punctuation">,</span> 步骤<span class="token punctuation">,</span> 预期结果
+  <span class="token punctuation">-</span> 步骤为编号列表<span class="token punctuation">,</span> 预期结果为可验证陈述
+<span class="token key atrule">format</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> table
+  <span class="token key atrule">columns</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>module<span class="token punctuation">,</span> name<span class="token punctuation">,</span> precondition<span class="token punctuation">,</span> steps<span class="token punctuation">,</span> expected<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="应用与工具"><a href="#应用与工具" class="headerlink" title="应用与工具"></a>应用与工具</h2><h3 id="一、常见应用场景-🧩"><a href="#一、常见应用场景-🧩" class="headerlink" title="一、常见应用场景 🧩"></a>一、常见应用场景 🧩</h3><ul>
+<li>办公自动化：整理报告、生成计划、发送邮件；</li>
+<li>测试自动化：需求分析 → 用例生成 → 执行 → 报告；</li>
+<li>客服系统：理解问题 → 调接口 → 自动回复；</li>
+<li>内容创作：文章、代码、文案生成；</li>
+<li>系统集成：多平台任务调度、状态监控、数据处理。</li>
+</ul>
+<h3 id="二、工具与框架-🧰"><a href="#二、工具与框架-🧰" class="headerlink" title="二、工具与框架 🧰"></a>二、工具与框架 🧰</h3><ul>
+<li>LangChain：管理 LLM + 工具调用 + Agent 流程；</li>
+<li>AutoGPT &#x2F; BabyAGI：多步任务 Agent 示例；</li>
+<li>RAG 方案：向量库 + 检索 + 重排 + 生成；</li>
+<li>记忆管理：对话记忆、长期记忆（文件&#x2F;数据库）。</li>
+</ul>
+<p>选型建议：先从“轻量 + 可控”开始，逐步扩展工具数量与任务复杂度。✅</p>
+<hr>
+<h2 id="能力与局限-⚖️"><a href="#能力与局限-⚖️" class="headerlink" title="能力与局限 ⚖️"></a>能力与局限 ⚖️</h2><ul>
+<li>优势：多步任务自动化、效率提升、语言能力可落地；</li>
+<li>局限：自主性越高风险越大（误操作&#x2F;数据泄露）、Prompt&#x2F;Spec 设计不当导致输出不准确、长任务规划与上下文管理仍是难点。</li>
+</ul>
+<hr>
+<h2 id="学习路线"><a href="#学习路线" class="headerlink" title="学习路线"></a>学习路线</h2><ul>
+<li>先理解 LLM：掌握 Prompt、Token、上下文；</li>
+<li>再尝试 Agent：从小任务练手（生成表格&#x2F;整理报告）；</li>
+<li>逐步扩展：多步任务、工具调用、记忆管理；</li>
+<li>安全与可控：控制关键操作、记录日志、设置监控机制。</li>
+</ul>
+<p>Checklist（自检清单）：</p>
+<ul>
+<li>明确任务目标与边界；</li>
+<li>定义 Spec 与输出格式；</li>
+<li>选择必要工具（API&#x2F;脚本&#x2F;文件操作）；</li>
+<li>配置日志与错误告警；</li>
+<li>评估隐私与权限控制；</li>
+<li>预留回滚与手动接管路径。</li>
+</ul>
+<hr>
+<h2 id="安全与治理🔒"><a href="#安全与治理🔒" class="headerlink" title="安全与治理🔒"></a>安全与治理🔒</h2><ul>
+<li>权限分级：只授予必要权限（最小化原则）；</li>
+<li>风险隔离：关键操作需二次确认或人工审批；</li>
+<li>日志审计：记录请求、响应与工具调用明细；</li>
+<li>数据脱敏：对敏感字段做掩码或匿名处理；</li>
+<li>速率限制：防止资源滥用与雪崩；</li>
+<li>可观测性：埋点与指标，便于定位与回溯。</li>
+</ul>
+<hr>
+<h2 id="常见坑位与规避-🪤"><a href="#常见坑位与规避-🪤" class="headerlink" title="常见坑位与规避 🪤"></a>常见坑位与规避 🪤</h2><ul>
+<li>幻觉输出：引入 RAG 与校验规则（Spec）；</li>
+<li>过度自主演化：限定工具范围与操作边界；</li>
+<li>上下文丢失：持久化关键状态（记忆模块）；</li>
+<li>无法复现：固定版本、固定 Prompt、固定数据样本；</li>
+<li>任务中断：设置重试策略与补偿机制。</li>
+</ul>
+<hr>
+<h2 id="Prompt-模板（可直接复用）-🧾"><a href="#Prompt-模板（可直接复用）-🧾" class="headerlink" title="Prompt 模板（可直接复用） 🧾"></a>Prompt 模板（可直接复用） 🧾</h2><p>任务型模板：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">你的角色：测试用例编写助手
+目标：根据输入需求生成覆盖率高、可执行的测试用例
+输出格式：表格（模块、用例名、前置条件、步骤、预期结果）
+约束：
+- 步骤使用编号列表（1. 2. 3. ...）
+- 预期结果为可验证陈述
+- 覆盖主流程和异常场景<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>规范型模板（Spec）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">角色：智能体编排器
+规则：
+- 任何关键文件写入前需用户确认
+- 工具调用失败需重试 2 次并记录日志
+- 超过 60 秒未响应需中断并提示人工介入<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="评估指标与基准-📏"><a href="#评估指标与基准-📏" class="headerlink" title="评估指标与基准 📏"></a>评估指标与基准 📏</h2><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>说明</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>准确率</td>
+<td>输出与任务规范一致的比例</td>
+<td>≥ 95%</td>
+</tr>
+<tr>
+<td>覆盖率</td>
+<td>需求点&#x2F;场景覆盖情况</td>
+<td>≥ 90%</td>
+</tr>
+<tr>
+<td>执行成功率</td>
+<td>工具调用与脚本执行成功占比</td>
+<td>≥ 98%</td>
+</tr>
+<tr>
+<td>回滚率</td>
+<td>出错或异常导致的回滚比例</td>
+<td>≤ 2%</td>
+</tr>
+<tr>
+<td>人工介入率</td>
+<td>需人工处理的任务占比</td>
+<td>≤ 5%</td>
+</tr>
+<tr>
+<td>响应时间</td>
+<td>端到端时延</td>
+<td>≤ 5s（视场景）</td>
+</tr>
+<tr>
+<td>成本</td>
+<td>Token&#x2F;调用次数&#x2F;资源占用</td>
+<td>可控上限</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="错误处理与重试策略-🛡️"><a href="#错误处理与重试策略-🛡️" class="headerlink" title="错误处理与重试策略 🛡️"></a>错误处理与重试策略 🛡️</h2><ul>
+<li>错误分层：输入错误（格式&#x2F;缺字段）、检索错误（为空&#x2F;质量低）、执行错误（网络&#x2F;权限）、生成错误（超时&#x2F;幻觉）。</li>
+<li>策略：指数退避重试、熔断（停止级联失败）、降级（提供简化结果）、兜底提示（引导人工介入）。</li>
+</ul>
+<p>错误与重试（概念介绍）：</p>
+<ul>
+<li>重试策略：建议指数退避，限制最大重试次数，避免雪崩；</li>
+<li>熔断与降级：连续失败触发熔断，输出简化结果并提示人工介入；</li>
+<li>记录与告警：持久化日志，标注错误类型与日志ID，便于定位与审计。</li>
+</ul>
+<hr>
+<p>📝 <strong>文章至此结束</strong> 感谢阅读！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/" class="category-chain-item">技术学习与行业趋势</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/AI%E5%8A%A9%E6%89%8B/" class="print-no-link">#AI助手</a>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/RAG/" class="print-no-link">#RAG</a>
+      
+        <a href="/fluid-blog/tags/Prompt/" class="print-no-link">#Prompt</a>
+      
+        <a href="/fluid-blog/tags/%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/" class="print-no-link">#知识整理</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🧠 LLM 与智能体（Agent）知识记录</div>
+      <div>https://linn0813.github.io/2025/10/21/2025-10-21-llm-agent-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/10/24/2025-10-24-mind-your-tone/" title="🧩 Mind Your Tone：为什么我们不必再对 AI 太客气">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧩 Mind Your Tone：为什么我们不必再对 AI 太客气</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/10/15/2025-10-15-coze-testcase-assistant/" title="🤖 手把手教你用Coze打造专属测试用例编写助手">
+                        <span class="hidden-mobile">🤖 手把手教你用Coze打造专属测试用例编写助手</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

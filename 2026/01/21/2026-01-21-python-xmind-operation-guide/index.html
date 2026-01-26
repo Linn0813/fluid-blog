@@ -1,0 +1,849 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="Python操作XMind, xmindparser, xmind-sdk-python, 脑图自动生成, 测试用例导出, content.json, content.xml">
+  
+    <meta name="description" content="深入解析 XMind 文件底层结构，覆盖 XMind 8 (XML) 与 XMind 2024 (JSON) 两种架构，手把手教你如何用 Python 读取、修改并自动生成思维导图。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🗺️ 用 Python 操作 XMind：从读懂到生成的完整入门指南">
+<meta property="og:url" content="https://linn0813.github.io/2026/01/21/2026-01-21-python-xmind-operation-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 XMind 文件底层结构，覆盖 XMind 8 (XML) 与 XMind 2024 (JSON) 两种架构，手把手教你如何用 Python 读取、修改并自动生成思维导图。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/python-xmind-operation-guide.png">
+<meta property="article:published_time" content="2026-01-21T07:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-26T03:00:03.570Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="XMind">
+<meta property="article:tag" content="测试自动化">
+<meta property="article:tag" content="脑图生成">
+<meta property="article:tag" content="XML&#x2F;JSON">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/python-xmind-operation-guide.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🗺️ 用 Python 操作 XMind：从读懂到生成的完整入门指南 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🗺️ 用 Python 操作 XMind：从读懂到生成的完整入门指南"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-21 15:00" pubdate>
+          2026年1月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🗺️ 用 Python 操作 XMind：从读懂到生成的完整入门指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>很多人都会用 XMind 画思维导图，但一旦进入“工程化”阶段，往往会遇到这些问题：</p>
+<ul>
+<li>想把 XMind 转成 Markdown &#x2F; CSV &#x2F; 测试用例</li>
+<li>想根据 Excel、接口数据自动生成一份脑图</li>
+<li>想在测试平台或内部工具中实现“一键导出 .xmind 文件”</li>
+</ul>
+<p>这篇文章的目标很明确：</p>
+<blockquote>
+<p><strong>讲清楚 XMind 文件是什么、它在程序中长什么样，以及如何用 Python 读取和生成 XMind 文件。</strong></p>
+</blockquote>
+<hr>
+<h2 id="1-XMind-文件是什么"><a href="#1-XMind-文件是什么" class="headerlink" title="1. XMind 文件是什么"></a>1. XMind 文件是什么</h2><p>在写任何代码之前，首先要回答一个问题：<strong>XMind 文件在技术层面到底是什么？</strong></p>
+<h3 id="1-1-xmind-的本质"><a href="#1-1-xmind-的本质" class="headerlink" title="1.1 .xmind 的本质"></a>1.1 <code>.xmind</code> 的本质</h3><p><code>.xmind</code> 文件本质上是一个 <strong>ZIP 压缩包</strong>。</p>
+<p>你可以直接验证：将 <code>demo.xmind</code> 重命名为 <code>demo.zip</code> 并解压查看内容。</p>
+<p>需要特别注意的是，不同版本的 XMind，核心内容文件并不相同：</p>
+<ul>
+<li><strong>XMind 8（经典版 &#x2F; Legacy）</strong>：主要内容在 <code>content.xml</code></li>
+<li><strong>XMind Zen &#x2F; 2024（新版）</strong>：主要内容在 <code>content.json</code></li>
+</ul>
+<blockquote>
+<p>换句话说，真正的思维导图结构，一定存在于 XML 或 JSON 文件中。</p>
+</blockquote>
+<hr>
+<h2 id="2-XMind-的数据结构"><a href="#2-XMind-的数据结构" class="headerlink" title="2. XMind 的数据结构"></a>2. XMind 的数据结构</h2><p>理解 XMind 的第二步，是理解它在程序中的数据形态。</p>
+<h3 id="2-1-思维导图是一棵树"><a href="#2-1-思维导图是一棵树" class="headerlink" title="2.1 思维导图是一棵树"></a>2.1 思维导图是一棵树</h3><p>无论底层是 XML 还是 JSON，XMind 在逻辑上都是一棵<strong>树结构（Tree）</strong>。</p>
+<p>例如，一个简单的脑图：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">测试计划
+ ├── 功能测试
+ │    ├── 登录
+ │    └── 注册
+ └── 性能测试<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>在 Python 中，可以用类似下面的结构表示：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">&#123;</span>
+  <span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"测试计划"</span><span class="token punctuation">,</span>
+  <span class="token string">"topics"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"功能测试"</span><span class="token punctuation">,</span>
+      <span class="token string">"topics"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span><span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"登录"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span><span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"注册"</span><span class="token punctuation">&#125;</span>
+      <span class="token punctuation">]</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"title"</span><span class="token punctuation">:</span> <span class="token string">"性能测试"</span><span class="token punctuation">&#125;</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>只要把 XMind 理解为「节点 + 子节点」的树结构，<br>后续的读取、转换和生成，本质上都是<strong>树的遍历和重组</strong>。</p>
+<hr>
+<h2 id="3-将-XMind-解析为可编程数据"><a href="#3-将-XMind-解析为可编程数据" class="headerlink" title="3. 将 XMind 解析为可编程数据"></a>3. 将 XMind 解析为可编程数据</h2><p>在理解文件结构之后，下一步是：<strong>如何把 XMind 转成程序可以直接处理的数据结构</strong>。</p>
+<h3 id="3-1-使用-xmindparser"><a href="#3-1-使用-xmindparser" class="headerlink" title="3.1 使用 xmindparser"></a>3.1 使用 xmindparser</h3><p><code>xmindparser</code> 是一个用于解析 <code>.xmind</code> 文件的 Python 开源库，支持旧版和新版 XMind。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pip <span class="token function">install</span> xmindparser<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="3-2-解析为-Python-字典"><a href="#3-2-解析为-Python-字典" class="headerlink" title="3.2 解析为 Python 字典"></a>3.2 解析为 Python 字典</h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> xmindparser <span class="token keyword">import</span> xmind_to_dict
+
+<span class="token comment"># 它会自动识别 XML 或 JSON 格式并返回统一的 Python List/Dict</span>
+xmind_data <span class="token operator">=</span> xmind_to_dict<span class="token punctuation">(</span><span class="token string">"demo.xmind"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 返回结果通常是 list，每个元素对应一个画布（sheet）</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>xmind_data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">"topic"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">"title"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>解析完成后，你得到的是标准的 Python <code>dict / list</code> 结构，可以继续用于：</p>
+<ul>
+<li>导出 Markdown &#x2F; CSV</li>
+<li>生成测试用例</li>
+<li>接入自动化或测试平台系统</li>
+</ul>
+<hr>
+<h2 id="4-使用-Python-生成-XMind"><a href="#4-使用-Python-生成-XMind" class="headerlink" title="4. 使用 Python 生成 XMind"></a>4. 使用 Python 生成 XMind</h2><p>当你可以解析 XMind 之后，反向生成就是一个自然的问题：</p>
+<blockquote>
+<p><strong>如何根据结构化数据，生成一个可以正常打开的 XMind 文件。</strong></p>
+</blockquote>
+<h3 id="4-1-通过-XML-生成-XMind（XMind-8）"><a href="#4-1-通过-XML-生成-XMind（XMind-8）" class="headerlink" title="4.1 通过 XML 生成 XMind（XMind 8）"></a>4.1 通过 XML 生成 XMind（XMind 8）</h3><p>下面示例展示的是一个<strong>最小可用版本</strong>，只保证层级结构正确，不包含样式、图标、备注等高级能力。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> xml<span class="token punctuation">.</span>etree<span class="token punctuation">.</span>ElementTree <span class="token keyword">as</span> ET
+<span class="token keyword">import</span> zipfile
+<span class="token keyword">import</span> json
+
+
+<span class="token keyword">def</span> <span class="token function">build_content_xml</span><span class="token punctuation">(</span>tree_data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    root <span class="token operator">=</span> ET<span class="token punctuation">.</span>Element<span class="token punctuation">(</span><span class="token string">"xmap-content"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">"version"</span><span class="token punctuation">:</span> <span class="token string">"2.0"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    sheet <span class="token operator">=</span> ET<span class="token punctuation">.</span>SubElement<span class="token punctuation">(</span>root<span class="token punctuation">,</span> <span class="token string">"sheet"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token string">"sheet-1"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+    root_topic <span class="token operator">=</span> ET<span class="token punctuation">.</span>SubElement<span class="token punctuation">(</span>sheet<span class="token punctuation">,</span> <span class="token string">"topic"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token string">"root"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    ET<span class="token punctuation">.</span>SubElement<span class="token punctuation">(</span>root_topic<span class="token punctuation">,</span> <span class="token string">"title"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>text <span class="token operator">=</span> tree_data<span class="token punctuation">[</span><span class="token string">"title"</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">add_topics</span><span class="token punctuation">(</span>parent<span class="token punctuation">,</span> topics<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> topics<span class="token punctuation">:</span>
+            <span class="token keyword">return</span>
+        children <span class="token operator">=</span> ET<span class="token punctuation">.</span>SubElement<span class="token punctuation">(</span>parent<span class="token punctuation">,</span> <span class="token string">"children"</span><span class="token punctuation">)</span>
+        topics_el <span class="token operator">=</span> ET<span class="token punctuation">.</span>SubElement<span class="token punctuation">(</span>children<span class="token punctuation">,</span> <span class="token string">"topics"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"attached"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> i<span class="token punctuation">,</span> t <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>topics<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            topic <span class="token operator">=</span> ET<span class="token punctuation">.</span>SubElement<span class="token punctuation">(</span>topics_el<span class="token punctuation">,</span> <span class="token string">"topic"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"t-</span><span class="token interpolation"><span class="token punctuation">&#123;</span>i<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+            ET<span class="token punctuation">.</span>SubElement<span class="token punctuation">(</span>topic<span class="token punctuation">,</span> <span class="token string">"title"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>text <span class="token operator">=</span> t<span class="token punctuation">[</span><span class="token string">"title"</span><span class="token punctuation">]</span>
+            add_topics<span class="token punctuation">(</span>topic<span class="token punctuation">,</span> t<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"topics"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    add_topics<span class="token punctuation">(</span>root_topic<span class="token punctuation">,</span> tree_data<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"topics"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> ET<span class="token punctuation">.</span>tostring<span class="token punctuation">(</span>root<span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token punctuation">,</span> xml_declaration<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">def</span> <span class="token function">save_as_xmind</span><span class="token punctuation">(</span>filename<span class="token punctuation">,</span> xml_content<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">with</span> zipfile<span class="token punctuation">.</span>ZipFile<span class="token punctuation">(</span>filename<span class="token punctuation">,</span> <span class="token string">"w"</span><span class="token punctuation">,</span> zipfile<span class="token punctuation">.</span>ZIP_DEFLATED<span class="token punctuation">)</span> <span class="token keyword">as</span> z<span class="token punctuation">:</span>
+        z<span class="token punctuation">.</span>writestr<span class="token punctuation">(</span><span class="token string">"content.xml"</span><span class="token punctuation">,</span> xml_content<span class="token punctuation">)</span>
+        <span class="token comment"># 必须包含 manifest.json 声明，否则 XMind 打不开</span>
+        z<span class="token punctuation">.</span>writestr<span class="token punctuation">(</span>
+            <span class="token string">"manifest.json"</span><span class="token punctuation">,</span>
+            json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"file-entries"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token string">"content.xml"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">"manifest.json"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="4-2-使用-SDK-生成-XMind（新版）"><a href="#4-2-使用-SDK-生成-XMind（新版）" class="headerlink" title="4.2 使用 SDK 生成 XMind（新版）"></a>4.2 使用 SDK 生成 XMind（新版）</h3><p>对于 XMind Zen &#x2F; 2024，更推荐使用官方 SDK。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pip <span class="token function">install</span> XMind-SDK-Python<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> xmind
+
+workbook <span class="token operator">=</span> xmind<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token string">"new.xmind"</span><span class="token punctuation">)</span>
+sheet <span class="token operator">=</span> workbook<span class="token punctuation">.</span>getPrimarySheet<span class="token punctuation">(</span><span class="token punctuation">)</span>
+root_topic <span class="token operator">=</span> sheet<span class="token punctuation">.</span>getRootTopic<span class="token punctuation">(</span><span class="token punctuation">)</span>
+root_topic<span class="token punctuation">.</span>setTitle<span class="token punctuation">(</span><span class="token string">"自动化测试计划"</span><span class="token punctuation">)</span>
+
+sub <span class="token operator">=</span> root_topic<span class="token punctuation">.</span>addSubTopic<span class="token punctuation">(</span><span class="token punctuation">)</span>
+sub<span class="token punctuation">.</span>setTitle<span class="token punctuation">(</span><span class="token string">"接口测试"</span><span class="token punctuation">)</span>
+sub<span class="token punctuation">.</span>setMarkerId<span class="token punctuation">(</span><span class="token string">"priority-1"</span><span class="token punctuation">)</span> <span class="token comment"># 设置优先级图标</span>
+
+xmind<span class="token punctuation">.</span>save<span class="token punctuation">(</span>workbook<span class="token punctuation">,</span> <span class="token string">"test_plan.xmind"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="5-工程实践：模板注入法"><a href="#5-工程实践：模板注入法" class="headerlink" title="5. 工程实践：模板注入法"></a>5. 工程实践：模板注入法</h2><p>在真实项目中，纯代码生成样式的维护成本很高，更常见、也更稳定的做法是<strong>模板注入法</strong>。</p>
+<h3 id="5-1-为什么使用模板"><a href="#5-1-为什么使用模板" class="headerlink" title="5.1 为什么使用模板"></a>5.1 为什么使用模板</h3><ul>
+<li>样式由人工在 XMind 中维护</li>
+<li>程序只负责生成结构数据</li>
+<li>模板调整不会影响代码逻辑</li>
+</ul>
+<h3 id="5-2-基本流程"><a href="#5-2-基本流程" class="headerlink" title="5.2 基本流程"></a>5.2 基本流程</h3><ol>
+<li>手动制作 <code>template.xmind</code></li>
+<li>解压并读取模板文件</li>
+<li>动态生成 <code>content.xml / content.json</code></li>
+<li>重新打包为 <code>.xmind</code></li>
+</ol>
+<p>这种方式非常适合测试平台、自动化工具以及企业内部系统。</p>
+<hr>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h2><ul>
+<li><code>.xmind</code> 是一个 ZIP 文件，核心内容是 XML &#x2F; JSON</li>
+<li>思维导图在程序中是标准的树结构</li>
+<li>可以使用 <code>xmindparser</code> 将 XMind 解析为可编程数据</li>
+<li>可以通过 XML 或 SDK 反向生成 XMind 文件</li>
+<li>模板注入法是工程中最稳定、最易维护的方案</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/" class="category-chain-item">🏗️ 测试平台开发实战手记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="category-chain-item">测试开发工具</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/fluid-blog/tags/XMind/" class="print-no-link">#XMind</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E8%87%AA%E5%8A%A8%E5%8C%96/" class="print-no-link">#测试自动化</a>
+      
+        <a href="/fluid-blog/tags/%E8%84%91%E5%9B%BE%E7%94%9F%E6%88%90/" class="print-no-link">#脑图生成</a>
+      
+        <a href="/fluid-blog/tags/XML-JSON/" class="print-no-link">#XML/JSON</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🗺️ 用 Python 操作 XMind：从读懂到生成的完整入门指南</div>
+      <div>https://linn0813.github.io/2026/01/21/2026-01-21-python-xmind-operation-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/21/2026-01-21-sitemap-search-engine-seo-guide/" title="🧭 如何把个人博客挂到搜索引擎上？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧭 如何把个人博客挂到搜索引擎上？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/20/2026-01-20-frontend-file-extensions-guide/" title="📄 一篇搞懂前端常见文件后缀：ts / tsc / jsx / tsx / scss">
+                        <span class="hidden-mobile">📄 一篇搞懂前端常见文件后缀：ts / tsc / jsx / tsx / scss</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

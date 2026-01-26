@@ -1,0 +1,1825 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Prompt工程, ReAct, Schema, 结构化输出, Chain-of-Thought, CoT, Self-Correction, 提示工程实战">
+  
+    <meta name="description" content="Prompt 工程实战指南：掌握明确角色、思维链进阶和结构化输出三大核心技巧，实现稳定、可解析的高质量输出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/04/2025-12-04-llm-prompt-engineering-practices/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="Prompt 工程实战指南：掌握明确角色、思维链进阶和结构化输出三大核心技巧，实现稳定、可解析的高质量输出">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-prompt-engineering-practices.png">
+<meta property="article:published_time" content="2025-12-04T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.630Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Prompt工程">
+<meta property="article:tag" content="Chain-of-Thought">
+<meta property="article:tag" content="ReAct">
+<meta property="article:tag" content="Schema">
+<meta property="article:tag" content="结构化输出">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-prompt-engineering-practices.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-04 18:00" pubdate>
+          2025年12月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          69 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 3 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们理解了 LLM 的”语言”：Prompt、上下文窗口和 In-Context Learning。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们从实战角度，掌握 Prompt 工程的三大核心技巧，实现稳定、可解析的结构化输出。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-从”聊天”到”高效工作”"><a href="#🚀-导言-—-从”聊天”到”高效工作”" class="headerlink" title="🚀 导言 — 从”聊天”到”高效工作”"></a>🚀 导言 — 从”聊天”到”高效工作”</h2><p>在前两篇中，我们掌握了 LLM 的底层机制（Token、Transformer）和交互基础（Prompt、ICL）。</p>
+<p>当你开始真正用 LLM 做项目时，会发现一个令人头疼的问题：</p>
+<blockquote>
+<p><strong>你希望得到 JSON，却得到了一段解释文字；</strong><br><strong>你希望表格化输出，结果模型输出了自由文本；</strong><br><strong>你希望模型调用工具，但它只是”说”要调用，却不按格式输出。</strong></p>
+</blockquote>
+<p>这不是模型能力的问题，而是 <strong>Prompt 设计的问题</strong>。</p>
+<p>实际开发 Agent 或自动化流程时，最令人头疼的问题往往不是模型能力不够，而是<strong>输出格式不稳定、行为不可控</strong>。</p>
+<hr>
+<h2 id="💡-Prompt-工程是什么，不是什么？"><a href="#💡-Prompt-工程是什么，不是什么？" class="headerlink" title="💡 Prompt 工程是什么，不是什么？"></a>💡 Prompt 工程是什么，不是什么？</h2><p>在深入技巧之前，我们需要先澄清一个关键问题：<strong>什么是 Prompt 工程？</strong></p>
+<h3 id="常见的误解"><a href="#常见的误解" class="headerlink" title="常见的误解"></a>常见的误解</h3><p>很多人以为 Prompt 工程就是：</p>
+<ul>
+<li><strong>多写一点</strong> — 把问题描述得更详细</li>
+<li><strong>描述清楚一点</strong> — 用更准确的语言表达需求</li>
+<li><strong>提示模型输出你想要的内容</strong> — 告诉模型”请输出 JSON”</li>
+</ul>
+<p>这些做法有一定效果，但<strong>不是真正的 Prompt 工程</strong>。</p>
+<h3 id="Prompt-工程的真正内涵"><a href="#Prompt-工程的真正内涵" class="headerlink" title="Prompt 工程的真正内涵"></a>Prompt 工程的真正内涵</h3><p>真正的 Prompt 工程是一个<strong>系统化的工程方法</strong>，包含以下维度：</p>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>说明</th>
+<th>对应本篇技巧</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>角色定位</strong></td>
+<td>明确模型应该以谁的身份工作</td>
+<td>技巧一：明确角色（Persona Defining）</td>
+</tr>
+<tr>
+<td><strong>任务描述</strong></td>
+<td>清晰、结构化地说明任务是什么，不是什么</td>
+<td>贯穿所有技巧</td>
+</tr>
+<tr>
+<td><strong>输入格式</strong></td>
+<td>明确用户会提供什么格式的数据</td>
+<td>技巧三：结构化输出保障（分隔符）</td>
+</tr>
+<tr>
+<td><strong>输出格式</strong></td>
+<td>强制模型使用特定结构输出（JSON、表格等）</td>
+<td>技巧三：结构化输出保障（Schema）</td>
+</tr>
+<tr>
+<td><strong>推理约束（Chain-of-Thought）</strong></td>
+<td>控制思考过程，为模型提供思路或限制思路</td>
+<td>技巧二：思维链进阶（ReAct）</td>
+</tr>
+<tr>
+<td><strong>抗偏差与抗幻觉设计</strong></td>
+<td>明确禁止模型编造、要求引用来源、允许拒答</td>
+<td>技巧一：明确角色（限制条件）</td>
+</tr>
+<tr>
+<td><strong>错误恢复机制</strong></td>
+<td>当输入异常时如何自我修正</td>
+<td>技巧二：思维链进阶（Self-Correction）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：Prompt 工程不是技巧，是<strong>规范化 + 工程化</strong>。</p>
+<ul>
+<li><strong>规范化</strong>：用统一的标准和模板设计 Prompt</li>
+<li><strong>工程化</strong>：考虑边界情况、错误处理、可维护性</li>
+</ul>
+</blockquote>
+<p>这就像写代码一样：</p>
+<ul>
+<li>❌ <strong>不是</strong>：想到什么写什么，能跑就行</li>
+<li>✅ <strong>而是</strong>：遵循规范、考虑异常、可测试、可维护</li>
+</ul>
+<hr>
+<h2 id="🎯-三大核心技巧概览"><a href="#🎯-三大核心技巧概览" class="headerlink" title="🎯 三大核心技巧概览"></a>🎯 三大核心技巧概览</h2><p>基于 Prompt 工程的内涵，本篇将介绍 <strong>三大核心技巧</strong>，帮助你获得<strong>稳定、可解析的结构化输出</strong>：</p>
+<ol>
+<li><p><strong>明确角色（Persona Defining）</strong> — 让模型”入戏”，聚焦专业领域</p>
+<ul>
+<li>对应：角色定位、抗偏差设计</li>
+</ul>
+</li>
+<li><p><strong>思维链进阶（Advanced CoT &#x2F; ReAct）</strong> — 外化思考过程，实现可控决策</p>
+<ul>
+<li>对应：推理约束、错误恢复机制</li>
+</ul>
+</li>
+<li><p><strong>结构化输出保障（Schema + 分隔符）</strong> — 确保机器可读、程序可解析</p>
+<ul>
+<li>对应：输入格式、输出格式</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="👑-技巧一：明确角色（Persona-Defining）"><a href="#👑-技巧一：明确角色（Persona-Defining）" class="headerlink" title="👑 技巧一：明确角色（Persona Defining）"></a>👑 技巧一：明确角色（Persona Defining）</h2><p>定义一个清晰、专业的角色，是高质量输出的第一步。</p>
+<h3 id="为什么定义角色很重要？"><a href="#为什么定义角色很重要？" class="headerlink" title="为什么定义角色很重要？"></a>为什么定义角色很重要？</h3><ul>
+<li><p><strong>聚焦领域</strong>：让模型扮演”资深测试架构师”，它会使用更专业的术语和逻辑。</p>
+</li>
+<li><p><strong>约束语气</strong>：确保输出专业、简洁、不冗长。</p>
+</li>
+<li><p><strong>减少幻觉</strong>：专业角色能减少随意编造信息的可能。</p>
+</li>
+</ul>
+<h3 id="角色定义要点"><a href="#角色定义要点" class="headerlink" title="角色定义要点"></a>角色定义要点</h3><table>
+<thead>
+<tr>
+<th>要点</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>身份</strong></td>
+<td>具体且权威</td>
+<td>“你是一位经验丰富的 Python 后端工程师。”</td>
+</tr>
+<tr>
+<td><strong>目标</strong></td>
+<td>唯一任务目标，消除歧义</td>
+<td>“你的目标是生成符合 PEP 8 的代码。”</td>
+</tr>
+<tr>
+<td><strong>限制</strong></td>
+<td>明确禁止或必须遵守的行为</td>
+<td>“禁止在代码块之外添加任何解释性文字。”</td>
+</tr>
+</tbody></table>
+<p><strong>完整示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt:
+你是一位经验丰富的测试架构师，专注于自动化测试和测试平台开发。
+
+你的职责是：
+1. 设计清晰、可维护的测试用例
+2. 提供符合最佳实践的测试方案
+3. 使用专业术语，保持输出简洁
+
+限制：
+- 禁止使用模糊或不确定的表达
+- 禁止在代码示例中添加注释（除非必要）
+- 输出必须结构化（使用 Markdown 表格或列表）
+
+User Prompt:
+请为"用户注册功能"设计测试用例。
+
+模型输出（更专业、更结构化）：
+## 测试用例设计
+
+| 用例ID | 测试场景 | 前置条件 | 测试步骤 | 预期结果 |
+|--------|---------|---------|---------|---------|
+| TC001 | 正常注册 | 无 | 1. 打开注册页面&lt;br>2. 输入有效信息&lt;br>3. 点击注册 | 注册成功，跳转登录页 |
+| TC002 | 邮箱已存在 | 邮箱已注册 | 1. 输入已注册邮箱&lt;br>2. 点击注册 | 提示"邮箱已存在" |
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>🔧 <strong>实战提示</strong>：</p>
+<ul>
+<li>将角色定义放在 <strong>System Prompt</strong> 中，以赋予最高权重和持续性</li>
+<li><strong>身份要具体</strong>：避免”你是一个助手”这样的模糊表达，改为”你是一位测试架构师”</li>
+<li><strong>目标要唯一</strong>：一个角色只负责一个核心任务，避免职责混乱</li>
+<li><strong>限制要明确</strong>：用”禁止”、”必须”等明确词汇，避免模糊表达</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔗-技巧二：思维链进阶（Advanced-CoT-ReAct）"><a href="#🔗-技巧二：思维链进阶（Advanced-CoT-ReAct）" class="headerlink" title="🔗 技巧二：思维链进阶（Advanced CoT &#x2F; ReAct）"></a>🔗 技巧二：思维链进阶（Advanced CoT &#x2F; ReAct）</h2><p>在复杂任务中，单纯的 Prompt 可能不够。</p>
+<p><strong>ReAct（Reasoning + Acting）</strong> 能让 LLM 在行动前先思考，再执行工具调用，实现闭环决策。</p>
+<h3 id="ReAct-步骤"><a href="#ReAct-步骤" class="headerlink" title="ReAct 步骤"></a>ReAct 步骤</h3><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>内容</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Thought</strong></td>
+<td>分析任务，决定下一步</td>
+<td>激活内部逻辑，将复杂任务拆解</td>
+</tr>
+<tr>
+<td><strong>Action</strong></td>
+<td>决定调用工具或执行函数</td>
+<td>明确执行路径，如 <code>Search(Query)</code></td>
+</tr>
+<tr>
+<td><strong>Observation</strong></td>
+<td>接收工具结果</td>
+<td>为下一次 Thought 提供输入，形成反馈闭环</td>
+</tr>
+</tbody></table>
+<h3 id="Prompt-模板示例"><a href="#Prompt-模板示例" class="headerlink" title="Prompt 模板示例"></a>Prompt 模板示例</h3><figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">你需要按照以下格式输出：
+
+Thought: [你的思考]
+
+Action: [调用的工具名(参数)]
+
+Observation: [工具返回结果]
+
+...重复此循环，直到得到最终答案
+
+Final Answer: [最终答案]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>实际应用示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt:
+你是一个测试自动化助手，可以通过调用工具来执行测试任务。
+
+User Prompt:
+请检查 API 接口 /api/users 是否正常。
+
+模型输出：
+Thought: 我需要先调用 API 检查工具来测试这个接口。
+
+Action: check_api(url="/api/users", method="GET")
+
+Observation: &#123;"status": 200, "response_time": 120ms, "data": [...]&#125;
+
+Thought: API 返回 200 状态码，响应时间正常，接口工作正常。
+
+Final Answer: API 接口 /api/users 工作正常，状态码 200，响应时间 120ms。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="CoT-与自我修正（Self-Correction）"><a href="#CoT-与自我修正（Self-Correction）" class="headerlink" title="CoT 与自我修正（Self-Correction）"></a>CoT 与自我修正（Self-Correction）</h3><p>当 Observation 阶段出现错误，可在下一次 Thought 中要求模型<strong>识别并修正错误</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">
+Thought: 上一步调用 API 失败，返回 404，原因是缺失参数"ID"。我需要重新规划 Action，补充缺失参数。
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>🔹 这让复杂任务更可控，避免错误累积。</p>
+</blockquote>
+<h3 id="自我一致性检查（Self-Consistency）"><a href="#自我一致性检查（Self-Consistency）" class="headerlink" title="自我一致性检查（Self-Consistency）"></a>自我一致性检查（Self-Consistency）</h3><p>对于需要高准确性的任务（如代码生成、数学计算），可以要求模型生成多个答案，然后选择最一致的：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt:
+你是一个代码审查助手。对于每个代码片段，请生成 3 个不同的审查意见，然后选择最一致、最准确的作为最终答案。
+
+输出格式：
+审查意见1: [意见]
+审查意见2: [意见]
+审查意见3: [意见]
+最终审查意见: [选择最一致的]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>适用场景</strong>：适合需要高准确性的任务，但会增加 Token 消耗，需要权衡成本。</p>
+</blockquote>
+<hr>
+<h2 id="🧱-技巧三：确保结构化输出（Schema-分隔符）"><a href="#🧱-技巧三：确保结构化输出（Schema-分隔符）" class="headerlink" title="🧱 技巧三：确保结构化输出（Schema + 分隔符）"></a>🧱 技巧三：确保结构化输出（Schema + 分隔符）</h2><p>这是最关键的一环，尤其当下游程序需要 JSON &#x2F; YAML &#x2F; XML 时。</p>
+<h3 id="核心方法：使用-Schema-约束"><a href="#核心方法：使用-Schema-约束" class="headerlink" title="核心方法：使用 Schema 约束"></a>核心方法：使用 Schema 约束</h3><ul>
+<li><p><strong>定义</strong>：Schema 描述输出数据结构（JSON Schema、Pydantic 等）</p>
+</li>
+<li><p><strong>作用</strong>：不仅告诉模型”输出 JSON”，还规定字段名、类型、必选项</p>
+</li>
+</ul>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>方法</th>
+<th>Prompt 片段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>1. 格式声明</strong></td>
+<td>明确仅输出 JSON</td>
+<td>“你的输出必须且只能是 JSON 格式，不要添加任何解释性文字。”</td>
+</tr>
+<tr>
+<td><strong>2. 注入 Schema</strong></td>
+<td>将 JSON Schema 文本加入 Prompt</td>
+<td><code>&#123;&quot;type&quot;:&quot;object&quot;,&quot;properties&quot;:&#123;&quot;user_id&quot;:&#123;&quot;type&quot;:&quot;integer&quot;&#125;,&quot;task_list&quot;:&#123;&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:&#123;&quot;name&quot;:&quot;string&quot;,&quot;status&quot;:&quot;string&quot;&#125;&#125;&#125;&#125;</code></td>
+</tr>
+<tr>
+<td><strong>3. 使用工具</strong></td>
+<td>高级：调用 <code>function_call</code> &#x2F; <code>tool_call</code></td>
+<td>模型直接输出符合 Schema 的函数对象</td>
+</tr>
+</tbody></table>
+<p><strong>完整示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt:
+你是一个测试用例生成器。你的输出必须且只能是 JSON 格式，不要添加任何解释性文字。
+
+输出格式必须符合以下 Schema：
+&#123;
+  "type": "object",
+  "properties": &#123;
+    "test_cases": &#123;
+      "type": "array",
+      "items": &#123;
+        "type": "object",
+        "properties": &#123;
+          "id": &#123;"type": "integer"&#125;,
+          "title": &#123;"type": "string"&#125;,
+          "steps": &#123;"type": "array", "items": &#123;"type": "string"&#125;&#125;,
+          "expected": &#123;"type": "string"&#125;
+        &#125;,
+        "required": ["id", "title", "steps", "expected"]
+      &#125;
+    &#125;
+  &#125;
+&#125;
+
+User Prompt:
+为"用户登录功能"生成 3 个测试用例。
+
+模型输出（仅 JSON）：
+&#123;
+  "test_cases": [
+    &#123;
+      "id": 1,
+      "title": "正常登录",
+      "steps": ["打开登录页面", "输入正确用户名和密码", "点击登录按钮"],
+      "expected": "登录成功，跳转到首页"
+    &#125;,
+    &#123;
+      "id": 2,
+      "title": "错误密码登录",
+      "steps": ["打开登录页面", "输入正确用户名和错误密码", "点击登录按钮"],
+      "expected": "显示错误提示：密码错误"
+    &#125;,
+    &#123;
+      "id": 3,
+      "title": "空用户名登录",
+      "steps": ["打开登录页面", "不输入用户名，只输入密码", "点击登录按钮"],
+      "expected": "显示错误提示：用户名不能为空"
+    &#125;
+  ]
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>关键点</strong>：</p>
+<ul>
+<li><strong>明确格式要求</strong>：在 System Prompt 中强调”仅输出 JSON”</li>
+<li><strong>提供完整 Schema</strong>：不仅告诉模型”输出 JSON”，还要规定字段名、类型、必选项</li>
+<li><strong>禁止解释文字</strong>：避免模型在 JSON 前后添加说明</li>
+</ul>
+</blockquote>
+<h3 id="使用分隔符"><a href="#使用分隔符" class="headerlink" title="使用分隔符"></a>使用分隔符</h3><p>分隔符帮助模型专注核心任务，区分指令、上下文和用户输入：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">
+请总结 &lt;&lt;&lt;用户输入>>> 中的内容，并以 YAML 输出摘要和关键词。
+
+&lt;&lt;&lt;用户输入>>>
+
+[用户粘贴的文本]
+
+&lt;&lt;&lt;END>>>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🏗️-工程化实践：从技巧到系统"><a href="#🏗️-工程化实践：从技巧到系统" class="headerlink" title="🏗️ 工程化实践：从技巧到系统"></a>🏗️ 工程化实践：从技巧到系统</h2><p>掌握了三大核心技巧后，我们需要将 Prompt 设计<strong>工程化</strong>，实现可复用、可维护、可测试。</p>
+<h3 id="模板工程（Template-Engineering）"><a href="#模板工程（Template-Engineering）" class="headerlink" title="模板工程（Template Engineering）"></a>模板工程（Template Engineering）</h3><p>将 Prompt 设计成<strong>可复用、可维护的模板</strong>，就像代码中的函数一样。</p>
+<p><strong>为什么需要模板？</strong></p>
+<ul>
+<li><strong>一致性</strong>：确保相同任务使用相同的 Prompt 结构</li>
+<li><strong>可维护性</strong>：修改模板即可影响所有使用该模板的地方</li>
+<li><strong>可测试性</strong>：可以针对模板进行测试和优化</li>
+</ul>
+<p><strong>模板设计示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Prompt 模板</span>
+TEST_CASE_TEMPLATE <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+你是一位经验丰富的测试架构师。
+
+任务：为以下功能设计测试用例
+
+功能名称：&#123;feature_name&#125;
+功能描述：&#123;feature_description&#125;
+
+输出格式：必须符合以下 JSON Schema
+&#123;schema&#125;
+
+约束：
+- 禁止使用模糊或不确定的表达
+- 测试用例必须覆盖正常流程和异常流程
+- 每个测试用例必须包含：id、title、steps、expected
+"""</span>
+
+<span class="token comment"># 使用模板</span>
+prompt <span class="token operator">=</span> TEST_CASE_TEMPLATE<span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>
+    feature_name<span class="token operator">=</span><span class="token string">"用户登录"</span><span class="token punctuation">,</span>
+    feature_description<span class="token operator">=</span><span class="token string">"用户通过用户名和密码登录系统"</span><span class="token punctuation">,</span>
+    schema<span class="token operator">=</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>test_case_schema<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="工程化结构（Prompt-as-Code）"><a href="#工程化结构（Prompt-as-Code）" class="headerlink" title="工程化结构（Prompt as Code）"></a>工程化结构（Prompt as Code）</h3><p><strong>什么是 Prompt as Code？</strong></p>
+<p>就像写代码一样管理 Prompt：<strong>模块化、版本控制、可测试、可复用</strong>。</p>
+<blockquote>
+<p>💡 <strong>比喻理解</strong>：</p>
+<ul>
+<li><strong>传统方式</strong>：每次都在聊天框里写 Prompt，像写临时脚本</li>
+<li><strong>Prompt as Code</strong>：把 Prompt 写成代码文件，像写正式项目</li>
+</ul>
+</blockquote>
+<p><strong>为什么要这样做？</strong></p>
+<ul>
+<li><strong>可复用</strong>：一次写好，多处使用</li>
+<li><strong>可维护</strong>：修改一处，全局生效</li>
+<li><strong>可测试</strong>：验证 Prompt 效果，确保质量</li>
+<li><strong>可协作</strong>：团队共享，统一标准</li>
+</ul>
+<h4 id="1-模块化设计：像搭积木一样组合-Prompt"><a href="#1-模块化设计：像搭积木一样组合-Prompt" class="headerlink" title="1. 模块化设计：像搭积木一样组合 Prompt"></a>1. 模块化设计：像搭积木一样组合 Prompt</h4><p><strong>问题</strong>：如果每个 Prompt 都写完整的角色、约束、格式，会重复且难维护。</p>
+<p><strong>解决</strong>：把 Prompt 拆成小模块，按需组合。</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 第一步：创建可复用的组件（像函数一样）</span>
+
+<span class="token comment"># prompts/components/persona.py</span>
+<span class="token comment"># 角色定义模块</span>
+PERSONA_TEST_ARCHITECT <span class="token operator">=</span> <span class="token string">"你是一位经验丰富的测试架构师，专注于自动化测试和测试平台开发。"</span>
+
+<span class="token comment"># prompts/components/constraints.py</span>
+<span class="token comment"># 约束条件模块</span>
+CONSTRAINT_NO_HALLUCINATION <span class="token operator">=</span> <span class="token string">"禁止编造信息，如果信息不确定，请明确说明'信息不足'。"</span>
+
+<span class="token comment"># prompts/components/format.py</span>
+<span class="token comment"># 输出格式模块</span>
+FORMAT_JSON_ONLY <span class="token operator">=</span> <span class="token string">"你的输出必须且只能是 JSON 格式，不要添加任何解释性文字。"</span>
+
+<span class="token comment"># 第二步：组合成完整的 Prompt（像调用函数一样）</span>
+
+<span class="token comment"># prompts/templates/test_case.py</span>
+<span class="token keyword">from</span> prompts<span class="token punctuation">.</span>components <span class="token keyword">import</span> <span class="token punctuation">(</span>
+    PERSONA_TEST_ARCHITECT<span class="token punctuation">,</span> 
+    CONSTRAINT_NO_HALLUCINATION<span class="token punctuation">,</span>
+    FORMAT_JSON_ONLY
+<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">build_test_case_prompt</span><span class="token punctuation">(</span>feature_name<span class="token punctuation">,</span> feature_description<span class="token punctuation">,</span> schema<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""构建测试用例生成的 Prompt"""</span>
+    <span class="token keyword">return</span> <span class="token string-interpolation"><span class="token string">f"""
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span>PERSONA_TEST_ARCHITECT<span class="token punctuation">&#125;</span></span><span class="token string">
+
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span>CONSTRAINT_NO_HALLUCINATION<span class="token punctuation">&#125;</span></span><span class="token string">
+
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span>FORMAT_JSON_ONLY<span class="token punctuation">&#125;</span></span><span class="token string">
+
+任务：为以下功能设计测试用例
+
+功能名称：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>feature_name<span class="token punctuation">&#125;</span></span><span class="token string">
+功能描述：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>feature_description<span class="token punctuation">&#125;</span></span><span class="token string">
+
+输出格式必须符合以下 Schema：
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span>schema<span class="token punctuation">&#125;</span></span><span class="token string">
+"""</span></span>
+
+<span class="token comment"># 第三步：使用（像调用 API 一样简单）</span>
+
+prompt <span class="token operator">=</span> build_test_case_prompt<span class="token punctuation">(</span>
+    feature_name<span class="token operator">=</span><span class="token string">"用户登录"</span><span class="token punctuation">,</span>
+    feature_description<span class="token operator">=</span><span class="token string">"用户通过用户名和密码登录系统"</span><span class="token punctuation">,</span>
+    schema<span class="token operator">=</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>test_case_schema<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>好处</strong>：</p>
+<ul>
+<li>✅ 修改角色定义时，只需改 <code>persona.py</code>，所有使用该角色的 Prompt 都会更新</li>
+<li>✅ 可以轻松替换组件：把 <code>PERSONA_TEST_ARCHITECT</code> 换成 <code>PERSONA_DEVELOPER</code></li>
+<li>✅ 代码清晰，易于理解</li>
+</ul>
+<h4 id="2-版本控制：记录-Prompt-的演进历史"><a href="#2-版本控制：记录-Prompt-的演进历史" class="headerlink" title="2. 版本控制：记录 Prompt 的演进历史"></a>2. 版本控制：记录 Prompt 的演进历史</h4><p><strong>问题</strong>：Prompt 改来改去，不知道哪个版本效果好。</p>
+<p><strong>解决</strong>：像代码一样，用版本号管理 Prompt。</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># prompts/v1/test_case_generator.py</span>
+<span class="token comment"># 第一版：简单版本</span>
+SYSTEM_PROMPT_V1 <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+你是一个测试用例生成器。
+请为指定功能生成测试用例。
+"""</span>
+
+<span class="token comment"># prompts/v2/test_case_generator.py</span>
+<span class="token comment"># 第二版：增加了角色和约束</span>
+SYSTEM_PROMPT_V2 <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+你是一位经验丰富的测试架构师。
+请为指定功能生成测试用例。
+禁止使用模糊表达。
+"""</span>
+
+<span class="token comment"># prompts/v3/test_case_generator.py</span>
+<span class="token comment"># 第三版：增加了格式要求</span>
+SYSTEM_PROMPT_V3 <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+你是一位经验丰富的测试架构师。
+请为指定功能生成测试用例。
+禁止使用模糊表达。
+输出必须是 JSON 格式。
+"""</span>
+
+<span class="token comment"># 使用时可以选择版本</span>
+<span class="token keyword">def</span> <span class="token function">get_prompt</span><span class="token punctuation">(</span>version<span class="token operator">=</span><span class="token string">"v3"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> version <span class="token operator">==</span> <span class="token string">"v1"</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> SYSTEM_PROMPT_V1
+    <span class="token keyword">elif</span> version <span class="token operator">==</span> <span class="token string">"v2"</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> SYSTEM_PROMPT_V2
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> SYSTEM_PROMPT_V3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>好处</strong>：</p>
+<ul>
+<li>✅ 可以对比不同版本的效果</li>
+<li>✅ 如果新版本有问题，可以快速回退到旧版本</li>
+<li>✅ 记录 Prompt 的改进历程</li>
+</ul>
+<h4 id="3-测试：确保-Prompt-质量"><a href="#3-测试：确保-Prompt-质量" class="headerlink" title="3. 测试：确保 Prompt 质量"></a>3. 测试：确保 Prompt 质量</h4><p><strong>问题</strong>：Prompt 改完后，不知道效果如何。</p>
+<p><strong>解决</strong>：像测试代码一样，测试 Prompt 的输出。</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># tests/test_prompts.py</span>
+<span class="token keyword">import</span> json
+
+<span class="token keyword">def</span> <span class="token function">test_test_case_prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试：验证 Prompt 生成的测试用例是否符合要求"""</span>
+    
+    <span class="token comment"># 1. 构建 Prompt</span>
+    prompt <span class="token operator">=</span> build_test_case_prompt<span class="token punctuation">(</span>
+        feature_name<span class="token operator">=</span><span class="token string">"用户登录"</span><span class="token punctuation">,</span>
+        feature_description<span class="token operator">=</span><span class="token string">"用户通过用户名和密码登录系统"</span><span class="token punctuation">,</span>
+        schema<span class="token operator">=</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>test_case_schema<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. 调用 LLM</span>
+    result <span class="token operator">=</span> call_llm<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span>  <span class="token comment"># 假设这是调用 LLM 的函数</span>
+    
+    <span class="token comment"># 3. 验证输出格式（确保是有效的 JSON）</span>
+    <span class="token keyword">assert</span> validate_json_schema<span class="token punctuation">(</span>result<span class="token punctuation">,</span> TEST_CASE_SCHEMA<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 4. 验证内容完整性（确保至少生成了 3 个测试用例）</span>
+    <span class="token keyword">assert</span> <span class="token builtin">len</span><span class="token punctuation">(</span>result<span class="token punctuation">[</span><span class="token string">"test_cases"</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">>=</span> <span class="token number">3</span>
+    
+    <span class="token comment"># 5. 验证每个测试用例都有必要字段</span>
+    <span class="token keyword">for</span> test_case <span class="token keyword">in</span> result<span class="token punctuation">[</span><span class="token string">"test_cases"</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+        <span class="token keyword">assert</span> <span class="token string">"id"</span> <span class="token keyword">in</span> test_case
+        <span class="token keyword">assert</span> <span class="token string">"title"</span> <span class="token keyword">in</span> test_case
+        <span class="token keyword">assert</span> <span class="token string">"steps"</span> <span class="token keyword">in</span> test_case
+        <span class="token keyword">assert</span> <span class="token string">"expected"</span> <span class="token keyword">in</span> test_case
+        <span class="token keyword">assert</span> <span class="token builtin">len</span><span class="token punctuation">(</span>test_case<span class="token punctuation">[</span><span class="token string">"steps"</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">0</span>  <span class="token comment"># 步骤不能为空</span>
+    
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"✅ 测试通过：Prompt 输出符合要求"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 运行测试</span>
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    test_test_case_prompt<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>好处</strong>：</p>
+<ul>
+<li>✅ 修改 Prompt 后，运行测试就知道是否破坏了功能</li>
+<li>✅ 可以对比不同版本的效果（A&#x2F;B 测试）</li>
+<li>✅ 确保 Prompt 质量稳定</li>
+</ul>
+<blockquote>
+<p>💡 <strong>最佳实践</strong>：</p>
+<ul>
+<li><strong>使用配置文件</strong>：将 Prompt 模板存储在 YAML&#x2F;JSON 中，便于非技术人员修改</li>
+<li><strong>A&#x2F;B 测试</strong>：对比不同版本的 Prompt 效果</li>
+<li><strong>监控与日志</strong>：记录 Prompt 的使用情况和效果，持续优化</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🎯-完整实战案例：三大技巧综合应用"><a href="#🎯-完整实战案例：三大技巧综合应用" class="headerlink" title="🎯 完整实战案例：三大技巧综合应用"></a>🎯 完整实战案例：三大技巧综合应用</h2><p>让我们通过一个完整的案例，看看如何将三大技巧结合起来，解决一个实际问题。</p>
+<h3 id="场景：自动生成测试用例"><a href="#场景：自动生成测试用例" class="headerlink" title="场景：自动生成测试用例"></a>场景：自动生成测试用例</h3><p><strong>需求</strong>：根据功能描述，自动生成结构化的测试用例 JSON。</p>
+<p><strong>挑战</strong>：</p>
+<ul>
+<li>输出格式必须严格符合 JSON Schema</li>
+<li>需要覆盖正常流程和异常流程</li>
+<li>测试步骤要清晰、可执行</li>
+<li>需要处理边界情况</li>
+</ul>
+<h3 id="解决方案：结合三大技巧"><a href="#解决方案：结合三大技巧" class="headerlink" title="解决方案：结合三大技巧"></a>解决方案：结合三大技巧</h3><h4 id="第一步：明确角色（Persona-Defining）"><a href="#第一步：明确角色（Persona-Defining）" class="headerlink" title="第一步：明确角色（Persona Defining）"></a>第一步：明确角色（Persona Defining）</h4><figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt:
+你是一位经验丰富的测试架构师，专注于自动化测试。
+
+你的职责：
+1. 设计清晰、可维护的测试用例
+2. 确保测试用例覆盖正常流程和异常流程
+3. 使用专业术语，保持输出简洁
+
+限制：
+- 禁止使用模糊或不确定的表达（如"应该"、"可能"）
+- 禁止编造不存在的功能点
+- 如果信息不足，请明确说明"信息不足，无法生成完整测试用例"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="第二步：结构化输出（Schema-分隔符）"><a href="#第二步：结构化输出（Schema-分隔符）" class="headerlink" title="第二步：结构化输出（Schema + 分隔符）"></a>第二步：结构化输出（Schema + 分隔符）</h4><figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">输出格式：必须且只能是 JSON 格式，不要添加任何解释性文字。
+
+输出必须符合以下 Schema：
+&#123;
+  "type": "object",
+  "properties": &#123;
+    "feature_name": &#123;"type": "string"&#125;,
+    "test_cases": &#123;
+      "type": "array",
+      "items": &#123;
+        "type": "object",
+        "properties": &#123;
+          "id": &#123;"type": "integer"&#125;,
+          "title": &#123;"type": "string"&#125;,
+          "priority": &#123;"type": "string", "enum": ["高", "中", "低"]&#125;,
+          "precondition": &#123;"type": "string"&#125;,
+          "steps": &#123;
+            "type": "array",
+            "items": &#123;"type": "string"&#125;
+          &#125;,
+          "expected": &#123;"type": "string"&#125;
+        &#125;,
+        "required": ["id", "title", "priority", "steps", "expected"]
+      &#125;
+    &#125;
+  &#125;,
+  "required": ["feature_name", "test_cases"]
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="第三步：使用分隔符明确输入"><a href="#第三步：使用分隔符明确输入" class="headerlink" title="第三步：使用分隔符明确输入"></a>第三步：使用分隔符明确输入</h4><figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">User Prompt:
+请为以下功能设计测试用例：
+
+&lt;&lt;&lt;功能描述>>>
+功能名称：用户登录
+功能描述：
+- 用户通过用户名和密码登录系统
+- 用户名支持邮箱和手机号两种格式
+- 密码长度要求 6-20 位
+- 连续 5 次密码错误后，账户将被锁定 30 分钟
+&lt;&lt;&lt;END>>>
+
+要求：
+- 至少生成 5 个测试用例
+- 必须覆盖正常登录、错误密码、账户锁定等场景
+- 测试步骤要清晰、可执行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="第四步：思维链（ReAct）处理复杂场景"><a href="#第四步：思维链（ReAct）处理复杂场景" class="headerlink" title="第四步：思维链（ReAct）处理复杂场景"></a>第四步：思维链（ReAct）处理复杂场景</h4><p>如果功能描述复杂，可以要求模型先分析，再生成：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt（增强版）:
+你是一位经验丰富的测试架构师。
+
+请按照以下步骤工作：
+
+1. 分析功能描述，识别需要测试的场景
+2. 为每个场景设计测试用例
+3. 确保测试用例覆盖正常流程和异常流程
+
+输出格式：
+Thought: [分析功能，识别测试场景]
+Test Cases: [JSON 格式的测试用例]
+
+最终输出必须是有效的 JSON，符合以下 Schema：
+&#123;...schema...&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="完整-Prompt-示例"><a href="#完整-Prompt-示例" class="headerlink" title="完整 Prompt 示例"></a>完整 Prompt 示例</h3><figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt:
+你是一位经验丰富的测试架构师，专注于自动化测试。
+
+职责：
+1. 设计清晰、可维护的测试用例
+2. 确保测试用例覆盖正常流程和异常流程
+3. 使用专业术语，保持输出简洁
+
+限制：
+- 禁止使用模糊或不确定的表达
+- 禁止编造不存在的功能点
+- 如果信息不足，请明确说明"信息不足"
+
+输出格式：必须且只能是 JSON 格式，不要添加任何解释性文字。
+
+输出必须符合以下 Schema：
+&#123;
+  "type": "object",
+  "properties": &#123;
+    "feature_name": &#123;"type": "string"&#125;,
+    "test_cases": &#123;
+      "type": "array",
+      "items": &#123;
+        "type": "object",
+        "properties": &#123;
+          "id": &#123;"type": "integer"&#125;,
+          "title": &#123;"type": "string"&#125;,
+          "priority": &#123;"type": "string", "enum": ["高", "中", "低"]&#125;,
+          "precondition": &#123;"type": "string"&#125;,
+          "steps": &#123;"type": "array", "items": &#123;"type": "string"&#125;&#125;,
+          "expected": &#123;"type": "string"&#125;
+        &#125;,
+        "required": ["id", "title", "priority", "steps", "expected"]
+      &#125;
+    &#125;
+  &#125;,
+  "required": ["feature_name", "test_cases"]
+&#125;
+
+User Prompt:
+请为以下功能设计测试用例：
+
+&lt;&lt;&lt;功能描述>>>
+功能名称：用户登录
+功能描述：
+- 用户通过用户名和密码登录系统
+- 用户名支持邮箱和手机号两种格式
+- 密码长度要求 6-20 位
+- 连续 5 次密码错误后，账户将被锁定 30 分钟
+&lt;&lt;&lt;END>>>
+
+要求：
+- 至少生成 5 个测试用例
+- 必须覆盖正常登录、错误密码、账户锁定等场景<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="预期输出"><a href="#预期输出" class="headerlink" title="预期输出"></a>预期输出</h3><figure><div class="code-wrapper"><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"feature_name"</span><span class="token operator">:</span> <span class="token string">"用户登录"</span><span class="token punctuation">,</span>
+  <span class="token property">"test_cases"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"正常登录-使用邮箱"</span><span class="token punctuation">,</span>
+      <span class="token property">"priority"</span><span class="token operator">:</span> <span class="token string">"高"</span><span class="token punctuation">,</span>
+      <span class="token property">"precondition"</span><span class="token operator">:</span> <span class="token string">"用户已注册，邮箱已验证"</span><span class="token punctuation">,</span>
+      <span class="token property">"steps"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"打开登录页面"</span><span class="token punctuation">,</span>
+        <span class="token string">"输入正确的邮箱地址"</span><span class="token punctuation">,</span>
+        <span class="token string">"输入正确的密码（6-20位）"</span><span class="token punctuation">,</span>
+        <span class="token string">"点击登录按钮"</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"expected"</span><span class="token operator">:</span> <span class="token string">"登录成功，跳转到首页"</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+      <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"正常登录-使用手机号"</span><span class="token punctuation">,</span>
+      <span class="token property">"priority"</span><span class="token operator">:</span> <span class="token string">"高"</span><span class="token punctuation">,</span>
+      <span class="token property">"precondition"</span><span class="token operator">:</span> <span class="token string">"用户已注册，手机号已验证"</span><span class="token punctuation">,</span>
+      <span class="token property">"steps"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"打开登录页面"</span><span class="token punctuation">,</span>
+        <span class="token string">"输入正确的手机号"</span><span class="token punctuation">,</span>
+        <span class="token string">"输入正确的密码（6-20位）"</span><span class="token punctuation">,</span>
+        <span class="token string">"点击登录按钮"</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"expected"</span><span class="token operator">:</span> <span class="token string">"登录成功，跳转到首页"</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+      <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"密码错误"</span><span class="token punctuation">,</span>
+      <span class="token property">"priority"</span><span class="token operator">:</span> <span class="token string">"高"</span><span class="token punctuation">,</span>
+      <span class="token property">"precondition"</span><span class="token operator">:</span> <span class="token string">"用户已注册"</span><span class="token punctuation">,</span>
+      <span class="token property">"steps"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"打开登录页面"</span><span class="token punctuation">,</span>
+        <span class="token string">"输入正确的用户名"</span><span class="token punctuation">,</span>
+        <span class="token string">"输入错误的密码"</span><span class="token punctuation">,</span>
+        <span class="token string">"点击登录按钮"</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"expected"</span><span class="token operator">:</span> <span class="token string">"显示错误提示：用户名或密码错误"</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+      <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"连续5次密码错误后账户锁定"</span><span class="token punctuation">,</span>
+      <span class="token property">"priority"</span><span class="token operator">:</span> <span class="token string">"中"</span><span class="token punctuation">,</span>
+      <span class="token property">"precondition"</span><span class="token operator">:</span> <span class="token string">"用户已注册"</span><span class="token punctuation">,</span>
+      <span class="token property">"steps"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"打开登录页面"</span><span class="token punctuation">,</span>
+        <span class="token string">"输入正确的用户名"</span><span class="token punctuation">,</span>
+        <span class="token string">"连续5次输入错误的密码并点击登录"</span><span class="token punctuation">,</span>
+        <span class="token string">"第6次尝试登录"</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"expected"</span><span class="token operator">:</span> <span class="token string">"显示错误提示：账户已被锁定，请30分钟后再试"</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+      <span class="token property">"title"</span><span class="token operator">:</span> <span class="token string">"密码长度不符合要求"</span><span class="token punctuation">,</span>
+      <span class="token property">"priority"</span><span class="token operator">:</span> <span class="token string">"中"</span><span class="token punctuation">,</span>
+      <span class="token property">"precondition"</span><span class="token operator">:</span> <span class="token string">"用户已注册"</span><span class="token punctuation">,</span>
+      <span class="token property">"steps"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"打开登录页面"</span><span class="token punctuation">,</span>
+        <span class="token string">"输入正确的用户名"</span><span class="token punctuation">,</span>
+        <span class="token string">"输入长度小于6位的密码"</span><span class="token punctuation">,</span>
+        <span class="token string">"点击登录按钮"</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"expected"</span><span class="token operator">:</span> <span class="token string">"显示错误提示：密码长度必须在6-20位之间"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="关键成功因素"><a href="#关键成功因素" class="headerlink" title="关键成功因素"></a>关键成功因素</h3><ol>
+<li><strong>角色明确</strong>：测试架构师的身份让模型使用专业术语，输出更规范</li>
+<li><strong>格式严格</strong>：JSON Schema 确保输出可解析</li>
+<li><strong>输入清晰</strong>：分隔符让模型明确知道哪里是功能描述</li>
+<li><strong>约束到位</strong>：禁止模糊表达、禁止编造，确保输出质量</li>
+</ol>
+<blockquote>
+<p>💡 <strong>实战提示</strong>：</p>
+<ul>
+<li>如果输出不符合 Schema，检查是否在 System Prompt 中强调了”仅输出 JSON”</li>
+<li>如果测试用例覆盖不全，在 User Prompt 中明确要求”必须覆盖 XX 场景”</li>
+<li>如果步骤不够清晰，在角色定义中强调”测试步骤要清晰、可执行”</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔍-总结：Prompt-Engineering-的设计哲学"><a href="#🔍-总结：Prompt-Engineering-的设计哲学" class="headerlink" title="🔍 总结：Prompt Engineering 的设计哲学"></a>🔍 总结：Prompt Engineering 的设计哲学</h2><table>
+<thead>
+<tr>
+<th>目标</th>
+<th>原则</th>
+<th>技巧</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高质量输出</td>
+<td>限制自由度，聚焦专业</td>
+<td>明确角色（Persona）</td>
+</tr>
+<tr>
+<td>复杂任务分解</td>
+<td>外化思维过程，便于检查与修正</td>
+<td>ReAct 范式</td>
+</tr>
+<tr>
+<td>程序化对接</td>
+<td>确保机器可读、可验证</td>
+<td>Schema + 分隔符</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>三大技巧结合使用，你的 Prompt 从模糊提问升级为精确指令。</p>
+</blockquote>
+<hr>
+<h2 id="⚠️-常见错误与修正"><a href="#⚠️-常见错误与修正" class="headerlink" title="⚠️ 常见错误与修正"></a>⚠️ 常见错误与修正</h2><p>在实际使用中，经常会遇到以下问题。了解这些错误及其修正方法，可以帮你快速定位和解决问题：</p>
+<table>
+<thead>
+<tr>
+<th>错误</th>
+<th>原因</th>
+<th>修复方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>输出太随意</strong></td>
+<td>没有输出格式约束</td>
+<td>使用 JSON Schema 或明确格式要求</td>
+</tr>
+<tr>
+<td><strong>幻觉严重</strong></td>
+<td>没有限制与拒绝条件</td>
+<td>加入禁止推测、要求引用来源、允许拒答</td>
+</tr>
+<tr>
+<td><strong>内容缺失</strong></td>
+<td>输入不规范</td>
+<td>声明输入格式，使用分隔符区分输入区域</td>
+</tr>
+<tr>
+<td><strong>格式混乱</strong></td>
+<td>Prompt 太自由</td>
+<td>使用固定模板，明确每个部分的作用</td>
+</tr>
+<tr>
+<td><strong>多轮对话偏移</strong></td>
+<td>没有保持上下文</td>
+<td>用 System Prompt 设置全局约束，在每轮对话中重申关键要求</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>关键理解</strong>：大多数 Prompt 问题都可以通过<strong>明确约束</strong>和<strong>结构化设计</strong>来解决。</p>
+</blockquote>
+<hr>
+<h2 id="🔧-进阶优化技巧"><a href="#🔧-进阶优化技巧" class="headerlink" title="🔧 进阶优化技巧"></a>🔧 进阶优化技巧</h2><p>掌握了核心技巧和工程化实践后，我们还需要掌握一些进阶优化技巧，让 Prompt 更高效、更稳定。</p>
+<h3 id="1-调试技巧：如何定位和修复-Prompt-问题"><a href="#1-调试技巧：如何定位和修复-Prompt-问题" class="headerlink" title="1. 调试技巧：如何定位和修复 Prompt 问题"></a>1. 调试技巧：如何定位和修复 Prompt 问题</h3><p>当 Prompt 效果不理想时，如何快速定位问题？</p>
+<h4 id="方法一：逐步简化法"><a href="#方法一：逐步简化法" class="headerlink" title="方法一：逐步简化法"></a>方法一：逐步简化法</h4><p><strong>原理</strong>：从最简单的 Prompt 开始，逐步增加复杂度，找出问题所在。</p>
+<p><strong>步骤</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">1. 最简版本：只保留核心任务
+   "请生成3个测试用例"
+
+2. 增加角色：看看角色是否有帮助
+   "你是一位测试架构师。请生成3个测试用例"
+
+3. 增加格式要求：看看格式约束是否生效
+   "你是一位测试架构师。请生成3个测试用例，输出 JSON 格式"
+
+4. 增加详细要求：逐步添加约束
+   "你是一位测试架构师。请生成3个测试用例，输出 JSON 格式，必须覆盖正常和异常流程"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>好处</strong>：能快速定位是哪个部分导致的问题。</p>
+<h4 id="方法二：对比测试法"><a href="#方法二：对比测试法" class="headerlink" title="方法二：对比测试法"></a>方法二：对比测试法</h4><p><strong>原理</strong>：同时测试多个版本的 Prompt，对比效果。</p>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 测试不同版本</span>
+prompts <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"v1"</span><span class="token punctuation">:</span> <span class="token string">"请生成测试用例"</span><span class="token punctuation">,</span>
+    <span class="token string">"v2"</span><span class="token punctuation">:</span> <span class="token string">"你是一位测试架构师。请生成测试用例"</span><span class="token punctuation">,</span>
+    <span class="token string">"v3"</span><span class="token punctuation">:</span> <span class="token string">"你是一位测试架构师。请生成测试用例，输出 JSON 格式"</span>
+<span class="token punctuation">&#125;</span>
+
+results <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token keyword">for</span> version<span class="token punctuation">,</span> prompt <span class="token keyword">in</span> prompts<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    result <span class="token operator">=</span> call_llm<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span>
+    results<span class="token punctuation">[</span>version<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"output"</span><span class="token punctuation">:</span> result<span class="token punctuation">,</span>
+        <span class="token string">"token_count"</span><span class="token punctuation">:</span> count_tokens<span class="token punctuation">(</span>prompt <span class="token operator">+</span> result<span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"quality_score"</span><span class="token punctuation">:</span> evaluate_quality<span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 对比结果，选择最佳版本</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>实战提示</strong>：</p>
+<ul>
+<li><strong>先用逐步简化法定位问题</strong>：找出是哪个部分导致的问题</li>
+<li><strong>再用对比测试法优化效果</strong>：对比不同版本，选择最佳方案</li>
+<li><strong>遇到具体错误时</strong>：参考<a href="#%E2%9A%A0%EF%B8%8F-%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%E4%B8%8E%E4%BF%AE%E6%AD%A3">常见错误与修正</a>部分，快速找到修复方法</li>
+</ul>
+</blockquote>
+<h3 id="2-Token-成本优化：在保证效果的同时减少消耗"><a href="#2-Token-成本优化：在保证效果的同时减少消耗" class="headerlink" title="2. Token 成本优化：在保证效果的同时减少消耗"></a>2. Token 成本优化：在保证效果的同时减少消耗</h3><p>Token 消耗直接影响成本，如何在保证效果的同时减少 Token？</p>
+<h4 id="策略一：精简-Prompt-内容"><a href="#策略一：精简-Prompt-内容" class="headerlink" title="策略一：精简 Prompt 内容"></a>策略一：精简 Prompt 内容</h4><p><strong>原则</strong>：保留必要信息，删除冗余描述。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">❌ 冗余版本（约 200 Token）：
+你是一位经验非常丰富、在软件测试领域深耕多年、对自动化测试和测试平台开发有深入理解的资深测试架构师。你的职责是设计清晰、可维护、高质量的测试用例...
+
+✅ 精简版本（约 50 Token）：
+你是一位测试架构师，专注于自动化测试。职责：设计清晰的测试用例，确保覆盖正常和异常流程。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>优化技巧</strong>：</p>
+<ul>
+<li>删除重复描述（如”经验丰富”、”资深”等）</li>
+<li>用列表代替长段落</li>
+<li>合并相似的要求</li>
+</ul>
+<h4 id="策略二：使用-Few-Shot-而非-Many-Shot"><a href="#策略二：使用-Few-Shot-而非-Many-Shot" class="headerlink" title="策略二：使用 Few-Shot 而非 Many-Shot"></a>策略二：使用 Few-Shot 而非 Many-Shot</h4><p><strong>原则</strong>：Few-Shot（1-3 个示例）通常足够，Many-Shot（5+ 个示例）成本高但效果提升有限。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text"># Few-Shot（推荐）
+示例1: [输入] → [输出]
+示例2: [输入] → [输出]
+
+# Many-Shot（不推荐，除非必要）
+示例1-10: [输入] → [输出]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="策略三：压缩历史对话"><a href="#策略三：压缩历史对话" class="headerlink" title="策略三：压缩历史对话"></a>策略三：压缩历史对话</h4><p><strong>方法</strong>：将历史对话压缩为摘要，而不是完整保留。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text"># 完整保留（消耗大量 Token）
+历史对话：
+用户：请生成测试用例A
+助手：[...完整回复...]
+用户：请生成测试用例B
+助手：[...完整回复...]
+
+# 压缩摘要（节省 Token）
+历史摘要：
+- 已生成测试用例A（用户登录功能，5个用例）
+- 已生成测试用例B（购物车功能，6个用例）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="策略四：使用分隔符而非长描述"><a href="#策略四：使用分隔符而非长描述" class="headerlink" title="策略四：使用分隔符而非长描述"></a>策略四：使用分隔符而非长描述</h4><p><strong>方法</strong>：用分隔符标记输入区域，而不是用长段落描述。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">❌ 长描述版本：
+请为以下功能设计测试用例。功能名称是用户登录，功能描述是用户通过用户名和密码登录系统，用户名支持邮箱和手机号两种格式...
+
+✅ 分隔符版本：
+请为以下功能设计测试用例：
+
+&lt;&lt;&lt;功能描述>>>
+功能名称：用户登录
+功能描述：用户通过用户名和密码登录系统...
+&lt;&lt;&lt;END>>><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>成本对比</strong>：</p>
+<ul>
+<li>精简 Prompt：可节省 30-50% Token</li>
+<li>使用 Few-Shot：可节省 40-60% Token（相比 Many-Shot）</li>
+<li>压缩历史对话：可节省 70-90% Token（长对话场景）</li>
+</ul>
+</blockquote>
+<h3 id="3-不同模型的-Prompt-适配技巧"><a href="#3-不同模型的-Prompt-适配技巧" class="headerlink" title="3. 不同模型的 Prompt 适配技巧"></a>3. 不同模型的 Prompt 适配技巧</h3><p>不同模型对 Prompt 的响应有差异，如何针对不同模型调整 Prompt？</p>
+<h4 id="GPT-4-GPT-4-Turbo"><a href="#GPT-4-GPT-4-Turbo" class="headerlink" title="GPT-4 &#x2F; GPT-4 Turbo"></a>GPT-4 &#x2F; GPT-4 Turbo</h4><p><strong>特点</strong>：</p>
+<ul>
+<li>对 System Prompt 响应好</li>
+<li>结构化输出能力强</li>
+<li>对长 Prompt 理解好</li>
+</ul>
+<p><strong>适配技巧</strong>：</p>
+<ul>
+<li>✅ 可以使用详细的 System Prompt</li>
+<li>✅ 可以使用复杂的 JSON Schema</li>
+<li>✅ 可以使用长 Few-Shot 示例</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt（详细版，适合 GPT-4）:
+你是一位经验丰富的测试架构师，专注于自动化测试和测试平台开发。
+你的职责是设计清晰、可维护的测试用例...
+[详细描述...]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="Claude-3-Claude-3-5"><a href="#Claude-3-Claude-3-5" class="headerlink" title="Claude 3 &#x2F; Claude 3.5"></a>Claude 3 &#x2F; Claude 3.5</h4><p><strong>特点</strong>：</p>
+<ul>
+<li>对 System Prompt 响应好</li>
+<li>对格式要求理解准确</li>
+<li>对长上下文处理能力强</li>
+</ul>
+<p><strong>适配技巧</strong>：</p>
+<ul>
+<li>✅ 可以使用详细的 System Prompt</li>
+<li>✅ 可以使用 XML 标签（Claude 推荐）</li>
+<li>✅ 可以使用长 Few-Shot 示例</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt（适合 Claude）:
+&lt;role>你是一位测试架构师&lt;/role>
+&lt;task>设计测试用例&lt;/task>
+&lt;constraints>禁止模糊表达，输出 JSON 格式&lt;/constraints><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="开源模型（Llama、Mistral-等）"><a href="#开源模型（Llama、Mistral-等）" class="headerlink" title="开源模型（Llama、Mistral 等）"></a>开源模型（Llama、Mistral 等）</h4><p><strong>特点</strong>：</p>
+<ul>
+<li>System Prompt 支持可能较弱</li>
+<li>对复杂格式理解有限</li>
+<li>需要更明确的指令</li>
+</ul>
+<p><strong>适配技巧</strong>：</p>
+<ul>
+<li>⚠️ System Prompt 要简洁</li>
+<li>⚠️ 格式要求要明确且简单</li>
+<li>⚠️ 使用 Few-Shot 而非 Zero-Shot</li>
+<li>⚠️ 避免过于复杂的 JSON Schema</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">User Prompt（适合开源模型）:
+你是一位测试架构师。请为"用户登录"功能生成测试用例。
+
+要求：
+1. 输出 JSON 格式
+2. 至少3个测试用例
+3. 每个用例包含：id, title, steps, expected
+
+示例：
+输入：功能名称
+输出：&#123;"test_cases": [&#123;"id": 1, "title": "...", "steps": [...], "expected": "..."&#125;]&#125;
+
+现在请为"用户登录"生成测试用例。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="通用适配原则"><a href="#通用适配原则" class="headerlink" title="通用适配原则"></a>通用适配原则</h4><table>
+<thead>
+<tr>
+<th>模型类型</th>
+<th>System Prompt</th>
+<th>格式要求</th>
+<th>Few-Shot</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GPT-4</strong></td>
+<td>详细</td>
+<td>复杂 Schema</td>
+<td>3-5 个</td>
+<td>充分利用能力</td>
+</tr>
+<tr>
+<td><strong>Claude</strong></td>
+<td>详细</td>
+<td>XML 标签</td>
+<td>3-5 个</td>
+<td>充分利用能力</td>
+</tr>
+<tr>
+<td><strong>开源模型</strong></td>
+<td>简洁</td>
+<td>简单格式</td>
+<td>1-3 个</td>
+<td>降低复杂度</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>实战提示</strong>：</p>
+<ul>
+<li><strong>先设计通用 Prompt</strong>：适用于大多数模型</li>
+<li><strong>再针对特定模型优化</strong>：根据实际使用的模型调整</li>
+<li><strong>使用 A&#x2F;B 测试</strong>：对比不同 Prompt 在不同模型上的效果</li>
+</ul>
+<p><strong>注意</strong>：详细的模型对比和选型建议将在第 5 篇《评估与选型》中深入讲解。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h2><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h3 id="🎭-Persona-Defining（角色定义）"><a href="#🎭-Persona-Defining（角色定义）" class="headerlink" title="🎭 Persona Defining（角色定义）"></a>🎭 Persona Defining（角色定义）</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/prompt-engineering/system-messages"><strong>System Prompt Best Practices（System Prompt 最佳实践）</strong></a>：OpenAI 关于 System Prompt 的最佳实践指南。<strong>强烈推荐</strong>，适合所有开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.anthropic.com/claude/docs/system-prompts"><strong>Prompt Engineering for Claude（Claude Prompt 指南）</strong></a>：Anthropic 关于 System Prompt 的详细指南。适合使用 Claude 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/"><strong>Prompt Engineering Guide（提示工程综合指南）</strong></a>：社区维护的 Prompt 工程综合指南，包含角色定义、Few-Shot 等多种技巧。适合想系统学习的读者。</p>
+</li>
+</ul>
+<h3 id="🔗-ReAct-Chain-of-Thought（思维链与推理行动）"><a href="#🔗-ReAct-Chain-of-Thought（思维链与推理行动）" class="headerlink" title="🔗 ReAct &amp; Chain-of-Thought（思维链与推理行动）"></a>🔗 ReAct &amp; Chain-of-Thought（思维链与推理行动）</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2210.03629"><strong>ReAct: Synergizing Reasoning and Acting in Language Models（ReAct 原始论文）</strong></a>：ReAct 范式的开创性论文，展示了如何结合推理和行动。<strong>必读论文</strong>，适合所有读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2201.11903"><strong>Chain-of-Thought Prompting Elicits Reasoning in Large Language Models（CoT 原始论文）</strong></a>：CoT 的开创性论文，展示了如何通过思维链提升模型推理能力。<strong>必读论文</strong>，适合所有读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2302.06675"><strong>Self-Correction Mechanisms in LLMs（自我修正机制）</strong></a>：研究 LLM 如何识别和修正错误的论文。适合想实现自我修正功能的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.10601"><strong>Tree of Thoughts: Deliberate Problem Solving with Large Language Models（思维树）</strong></a>：CoT 的进阶方法，通过树状结构探索多种推理路径。适合想处理复杂推理任务的读者。</p>
+</li>
+</ul>
+<h3 id="🧱-Schema-Structured-Output（结构化输出）"><a href="#🧱-Schema-Structured-Output（结构化输出）" class="headerlink" title="🧱 Schema &amp; Structured Output（结构化输出）"></a>🧱 Schema &amp; Structured Output（结构化输出）</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.pydantic.dev/"><strong>Pydantic 官方文档</strong></a>：Python 中最流行的数据验证库，常用于定义 LLM 输出的 Schema。<strong>强烈推荐</strong>，适合 Python 开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/gpt/function-calling"><strong>OpenAI Function Call 文档</strong></a>：OpenAI 官方的 Function Calling 指南，展示了如何使用 Schema 约束模型输出。<strong>必读</strong>，适合使用 OpenAI API 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.anthropic.com/claude/docs/tool-use"><strong>Anthropic Tool Use（Claude 工具使用）</strong></a>：Anthropic 关于工具调用和结构化输出的指南。适合使用 Claude 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://json-schema.org/"><strong>JSON Schema 规范</strong></a>：JSON Schema 的官方规范，用于定义数据结构。适合需要深入理解 Schema 的开发者。</p>
+</li>
+</ul>
+<h3 id="📖-Prompt-Engineering-综合指南"><a href="#📖-Prompt-Engineering-综合指南" class="headerlink" title="📖 Prompt Engineering 综合指南"></a>📖 Prompt Engineering 综合指南</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/prompt-engineering"><strong>OpenAI Prompt Engineering Guide（OpenAI 官方指南）</strong></a>：OpenAI 官方的 Prompt 工程指南，涵盖基础技巧和最佳实践。<strong>强烈推荐新手阅读</strong>，内容全面且实用。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/"><strong>Prompt Engineering Guide（社区指南）</strong></a>：社区维护的 Prompt 工程综合指南，包含大量示例和技巧。<strong>适合想系统学习的读者</strong>，内容更新及时。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.anthropic.com/claude/docs/prompt-engineering"><strong>Anthropic Prompt Engineering（Claude 指南）</strong></a>：Anthropic 官方的 Prompt 工程指南，特别针对 Claude 模型优化。适合使用 Claude 的开发者。</p>
+</li>
+</ul>
+<h3 id="🛠️-实战工具与框架"><a href="#🛠️-实战工具与框架" class="headerlink" title="🛠️ 实战工具与框架"></a>🛠️ 实战工具与框架</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/model_io/prompts/"><strong>LangChain Prompt Templates（LangChain Prompt 模板）</strong></a>：LangChain 的 Prompt 模板系统，方便构建复杂 Prompt。适合使用 LangChain 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/model_io/output_parsers/"><strong>LangChain Output Parsers（LangChain 输出解析器）</strong></a>：LangChain 的输出解析器，帮助将模型输出转换为结构化数据。适合使用 LangChain 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptlayer.com/"><strong>PromptLayer（Prompt 管理工具）</strong></a>：Prompt 版本管理和分析工具，帮助优化 Prompt 效果。适合需要管理大量 Prompt 的团队。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/openai/evals"><strong>OpenAI Evals（评估框架）</strong></a>：OpenAI 开源的 Prompt 评估框架，帮助测试和优化 Prompt。适合需要系统评估 Prompt 的开发者。</p>
+</li>
+</ul>
+<h3 id="🇨🇳-中文资源"><a href="#🇨🇳-中文资源" class="headerlink" title="🇨🇳 中文资源"></a>🇨🇳 中文资源</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/zh"><strong>Prompt Engineering 中文指南</strong></a>：Prompt Engineering Guide 的中文版本，内容全面。<strong>适合中文读者</strong>。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/"><strong>LLM 应用开发实践（中文博客）</strong></a>：Lilian Weng 的 Prompt Engineering 博客文章，有中文翻译版本。适合中文读者，内容深入。</p>
+</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>结构化输出解决了格式问题，但仍存在<strong>知识受限</strong>的问题：</p>
+<blockquote>
+<p>模型的知识截止到训练时间，无法获取最新信息；<br>模型可能产生”幻觉”，编造不存在的信息；<br>模型无法访问私有知识库或专业文档。</p>
+</blockquote>
+<p>下一篇，我们将介绍 <strong>RAG（检索增强生成）</strong>，突破 LLM 的<strong>知识时间限制与专业性边界</strong>。</p>
+<ul>
+<li>如何让 LLM 访问最新信息？  </li>
+<li>如何让 LLM 理解你的私有文档？  </li>
+<li>检索 → 分块 → 重排 → 融合的完整流程是什么？</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Prompt%E5%B7%A5%E7%A8%8B/" class="print-no-link">#Prompt工程</a>
+      
+        <a href="/fluid-blog/tags/Chain-of-Thought/" class="print-no-link">#Chain-of-Thought</a>
+      
+        <a href="/fluid-blog/tags/ReAct/" class="print-no-link">#ReAct</a>
+      
+        <a href="/fluid-blog/tags/Schema/" class="print-no-link">#Schema</a>
+      
+        <a href="/fluid-blog/tags/%E7%BB%93%E6%9E%84%E5%8C%96%E8%BE%93%E5%87%BA/" class="print-no-link">#结构化输出</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出</div>
+      <div>https://linn0813.github.io/2025/12/04/2025-12-04-llm-prompt-engineering-practices/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/08/2025-12-08-llm-rag-deep-integration/" title="🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/03/2025-12-03-llm-prompt-context-in-context-learning/" title="🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning">
+                        <span class="hidden-mobile">🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1459 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, Task Planning, 任务规划, 任务分解, 子任务, Self-Correction, 推理链">
+  
+    <meta name="description" content="深入解析 Agent 任务规划：从任务分解、子任务生成到 Self-Correction，掌握如何让 Agent 把复杂任务拆成可执行步骤">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/19/2025-12-19-llm-agent-task-planning/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 Agent 任务规划：从任务分解、子任务生成到 Self-Correction，掌握如何让 Agent 把复杂任务拆成可执行步骤">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-task-planning.png">
+<meta property="article:published_time" content="2025-12-19T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.634Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Task Planning">
+<meta property="article:tag" content="任务规划">
+<meta property="article:tag" content="任务分解">
+<meta property="article:tag" content="Self-Correction">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-task-planning.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？ - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-19 18:00" pubdate>
+          2025年12月19日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 10 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们深入解析了 Agent 的工具系统，掌握了 Function Calling 机制和工具封装设计。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将聚焦 Agent 的任务规划能力，探讨如何让 Agent 把复杂任务拆解成可执行步骤。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-从”做什么”到”怎么做”"><a href="#🚀-导言-—-从”做什么”到”怎么做”" class="headerlink" title="🚀 导言 — 从”做什么”到”怎么做”"></a>🚀 导言 — 从”做什么”到”怎么做”</h2><p>在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-18-llm-agent-tool-system/">第9篇</a>中，我们掌握了 Agent 如何调用工具。在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-16-llm-agent-decision-engine/">第7篇</a>中，我们了解了 Agent 如何思考和决策。</p>
+<p>但 Agent 还有一个关键问题：</p>
+<blockquote>
+<p><strong>Agent 如何规划复杂任务？</strong><br><strong>如何把一个大任务拆成多个小步骤？</strong><br><strong>如何确保任务执行的正确性？</strong></p>
+</blockquote>
+<p><strong>任务规划</strong>是 Agent 的核心能力之一，它让 Agent 能够：</p>
+<ul>
+<li>理解复杂任务的目标</li>
+<li>将任务分解为可执行的子任务</li>
+<li>按顺序执行子任务</li>
+<li>在出错时自我修正</li>
+</ul>
+<h3 id="🤔-先理解几个基础概念"><a href="#🤔-先理解几个基础概念" class="headerlink" title="🤔 先理解几个基础概念"></a>🤔 先理解几个基础概念</h3><p><strong>1. 任务规划（Task Planning）</strong></p>
+<blockquote>
+<p>简单理解：把一个大任务拆成多个小步骤，然后一步步执行。</p>
+<p>例如：</p>
+<ul>
+<li>大任务：”开发一个测试平台”</li>
+<li>拆解：1. 设计数据库 2. 开发后端API 3. 开发前端界面 4. 编写测试用例</li>
+<li>执行：按顺序完成每个步骤</li>
+</ul>
+</blockquote>
+<p><strong>2. 任务分解（Task Decomposition）</strong></p>
+<blockquote>
+<p>简单理解：把复杂任务分解成更小的、可执行的子任务。</p>
+<p>例如：</p>
+<ul>
+<li>任务：”查询用户数据并生成报告”</li>
+<li>分解：1. 查询数据库 2. 处理数据 3. 生成报告</li>
+</ul>
+</blockquote>
+<p><strong>3. Self-Correction（自我修正）</strong></p>
+<blockquote>
+<p>简单理解：当任务执行出错时，Agent 能够分析错误并修正策略。</p>
+<p>例如：</p>
+<ul>
+<li>执行失败：数据库查询失败</li>
+<li>自我修正：检查数据库连接，重试查询</li>
+</ul>
+</blockquote>
+<h3 id="💡-为什么需要任务规划？"><a href="#💡-为什么需要任务规划？" class="headerlink" title="💡 为什么需要任务规划？"></a>💡 为什么需要任务规划？</h3><p><strong>问题1：复杂任务无法直接执行</strong></p>
+<blockquote>
+<p>Agent 无法直接执行”开发一个测试平台”这样的大任务，需要拆解成小步骤。</p>
+</blockquote>
+<p><strong>问题2：任务执行顺序很重要</strong></p>
+<blockquote>
+<p>必须先设计数据库，才能开发后端API；必须先开发后端，才能开发前端。</p>
+</blockquote>
+<p><strong>问题3：任务执行可能出错</strong></p>
+<blockquote>
+<p>如果某个步骤失败，需要能够检测错误并修正。</p>
+</blockquote>
+<p><strong>解决方案：任务规划系统</strong></p>
+<blockquote>
+<ul>
+<li><strong>任务分解</strong>：把大任务拆成小步骤</li>
+<li><strong>顺序规划</strong>：确定执行顺序</li>
+<li><strong>自我修正</strong>：检测错误并修正</li>
+</ul>
+</blockquote>
+<h3 id="📋-本篇学习目标"><a href="#📋-本篇学习目标" class="headerlink" title="📋 本篇学习目标"></a>📋 本篇学习目标</h3><p>本篇将从<strong>简单到复杂</strong>，帮你掌握：</p>
+<ol>
+<li><strong>任务分解策略</strong>：如何把复杂任务拆成子任务？</li>
+<li><strong>任务规划方法</strong>：如何确定执行顺序？</li>
+<li><strong>Self-Correction</strong>：如何实现自我修正？</li>
+<li><strong>工程实践</strong>：如何实现完整的任务规划系统？</li>
+</ol>
+<blockquote>
+<p>💡 <strong>提示</strong>：任务规划是 Agent 处理复杂任务的关键能力，理解它有助于设计更强大的 Agent。</p>
+</blockquote>
+<hr>
+<h2 id="🎯-一、任务分解策略"><a href="#🎯-一、任务分解策略" class="headerlink" title="🎯 一、任务分解策略"></a>🎯 一、任务分解策略</h2><p>任务分解是任务规划的第一步，需要把复杂任务拆解成可执行的子任务。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像做项目：</p>
+<ul>
+<li><strong>大项目</strong>：”开发一个测试平台”</li>
+<li><strong>拆解</strong>：1. 需求分析 2. 数据库设计 3. 后端开发 4. 前端开发 5. 测试</li>
+<li><strong>执行</strong>：按顺序完成每个阶段</li>
+</ul>
+</blockquote>
+<h3 id="1-1-基于目标的分解（Goal-Based-Decomposition）"><a href="#1-1-基于目标的分解（Goal-Based-Decomposition）" class="headerlink" title="1.1 基于目标的分解（Goal-Based Decomposition）"></a>1.1 基于目标的分解（Goal-Based Decomposition）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>根据任务目标，逐步分解成子目标，直到每个子目标都可以直接执行。</p>
+</blockquote>
+<p><strong>分解方法</strong>：</p>
+<blockquote>
+<ol>
+<li>分析任务目标</li>
+<li>识别关键步骤</li>
+<li>对每个步骤继续分解（如果需要）</li>
+<li>直到所有步骤都可以直接执行</li>
+</ol>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 基于目标的分解（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">decompose_task</span><span class="token punctuation">(</span>task_description<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""分解任务"""</span>
+    <span class="token comment"># 1. 分析任务目标</span>
+    goal <span class="token operator">=</span> analyze_goal<span class="token punctuation">(</span>task_description<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. 识别关键步骤</span>
+    steps <span class="token operator">=</span> identify_steps<span class="token punctuation">(</span>goal<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 3. 递归分解（如果步骤太复杂）</span>
+    subtasks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> step <span class="token keyword">in</span> steps<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> is_complex<span class="token punctuation">(</span>step<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token comment"># 继续分解</span>
+            subtasks<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>decompose_task<span class="token punctuation">(</span>step<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token comment"># 可以直接执行</span>
+            subtasks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>step<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> subtasks
+
+<span class="token comment"># 使用示例</span>
+task <span class="token operator">=</span> <span class="token string">"开发一个测试平台"</span>
+subtasks <span class="token operator">=</span> decompose_task<span class="token punctuation">(</span>task<span class="token punctuation">)</span>
+<span class="token comment"># 输出：</span>
+<span class="token comment"># [</span>
+<span class="token comment">#   "需求分析：确定功能需求",</span>
+<span class="token comment">#   "数据库设计：设计用户表、测试用例表",</span>
+<span class="token comment">#   "后端开发：开发用户API、测试用例API",</span>
+<span class="token comment">#   "前端开发：开发登录页面、测试用例管理页面",</span>
+<span class="token comment">#   "测试：编写单元测试、集成测试"</span>
+<span class="token comment"># ]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="1-2-基于工作流的分解（Workflow-Based-Decomposition）"><a href="#1-2-基于工作流的分解（Workflow-Based-Decomposition）" class="headerlink" title="1.2 基于工作流的分解（Workflow-Based Decomposition）"></a>1.2 基于工作流的分解（Workflow-Based Decomposition）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>根据工作流程，把任务分解成流程中的各个步骤。</p>
+</blockquote>
+<p><strong>分解方法</strong>：</p>
+<blockquote>
+<ol>
+<li>识别工作流程</li>
+<li>确定流程步骤</li>
+<li>按流程顺序分解</li>
+</ol>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 基于工作流的分解（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">decompose_by_workflow</span><span class="token punctuation">(</span>task_description<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""基于工作流分解任务"""</span>
+    <span class="token comment"># 1. 识别工作流程类型</span>
+    workflow_type <span class="token operator">=</span> identify_workflow<span class="token punctuation">(</span>task_description<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. 获取标准工作流</span>
+    workflow <span class="token operator">=</span> get_standard_workflow<span class="token punctuation">(</span>workflow_type<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 3. 根据工作流分解任务</span>
+    subtasks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> step <span class="token keyword">in</span> workflow<span class="token punctuation">:</span>
+        subtask <span class="token operator">=</span> adapt_step_to_task<span class="token punctuation">(</span>step<span class="token punctuation">,</span> task_description<span class="token punctuation">)</span>
+        subtasks<span class="token punctuation">.</span>append<span class="token punctuation">(</span>subtask<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> subtasks
+
+<span class="token comment"># 标准工作流示例</span>
+standard_workflows <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"数据查询"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"连接数据库"</span><span class="token punctuation">,</span> <span class="token string">"执行查询"</span><span class="token punctuation">,</span> <span class="token string">"处理结果"</span><span class="token punctuation">,</span> <span class="token string">"返回数据"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"报告生成"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"收集数据"</span><span class="token punctuation">,</span> <span class="token string">"分析数据"</span><span class="token punctuation">,</span> <span class="token string">"生成报告"</span><span class="token punctuation">,</span> <span class="token string">"保存报告"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token string">"测试执行"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"准备环境"</span><span class="token punctuation">,</span> <span class="token string">"执行测试"</span><span class="token punctuation">,</span> <span class="token string">"收集结果"</span><span class="token punctuation">,</span> <span class="token string">"生成报告"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 使用示例</span>
+task <span class="token operator">=</span> <span class="token string">"查询用户数据并生成报告"</span>
+subtasks <span class="token operator">=</span> decompose_by_workflow<span class="token punctuation">(</span>task<span class="token punctuation">)</span>
+<span class="token comment"># 输出：</span>
+<span class="token comment"># [</span>
+<span class="token comment">#   "连接数据库：建立数据库连接",</span>
+<span class="token comment">#   "执行查询：查询用户数据",</span>
+<span class="token comment">#   "处理结果：处理查询结果",</span>
+<span class="token comment">#   "收集数据：收集处理后的数据",</span>
+<span class="token comment">#   "分析数据：分析数据趋势",</span>
+<span class="token comment">#   "生成报告：生成PDF报告",</span>
+<span class="token comment">#   "保存报告：保存到指定路径"</span>
+<span class="token comment"># ]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="1-3-基于工具的分解（Tool-Based-Decomposition）"><a href="#1-3-基于工具的分解（Tool-Based-Decomposition）" class="headerlink" title="1.3 基于工具的分解（Tool-Based Decomposition）"></a>1.3 基于工具的分解（Tool-Based Decomposition）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>根据可用工具，把任务分解成工具调用序列。</p>
+</blockquote>
+<p><strong>分解方法</strong>：</p>
+<blockquote>
+<ol>
+<li>分析任务需求</li>
+<li>匹配可用工具</li>
+<li>确定工具调用顺序</li>
+</ol>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 基于工具的分解（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">decompose_by_tools</span><span class="token punctuation">(</span>task_description<span class="token punctuation">,</span> available_tools<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""基于工具分解任务"""</span>
+    <span class="token comment"># 1. 分析任务需求</span>
+    requirements <span class="token operator">=</span> analyze_requirements<span class="token punctuation">(</span>task_description<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 2. 匹配可用工具</span>
+    tool_sequence <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> requirement <span class="token keyword">in</span> requirements<span class="token punctuation">:</span>
+        <span class="token comment"># 找到匹配的工具</span>
+        tool <span class="token operator">=</span> find_matching_tool<span class="token punctuation">(</span>requirement<span class="token punctuation">,</span> available_tools<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> tool<span class="token punctuation">:</span>
+            tool_sequence<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+                <span class="token string">"tool"</span><span class="token punctuation">:</span> tool<span class="token punctuation">,</span>
+                <span class="token string">"requirement"</span><span class="token punctuation">:</span> requirement
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 3. 确定工具调用顺序（考虑依赖关系）</span>
+    ordered_sequence <span class="token operator">=</span> order_tools_by_dependency<span class="token punctuation">(</span>tool_sequence<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> ordered_sequence
+
+<span class="token comment"># 使用示例</span>
+task <span class="token operator">=</span> <span class="token string">"查询用户数据并生成报告"</span>
+available_tools <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"query_database"</span><span class="token punctuation">,</span> <span class="token string">"process_data"</span><span class="token punctuation">,</span> <span class="token string">"generate_report"</span><span class="token punctuation">]</span>
+
+subtasks <span class="token operator">=</span> decompose_by_tools<span class="token punctuation">(</span>task<span class="token punctuation">,</span> available_tools<span class="token punctuation">)</span>
+<span class="token comment"># 输出：</span>
+<span class="token comment"># [</span>
+<span class="token comment">#   &#123;"tool": "query_database", "requirement": "查询用户数据"&#125;,</span>
+<span class="token comment">#   &#123;"tool": "process_data", "requirement": "处理数据"&#125;,</span>
+<span class="token comment">#   &#123;"tool": "generate_report", "requirement": "生成报告"&#125;</span>
+<span class="token comment"># ]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="1-4-三种分解策略对比"><a href="#1-4-三种分解策略对比" class="headerlink" title="1.4 三种分解策略对比"></a>1.4 三种分解策略对比</h3><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>基于目标</strong></td>
+<td>灵活，适应性强</td>
+<td>需要智能分析</td>
+<td>复杂、不确定的任务</td>
+</tr>
+<tr>
+<td><strong>基于工作流</strong></td>
+<td>标准化，可复用</td>
+<td>不够灵活</td>
+<td>有标准流程的任务</td>
+</tr>
+<tr>
+<td><strong>基于工具</strong></td>
+<td>直接可执行</td>
+<td>受限于工具集</td>
+<td>工具明确的任务</td>
+</tr>
+</tbody></table>
+<p><strong>选择指南</strong>：</p>
+<ul>
+<li>✅ <strong>复杂任务</strong>：使用基于目标的分解</li>
+<li>✅ <strong>标准流程</strong>：使用基于工作流的分解</li>
+<li>✅ <strong>工具明确</strong>：使用基于工具的分解</li>
+<li>✅ <strong>最佳实践</strong>：结合使用（如：先基于目标分解，再基于工具细化）</li>
+</ul>
+<hr>
+<h2 id="🔄-二、任务规划方法"><a href="#🔄-二、任务规划方法" class="headerlink" title="🔄 二、任务规划方法"></a>🔄 二、任务规划方法</h2><p>任务分解后，需要确定执行顺序和依赖关系。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像做菜：</p>
+<ul>
+<li><strong>步骤1</strong>：准备食材（必须先做）</li>
+<li><strong>步骤2</strong>：切菜（依赖步骤1）</li>
+<li><strong>步骤3</strong>：炒菜（依赖步骤2）</li>
+<li><strong>步骤4</strong>：装盘（依赖步骤3）</li>
+</ul>
+</blockquote>
+<h3 id="2-1-顺序规划（Sequential-Planning）"><a href="#2-1-顺序规划（Sequential-Planning）" class="headerlink" title="2.1 顺序规划（Sequential Planning）"></a>2.1 顺序规划（Sequential Planning）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>按顺序执行，一个接一个。</p>
+</blockquote>
+<p><strong>方法</strong>：</p>
+<blockquote>
+<ol>
+<li>确定任务顺序</li>
+<li>按顺序执行</li>
+<li>等待前一个任务完成再执行下一个</li>
+</ol>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 顺序规划（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SequentialPlanner</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">plan</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> subtasks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""顺序规划"""</span>
+        <span class="token comment"># 1. 确定执行顺序（可以根据依赖关系排序）</span>
+        ordered_tasks <span class="token operator">=</span> self<span class="token punctuation">.</span>order_tasks<span class="token punctuation">(</span>subtasks<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 按顺序执行</span>
+        results <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> task <span class="token keyword">in</span> ordered_tasks<span class="token punctuation">:</span>
+            result <span class="token operator">=</span> self<span class="token punctuation">.</span>execute_task<span class="token punctuation">(</span>task<span class="token punctuation">)</span>
+            results<span class="token punctuation">.</span>append<span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+            
+            <span class="token comment"># 如果任务失败，停止执行</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> result<span class="token punctuation">[</span><span class="token string">"success"</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                <span class="token keyword">break</span>
+        
+        <span class="token keyword">return</span> results
+    
+    <span class="token keyword">def</span> <span class="token function">order_tasks</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> subtasks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""确定任务顺序"""</span>
+        <span class="token comment"># 简单的按依赖关系排序（实际应该用拓扑排序）</span>
+        <span class="token keyword">return</span> <span class="token builtin">sorted</span><span class="token punctuation">(</span>subtasks<span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> x<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"order"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 使用示例</span>
+planner <span class="token operator">=</span> SequentialPlanner<span class="token punctuation">(</span><span class="token punctuation">)</span>
+subtasks <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"查询数据库"</span><span class="token punctuation">,</span> <span class="token string">"order"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"处理数据"</span><span class="token punctuation">,</span> <span class="token string">"order"</span><span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">"depends_on"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"查询数据库"</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"生成报告"</span><span class="token punctuation">,</span> <span class="token string">"order"</span><span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token string">"depends_on"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"处理数据"</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">]</span>
+
+results <span class="token operator">=</span> planner<span class="token punctuation">.</span>plan<span class="token punctuation">(</span>subtasks<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-2-并行规划（Parallel-Planning）"><a href="#2-2-并行规划（Parallel-Planning）" class="headerlink" title="2.2 并行规划（Parallel Planning）"></a>2.2 并行规划（Parallel Planning）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>可以同时执行的任务，并行执行。</p>
+</blockquote>
+<p><strong>方法</strong>：</p>
+<blockquote>
+<ol>
+<li>识别可以并行的任务</li>
+<li>并行执行</li>
+<li>等待所有任务完成</li>
+</ol>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 并行规划（伪代码）</span>
+
+<span class="token keyword">import</span> asyncio
+
+<span class="token keyword">class</span> <span class="token class-name">ParallelPlanner</span><span class="token punctuation">:</span>
+    <span class="token keyword">async</span> <span class="token keyword">def</span> <span class="token function">plan</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> subtasks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""并行规划"""</span>
+        <span class="token comment"># 1. 识别可以并行的任务组</span>
+        task_groups <span class="token operator">=</span> self<span class="token punctuation">.</span>group_parallel_tasks<span class="token punctuation">(</span>subtasks<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 按组顺序执行，组内并行</span>
+        results <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> group <span class="token keyword">in</span> task_groups<span class="token punctuation">:</span>
+            <span class="token comment"># 并行执行组内任务</span>
+            group_results <span class="token operator">=</span> <span class="token keyword">await</span> asyncio<span class="token punctuation">.</span>gather<span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">[</span>
+                self<span class="token punctuation">.</span>execute_task_async<span class="token punctuation">(</span>task<span class="token punctuation">)</span> <span class="token keyword">for</span> task <span class="token keyword">in</span> group
+            <span class="token punctuation">]</span><span class="token punctuation">)</span>
+            results<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>group_results<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> results
+    
+    <span class="token keyword">def</span> <span class="token function">group_parallel_tasks</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> subtasks<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""分组：可以并行的任务放在一组"""</span>
+        <span class="token comment"># 简单的分组逻辑（实际应该分析依赖关系）</span>
+        groups <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        current_group <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        
+        <span class="token keyword">for</span> task <span class="token keyword">in</span> subtasks<span class="token punctuation">:</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> task<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"depends_on"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token comment"># 没有依赖，可以并行</span>
+                current_group<span class="token punctuation">.</span>append<span class="token punctuation">(</span>task<span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token comment"># 有依赖，开始新组</span>
+                <span class="token keyword">if</span> current_group<span class="token punctuation">:</span>
+                    groups<span class="token punctuation">.</span>append<span class="token punctuation">(</span>current_group<span class="token punctuation">)</span>
+                groups<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">[</span>task<span class="token punctuation">]</span><span class="token punctuation">)</span>
+                current_group <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        
+        <span class="token keyword">if</span> current_group<span class="token punctuation">:</span>
+            groups<span class="token punctuation">.</span>append<span class="token punctuation">(</span>current_group<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> groups
+
+<span class="token comment"># 使用示例</span>
+planner <span class="token operator">=</span> ParallelPlanner<span class="token punctuation">(</span><span class="token punctuation">)</span>
+subtasks <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"查询用户数据"</span><span class="token punctuation">,</span> <span class="token string">"depends_on"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"查询产品数据"</span><span class="token punctuation">,</span> <span class="token string">"depends_on"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>  <span class="token comment"># 可以并行</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"生成报告"</span><span class="token punctuation">,</span> <span class="token string">"depends_on"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"查询用户数据"</span><span class="token punctuation">,</span> <span class="token string">"查询产品数据"</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">]</span>
+
+results <span class="token operator">=</span> <span class="token keyword">await</span> planner<span class="token punctuation">.</span>plan<span class="token punctuation">(</span>subtasks<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-3-条件规划（Conditional-Planning）"><a href="#2-3-条件规划（Conditional-Planning）" class="headerlink" title="2.3 条件规划（Conditional Planning）"></a>2.3 条件规划（Conditional Planning）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>根据执行结果，动态调整后续任务。</p>
+</blockquote>
+<p><strong>方法</strong>：</p>
+<blockquote>
+<ol>
+<li>执行任务</li>
+<li>根据结果决定下一步</li>
+<li>动态调整计划</li>
+</ol>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 条件规划（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ConditionalPlanner</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">plan</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> subtasks<span class="token punctuation">,</span> context<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""条件规划"""</span>
+        results <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        current_context <span class="token operator">=</span> context <span class="token keyword">or</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+        
+        <span class="token keyword">for</span> task <span class="token keyword">in</span> subtasks<span class="token punctuation">:</span>
+            <span class="token comment"># 1. 检查条件</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>should_execute<span class="token punctuation">(</span>task<span class="token punctuation">,</span> current_context<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token comment"># 2. 执行任务</span>
+                result <span class="token operator">=</span> self<span class="token punctuation">.</span>execute_task<span class="token punctuation">(</span>task<span class="token punctuation">,</span> current_context<span class="token punctuation">)</span>
+                results<span class="token punctuation">.</span>append<span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+                
+                <span class="token comment"># 3. 更新上下文</span>
+                current_context<span class="token punctuation">.</span>update<span class="token punctuation">(</span>result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"context"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                
+                <span class="token comment"># 4. 根据结果调整后续任务</span>
+                <span class="token keyword">if</span> result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"should_skip_remaining"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    <span class="token keyword">break</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token comment"># 跳过任务</span>
+                results<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"skipped"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"task"</span><span class="token punctuation">:</span> task<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> results
+    
+    <span class="token keyword">def</span> <span class="token function">should_execute</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> task<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""判断是否应该执行任务"""</span>
+        <span class="token comment"># 检查条件（如：如果数据为空，跳过生成报告）</span>
+        condition <span class="token operator">=</span> task<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"condition"</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> condition<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> evaluate_condition<span class="token punctuation">(</span>condition<span class="token punctuation">,</span> context<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span>
+
+<span class="token comment"># 使用示例</span>
+planner <span class="token operator">=</span> ConditionalPlanner<span class="token punctuation">(</span><span class="token punctuation">)</span>
+subtasks <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"查询数据"</span><span class="token punctuation">,</span> <span class="token string">"condition"</span><span class="token punctuation">:</span> <span class="token boolean">None</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"生成报告"</span><span class="token punctuation">,</span> <span class="token string">"condition"</span><span class="token punctuation">:</span> <span class="token string">"data_count > 0"</span><span class="token punctuation">&#125;</span>  <span class="token comment"># 只有数据不为空才生成报告</span>
+<span class="token punctuation">]</span>
+
+results <span class="token operator">=</span> planner<span class="token punctuation">.</span>plan<span class="token punctuation">(</span>subtasks<span class="token punctuation">,</span> context<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔧-三、Self-Correction（自我修正）"><a href="#🔧-三、Self-Correction（自我修正）" class="headerlink" title="🔧 三、Self-Correction（自我修正）"></a>🔧 三、Self-Correction（自我修正）</h2><p>Self-Correction 让 Agent 能够在任务执行出错时，分析错误并修正策略。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像人做任务：</p>
+<ul>
+<li><strong>出错</strong>：数据库查询失败</li>
+<li><strong>分析</strong>：可能是连接问题</li>
+<li><strong>修正</strong>：检查连接，重试查询</li>
+</ul>
+</blockquote>
+<h3 id="3-1-错误检测（Error-Detection）"><a href="#3-1-错误检测（Error-Detection）" class="headerlink" title="3.1 错误检测（Error Detection）"></a>3.1 错误检测（Error Detection）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>检测任务执行是否出错。</p>
+</blockquote>
+<p><strong>检测方法</strong>：</p>
+<blockquote>
+<ol>
+<li>检查执行结果</li>
+<li>识别错误类型</li>
+<li>记录错误信息</li>
+</ol>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 错误检测（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ErrorDetector</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">detect_error</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""检测错误"""</span>
+        errors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        
+        <span class="token comment"># 1. 检查执行结果</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"success"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            errors<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+                <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"execution_error"</span><span class="token punctuation">,</span>
+                <span class="token string">"message"</span><span class="token punctuation">:</span> result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"error"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token string">"severity"</span><span class="token punctuation">:</span> <span class="token string">"high"</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 检查结果质量</span>
+        <span class="token keyword">if</span> result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"quality_score"</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> <span class="token number">0.5</span><span class="token punctuation">:</span>
+            errors<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+                <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"quality_error"</span><span class="token punctuation">,</span>
+                <span class="token string">"message"</span><span class="token punctuation">:</span> <span class="token string">"结果质量不达标"</span><span class="token punctuation">,</span>
+                <span class="token string">"severity"</span><span class="token punctuation">:</span> <span class="token string">"medium"</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        
+        <span class="token comment"># 3. 检查超时</span>
+        <span class="token keyword">if</span> result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"timeout"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            errors<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+                <span class="token string">"type"</span><span class="token punctuation">:</span> <span class="token string">"timeout_error"</span><span class="token punctuation">,</span>
+                <span class="token string">"message"</span><span class="token punctuation">:</span> <span class="token string">"任务执行超时"</span><span class="token punctuation">,</span>
+                <span class="token string">"severity"</span><span class="token punctuation">:</span> <span class="token string">"high"</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> errors<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-2-错误分析（Error-Analysis）"><a href="#3-2-错误分析（Error-Analysis）" class="headerlink" title="3.2 错误分析（Error Analysis）"></a>3.2 错误分析（Error Analysis）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>分析错误原因，找出问题所在。</p>
+</blockquote>
+<p><strong>分析方法</strong>：</p>
+<blockquote>
+<ol>
+<li>分析错误类型</li>
+<li>识别根本原因</li>
+<li>评估影响范围</li>
+</ol>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 错误分析（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ErrorAnalyzer</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">analyze</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> error<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""分析错误"""</span>
+        <span class="token comment"># 1. 分析错误类型</span>
+        error_type <span class="token operator">=</span> error<span class="token punctuation">[</span><span class="token string">"type"</span><span class="token punctuation">]</span>
+        
+        <span class="token comment"># 2. 识别根本原因</span>
+        root_cause <span class="token operator">=</span> self<span class="token punctuation">.</span>identify_root_cause<span class="token punctuation">(</span>error<span class="token punctuation">,</span> context<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 3. 评估影响</span>
+        impact <span class="token operator">=</span> self<span class="token punctuation">.</span>assess_impact<span class="token punctuation">(</span>error<span class="token punctuation">,</span> context<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"error_type"</span><span class="token punctuation">:</span> error_type<span class="token punctuation">,</span>
+            <span class="token string">"root_cause"</span><span class="token punctuation">:</span> root_cause<span class="token punctuation">,</span>
+            <span class="token string">"impact"</span><span class="token punctuation">:</span> impact<span class="token punctuation">,</span>
+            <span class="token string">"suggested_fix"</span><span class="token punctuation">:</span> self<span class="token punctuation">.</span>suggest_fix<span class="token punctuation">(</span>error<span class="token punctuation">,</span> root_cause<span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">identify_root_cause</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> error<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""识别根本原因"""</span>
+        <span class="token comment"># 使用 LLM 分析错误原因</span>
+        prompt <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"""
+        分析以下错误的原因：
+        
+        错误：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>error<span class="token punctuation">[</span><span class="token string">"message"</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">
+        上下文：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>context<span class="token punctuation">&#125;</span></span><span class="token string">
+        
+        请分析根本原因。
+        """</span></span>
+        
+        analysis <span class="token operator">=</span> llm<span class="token punctuation">.</span>analyze<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> analysis<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-3-策略修正（Strategy-Correction）"><a href="#3-3-策略修正（Strategy-Correction）" class="headerlink" title="3.3 策略修正（Strategy Correction）"></a>3.3 策略修正（Strategy Correction）</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>根据错误分析，修正执行策略。</p>
+</blockquote>
+<p><strong>修正方法</strong>：</p>
+<blockquote>
+<ol>
+<li>根据错误分析生成修正方案</li>
+<li>更新任务计划</li>
+<li>重新执行</li>
+</ol>
+</blockquote>
+<p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 策略修正（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">StrategyCorrector</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">correct</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> error_analysis<span class="token punctuation">,</span> current_plan<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""修正策略"""</span>
+        <span class="token comment"># 1. 生成修正方案</span>
+        correction <span class="token operator">=</span> self<span class="token punctuation">.</span>generate_correction<span class="token punctuation">(</span>error_analysis<span class="token punctuation">)</span>
+        
+        <span class="token comment"># 2. 更新任务计划</span>
+        updated_plan <span class="token operator">=</span> self<span class="token punctuation">.</span>update_plan<span class="token punctuation">(</span>current_plan<span class="token punctuation">,</span> correction<span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> updated_plan
+    
+    <span class="token keyword">def</span> <span class="token function">generate_correction</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> error_analysis<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""生成修正方案"""</span>
+        root_cause <span class="token operator">=</span> error_analysis<span class="token punctuation">[</span><span class="token string">"root_cause"</span><span class="token punctuation">]</span>
+        
+        <span class="token comment"># 根据根本原因生成修正方案</span>
+        corrections <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"connection_error"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"action"</span><span class="token punctuation">:</span> <span class="token string">"retry"</span><span class="token punctuation">,</span>
+                <span class="token string">"max_retries"</span><span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+                <span class="token string">"backoff"</span><span class="token punctuation">:</span> <span class="token string">"exponential"</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+            <span class="token string">"data_error"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"action"</span><span class="token punctuation">:</span> <span class="token string">"validate_input"</span><span class="token punctuation">,</span>
+                <span class="token string">"validate_before_execute"</span><span class="token punctuation">:</span> <span class="token boolean">True</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+            <span class="token string">"timeout_error"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"action"</span><span class="token punctuation">:</span> <span class="token string">"increase_timeout"</span><span class="token punctuation">,</span>
+                <span class="token string">"timeout_multiplier"</span><span class="token punctuation">:</span> <span class="token number">2.0</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        
+        <span class="token keyword">return</span> corrections<span class="token punctuation">.</span>get<span class="token punctuation">(</span>root_cause<span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">"action"</span><span class="token punctuation">:</span> <span class="token string">"skip"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-4-完整的-Self-Correction-流程"><a href="#3-4-完整的-Self-Correction-流程" class="headerlink" title="3.4 完整的 Self-Correction 流程"></a>3.4 完整的 Self-Correction 流程</h3><p><strong>代码示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 完整的 Self-Correction 流程（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SelfCorrectingPlanner</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>error_detector <span class="token operator">=</span> ErrorDetector<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>error_analyzer <span class="token operator">=</span> ErrorAnalyzer<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>strategy_corrector <span class="token operator">=</span> StrategyCorrector<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">execute_with_correction</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> plan<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""执行计划，带自我修正"""</span>
+        max_corrections <span class="token operator">=</span> <span class="token number">3</span>
+        correction_count <span class="token operator">=</span> <span class="token number">0</span>
+        
+        <span class="token keyword">while</span> correction_count <span class="token operator">&lt;</span> max_corrections<span class="token punctuation">:</span>
+            <span class="token comment"># 1. 执行计划</span>
+            results <span class="token operator">=</span> self<span class="token punctuation">.</span>execute_plan<span class="token punctuation">(</span>plan<span class="token punctuation">)</span>
+            
+            <span class="token comment"># 2. 检测错误</span>
+            errors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+            <span class="token keyword">for</span> result <span class="token keyword">in</span> results<span class="token punctuation">:</span>
+                detected_errors <span class="token operator">=</span> self<span class="token punctuation">.</span>error_detector<span class="token punctuation">.</span>detect_error<span class="token punctuation">(</span>result<span class="token punctuation">)</span>
+                errors<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>detected_errors<span class="token punctuation">)</span>
+            
+            <span class="token comment"># 3. 如果没有错误，返回结果</span>
+            <span class="token keyword">if</span> <span class="token keyword">not</span> errors<span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"results"</span><span class="token punctuation">:</span> results<span class="token punctuation">&#125;</span>
+            
+            <span class="token comment"># 4. 分析错误</span>
+            error_analysis <span class="token operator">=</span> self<span class="token punctuation">.</span>error_analyzer<span class="token punctuation">.</span>analyze<span class="token punctuation">(</span>errors<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">"results"</span><span class="token punctuation">:</span> results<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+            
+            <span class="token comment"># 5. 修正策略</span>
+            plan <span class="token operator">=</span> self<span class="token punctuation">.</span>strategy_corrector<span class="token punctuation">.</span>correct<span class="token punctuation">(</span>error_analysis<span class="token punctuation">,</span> plan<span class="token punctuation">)</span>
+            
+            correction_count <span class="token operator">+=</span> <span class="token number">1</span>
+        
+        <span class="token comment"># 如果修正次数超过限制，返回失败</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"无法修正错误"</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔍-总结：任务规划是-Agent-处理复杂任务的关键"><a href="#🔍-总结：任务规划是-Agent-处理复杂任务的关键" class="headerlink" title="🔍 总结：任务规划是 Agent 处理复杂任务的关键"></a>🔍 总结：任务规划是 Agent 处理复杂任务的关键</h2><h3 id="💡-快速回顾：你学到了什么？"><a href="#💡-快速回顾：你学到了什么？" class="headerlink" title="💡 快速回顾：你学到了什么？"></a>💡 快速回顾：你学到了什么？</h3><ol>
+<li><strong>任务分解策略</strong>：基于目标、基于工作流、基于工具</li>
+<li><strong>任务规划方法</strong>：顺序规划、并行规划、条件规划</li>
+<li><strong>Self-Correction</strong>：错误检测、错误分析、策略修正</li>
+<li><strong>工程实践</strong>：如何实现完整的任务规划系统</li>
+</ol>
+<h3 id="任务规划的核心作用"><a href="#任务规划的核心作用" class="headerlink" title="任务规划的核心作用"></a>任务规划的核心作用</h3><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>任务分解</strong></td>
+<td>把大任务拆成小步骤</td>
+<td>化整为零</td>
+</tr>
+<tr>
+<td><strong>任务规划</strong></td>
+<td>确定执行顺序</td>
+<td>有序执行</td>
+</tr>
+<tr>
+<td><strong>Self-Correction</strong></td>
+<td>检测错误并修正</td>
+<td>自我修正</td>
+</tr>
+</tbody></table>
+<p><strong>生活化理解</strong>：</p>
+<blockquote>
+<p>就像做项目：</p>
+<ul>
+<li><strong>任务分解</strong>：把”开发测试平台”拆成”需求分析 → 数据库设计 → 后端开发 → 前端开发 → 测试”</li>
+<li><strong>任务规划</strong>：确定先做什么，后做什么（必须先设计数据库，才能开发后端）</li>
+<li><strong>Self-Correction</strong>：如果某个步骤失败，分析原因并修正（如数据库连接失败，检查连接后重试）</li>
+</ul>
+</blockquote>
+<h3 id="设计原则总结"><a href="#设计原则总结" class="headerlink" title="设计原则总结"></a>设计原则总结</h3><table>
+<thead>
+<tr>
+<th>原则</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>可分解性</strong></td>
+<td>任务可以分解成子任务</td>
+<td>✅ “开发平台” → “设计数据库” + “开发API”<br>❌ “思考”（无法分解）</td>
+</tr>
+<tr>
+<td><strong>可执行性</strong></td>
+<td>每个子任务都可以直接执行</td>
+<td>✅ “查询数据库”<br>❌ “做得好”（太模糊）</td>
+</tr>
+<tr>
+<td><strong>可修正性</strong></td>
+<td>出错时可以修正</td>
+<td>✅ 检测错误并重试<br>❌ 直接放弃</td>
+</tr>
+</tbody></table>
+<h3 id="实战建议"><a href="#实战建议" class="headerlink" title="实战建议"></a>实战建议</h3><ol>
+<li><strong>从简单开始</strong>：先实现顺序规划，再逐步优化</li>
+<li><strong>重视错误处理</strong>：错误检测、分析、修正，一个都不能少</li>
+<li><strong>优化执行效率</strong>：识别可以并行的任务，提高效率</li>
+<li><strong>完善日志记录</strong>：记录任务执行过程，便于调试和优化</li>
+</ol>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：<br>任务规划是 Agent 处理复杂任务的关键能力，好的任务规划能让 Agent 更高效、更可靠地完成任务。</p>
+<p>就像项目管理一样，好的任务规划能让 Agent 像项目经理一样，把复杂任务拆解、规划、执行、修正，最终完成任务。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h2><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h3 id="🎯-任务规划"><a href="#🎯-任务规划" class="headerlink" title="🎯 任务规划"></a>🎯 任务规划</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.15000"><strong>Task Planning for LLM Agents（LLM Agent 任务规划）</strong></a>：任务规划的研究论文。适合想了解任务规划理论的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/agents/agent_types/plan-and-execute/"><strong>LangChain Planning（LangChain 规划）</strong></a>：LangChain 的任务规划实现。适合使用 LangChain 的开发者。</p>
+</li>
+</ul>
+<h3 id="🔄-Self-Correction"><a href="#🔄-Self-Correction" class="headerlink" title="🔄 Self-Correction"></a>🔄 Self-Correction</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2303.08896"><strong>Self-Correction in LLM Agents（LLM Agent 自我修正）</strong></a>：Self-Correction 的研究论文。适合想了解自我修正机制的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2303.11366"><strong>Reflexion: Language Agents with Verbal Reinforcement Learning（Reflexion 论文）</strong></a>：Reflexion 框架，展示了如何实现自我修正。<strong>强烈推荐</strong>，适合想实现 Self-Correction 的开发者。</p>
+</li>
+</ul>
+<h3 id="🔧-任务分解"><a href="#🔧-任务分解" class="headerlink" title="🔧 任务分解"></a>🔧 任务分解</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/techniques/task_decomposition"><strong>Task Decomposition Strategies（任务分解策略）</strong></a>：任务分解的最佳实践。适合想优化任务分解的开发者。</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>任务规划让 Agent 能够处理复杂任务，但 Agent 还需要选择合适的框架来实现。</p>
+<p><strong>第 11 篇将深入 Agent 框架对比</strong>：</p>
+<blockquote>
+<p><strong>《主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析》</strong></p>
+</blockquote>
+<ul>
+<li>主流 Agent 框架有哪些？</li>
+<li>如何选择合适的框架？</li>
+<li>各框架的优缺点对比</li>
+<li>框架选型指南</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/Task-Planning/" class="print-no-link">#Task Planning</a>
+      
+        <a href="/fluid-blog/tags/%E4%BB%BB%E5%8A%A1%E8%A7%84%E5%88%92/" class="print-no-link">#任务规划</a>
+      
+        <a href="/fluid-blog/tags/%E4%BB%BB%E5%8A%A1%E5%88%86%E8%A7%A3/" class="print-no-link">#任务分解</a>
+      
+        <a href="/fluid-blog/tags/Self-Correction/" class="print-no-link">#Self-Correction</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？</div>
+      <div>https://linn0813.github.io/2025/12/19/2025-12-19-llm-agent-task-planning/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/20/2025-12-20-llm-agent-framework-comparison/" title="🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/18/2025-12-18-llm-agent-tool-system/" title="🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接">
+                        <span class="hidden-mobile">🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

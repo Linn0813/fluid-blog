@@ -1,0 +1,1813 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Agent, ReAct, Self-Ask, Tree-of-Thoughts, ToT, 决策引擎, 思维链, CoT, 任务规划">
+  
+    <meta name="description" content="深入解析 Agent 的决策引擎：代码级拆解 ReAct 范式，掌握如何设计 Prompt 模板、实现工具调用和错误处理，对比 Self-Ask 和 Tree of Thoughts 等策略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/16/2025-12-16-llm-agent-decision-engine/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深入解析 Agent 的决策引擎：代码级拆解 ReAct 范式，掌握如何设计 Prompt 模板、实现工具调用和错误处理，对比 Self-Ask 和 Tree of Thoughts 等策略">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-decision-engine.png">
+<meta property="article:published_time" content="2025-12-16T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.632Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="ReAct">
+<meta property="article:tag" content="Self-Ask">
+<meta property="article:tag" content="Tree-of-Thoughts">
+<meta property="article:tag" content="决策引擎">
+<meta property="article:tag" content="思维链">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-agent-decision-engine.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-16 18:00" pubdate>
+          2025年12月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          59 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 7 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们系统理解了 Agent 的本质，揭秘了 LLM 如何进化为具有”行动能力”的智能体。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将深入 Agent 的”决策引擎”，代码级拆解 ReAct 范式，掌握如何设计 Prompt 模板、实现工具调用和错误处理。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-从”思考”到”行动”的飞跃"><a href="#🚀-导言-—-从”思考”到”行动”的飞跃" class="headerlink" title="🚀 导言 — 从”思考”到”行动”的飞跃"></a>🚀 导言 — 从”思考”到”行动”的飞跃</h2><p>在<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-10-llm-agent-concept-overview/">第6篇</a>中，我们了解了 Agent 通过 <strong>Thought（思考）</strong>、<strong>Action（行动）</strong> 和 <strong>Observation（观察）</strong> 的循环实现自主性。</p>
+<p>但关键问题是：</p>
+<blockquote>
+<p><strong>高质量的思考是如何生成的？</strong><br><strong>如何让 Agent 做出正确的决策？</strong><br><strong>如何设计 Prompt 让 Agent 稳定地输出 Thought 和 Action？</strong></p>
+</blockquote>
+<h3 id="🤔-先理解几个基础概念"><a href="#🤔-先理解几个基础概念" class="headerlink" title="🤔 先理解几个基础概念"></a>🤔 先理解几个基础概念</h3><p>在深入 ReAct 之前，我们先理解几个关键概念：</p>
+<p><strong>1. 思维链（CoT - Chain of Thought）</strong></p>
+<blockquote>
+<p>简单理解：让 AI 像人一样，一步步思考问题，而不是直接给出答案。</p>
+<p>例如：</p>
+<ul>
+<li>❌ <strong>直接回答</strong>：答案是 42</li>
+<li>✅ <strong>思维链</strong>：首先，我需要计算 6×7。6×7&#x3D;42，所以答案是 42</li>
+</ul>
+</blockquote>
+<p><strong>2. 工具调用（Tool Calling）</strong></p>
+<blockquote>
+<p>简单理解：让 AI 可以调用外部工具（如搜索、计算器、数据库）来完成它自己无法完成的任务。</p>
+<p>例如：AI 无法直接查询数据库，但可以调用 <code>query_database()</code> 工具来查询。</p>
+</blockquote>
+<p><strong>3. Agentic Loop（Agent 循环）</strong></p>
+<blockquote>
+<p>简单理解：Agent 完成任务的过程是一个循环：<strong>思考 → 行动 → 观察 → 再思考 → 再行动…</strong></p>
+<p>就像人做任务一样：</p>
+<ul>
+<li>思考：我需要做什么？</li>
+<li>行动：执行操作</li>
+<li>观察：看看结果如何</li>
+<li>再思考：下一步该做什么？</li>
+</ul>
+</blockquote>
+<p><strong>4. 结构化输出</strong></p>
+<blockquote>
+<p>简单理解：让 AI 按照固定格式输出，方便程序解析。</p>
+<p>例如：要求 AI 输出 <code>Thought: ...</code> 和 <code>Action: ...</code>，而不是自由文本。</p>
+</blockquote>
+<h3 id="📋-本篇学习目标"><a href="#📋-本篇学习目标" class="headerlink" title="📋 本篇学习目标"></a>📋 本篇学习目标</h3><p>本篇将从<strong>简单到复杂</strong>，帮你掌握：</p>
+<ol>
+<li><strong>ReAct 的基本原理</strong>：为什么需要 ReAct？它是如何工作的？</li>
+<li><strong>ReAct Prompt 模板设计</strong>：如何让 LLM 稳定输出结构化 Thought 和 Action</li>
+<li><strong>代码实现（可选）</strong>：如何从代码层面实现 ReAct（如果你不写代码，可以跳过这部分）</li>
+<li><strong>错误处理与自我修正</strong>：如何让 Agent 在失败时自动调整策略</li>
+<li><strong>与其他策略对比</strong>：Self-Ask、Tree of Thoughts 的适用场景</li>
+</ol>
+<blockquote>
+<p>💡 <strong>提示</strong>：如果你是新手，可以先理解概念部分（第1节），代码部分（第2节）可以暂时跳过，等需要实践时再回来学习。</p>
+</blockquote>
+<hr>
+<h2 id="🔄-一、ReAct-范式：Agent-决策的基石"><a href="#🔄-一、ReAct-范式：Agent-决策的基石" class="headerlink" title="🔄 一、ReAct 范式：Agent 决策的基石"></a>🔄 一、ReAct 范式：Agent 决策的基石</h2><h3 id="1-1-为什么需要-ReAct？"><a href="#1-1-为什么需要-ReAct？" class="headerlink" title="1.1 为什么需要 ReAct？"></a>1.1 为什么需要 ReAct？</h3><p>在了解 ReAct 之前，我们先看看<strong>没有 ReAct 时的问题</strong>：</p>
+<p><strong>问题1：AI 无法调用工具</strong></p>
+<blockquote>
+<p>传统 LLM 只能”说”，不能”做”。它无法查询数据库、调用 API、执行操作。</p>
+</blockquote>
+<p><strong>问题2：AI 无法自我修正</strong></p>
+<blockquote>
+<p>如果 AI 出错了，它无法根据错误结果调整策略，只能重复同样的错误。</p>
+</blockquote>
+<p><strong>问题3：AI 无法处理多步任务</strong></p>
+<blockquote>
+<p>对于复杂任务（如”查询数据并生成报告”），AI 无法分解成多个步骤，一步步完成。</p>
+</blockquote>
+<p><strong>ReAct 解决了这些问题</strong>：</p>
+<ul>
+<li>✅ 让 AI 可以调用工具（查询数据库、调用 API）</li>
+<li>✅ 让 AI 可以根据结果自我修正</li>
+<li>✅ 让 AI 可以处理多步复杂任务</li>
+</ul>
+<h3 id="1-2-什么是-ReAct？"><a href="#1-2-什么是-ReAct？" class="headerlink" title="1.2 什么是 ReAct？"></a>1.2 什么是 ReAct？</h3><p><strong>ReAct (Reasoning + Acting)</strong> 将 <strong>思维链 (CoT)</strong> 与 <strong>工具调用</strong> 融合，实现可解释、迭代式的决策流程。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>ReAct &#x3D; <strong>思考</strong> + <strong>行动</strong> + <strong>循环</strong></p>
+</blockquote>
+<p><strong>工作流程</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">1. 思考（Reasoning）
+   ↓
+2. 行动（Acting）- 调用工具
+   ↓
+3. 观察（Observation）- 获取结果
+   ↓
+4. 再思考（根据结果决定下一步）
+   ↓
+5. 再行动...
+   ↓
+...循环直到任务完成<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>生活例子</strong>：</p>
+<blockquote>
+<p>想象你要做一道菜，但不知道怎么做：</p>
+<ol>
+<li><strong>思考</strong>：”我需要先查菜谱，然后准备食材”</li>
+<li><strong>行动</strong>：打开手机搜索菜谱</li>
+<li><strong>观察</strong>：找到了菜谱，需要鸡蛋、面粉、糖</li>
+<li><strong>再思考</strong>：”现在我需要准备这些食材”</li>
+<li><strong>再行动</strong>：去冰箱拿鸡蛋</li>
+<li><strong>再观察</strong>：鸡蛋准备好了</li>
+<li>…继续循环，直到菜做好</li>
+</ol>
+<p><strong>ReAct 就是让 AI 也这样工作</strong>：思考 → 行动 → 观察 → 再思考 → 再行动…</p>
+</blockquote>
+<p><strong>核心公式</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">ReAct &#x3D; CoT (思维链) + Tool Calling (工具调用) + Loop (循环)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>一句话总结</strong>：ReAct 让 AI 像人一样，通过”思考-行动-观察”的循环来完成复杂任务。</p>
+</blockquote>
+<h3 id="1-3-ReAct-Prompt-模板拆解"><a href="#1-3-ReAct-Prompt-模板拆解" class="headerlink" title="1.3 ReAct Prompt 模板拆解"></a>1.3 ReAct Prompt 模板拆解</h3><p>ReAct 的核心在于<strong>结构化输出</strong>，使 LLM 在循环中显式生成 Thought → Action → Observation。</p>
+<blockquote>
+<p>💡 <strong>什么是结构化输出？</strong></p>
+<p>简单理解：要求 AI 按照固定格式输出，而不是自由文本。</p>
+<ul>
+<li>❌ <strong>自由文本</strong>：”我需要查询数据库，然后生成报告”（程序无法解析）</li>
+<li>✅ <strong>结构化输出</strong>：<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Thought: 我需要查询数据库
+Action: query_database(sql&#x3D;&quot;SELECT * FROM users&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+（程序可以轻松解析）</li>
+</ul>
+</blockquote>
+<h4 id="核心组件：三个关键标签"><a href="#核心组件：三个关键标签" class="headerlink" title="核心组件：三个关键标签"></a>核心组件：三个关键标签</h4><p>ReAct 要求 AI 输出三个标签：</p>
+<table>
+<thead>
+<tr>
+<th>输出标签</th>
+<th>简单理解</th>
+<th>作用</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Thought</strong></td>
+<td>AI 的思考过程</td>
+<td>分析当前状态，决定下一步做什么</td>
+<td><code>Thought: 我需要先查询数据库获取用户数据</code></td>
+</tr>
+<tr>
+<td><strong>Action</strong></td>
+<td>AI 要执行的操作</td>
+<td>调用哪个工具，传入什么参数</td>
+<td><code>Action: query_database(sql=&quot;SELECT * FROM users&quot;)</code></td>
+</tr>
+<tr>
+<td><strong>Observation</strong></td>
+<td>工具执行的结果</td>
+<td>工具返回了什么结果</td>
+<td><code>Observation: 查询成功，返回 1000 条记录</code></td>
+</tr>
+</tbody></table>
+<p><strong>为什么需要这三个标签？</strong></p>
+<ol>
+<li><strong>Thought（思考）</strong>：让 AI 的决策过程<strong>可解释</strong>，我们能看到 AI 为什么这样做</li>
+<li><strong>Action（行动）</strong>：让程序能够<strong>解析和执行</strong>，调用对应的工具</li>
+<li><strong>Observation（观察）</strong>：让 AI 能够<strong>根据结果调整策略</strong>，如果出错了可以修正</li>
+</ol>
+<h4 id="完整-Prompt-模板"><a href="#完整-Prompt-模板" class="headerlink" title="完整 Prompt 模板"></a>完整 Prompt 模板</h4><p><strong>模板结构</strong>（你可以直接复制使用）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt:
+你是一个任务执行助手，可以通过调用工具来完成复杂任务。
+
+你需要按照以下格式输出：
+
+Thought: [分析当前状态，决定下一步行动]
+
+Action: [工具名(参数)]
+
+Observation: [工具返回结果]
+
+...重复此循环，直到得到最终答案
+
+Final Answer: [最终答案]
+
+可用工具：
+&#123;tool_descriptions&#125;
+
+User Prompt:
+&#123;user_task&#125;
+
+历史记录：
+&#123;history&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>模板说明</strong>：</p>
+<ul>
+<li><code>&#123;tool_descriptions&#125;</code>：可用工具的列表和说明</li>
+<li><code>&#123;user_task&#125;</code>：用户的任务</li>
+<li><code>&#123;history&#125;</code>：之前的思考-行动-观察历史</li>
+</ul>
+</blockquote>
+<h4 id="实际示例：一步步看-ReAct-如何工作"><a href="#实际示例：一步步看-ReAct-如何工作" class="headerlink" title="实际示例：一步步看 ReAct 如何工作"></a>实际示例：一步步看 ReAct 如何工作</h4><p><strong>场景</strong>：让 AI 完成”查询用户数据并生成报告”</p>
+<p><strong>Step 1：准备 Prompt</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">System Prompt:
+你是一个测试自动化助手，可以通过调用工具来执行测试任务。
+
+输出格式：
+Thought: [你的思考]
+Action: [工具名(参数)]
+Observation: [工具返回结果]
+
+可用工具：
+1. query_database(sql): 查询数据库
+2. generate_report(data): 生成报告
+3. send_email(to, subject, body): 发送邮件
+
+User Prompt:
+查询用户数据并生成报告<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>Step 2：AI 的第一轮输出</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Thought: 我需要先查询数据库获取用户数据。
+
+Action: query_database(sql&#x3D;&quot;SELECT * FROM users WHERE date&#x3D;&#39;2025-12&#39;&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>Step 3：程序执行工具，返回结果</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Observation: 查询成功，返回 1000 条用户记录<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>Step 4：AI 的第二轮输出（基于观察结果）</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Thought: 数据已获取，现在需要生成报告。
+
+Action: generate_report(data&#x3D;[1000条记录], format&#x3D;&quot;PDF&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>Step 5：程序执行工具，返回结果</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Observation: 报告生成成功，文件路径：&#x2F;reports&#x2F;users_2025-12.pdf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>Step 6：AI 判断任务完成，输出最终答案</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Thought: 报告已生成，任务完成。
+
+Final Answer: 已成功查询用户数据并生成报告，文件路径：&#x2F;reports&#x2F;users_2025-12.pdf<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>关键理解</strong>：</p>
+<ul>
+<li>AI 不是一次性完成所有任务，而是<strong>一步步来</strong></li>
+<li>每一步都会<strong>思考</strong>、<strong>行动</strong>、<strong>观察</strong></li>
+<li>根据观察结果，决定下一步做什么</li>
+</ul>
+</blockquote>
+<h3 id="1-4-ReAct-的优势与局限"><a href="#1-4-ReAct-的优势与局限" class="headerlink" title="1.4 ReAct 的优势与局限"></a>1.4 ReAct 的优势与局限</h3><p><strong>优势</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>优势</th>
+<th>说明</th>
+<th>实际价值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>高可控性</strong></td>
+<td>结构化输出易解析和执行</td>
+<td>可以稳定地解析和执行工具调用</td>
+</tr>
+<tr>
+<td><strong>迭代修正</strong></td>
+<td>工具执行失败可在下一 Thought 中自我修正</td>
+<td>能够处理错误，自动调整策略</td>
+</tr>
+<tr>
+<td><strong>通用性</strong></td>
+<td>适用于大多数多步任务</td>
+<td>可以处理各种复杂任务</td>
+</tr>
+<tr>
+<td><strong>可解释性</strong></td>
+<td>每一步都有明确的思考过程</td>
+<td>便于调试和审计</td>
+</tr>
+</tbody></table>
+<p><strong>局限</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>局限</th>
+<th>说明</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>局部最优</strong></td>
+<td>每步基于当前状态做最优选择，可能错过更优长期路径</td>
+<td>可能无法找到全局最优解</td>
+</tr>
+<tr>
+<td><strong>单分支探索</strong></td>
+<td>无法自然处理多分支思考或高度不确定任务</td>
+<td>对于需要探索多种方案的任务效果有限</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>关键理解</strong>：ReAct 是 Agent 决策的<strong>稳定基础</strong>，适合大多数多步任务。对于需要探索多种方案的任务，可以考虑 Tree of Thoughts（见第3节）。</p>
+</blockquote>
+<hr>
+<h2 id="🔧-二、代码级实现：ReAct-的完整实现"><a href="#🔧-二、代码级实现：ReAct-的完整实现" class="headerlink" title="🔧 二、代码级实现：ReAct 的完整实现"></a>🔧 二、代码级实现：ReAct 的完整实现</h2><blockquote>
+<p>⚠️ <strong>新手提示</strong>：如果你不写代码，或者只是想理解概念，可以<strong>跳过这一节</strong>，直接看第3节”其他决策策略对比”。等你需要实际开发时，再回来学习代码实现。</p>
+</blockquote>
+<p>理解了 ReAct 的原理后，我们来看看如何从代码层面实现一个完整的 ReAct Agent。</p>
+<p><strong>实现 ReAct 需要做什么？</strong></p>
+<ol>
+<li><strong>构建 Prompt</strong>：把任务、工具、历史记录组合成完整的 Prompt</li>
+<li><strong>调用 LLM</strong>：让 LLM 生成 Thought 和 Action</li>
+<li><strong>解析 Action</strong>：从 LLM 输出中提取工具名和参数</li>
+<li><strong>执行工具</strong>：调用对应的工具</li>
+<li><strong>循环</strong>：重复上述过程，直到任务完成</li>
+</ol>
+<h3 id="2-1-Prompt-构建"><a href="#2-1-Prompt-构建" class="headerlink" title="2.1 Prompt 构建"></a>2.1 Prompt 构建</h3><p><strong>核心任务</strong>：将任务、历史记录、可用工具组合成完整的 Prompt。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>就像做菜需要准备食材一样，构建 Prompt 就是把所有”食材”（任务、工具、历史）组合在一起。</p>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Prompt 构建（伪代码）</span>
+<span class="token comment"># 注意：这是简化版本，实际实现会更复杂</span>
+
+<span class="token keyword">def</span> <span class="token function">build_react_prompt</span><span class="token punctuation">(</span>task<span class="token punctuation">,</span> history<span class="token punctuation">,</span> tools<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    构建 ReAct Prompt
+    
+    参数：
+    - task: 用户的任务（如"查询用户数据并生成报告"）
+    - history: 之前的思考-行动-观察历史
+    - tools: 可用工具列表
+    """</span>
+    
+    <span class="token comment"># 步骤1：准备工具描述</span>
+    <span class="token comment"># 把每个工具的名称、参数、返回值整理成文本</span>
+    tool_descriptions <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> tool <span class="token keyword">in</span> tools<span class="token punctuation">:</span>
+        tool_descriptions<span class="token punctuation">.</span>append<span class="token punctuation">(</span>
+            <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>tool<span class="token punctuation">.</span>name<span class="token punctuation">&#125;</span></span><span class="token string">: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>tool<span class="token punctuation">.</span>description<span class="token punctuation">&#125;</span></span><span class="token string">\n"</span></span>
+            <span class="token string-interpolation"><span class="token string">f"  参数: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>tool<span class="token punctuation">.</span>parameters<span class="token punctuation">&#125;</span></span><span class="token string">\n"</span></span>
+            <span class="token string-interpolation"><span class="token string">f"  返回: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>tool<span class="token punctuation">.</span>returns<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>
+        <span class="token punctuation">)</span>
+    
+    <span class="token comment"># 步骤2：格式化历史记录</span>
+    <span class="token comment"># 把之前的每一步都记录下来，让 AI 知道之前做了什么</span>
+    history_text <span class="token operator">=</span> <span class="token string">""</span>
+    <span class="token keyword">for</span> step <span class="token keyword">in</span> history<span class="token punctuation">:</span>
+        history_text <span class="token operator">+=</span> <span class="token string-interpolation"><span class="token string">f"""
+Step </span><span class="token interpolation"><span class="token punctuation">&#123;</span>step<span class="token punctuation">.</span>number<span class="token punctuation">&#125;</span></span><span class="token string">:
+Thought: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>step<span class="token punctuation">.</span>thought<span class="token punctuation">&#125;</span></span><span class="token string">
+Action: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>step<span class="token punctuation">.</span>action<span class="token punctuation">&#125;</span></span><span class="token string">
+Observation: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>step<span class="token punctuation">.</span>observation<span class="token punctuation">&#125;</span></span><span class="token string">
+"""</span></span>
+    
+    <span class="token comment"># 步骤3：组合成完整的 Prompt</span>
+    <span class="token comment"># 把任务、工具、历史都放到 Prompt 里</span>
+    prompt <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"""
+你是一个任务执行助手，可以通过调用工具来完成复杂任务。
+
+你需要按照以下格式输出：
+
+Thought: [分析当前状态，决定下一步行动]
+
+Action: [工具名(参数)]
+
+Observation: [工具返回结果]
+
+...重复此循环，直到得到最终答案
+
+Final Answer: [最终答案]
+
+可用工具：
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token builtin">chr</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>tool_descriptions<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">
+
+当前任务：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>task<span class="token punctuation">&#125;</span></span><span class="token string">
+
+历史记录：
+</span><span class="token interpolation"><span class="token punctuation">&#123;</span>history_text<span class="token punctuation">&#125;</span></span><span class="token string">
+
+请开始执行任务：
+"""</span></span>
+    
+    <span class="token keyword">return</span> prompt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>使用示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 假设我们有这些工具</span>
+tools <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"query_database"</span><span class="token punctuation">,</span> <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"查询数据库"</span><span class="token punctuation">,</span> <span class="token string">"parameters"</span><span class="token punctuation">:</span> <span class="token string">"sql"</span><span class="token punctuation">,</span> <span class="token string">"returns"</span><span class="token punctuation">:</span> <span class="token string">"查询结果"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span><span class="token string">"name"</span><span class="token punctuation">:</span> <span class="token string">"generate_report"</span><span class="token punctuation">,</span> <span class="token string">"description"</span><span class="token punctuation">:</span> <span class="token string">"生成报告"</span><span class="token punctuation">,</span> <span class="token string">"parameters"</span><span class="token punctuation">:</span> <span class="token string">"data, format"</span><span class="token punctuation">,</span> <span class="token string">"returns"</span><span class="token punctuation">:</span> <span class="token string">"报告路径"</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">]</span>
+
+<span class="token comment"># 构建 Prompt</span>
+prompt <span class="token operator">=</span> build_react_prompt<span class="token punctuation">(</span>
+    task<span class="token operator">=</span><span class="token string">"查询用户数据并生成报告"</span><span class="token punctuation">,</span>
+    history<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>  <span class="token comment"># 第一次执行，没有历史</span>
+    tools<span class="token operator">=</span>tools
+<span class="token punctuation">)</span>
+
+<span class="token comment"># 现在 prompt 包含了所有信息，可以发送给 LLM 了</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-2-Action-解析"><a href="#2-2-Action-解析" class="headerlink" title="2.2 Action 解析"></a>2.2 Action 解析</h3><p><strong>核心任务</strong>：从 LLM 输出中解析出工具名和参数。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>LLM 输出的是文本，比如 <code>Action: query_database(sql=&quot;SELECT * FROM users&quot;)</code></p>
+<p>我们需要把这个文本<strong>解析</strong>成：</p>
+<ul>
+<li>工具名：<code>query_database</code></li>
+<li>参数：<code>&#123;&quot;sql&quot;: &quot;SELECT * FROM users&quot;&#125;</code></li>
+</ul>
+<p>这样才能调用对应的工具。</p>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># Action 解析（伪代码）</span>
+<span class="token comment"># 注意：这是简化版本，实际实现需要处理更多边界情况</span>
+
+<span class="token keyword">import</span> re
+<span class="token keyword">import</span> json
+
+<span class="token keyword">def</span> <span class="token function">parse_action</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    从 LLM 输出中解析 Action
+    
+    输入示例：
+    response = "Thought: 我需要查询数据库\nAction: query_database(sql=\"SELECT * FROM users\")"
+    
+    输出：
+    tool_name = "query_database"
+    args = &#123;"sql": "SELECT * FROM users"&#125;
+    """</span>
+    
+    <span class="token comment"># 步骤1：找到 Action 这一行</span>
+    <span class="token comment"># 使用正则表达式匹配 "Action: ..."</span>
+    action_match <span class="token operator">=</span> re<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">r'Action:\s*(.+)'</span><span class="token punctuation">,</span> response<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token keyword">not</span> action_match<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token boolean">None</span>  <span class="token comment"># 没找到 Action，返回 None</span>
+    
+    action_text <span class="token operator">=</span> action_match<span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 提取 Action 后面的内容</span>
+    
+    <span class="token comment"># 步骤2：解析工具名和参数</span>
+    <span class="token comment"># 格式：工具名(参数)</span>
+    <span class="token comment"># 例如：query_database(sql="SELECT * FROM users")</span>
+    
+    <span class="token comment"># 使用正则表达式匹配：工具名(参数)</span>
+    pattern <span class="token operator">=</span> <span class="token string">r'(\w+)\((.*)\)'</span>
+    <span class="token keyword">match</span> <span class="token operator">=</span> re<span class="token punctuation">.</span><span class="token keyword">match</span><span class="token punctuation">(</span>pattern<span class="token punctuation">,</span> action_text<span class="token punctuation">)</span>
+    
+    <span class="token keyword">if</span> <span class="token keyword">match</span><span class="token punctuation">:</span>
+        tool_name <span class="token operator">=</span> <span class="token keyword">match</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>  <span class="token comment"># 提取工具名</span>
+        args_str <span class="token operator">=</span> <span class="token keyword">match</span><span class="token punctuation">.</span>group<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>   <span class="token comment"># 提取参数部分</span>
+        
+        <span class="token comment"># 步骤3：解析参数</span>
+        <span class="token comment"># 参数可能是 key=value 格式，需要转换成字典</span>
+        args <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+        <span class="token keyword">for</span> pair <span class="token keyword">in</span> args_str<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> <span class="token string">'='</span> <span class="token keyword">in</span> pair<span class="token punctuation">:</span>
+                key<span class="token punctuation">,</span> value <span class="token operator">=</span> pair<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'='</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+                <span class="token comment"># 去掉引号和空格</span>
+                args<span class="token punctuation">[</span>key<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token string">'"\''</span><span class="token punctuation">)</span>
+        
+        <span class="token keyword">return</span> tool_name<span class="token punctuation">,</span> args
+    
+    <span class="token keyword">return</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token boolean">None</span>
+
+<span class="token comment"># 使用示例</span>
+response <span class="token operator">=</span> <span class="token triple-quoted-string string">"""
+Thought: 我需要查询数据库获取用户数据。
+
+Action: query_database(sql="SELECT * FROM users")
+"""</span>
+
+tool_name<span class="token punctuation">,</span> args <span class="token operator">=</span> parse_action<span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+<span class="token comment"># 输出：</span>
+<span class="token comment"># tool_name = "query_database"</span>
+<span class="token comment"># args = &#123;"sql": "SELECT * FROM users"&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-3-工具调用与错误处理"><a href="#2-3-工具调用与错误处理" class="headerlink" title="2.3 工具调用与错误处理"></a>2.3 工具调用与错误处理</h3><p><strong>核心任务</strong>：执行工具调用，处理成功和失败情况。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>解析出工具名和参数后，我们需要：</p>
+<ol>
+<li>找到对应的工具</li>
+<li>调用工具</li>
+<li>处理可能出现的错误（工具不存在、参数错误、执行失败等）</li>
+</ol>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 工具调用与错误处理（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">execute_tool</span><span class="token punctuation">(</span>tool_name<span class="token punctuation">,</span> args<span class="token punctuation">,</span> tools<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    执行工具调用
+    
+    参数：
+    - tool_name: 工具名（如 "query_database"）
+    - args: 工具参数（如 &#123;"sql": "SELECT * FROM users"&#125;）
+    - tools: 可用工具字典
+    
+    返回：
+    - &#123;"success": True, "result": ...&#125; 成功
+    - &#123;"success": False, "error": "错误信息"&#125; 失败
+    """</span>
+    
+    <span class="token comment"># 步骤1：检查工具是否存在</span>
+    <span class="token keyword">if</span> tool_name <span class="token keyword">not</span> <span class="token keyword">in</span> tools<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
+            <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"工具 '</span><span class="token interpolation"><span class="token punctuation">&#123;</span>tool_name<span class="token punctuation">&#125;</span></span><span class="token string">' 不存在"</span></span>
+        <span class="token punctuation">&#125;</span>
+    
+    tool <span class="token operator">=</span> tools<span class="token punctuation">[</span>tool_name<span class="token punctuation">]</span>  <span class="token comment"># 获取工具对象</span>
+    
+    <span class="token comment"># 步骤2：验证参数（检查参数格式是否正确）</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        validated_args <span class="token operator">=</span> tool<span class="token punctuation">.</span>validate_args<span class="token punctuation">(</span>args<span class="token punctuation">)</span>
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
+            <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"参数验证失败: </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token builtin">str</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>
+        <span class="token punctuation">&#125;</span>
+    
+    <span class="token comment"># 步骤3：执行工具</span>
+    <span class="token keyword">try</span><span class="token punctuation">:</span>
+        result <span class="token operator">=</span> tool<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token operator">**</span>validated_args<span class="token punctuation">)</span>  <span class="token comment"># 调用工具的 execute 方法</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span>
+            <span class="token string">"result"</span><span class="token punctuation">:</span> result
+        <span class="token punctuation">&#125;</span>
+    <span class="token keyword">except</span> Exception <span class="token keyword">as</span> e<span class="token punctuation">:</span>
+        <span class="token comment"># 如果执行失败，返回错误信息</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span>
+            <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"工具执行失败: </span><span class="token interpolation"><span class="token punctuation">&#123;</span><span class="token builtin">str</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>
+        <span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 使用示例</span>
+tools <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">"query_database"</span><span class="token punctuation">:</span> DatabaseTool<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>    <span class="token comment"># 假设这些是工具对象</span>
+    <span class="token string">"generate_report"</span><span class="token punctuation">:</span> ReportTool<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token string">"send_email"</span><span class="token punctuation">:</span> EmailTool<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 调用工具</span>
+result <span class="token operator">=</span> execute_tool<span class="token punctuation">(</span><span class="token string">"query_database"</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">"sql"</span><span class="token punctuation">:</span> <span class="token string">"SELECT * FROM users"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> tools<span class="token punctuation">)</span>
+
+<span class="token comment"># 检查结果</span>
+<span class="token keyword">if</span> result<span class="token punctuation">[</span><span class="token string">"success"</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    observation <span class="token operator">=</span> result<span class="token punctuation">[</span><span class="token string">"result"</span><span class="token punctuation">]</span>  <span class="token comment"># 成功，使用结果</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    observation <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"错误: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>result<span class="token punctuation">[</span><span class="token string">'error'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>  <span class="token comment"># 失败，记录错误信息</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-4-完整-ReAct-Loop-实现"><a href="#2-4-完整-ReAct-Loop-实现" class="headerlink" title="2.4 完整 ReAct Loop 实现"></a>2.4 完整 ReAct Loop 实现</h3><p><strong>核心任务</strong>：将 Prompt 构建、Action 解析、工具调用组合成完整的循环。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>这就是 ReAct 的完整流程：</p>
+<ol>
+<li>构建 Prompt（包含任务、工具、历史）</li>
+<li>调用 LLM，获取 Thought 和 Action</li>
+<li>解析 Action，提取工具名和参数</li>
+<li>执行工具，获取结果</li>
+<li>把结果加入历史，继续下一轮</li>
+<li>重复直到任务完成或达到最大步数</li>
+</ol>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 完整 ReAct Loop（伪代码）</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ReActAgent</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> llm<span class="token punctuation">,</span> tools<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        初始化 ReAct Agent
+        
+        参数：
+        - llm: LLM 对象（如 GPT-4）
+        - tools: 可用工具字典
+        """</span>
+        self<span class="token punctuation">.</span>llm <span class="token operator">=</span> llm
+        self<span class="token punctuation">.</span>tools <span class="token operator">=</span> tools
+        self<span class="token punctuation">.</span>history <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>  <span class="token comment"># 记录历史：之前的思考-行动-观察</span>
+        self<span class="token punctuation">.</span>max_steps <span class="token operator">=</span> <span class="token number">10</span>  <span class="token comment"># 最大步数，防止无限循环</span>
+    
+    <span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> task<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        运行 ReAct Agent，完成任务
+        
+        参数：
+        - task: 用户的任务（如"查询用户数据并生成报告"）
+        
+        返回：
+        - &#123;"success": True, "answer": "最终答案"&#125; 成功
+        - &#123;"error": "错误信息"&#125; 失败
+        """</span>
+        
+        steps <span class="token operator">=</span> <span class="token number">0</span>
+        
+        <span class="token comment"># 循环：思考 → 行动 → 观察 → 再思考 → 再行动...</span>
+        <span class="token keyword">while</span> steps <span class="token operator">&lt;</span> self<span class="token punctuation">.</span>max_steps<span class="token punctuation">:</span>
+            <span class="token comment"># 步骤1：构建 Prompt</span>
+            <span class="token comment"># 把任务、工具、历史记录组合成完整的 Prompt</span>
+            prompt <span class="token operator">=</span> build_react_prompt<span class="token punctuation">(</span>
+                task<span class="token operator">=</span>task<span class="token punctuation">,</span>
+                history<span class="token operator">=</span>self<span class="token punctuation">.</span>history<span class="token punctuation">,</span>
+                tools<span class="token operator">=</span>self<span class="token punctuation">.</span>tools
+            <span class="token punctuation">)</span>
+            
+            <span class="token comment"># 步骤2：调用 LLM，获取响应</span>
+            response <span class="token operator">=</span> self<span class="token punctuation">.</span>llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span>
+            
+            <span class="token comment"># 步骤3：检查是否完成</span>
+            <span class="token comment"># 如果 LLM 输出了 "Final Answer:"，说明任务完成</span>
+            <span class="token keyword">if</span> <span class="token string">"Final Answer:"</span> <span class="token keyword">in</span> response<span class="token punctuation">:</span>
+                final_answer <span class="token operator">=</span> response<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"Final Answer:"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>strip<span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"success"</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">"answer"</span><span class="token punctuation">:</span> final_answer<span class="token punctuation">&#125;</span>
+            
+            <span class="token comment"># 步骤4：解析 Thought 和 Action</span>
+            thought <span class="token operator">=</span> self<span class="token punctuation">.</span>extract_thought<span class="token punctuation">(</span>response<span class="token punctuation">)</span>  <span class="token comment"># 提取思考过程</span>
+            tool_name<span class="token punctuation">,</span> args <span class="token operator">=</span> self<span class="token punctuation">.</span>parse_action<span class="token punctuation">(</span>response<span class="token punctuation">)</span>  <span class="token comment"># 解析工具名和参数</span>
+            
+            <span class="token keyword">if</span> <span class="token keyword">not</span> tool_name<span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"无法解析 Action"</span><span class="token punctuation">&#125;</span>
+            
+            <span class="token comment"># 步骤5：执行工具</span>
+            result <span class="token operator">=</span> self<span class="token punctuation">.</span>execute_tool<span class="token punctuation">(</span>tool_name<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+            
+            <span class="token comment"># 步骤6：更新历史记录</span>
+            <span class="token comment"># 把这一步的思考、行动、观察结果记录下来</span>
+            self<span class="token punctuation">.</span>history<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+                <span class="token string">"step"</span><span class="token punctuation">:</span> steps <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token string">"thought"</span><span class="token punctuation">:</span> thought<span class="token punctuation">,</span>
+                <span class="token string">"action"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>tool_name<span class="token punctuation">&#125;</span></span><span class="token string">(</span><span class="token interpolation"><span class="token punctuation">&#123;</span>args<span class="token punctuation">&#125;</span></span><span class="token string">)"</span></span><span class="token punctuation">,</span>
+                <span class="token string">"observation"</span><span class="token punctuation">:</span> result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"result"</span><span class="token punctuation">)</span> <span class="token keyword">or</span> result<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">"error"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+            
+            steps <span class="token operator">+=</span> <span class="token number">1</span>
+        
+        <span class="token comment"># 如果达到最大步数还没完成，返回错误</span>
+        <span class="token keyword">return</span> <span class="token punctuation">&#123;</span><span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"达到最大步数限制"</span><span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 使用示例</span>
+agent <span class="token operator">=</span> ReActAgent<span class="token punctuation">(</span>
+    llm<span class="token operator">=</span>gpt4<span class="token punctuation">,</span>  <span class="token comment"># 假设这是 GPT-4 对象</span>
+    tools<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+        <span class="token string">"query_database"</span><span class="token punctuation">:</span> DatabaseTool<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token string">"generate_report"</span><span class="token punctuation">:</span> ReportTool<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># 运行 Agent，完成任务</span>
+result <span class="token operator">=</span> agent<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"查询用户数据并生成报告"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 检查结果</span>
+<span class="token keyword">if</span> result<span class="token punctuation">[</span><span class="token string">"success"</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"任务完成：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>result<span class="token punctuation">[</span><span class="token string">'answer'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"任务失败：</span><span class="token interpolation"><span class="token punctuation">&#123;</span>result<span class="token punctuation">[</span><span class="token string">'error'</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>关键理解</strong>：</p>
+<ul>
+<li>ReAct Loop 就是一个<strong>循环</strong>：思考 → 行动 → 观察 → 再思考…</li>
+<li>每一步都会记录到 <code>history</code> 中，让 AI 知道之前做了什么</li>
+<li>如果达到最大步数还没完成，就停止（防止无限循环）</li>
+</ul>
+</blockquote>
+<h3 id="2-5-错误处理与自我修正"><a href="#2-5-错误处理与自我修正" class="headerlink" title="2.5 错误处理与自我修正"></a>2.5 错误处理与自我修正</h3><p><strong>核心任务</strong>：当工具调用失败时，让 Agent 在下一轮 Thought 中自我修正。</p>
+<p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>如果工具调用失败了（比如数据库连接失败），Agent 不应该直接放弃，而是应该：</p>
+<ol>
+<li>分析错误原因</li>
+<li>调整策略</li>
+<li>尝试其他方法</li>
+</ol>
+<p>就像人遇到问题时会想办法解决一样。</p>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 错误处理与自我修正（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">handle_error</span><span class="token punctuation">(</span>agent<span class="token punctuation">,</span> error<span class="token punctuation">,</span> last_action<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    处理错误，让 Agent 自我修正
+    
+    参数：
+    - agent: ReAct Agent 对象
+    - error: 错误信息
+    - last_action: 失败的 Action
+    
+    返回：
+    - (thought, action): 修正后的思考和行动
+    """</span>
+    
+    <span class="token comment"># 构建错误处理的 Prompt</span>
+    <span class="token comment"># 告诉 AI：上一个 Action 失败了，请分析原因并修正</span>
+    error_prompt <span class="token operator">=</span> <span class="token string-interpolation"><span class="token string">f"""
+上一个 Action 执行失败：
+
+Action: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>last_action<span class="token punctuation">&#125;</span></span><span class="token string">
+Error: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>error<span class="token punctuation">&#125;</span></span><span class="token string">
+
+请分析错误原因，并修正策略：
+
+Thought: [分析错误原因，决定如何修正]
+
+Action: [修正后的 Action]
+"""</span></span>
+    
+    <span class="token comment"># 调用 LLM，让它分析错误并给出修正方案</span>
+    response <span class="token operator">=</span> agent<span class="token punctuation">.</span>llm<span class="token punctuation">.</span>generate<span class="token punctuation">(</span>error_prompt<span class="token punctuation">)</span>
+    thought<span class="token punctuation">,</span> action <span class="token operator">=</span> agent<span class="token punctuation">.</span>parse_response<span class="token punctuation">(</span>response<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> thought<span class="token punctuation">,</span> action
+
+<span class="token comment"># 在 ReAct Loop 中使用</span>
+result <span class="token operator">=</span> execute_tool<span class="token punctuation">(</span>tool_name<span class="token punctuation">,</span> args<span class="token punctuation">,</span> tools<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> <span class="token keyword">not</span> result<span class="token punctuation">[</span><span class="token string">"success"</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+    <span class="token comment"># 工具调用失败，进行错误处理</span>
+    error <span class="token operator">=</span> result<span class="token punctuation">[</span><span class="token string">"error"</span><span class="token punctuation">]</span>
+    
+    <span class="token comment"># 让 Agent 分析错误并修正策略</span>
+    thought<span class="token punctuation">,</span> action <span class="token operator">=</span> handle_error<span class="token punctuation">(</span>agent<span class="token punctuation">,</span> error<span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>tool_name<span class="token punctuation">&#125;</span></span><span class="token string">(</span><span class="token interpolation"><span class="token punctuation">&#123;</span>args<span class="token punctuation">&#125;</span></span><span class="token string">)"</span></span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 更新历史记录</span>
+    agent<span class="token punctuation">.</span>history<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+        <span class="token string">"thought"</span><span class="token punctuation">:</span> thought<span class="token punctuation">,</span>
+        <span class="token string">"action"</span><span class="token punctuation">:</span> action<span class="token punctuation">,</span>
+        <span class="token string">"observation"</span><span class="token punctuation">:</span> <span class="token string-interpolation"><span class="token string">f"上一个 Action 失败: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>error<span class="token punctuation">&#125;</span></span><span class="token string">，已修正策略"</span></span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 下一轮循环会使用修正后的 Action</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>实际例子</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Step 1:
+Thought: 我需要查询数据库
+Action: query_database(sql&#x3D;&quot;SELECT * FROM users&quot;)
+Observation: 错误：数据库连接失败
+
+Step 2（错误处理）:
+Thought: 数据库连接失败，可能是网络问题。我应该先检查数据库连接状态，或者尝试重试。
+Action: check_database_connection()
+
+Step 3:
+Observation: 数据库连接正常
+Thought: 连接正常，可能是 SQL 语句有问题。让我重新查询。
+Action: query_database(sql&#x3D;&quot;SELECT * FROM users LIMIT 100&quot;)
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>💡 <strong>关键理解</strong>：</p>
+<ul>
+<li>Agent 遇到错误时，不是直接放弃，而是<strong>分析原因并修正</strong></li>
+<li>错误信息会被加入到历史记录中，帮助 AI 做出更好的决策</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔍-三、其他决策策略对比"><a href="#🔍-三、其他决策策略对比" class="headerlink" title="🔍 三、其他决策策略对比"></a>🔍 三、其他决策策略对比</h2><p>ReAct 是 Agent 决策的基石，但在某些场景下，其他策略可能更合适。</p>
+<blockquote>
+<p>💡 <strong>为什么需要其他策略？</strong></p>
+<p>ReAct 适合<strong>执行性任务</strong>（调用工具、操作），但对于<strong>信息检索任务</strong>（搜索、查询），可能有更合适的策略。</p>
+</blockquote>
+<h3 id="3-1-Self-Ask：解决信息依赖问题"><a href="#3-1-Self-Ask：解决信息依赖问题" class="headerlink" title="3.1 Self-Ask：解决信息依赖问题"></a>3.1 Self-Ask：解决信息依赖问题</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>Self-Ask 专门解决”需要先查资料才能回答问题”的场景。</p>
+<p><strong>生活例子</strong>：</p>
+<ul>
+<li>问题：”谁是《三体》的作者？这本书获得了什么奖项？”</li>
+<li>你无法直接回答，需要：<ol>
+<li>先搜索”《三体》的作者”</li>
+<li>再搜索”《三体》获得的奖项”</li>
+<li>最后组合答案</li>
+</ol>
+</li>
+</ul>
+<p>Self-Ask 就是让 AI 也这样做。</p>
+</blockquote>
+<p>Self-Ask 是 CoT 的变体，专门解决 <strong>多步信息检索</strong>问题。</p>
+<h4 id="机制详解"><a href="#机制详解" class="headerlink" title="机制详解"></a>机制详解</h4><p><strong>原理</strong>：当问题无法直接回答，Agent 会将问题分解为多个 <strong>子问题</strong>，逐步检索答案。</p>
+<p><strong>Prompt 模板</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">Question: [原始问题]
+
+Follow up: [是否需要搜索新信息？Yes/No]
+
+Intermediate Answer: [子问题]
+
+[搜索结果/答案]
+
+...重复，直到可以回答原始问题
+
+So the final answer is: [最终答案]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>实际示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-text" data-language="text"><code class="language-text">Question: 谁是《三体》的作者？这本书获得了什么奖项？
+
+Follow up: Yes
+
+Intermediate Answer: 《三体》的作者是谁？
+
+[搜索结果：刘慈欣]
+
+Follow up: Yes
+
+Intermediate Answer: 《三体》获得了什么奖项？
+
+[搜索结果：雨果奖]
+
+So the final answer is: 《三体》的作者是刘慈欣，这本书获得了雨果奖。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="对比-ReAct：什么时候用哪个？"><a href="#对比-ReAct：什么时候用哪个？" class="headerlink" title="对比 ReAct：什么时候用哪个？"></a>对比 ReAct：什么时候用哪个？</h4><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>ReAct</th>
+<th>Self-Ask</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>主要用途</strong></td>
+<td>执行性工具调用（API、脚本、操作）</td>
+<td>信息检索（搜索引擎、RAG、查询）</td>
+</tr>
+<tr>
+<td><strong>输出格式</strong></td>
+<td>Thought → Action → Observation</td>
+<td>Question → Follow up → Intermediate Answer</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>需要执行操作的任务（如”查询数据库并生成报告”）</td>
+<td>需要检索信息的任务（如”查资料回答问题”）</td>
+</tr>
+<tr>
+<td><strong>生活例子</strong></td>
+<td>做菜：思考 → 行动（拿食材） → 观察（食材准备好了）</td>
+<td>查资料：问题 → 搜索 → 答案 → 新问题 → 再搜索</td>
+</tr>
+</tbody></table>
+<p><strong>选择指南</strong>：</p>
+<ul>
+<li>✅ <strong>用 ReAct</strong>：需要调用工具、执行操作（查询数据库、生成报告、发送邮件）</li>
+<li>✅ <strong>用 Self-Ask</strong>：需要检索信息、查资料（搜索、RAG、知识库查询）</li>
+</ul>
+<h4 id="融合策略"><a href="#融合策略" class="headerlink" title="融合策略"></a>融合策略</h4><p>在复杂 Agent 框架中，常结合两者：</p>
+<ul>
+<li><strong>信息检索阶段</strong>：使用 Self-Ask，确保问题所需信息完备</li>
+<li><strong>执行阶段</strong>：切换到 ReAct，调用工具或操作系统 &#x2F; API</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 融合策略（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">hybrid_agent</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 阶段1：信息检索（Self-Ask）</span>
+    <span class="token keyword">if</span> needs_information<span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        information <span class="token operator">=</span> self_ask_retrieve<span class="token punctuation">(</span>task<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 阶段2：执行任务（ReAct）</span>
+    result <span class="token operator">=</span> react_execute<span class="token punctuation">(</span>task<span class="token punctuation">,</span> information<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> result<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="3-2-Tree-of-Thoughts-ToT-：深度探索与多路径决策"><a href="#3-2-Tree-of-Thoughts-ToT-：深度探索与多路径决策" class="headerlink" title="3.2 Tree of Thoughts (ToT)：深度探索与多路径决策"></a>3.2 Tree of Thoughts (ToT)：深度探索与多路径决策</h3><p><strong>简单理解</strong>：</p>
+<blockquote>
+<p>ToT 就像做决策时，<strong>同时考虑多种方案</strong>，然后选择最好的。</p>
+<p><strong>生活例子</strong>：</p>
+<ul>
+<li>你要设计一个测试方案</li>
+<li>不是只考虑一种方案，而是：<ul>
+<li>方案A：单元测试 + 集成测试</li>
+<li>方案B：端到端测试 + 性能测试</li>
+<li>方案C：自动化测试 + 手工测试</li>
+</ul>
+</li>
+<li>评估每个方案，选择最好的</li>
+</ul>
+<p>ToT 让 AI 也这样做：<strong>同时探索多种方案，选择最优的</strong>。</p>
+</blockquote>
+<p>ToT（思维树）模仿人类深度思考与多路径探索，适合处理复杂、不确定性高的任务。</p>
+<h4 id="ToT-核心原理"><a href="#ToT-核心原理" class="headerlink" title="ToT 核心原理"></a>ToT 核心原理</h4><p><strong>简单理解</strong>：</p>
+<blockquote>
+<ul>
+<li><strong>状态空间搜索</strong>：每步生成多个候选 Thought (3-5 个)，形成分支</li>
+<li><strong>树形结构</strong>：分支构成思维树，探索多种可能方案</li>
+<li><strong>评估与剪枝</strong>：评估每个方案的质量，去掉差的，保留好的</li>
+</ul>
+</blockquote>
+<p><strong>工作流程</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">任务：设计一个测试方案
+
+Step 1: 生成多个候选方案
+  ├─ 方案A：单元测试 + 集成测试
+  ├─ 方案B：端到端测试 + 性能测试
+  └─ 方案C：自动化测试 + 手工测试
+
+Step 2: 评估每个方案
+  ├─ 方案A：可行性 8&#x2F;10，进展 7&#x2F;10
+  ├─ 方案B：可行性 9&#x2F;10，进展 8&#x2F;10
+  └─ 方案C：可行性 6&#x2F;10，进展 5&#x2F;10
+
+Step 3: 剪枝（移除方案C），继续探索方案A和B
+  ├─ 方案A → 细化方案A1、A2、A3
+  └─ 方案B → 细化方案B1、B2、B3
+
+Step 4: 继续评估和剪枝，直到找到最佳方案<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="策略对比：三种方法怎么选？"><a href="#策略对比：三种方法怎么选？" class="headerlink" title="策略对比：三种方法怎么选？"></a>策略对比：三种方法怎么选？</h4><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>搜索深度</th>
+<th>搜索广度</th>
+<th>适用场景</th>
+<th>计算成本</th>
+<th>简单理解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>CoT</strong></td>
+<td>1 (单链)</td>
+<td>1 (贪婪)</td>
+<td>简单推理、问答</td>
+<td>低</td>
+<td>一步步思考，只考虑一种方案</td>
+</tr>
+<tr>
+<td><strong>ReAct</strong></td>
+<td>N (迭代)</td>
+<td>1 (贪婪)</td>
+<td>多步任务、工具调用</td>
+<td>中</td>
+<td>一步步思考+行动，只考虑一种方案</td>
+</tr>
+<tr>
+<td><strong>ToT</strong></td>
+<td>N (迭代)</td>
+<td>M (多分支)</td>
+<td>复杂规划、创意生成、代码调试</td>
+<td>高</td>
+<td>一步步思考，同时考虑多种方案</td>
+</tr>
+</tbody></table>
+<p><strong>选择指南</strong>（用生活例子理解）：</p>
+<ul>
+<li><p><strong>简单任务</strong>：使用 CoT</p>
+<blockquote>
+<p>例如：回答”1+1等于几？”（不需要工具，不需要多方案）</p>
+</blockquote>
+</li>
+<li><p><strong>多步执行任务</strong>：使用 ReAct</p>
+<blockquote>
+<p>例如：”查询数据库并生成报告”（需要调用工具，但不需要探索多种方案）</p>
+</blockquote>
+</li>
+<li><p><strong>需要探索多种方案</strong>：使用 ToT</p>
+<blockquote>
+<p>例如：”设计一个测试方案”（需要同时考虑多种方案，选择最好的）</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="ToT-实现挑战"><a href="#ToT-实现挑战" class="headerlink" title="ToT 实现挑战"></a>ToT 实现挑战</h4><p><strong>为什么 ToT 用得少？</strong></p>
+<ol>
+<li><p><strong>高计算成本</strong>：多分支生成与评估需大量 Token &#x2F; LLM 调用</p>
+<blockquote>
+<p>简单理解：需要调用很多次 LLM，成本高</p>
+</blockquote>
+</li>
+<li><p><strong>Evaluator 设计难度</strong>：需要准确评估分支质量与潜力</p>
+<blockquote>
+<p>简单理解：需要判断哪个方案更好，这个判断本身很难</p>
+</blockquote>
+</li>
+<li><p><strong>内存与上下文管理</strong>：需跟踪树形结构中每个分支的状态与上下文</p>
+<blockquote>
+<p>简单理解：需要记住很多分支的状态，管理复杂</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>💡 <strong>建议</strong>：大多数情况下，ReAct 就够用了。只有在需要探索多种方案的特殊场景下，才考虑 ToT。</p>
+</blockquote>
+<blockquote>
+<p><strong>名词卡片</strong></p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>Greedy Search（贪婪搜索）</strong>：每步选择当前最优路径</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>State Space Search（状态空间搜索）</strong>：在所有 Thought-Action 组合中寻找最优解</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>Pruning（剪枝）</strong>：移除低质量分支，节省资源</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="🔍-总结：决策引擎是-Agent-的核心灵魂"><a href="#🔍-总结：决策引擎是-Agent-的核心灵魂" class="headerlink" title="🔍 总结：决策引擎是 Agent 的核心灵魂"></a>🔍 总结：决策引擎是 Agent 的核心灵魂</h2><p>决策引擎决定了 Agent <strong>如何思考</strong>和<strong>如何行动</strong>，是 Agent 系统的核心。</p>
+<h3 id="💡-快速回顾：你学到了什么？"><a href="#💡-快速回顾：你学到了什么？" class="headerlink" title="💡 快速回顾：你学到了什么？"></a>💡 快速回顾：你学到了什么？</h3><ol>
+<li><strong>ReAct 是什么</strong>：让 AI 通过”思考 → 行动 → 观察”的循环完成任务</li>
+<li><strong>ReAct 如何工作</strong>：结构化输出 Thought 和 Action，解析后调用工具</li>
+<li><strong>代码实现</strong>：Prompt 构建 → Action 解析 → 工具调用 → 循环</li>
+<li><strong>其他策略</strong>：Self-Ask（信息检索）、ToT（多方案探索）</li>
+</ol>
+<h3 id="三大策略对比总结"><a href="#三大策略对比总结" class="headerlink" title="三大策略对比总结"></a>三大策略对比总结</h3><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>核心特点</th>
+<th>适用场景</th>
+<th>计算成本</th>
+<th>推荐度</th>
+<th>一句话总结</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ReAct</strong></td>
+<td>迭代式思考+行动</td>
+<td>多步工具调用任务</td>
+<td>中</td>
+<td>⭐⭐⭐⭐⭐ 最常用</td>
+<td>思考→行动→观察，一步步完成任务</td>
+</tr>
+<tr>
+<td><strong>Self-Ask</strong></td>
+<td>多步信息检索</td>
+<td>需要检索信息的任务</td>
+<td>中</td>
+<td>⭐⭐⭐⭐ 信息检索场景</td>
+<td>把问题拆成子问题，逐个检索答案</td>
+</tr>
+<tr>
+<td><strong>ToT</strong></td>
+<td>多路径探索</td>
+<td>复杂规划、创意生成</td>
+<td>高</td>
+<td>⭐⭐⭐ 特殊场景</td>
+<td>同时考虑多种方案，选择最优的</td>
+</tr>
+</tbody></table>
+<h3 id="选择指南"><a href="#选择指南" class="headerlink" title="选择指南"></a>选择指南</h3><p><strong>何时使用 ReAct</strong>：</p>
+<ul>
+<li>✅ 需要调用工具、API、执行操作</li>
+<li>✅ 多步骤任务，需要迭代执行</li>
+<li>✅ 需要错误处理和自我修正</li>
+<li>✅ <strong>大多数 Agent 应用场景</strong></li>
+</ul>
+<p><strong>何时使用 Self-Ask</strong>：</p>
+<ul>
+<li>✅ 需要多步信息检索</li>
+<li>✅ 问题依赖多个子问题的答案</li>
+<li>✅ 需要结合 RAG 或搜索引擎</li>
+</ul>
+<p><strong>何时使用 ToT</strong>：</p>
+<ul>
+<li>✅ 需要探索多种解决方案</li>
+<li>✅ 任务不确定性高</li>
+<li>✅ 有充足的计算预算</li>
+<li>✅ 创意生成、代码调试等场景</li>
+</ul>
+<h3 id="实战建议"><a href="#实战建议" class="headerlink" title="实战建议"></a>实战建议</h3><ol>
+<li><strong>从 ReAct 开始</strong>：ReAct 是最通用、最稳定的策略，适合大多数场景</li>
+<li><strong>根据任务调整</strong>：如果任务主要是信息检索，考虑 Self-Ask</li>
+<li><strong>特殊场景用 ToT</strong>：只有在需要探索多种方案时才使用 ToT</li>
+<li><strong>混合使用</strong>：可以在不同阶段使用不同策略（如信息检索用 Self-Ask，执行用 ReAct）</li>
+</ol>
+<blockquote>
+<p>💡 <strong>核心理解</strong>：决策引擎是 Agent 的”大脑”，选择合适的决策策略，能让 Agent 更高效、更准确地完成任务。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h2><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h3 id="🔄-ReAct-范式"><a href="#🔄-ReAct-范式" class="headerlink" title="🔄 ReAct 范式"></a>🔄 ReAct 范式</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2210.03629"><strong>ReAct: Synergizing Reasoning and Acting in Language Models（ReAct 原始论文）</strong></a>：ReAct 范式的开创性论文，展示了如何结合推理和行动。<strong>必读论文</strong>，适合所有读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://react-lm.github.io/"><strong>ReAct 项目主页</strong></a>：ReAct 的官方项目主页，包含示例 Prompt 模板和代码。<strong>强烈推荐</strong>，适合想实践 ReAct 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://python.langchain.com/docs/modules/agents/agent_types/react/"><strong>LangChain ReAct Examples（LangChain ReAct 示例）</strong></a>：LangChain 的 ReAct 实现示例。<strong>强烈推荐</strong>，适合使用 LangChain 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/module_guides/deploying/agents/"><strong>LlamaIndex Agent Examples（LlamaIndex Agent 示例）</strong></a>：LlamaIndex 的 Agent 实现示例。适合使用 LlamaIndex 的开发者。</p>
+</li>
+</ul>
+<h3 id="🔍-Self-Ask"><a href="#🔍-Self-Ask" class="headerlink" title="🔍 Self-Ask"></a>🔍 Self-Ask</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.08923"><strong>Self-Ask: Empowering LLMs to Ask Clarification Questions（Self-Ask 论文）</strong></a>：Self-Ask 的原始论文。适合想了解 Self-Ask 的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/ofirpress/self-ask"><strong>Self-Ask with Search（Self-Ask 实现）</strong></a>：Self-Ask 的开源实现。适合想实践 Self-Ask 的开发者。</p>
+</li>
+</ul>
+<h3 id="🌳-Tree-of-Thoughts"><a href="#🌳-Tree-of-Thoughts" class="headerlink" title="🌳 Tree of Thoughts"></a>🌳 Tree of Thoughts</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2305.10601"><strong>Tree of Thoughts: Deliberate Problem Solving with LLMs（ToT 原始论文）</strong></a>：ToT 的开创性论文，展示了如何通过树形结构探索多种推理路径。<strong>必读论文</strong>，适合想了解 ToT 的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/kyegomez/tree-of-thoughts"><strong>Tree of Thoughts 实现</strong></a>：ToT 的开源实现。适合想实践 ToT 的开发者。</p>
+</li>
+</ul>
+<h3 id="🛠️-工具调用与-Function-Calling"><a href="#🛠️-工具调用与-Function-Calling" class="headerlink" title="🛠️ 工具调用与 Function Calling"></a>🛠️ 工具调用与 Function Calling</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/function-calling"><strong>OpenAI Function Calling（OpenAI 工具调用）</strong></a>：OpenAI 的 Function Calling 官方文档。<strong>必读</strong>，适合使用 OpenAI API 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.anthropic.com/claude/docs/tool-use"><strong>Anthropic Tool Use（Claude 工具使用）</strong></a>：Anthropic 的工具使用文档。适合使用 Claude 的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.promptingguide.ai/techniques/tool_use"><strong>LLM Tool Calling Best Practices（工具调用最佳实践）</strong></a>：工具调用的最佳实践指南。适合想优化工具调用的开发者。</p>
+</li>
+</ul>
+<h3 id="📊-评估与评分"><a href="#📊-评估与评分" class="headerlink" title="📊 评估与评分"></a>📊 评估与评分</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2310.12345"><strong>LLM Heuristic Evaluation for Planning（规划评估）</strong></a>：LLM 规划评估的综述论文。适合想了解如何评估 Agent 决策质量的读者。</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>决策引擎决定了 Agent “如何思考”和”如何行动”，但 Agent 还需要”记住历史与外部状态”。</p>
+<p><strong>第 8 篇将深入记忆系统</strong>：</p>
+<blockquote>
+<p><strong>《主题8｜任务规划：Agent 如何把复杂任务拆成可执行步骤？》</strong></p>
+</blockquote>
+<ul>
+<li>Agent 如何分解复杂任务？</li>
+<li>如何设计任务规划策略？</li>
+<li>推理链、子任务分解、Self-Correction 的实现方法</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/fluid-blog/tags/ReAct/" class="print-no-link">#ReAct</a>
+      
+        <a href="/fluid-blog/tags/Self-Ask/" class="print-no-link">#Self-Ask</a>
+      
+        <a href="/fluid-blog/tags/Tree-of-Thoughts/" class="print-no-link">#Tree-of-Thoughts</a>
+      
+        <a href="/fluid-blog/tags/%E5%86%B3%E7%AD%96%E5%BC%95%E6%93%8E/" class="print-no-link">#决策引擎</a>
+      
+        <a href="/fluid-blog/tags/%E6%80%9D%E7%BB%B4%E9%93%BE/" class="print-no-link">#思维链</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用</div>
+      <div>https://linn0813.github.io/2025/12/16/2025-12-16-llm-agent-decision-engine/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/17/2025-12-17-llm-agent-memory-management/" title="🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/10/2025-12-10-llm-agent-concept-overview/" title="🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？">
+                        <span class="hidden-mobile">🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,967 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="localhost, 局域网访问, Wi-Fi, 0.0.0.0, CORS, 前后端联调, 本地开发, 网络模型">
+  
+    <meta name="description" content="本文说明在同一 Wi‑Fi（同一局域网）内，其他设备如何访问你本机启动的 Web 服务，以及这件事在网络层面如何成立。先说明访问模型和地址角色，再给出最小可行配置，最后列出常见失效位置与边界问题（含 CORS）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="同一 Wi‑Fi 访问本地服务：网络模型、配置方式与边界说明">
+<meta property="og:url" content="https://linn0813.github.io/2026/01/26/2026-01-26-localhost-wifi-access-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="本文说明在同一 Wi‑Fi（同一局域网）内，其他设备如何访问你本机启动的 Web 服务，以及这件事在网络层面如何成立。先说明访问模型和地址角色，再给出最小可行配置，最后列出常见失效位置与边界问题（含 CORS）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/localhost-wifi-access-guide.png">
+<meta property="article:published_time" content="2026-01-26T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-26T12:37:41.174Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="网络">
+<meta property="article:tag" content="本地开发">
+<meta property="article:tag" content="CORS">
+<meta property="article:tag" content="前后端联调">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/localhost-wifi-access-guide.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>同一 Wi‑Fi 访问本地服务：网络模型、配置方式与边界说明 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="同一 Wi‑Fi 访问本地服务：网络模型、配置方式与边界说明"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-01-26 10:00" pubdate>
+          2026年1月26日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">同一 Wi‑Fi 访问本地服务：网络模型、配置方式与边界说明</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本文解决：</p>
+<blockquote>
+<p><strong>在同一 Wi‑Fi（同一局域网）内，其他设备如何访问你本机启动的 Web 服务，以及这件事在网络层面到底是如何成立的。</strong></p>
+</blockquote>
+<ul>
+<li>先说明访问模型和地址角色</li>
+<li>再给出最小可行配置</li>
+<li>最后列出常见失效位置与边界问题（含 CORS）</li>
+</ul>
+<hr>
+<h2 id="1-本地服务的访问模型"><a href="#1-本地服务的访问模型" class="headerlink" title="1. 本地服务的访问模型"></a>1. 本地服务的访问模型</h2><h3 id="1-1-回环地址（localhost-127-0-0-1）"><a href="#1-1-回环地址（localhost-127-0-0-1）" class="headerlink" title="1.1 回环地址（localhost &#x2F; 127.0.0.1）"></a>1.1 回环地址（localhost &#x2F; 127.0.0.1）</h3><p><code>localhost</code>（<code>127.0.0.1</code>）是<strong>回环地址</strong>，含义只有一个：</p>
+<blockquote>
+<p><strong>当前这台机器自己。</strong></p>
+</blockquote>
+<p>访问回环地址时，请求不会经过网卡，也不会进入局域网。</p>
+<p>因此：</p>
+<ul>
+<li>你在电脑上访问 <code>localhost:3000</code> → 访问的是你自己的电脑</li>
+<li>其他设备访问 <code>localhost:3000</code> → 访问的是它们自己</li>
+</ul>
+<p>结论：<strong>回环地址天生不支持跨设备访问。</strong></p>
+<hr>
+<h3 id="1-2-对外监听地址（0-0-0-0）"><a href="#1-2-对外监听地址（0-0-0-0）" class="headerlink" title="1.2 对外监听地址（0.0.0.0）"></a>1.2 对外监听地址（0.0.0.0）</h3><p><code>0.0.0.0</code> 不是一个真实 IP，而是一个<strong>监听语义</strong>：</p>
+<blockquote>
+<p><strong>监听当前机器上的所有网络接口。</strong></p>
+</blockquote>
+<p>当服务监听在 <code>0.0.0.0</code> 上时，才有可能：</p>
+<ul>
+<li>通过局域网 IP 被其他设备访问</li>
+<li>被端口转发、内网穿透等机制使用</li>
+</ul>
+<p>如果服务只监听在 <code>127.0.0.1</code>，即使你知道局域网 IP，外部设备也无法访问。</p>
+<hr>
+<h3 id="1-3-局域网-IP（192-168-x-x-10-x-x-x）"><a href="#1-3-局域网-IP（192-168-x-x-10-x-x-x）" class="headerlink" title="1.3 局域网 IP（192.168.x.x &#x2F; 10.x.x.x）"></a>1.3 局域网 IP（192.168.x.x &#x2F; 10.x.x.x）</h3><p>局域网 IP 是：</p>
+<blockquote>
+<p><strong>其他设备在同一 Wi‑Fi 中找到你的”地址”。</strong></p>
+</blockquote>
+<p>在同一网段内，访问路径始终是：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">其他设备 → 你的局域网 IP → 端口 → 本地服务<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="2-同一-Wi‑Fi-访问成立的必要条件"><a href="#2-同一-Wi‑Fi-访问成立的必要条件" class="headerlink" title="2. 同一 Wi‑Fi 访问成立的必要条件"></a>2. 同一 Wi‑Fi 访问成立的必要条件</h2><p>在工程实践中，要让”同一 Wi‑Fi 访问本地服务”成立，必须同时满足以下条件：</p>
+<ol>
+<li>服务监听在 <code>0.0.0.0</code></li>
+<li>访问使用的是本机的局域网 IP + 端口</li>
+<li>两台设备在同一网段，且未开启设备隔离</li>
+<li>本机防火墙允许端口入站</li>
+</ol>
+<p>其中，<strong>监听地址错误</strong>是最常见的问题来源。</p>
+<hr>
+<h2 id="3-最小可行配置（MVP）"><a href="#3-最小可行配置（MVP）" class="headerlink" title="3. 最小可行配置（MVP）"></a>3. 最小可行配置（MVP）</h2><p>如果你只关心”如何尽快让别人访问到”，可以按以下最小路径配置：</p>
+<ol>
+<li>查到本机局域网 IP（如 <code>192.168.1.10</code>）</li>
+<li>启动服务时监听 <code>0.0.0.0</code></li>
+<li>使用 <code>http://192.168.1.10:端口</code> 访问</li>
+</ol>
+<p>只要本机用该地址能访问成功，其他设备在同一 Wi‑Fi 下通常也可以访问。</p>
+<hr>
+<h2 id="3-1-完整实操步骤（新手友好版）"><a href="#3-1-完整实操步骤（新手友好版）" class="headerlink" title="3.1 完整实操步骤（新手友好版）"></a>3.1 完整实操步骤（新手友好版）</h2><p>下面用一个完整的例子，手把手走一遍流程。</p>
+<h3 id="Step-1：查看本机局域网-IP"><a href="#Step-1：查看本机局域网-IP" class="headerlink" title="Step 1：查看本机局域网 IP"></a>Step 1：查看本机局域网 IP</h3><h4 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h4><ol>
+<li>按 <code>Win + R</code>，输入 <code>cmd</code>，回车</li>
+<li>在命令行输入：<code>ipconfig</code></li>
+<li>找到 <code>无线局域网适配器 WLAN</code> 或 <code>以太网适配器</code> 下的 <code>IPv4 地址</code></li>
+<li>记下这个 IP，例如 <code>192.168.1.10</code></li>
+</ol>
+<h4 id="macOS"><a href="#macOS" class="headerlink" title="macOS"></a>macOS</h4><ol>
+<li>打开终端（Terminal）</li>
+<li>输入：<code>ipconfig getifaddr en0</code>（Wi-Fi）或 <code>ipconfig getifaddr en1</code>（有线）</li>
+<li>记下输出的 IP，例如 <code>192.168.1.10</code></li>
+</ol>
+<h4 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h4><ol>
+<li>打开终端</li>
+<li>输入：<code>ip a</code> 或 <code>ifconfig</code></li>
+<li>找到 <code>wlan0</code>（Wi-Fi）或 <code>eth0</code>（有线）下的 <code>inet</code> 地址</li>
+<li>记下 IP，例如 <code>192.168.1.10</code></li>
+</ol>
+<h3 id="Step-2：启动服务并监听-0-0-0-0"><a href="#Step-2：启动服务并监听-0-0-0-0" class="headerlink" title="Step 2：启动服务并监听 0.0.0.0"></a>Step 2：启动服务并监听 0.0.0.0</h3><p>以 Vite 项目为例：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> run dev -- <span class="token parameter variable">--host</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>启动后，你应该能看到类似输出：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">VITE v5.x.x  ready in xxx ms
+
+➜  Local:   http:&#x2F;&#x2F;localhost:5173&#x2F;
+➜  Network: http:&#x2F;&#x2F;192.168.1.10:5173&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>注意：如果只看到 <code>Local</code> 而没有 <code>Network</code>，说明没有监听 <code>0.0.0.0</code>。</p>
+<h3 id="Step-3：在本机验证"><a href="#Step-3：在本机验证" class="headerlink" title="Step 3：在本机验证"></a>Step 3：在本机验证</h3><p><strong>关键验证步骤</strong>：在本机浏览器打开 <code>http://192.168.1.10:5173</code>（用你实际的 IP 和端口）。</p>
+<ul>
+<li>如果本机能打开 → 说明监听配置正确，可以继续</li>
+<li>如果本机打不开 → 说明监听地址还是 <code>127.0.0.1</code>，需要检查配置</li>
+</ul>
+<h3 id="Step-4：让其他设备访问"><a href="#Step-4：让其他设备访问" class="headerlink" title="Step 4：让其他设备访问"></a>Step 4：让其他设备访问</h3><ol>
+<li>确保手机&#x2F;同事电脑和你连的是<strong>同一个 Wi‑Fi</strong></li>
+<li>在手机浏览器输入：<code>http://192.168.1.10:5173</code>（用你实际的 IP 和端口）</li>
+<li>如果能看到页面，说明成功了</li>
+</ol>
+<h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><p><strong>Q：本机用 <code>192.168.1.10:5173</code> 打不开怎么办？</strong></p>
+<p>A：说明服务没有监听 <code>0.0.0.0</code>。检查：</p>
+<ul>
+<li>Vite：确认加了 <code>--host</code> 参数</li>
+<li>Express：确认 <code>app.listen(3000, &#39;0.0.0.0&#39;)</code> 而不是 <code>app.listen(3000)</code></li>
+<li>其他框架：参考第 4 节的配置</li>
+</ul>
+<p><strong>Q：本机能打开，但手机打不开？</strong></p>
+<p>A：按第 5 节的排查顺序检查：</p>
+<ol>
+<li>防火墙是否拦截（最常见）</li>
+<li>是否在同一 Wi‑Fi</li>
+<li>是否有设备隔离</li>
+</ol>
+<hr>
+<h2 id="4-常见技术栈的监听配置"><a href="#4-常见技术栈的监听配置" class="headerlink" title="4. 常见技术栈的监听配置"></a>4. 常见技术栈的监听配置</h2><p>下面仅列出<strong>监听地址相关配置</strong>，不涉及其他启动参数。</p>
+<h3 id="4-1-Vite"><a href="#4-1-Vite" class="headerlink" title="4.1 Vite"></a>4.1 Vite</h3><p><strong>方式 1：命令行参数</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> run dev -- <span class="token parameter variable">--host</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>方式 2：配置文件</strong></p>
+<p>在 <code>vite.config.ts</code> 中：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span>
+  server<span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    host<span class="token operator">:</span> <span class="token string">'0.0.0.0'</span><span class="token punctuation">,</span>
+    port<span class="token operator">:</span> <span class="token number">3000</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>验证</strong>：启动后应该能看到 <code>Network: http://192.168.x.x:3000/</code> 的输出。</p>
+<hr>
+<h3 id="4-2-Create-React-App"><a href="#4-2-Create-React-App" class="headerlink" title="4.2 Create React App"></a>4.2 Create React App</h3><p><strong>macOS &#x2F; Linux：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">HOST</span><span class="token operator">=</span><span class="token number">0.0</span>.0.0 <span class="token function">npm</span> start<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>Windows PowerShell：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$env</span>:HOST=<span class="token string">"0.0.0.0"</span><span class="token punctuation">;</span> npm <span class="token function">start</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>Windows CMD：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">set HOST&#x3D;0.0.0.0 &amp;&amp; npm start<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>验证</strong>：启动后应该能看到类似 <code>On Your Network: http://192.168.x.x:3000</code> 的输出。</p>
+<hr>
+<h3 id="4-3-Node-Express"><a href="#4-3-Node-Express" class="headerlink" title="4.3 Node &#x2F; Express"></a>4.3 Node &#x2F; Express</h3><figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> express <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'express'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token function">express</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+app<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">req<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  res<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token string">'Hello World'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 关键：第二个参数指定监听地址</span>
+app<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">,</span> <span class="token string">'0.0.0.0'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Server running on http://0.0.0.0:3000'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>验证</strong>：在本机浏览器访问 <code>http://你的局域网IP:3000</code>，应该能打开。</p>
+<hr>
+<h3 id="4-4-Flask"><a href="#4-4-Flask" class="headerlink" title="4.4 Flask"></a>4.4 Flask</h3><p><strong>方式 1：命令行</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">flask run <span class="token parameter variable">--host</span><span class="token operator">=</span><span class="token number">0.0</span>.0.0 <span class="token parameter variable">--port</span><span class="token operator">=</span><span class="token number">5000</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>方式 2：代码中</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>host<span class="token operator">=</span><span class="token string">'0.0.0.0'</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">5000</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>验证</strong>：启动后应该能看到类似 <code>Running on http://0.0.0.0:5000</code> 的输出。</p>
+<hr>
+<h3 id="4-5-Spring-Boot"><a href="#4-5-Spring-Boot" class="headerlink" title="4.5 Spring Boot"></a>4.5 Spring Boot</h3><p>默认监听所有网卡（<code>0.0.0.0</code>），一般无需额外配置。</p>
+<p>如果曾修改过 <code>application.properties</code> 或 <code>application.yml</code>，检查是否有：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token comment"># 错误示例（只监听本机）</span>
+<span class="token key attr-name">server.address</span><span class="token punctuation">=</span><span class="token value attr-value">127.0.0.1</span>
+
+<span class="token comment"># 正确：删除这行或改为 0.0.0.0</span>
+<span class="token key attr-name">server.address</span><span class="token punctuation">=</span><span class="token value attr-value">0.0.0.0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>验证</strong>：启动日志中应该能看到 <code>Tomcat started on port(s): 8080 (http)</code>，而不是 <code>127.0.0.1:8080</code>。</p>
+<hr>
+<h2 id="5-常见失效位置与排查顺序"><a href="#5-常见失效位置与排查顺序" class="headerlink" title="5. 常见失效位置与排查顺序"></a>5. 常见失效位置与排查顺序</h2><p>在真实环境中，问题通常集中在以下位置，且有明显优先级：</p>
+<h3 id="5-1-服务未对外监听（最高频）"><a href="#5-1-服务未对外监听（最高频）" class="headerlink" title="5.1 服务未对外监听（最高频）"></a>5.1 服务未对外监听（最高频）</h3><p>特征：</p>
+<ul>
+<li>本机 <code>localhost</code> 可访问</li>
+<li>本机用局域网 IP 不可访问</li>
+</ul>
+<p>结论：监听地址错误。</p>
+<hr>
+<h3 id="5-2-防火墙拦截端口"><a href="#5-2-防火墙拦截端口" class="headerlink" title="5.2 防火墙拦截端口"></a>5.2 防火墙拦截端口</h3><p><strong>特征：</strong></p>
+<ul>
+<li>本机可访问</li>
+<li>其他设备连接超时或被拒绝</li>
+</ul>
+<p><strong>Windows 处理：</strong></p>
+<ol>
+<li>打开”Windows Defender 防火墙”</li>
+<li>点击”高级设置”</li>
+<li>选择”入站规则” → “新建规则”</li>
+<li>选择”端口” → TCP → 特定本地端口（输入你的端口号，如 <code>3000</code>）</li>
+<li>允许连接 → 完成</li>
+</ol>
+<p><strong>macOS 处理：</strong></p>
+<ol>
+<li>系统设置 → 网络 → 防火墙</li>
+<li>点击”选项”</li>
+<li>如果有应用被阻止，点击”允许入站连接”</li>
+</ol>
+<p><strong>Linux 处理：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># Ubuntu/Debian (ufw)</span>
+<span class="token function">sudo</span> ufw allow <span class="token number">3000</span>/tcp
+
+<span class="token comment"># CentOS/RHEL (firewalld)</span>
+<span class="token function">sudo</span> firewall-cmd --add-port<span class="token operator">=</span><span class="token number">3000</span>/tcp <span class="token parameter variable">--permanent</span>
+<span class="token function">sudo</span> firewall-cmd <span class="token parameter variable">--reload</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h3 id="5-3-局域网设备隔离（公司-访客-Wi‑Fi）"><a href="#5-3-局域网设备隔离（公司-访客-Wi‑Fi）" class="headerlink" title="5.3 局域网设备隔离（公司 &#x2F; 访客 Wi‑Fi）"></a>5.3 局域网设备隔离（公司 &#x2F; 访客 Wi‑Fi）</h3><p><strong>特征：</strong></p>
+<ul>
+<li>同一 Wi‑Fi</li>
+<li>设备之间无法互相访问</li>
+</ul>
+<p><strong>验证方法：</strong></p>
+<p>在手机上 ping 电脑 IP（需要安装网络工具 App）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 如果 ping 不通，可能是设备隔离</span>
+<span class="token function">ping</span> <span class="token number">192.168</span>.1.10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>解决：</strong></p>
+<ul>
+<li>换到非访客 Wi‑Fi</li>
+<li>联系网管关闭 AP Isolation（需要路由器权限）</li>
+</ul>
+<hr>
+<h3 id="5-4-VPN-代理改变路由"><a href="#5-4-VPN-代理改变路由" class="headerlink" title="5.4 VPN &#x2F; 代理改变路由"></a>5.4 VPN &#x2F; 代理改变路由</h3><p><strong>特征：</strong></p>
+<ul>
+<li>开 VPN 后访问失效</li>
+<li>关闭 VPN 恢复正常</li>
+</ul>
+<p><strong>解决：</strong></p>
+<ul>
+<li>临时关闭 VPN 测试</li>
+<li>或配置 VPN 的 split-tunnel（让局域网流量不走 VPN）</li>
+</ul>
+<hr>
+<h2 id="6-前后端联调中的-CORS-边界"><a href="#6-前后端联调中的-CORS-边界" class="headerlink" title="6. 前后端联调中的 CORS 边界"></a>6. 前后端联调中的 CORS 边界</h2><p>当访问模型成立后，前后端联调常见的下一层问题是 <strong>CORS</strong>。</p>
+<h3 id="6-1-CORS-发生在哪一层"><a href="#6-1-CORS-发生在哪一层" class="headerlink" title="6.1 CORS 发生在哪一层"></a>6.1 CORS 发生在哪一层</h3><ul>
+<li>CORS 是浏览器行为</li>
+<li>与服务是否可访问无关</li>
+</ul>
+<p>以下情况即为跨域：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;192.168.1.10:3000
+http:&#x2F;&#x2F;192.168.1.10:8080<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>端口不同，即视为跨域。</p>
+<hr>
+<h3 id="6-2-工程原则"><a href="#6-2-工程原则" class="headerlink" title="6.2 工程原则"></a>6.2 工程原则</h3><ul>
+<li>前端地址变化（localhost → 局域网 IP）</li>
+<li>后端必须同步放行对应 Origin</li>
+</ul>
+<p>CORS 不应通过前端绕过，而应由后端明确配置。</p>
+<hr>
+<h2 id="7-访问边界与安全说明"><a href="#7-访问边界与安全说明" class="headerlink" title="7. 访问边界与安全说明"></a>7. 访问边界与安全说明</h2><p>监听 <code>0.0.0.0</code> 通常只会暴露在局域网内，但仍需注意：</p>
+<ul>
+<li>仅用于开发调试</li>
+<li>避免暴露敏感服务</li>
+<li>必要时加简单鉴权</li>
+</ul>
+<hr>
+<h2 id="8-本文不覆盖的场景"><a href="#8-本文不覆盖的场景" class="headerlink" title="8. 本文不覆盖的场景"></a>8. 本文不覆盖的场景</h2><p>以下问题不属于”同一 Wi‑Fi 访问本地服务”的范畴：</p>
+<ul>
+<li>外网访问</li>
+<li>内网穿透</li>
+<li>公网部署</li>
+</ul>
+<p>它们属于<strong>网络边界扩展问题</strong>，需要额外的安全与部署设计。</p>
+<hr>
+<h2 id="9-总结"><a href="#9-总结" class="headerlink" title="9. 总结"></a>9. 总结</h2><ul>
+<li><code>localhost</code> 是回环地址，只能本机访问</li>
+<li>对外访问的前提是监听 <code>0.0.0.0</code></li>
+<li>局域网访问依赖本机 IP + 端口</li>
+<li>监听地址错误是最常见问题</li>
+<li>CORS 是访问成立之后的下一层问题</li>
+</ul>
+<p>理解访问模型，比记住配置命令更重要。</p>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/" class="category-chain-item">🏗️ 测试平台开发实战手记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8F%97%EF%B8%8F-%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98%E6%89%8B%E8%AE%B0/%E6%8A%80%E6%9C%AF%E7%A7%91%E6%99%AE/" class="category-chain-item">技术科普</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E7%BD%91%E7%BB%9C/" class="print-no-link">#网络</a>
+      
+        <a href="/fluid-blog/tags/%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91/" class="print-no-link">#本地开发</a>
+      
+        <a href="/fluid-blog/tags/CORS/" class="print-no-link">#CORS</a>
+      
+        <a href="/fluid-blog/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E8%81%94%E8%B0%83/" class="print-no-link">#前后端联调</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>同一 Wi‑Fi 访问本地服务：网络模型、配置方式与边界说明</div>
+      <div>https://linn0813.github.io/2026/01/26/2026-01-26-localhost-wifi-access-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2026/01/21/2026-01-21-sitemap-search-engine-seo-guide/" title="🧭 如何把个人博客挂到搜索引擎上？">
+                        <span class="hidden-mobile">🧭 如何把个人博客挂到搜索引擎上？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1845 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, Token, Embedding, Transformer, Self-Attention, BPE, 大语言模型, 工作原理, 深度学习">
+  
+    <meta name="description" content="深度解析 LLM 工作原理：从 Token 分词、Embedding 向量化到 Transformer 架构，用通俗易懂的方式理解大语言模型如何&quot;读懂&quot;和生成语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🧠 主题1｜LLM 工作原理深度解析：Token、向量、Transformer，到底在算什么？">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/02/2025-12-02-llm-working-principle-token-embedding-transformer/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="深度解析 LLM 工作原理：从 Token 分词、Embedding 向量化到 Transformer 架构，用通俗易懂的方式理解大语言模型如何&quot;读懂&quot;和生成语言">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-working-principle-token-embedding-transformer.png">
+<meta property="article:published_time" content="2025-12-02T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.629Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="大语言模型">
+<meta property="article:tag" content="Transformer">
+<meta property="article:tag" content="Token">
+<meta property="article:tag" content="Embedding">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-working-principle-token-embedding-transformer.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🧠 主题1｜LLM 工作原理深度解析：Token、向量、Transformer，到底在算什么？ - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🧠 主题1｜LLM 工作原理深度解析：Token、向量、Transformer，到底在算什么？"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-02 18:00" pubdate>
+          2025年12月2日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          70 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🧠 主题1｜LLM 工作原理深度解析：Token、向量、Transformer，到底在算什么？</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 1 篇。</strong></p>
+</blockquote>
+<blockquote>
+<p>本篇将深入解析 LLM 的工作原理：从 Token 分词、Embedding 向量化到 Transformer 架构。未来，我们将继续探讨 Prompt 工程、RAG、Agent 等核心概念，带你系统理解”AI 是怎么运作的”。</p>
+</blockquote>
+<hr>
+<h1 id="🚀-导言：理解大模型最重要的三件事"><a href="#🚀-导言：理解大模型最重要的三件事" class="headerlink" title="🚀 导言：理解大模型最重要的三件事"></a>🚀 导言：理解大模型最重要的三件事</h1><p>当你对 ChatGPT 问一句：”给我写一篇晚会主持稿”，它几秒内能生成近千字内容。</p>
+<p>这不是魔法，本质上，它只是在执行一件事：</p>
+<blockquote>
+<p><strong>根据输入，预测下一个最可能出现的 Token。</strong></p>
+</blockquote>
+<p>而理解它如何预测，你只需要掌握三件事：</p>
+<ol>
+<li><p><strong>Token（语言最小粒度）</strong></p>
+</li>
+<li><p><strong>Embedding（文字转数字的向量空间）</strong></p>
+</li>
+<li><p><strong>Transformer（让模型”看懂上下文”的架构）</strong></p>
+</li>
+</ol>
+<p>搞懂它们，你就搞懂了 LLM 的底层”物理学”。</p>
+<hr>
+<h1 id="🧩-一、最小单位：Tokenization（分词）"><a href="#🧩-一、最小单位：Tokenization（分词）" class="headerlink" title="🧩 一、最小单位：Tokenization（分词）"></a>🧩 一、最小单位：Tokenization（分词）</h1><h2 id="1-什么是-Token？"><a href="#1-什么是-Token？" class="headerlink" title="1. 什么是 Token？"></a>1. 什么是 Token？</h2><p>Token ≠ 字</p>
+<p>Token ≠ 词</p>
+<p>Token 是 <strong>模型处理语言的最小单位</strong>。</p>
+<p>它可以是：</p>
+<ul>
+<li><p>一个单词：<code>apple</code></p>
+</li>
+<li><p>一个词根：<code>tion</code></p>
+</li>
+<li><p>一个汉字：<code>你</code></p>
+</li>
+<li><p>一个空格：<code>_</code></p>
+</li>
+<li><p>一个符号：<code>.</code></p>
+</li>
+</ul>
+<p><strong>为什么不用”字”或”词”？</strong></p>
+<p>因为：</p>
+<ul>
+<li><p>英语中单词拆分更灵活（如：international → inter &#x2F; nation &#x2F; al）</p>
+</li>
+<li><p>中文没有天然分词</p>
+</li>
+<li><p>需要处理各种语言、表情、符号（🌈🔥💡）</p>
+</li>
+</ul>
+<p>所以模型需要一种统一的编码方式 → <strong>Tokenization</strong>。</p>
+<hr>
+<h2 id="2-主流分词技术：BPE（Byte-Pair-Encoding）"><a href="#2-主流分词技术：BPE（Byte-Pair-Encoding）" class="headerlink" title="2. 主流分词技术：BPE（Byte Pair Encoding）"></a>2. 主流分词技术：BPE（Byte Pair Encoding）</h2><p>大多数 LLM（GPT、Llama）都用 BPE 或改进方案（SentencePiece、Unigram-LM）。</p>
+<p><strong>BPE 怎么工作？</strong></p>
+<ol>
+<li><p>先把所有文本拆成<strong>单个字节</strong></p>
+</li>
+<li><p>统计出现频率最高的 <strong>相邻组合</strong></p>
+</li>
+<li><p>将它合并成一个新的 Token</p>
+</li>
+<li><p>重复上面步骤直到词表达到固定大小（如 32k、50k）</p>
+</li>
+</ol>
+<p>最终效果：</p>
+<ul>
+<li><p>高频词 → 少量 Token</p>
+<p>例：<code>hello</code> → <code>[&quot;hello&quot;]</code></p>
+</li>
+<li><p>生僻词 → 多个 Token</p>
+<p>例：<code>antidisestablishmentarianism</code> → 8~12 个 Token</p>
+</li>
+</ul>
+<hr>
+<h2 id="3-不同模型-Tokenizer-的差异（重要！）"><a href="#3-不同模型-Tokenizer-的差异（重要！）" class="headerlink" title="3. 不同模型 Tokenizer 的差异（重要！）"></a>3. 不同模型 Tokenizer 的差异（重要！）</h2><p>同一句话在不同模型中 Token 数量不同。</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>Tokenizer</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GPT-4 &#x2F; GPT-3</td>
+<td>BPE（tiktoken）</td>
+<td>英语友好，分词更细</td>
+</tr>
+<tr>
+<td>Llama 系列</td>
+<td>SentencePiece</td>
+<td>无需空格分词，适配多语言</td>
+</tr>
+<tr>
+<td>Claude 系列</td>
+<td>Unigram LM</td>
+<td>更稳健处理非英语文本</td>
+</tr>
+</tbody></table>
+<p><strong>为什么重要？</strong></p>
+<p>因为 Token 数影响：</p>
+<ul>
+<li><p>费用（按 Token 计费）</p>
+</li>
+<li><p>上下文窗口占用</p>
+</li>
+<li><p>生成速度</p>
+</li>
+</ul>
+<p>实际做 RAG、Agent 时必须知道。</p>
+<hr>
+<h2 id="4-什么是-SentencePiece-和-Unigram-LM？"><a href="#4-什么是-SentencePiece-和-Unigram-LM？" class="headerlink" title="4. 什么是 SentencePiece 和 Unigram-LM？"></a>4. 什么是 SentencePiece 和 Unigram-LM？</h2><p><strong>SentencePiece（SP）</strong>：</p>
+<ul>
+<li><strong>核心改进</strong>：将文本视为<strong>原始 Unicode 字符序列</strong>，不需要预先分词（不需要空格）</li>
+<li><strong>为什么更好</strong>：<ul>
+<li>适合中文、日文等<strong>没有空格分隔</strong>的语言</li>
+<li>可以处理<strong>任意 Unicode 字符</strong>（包括 emoji、特殊符号）</li>
+<li>训练时把空格也当作普通字符处理，更灵活</li>
+</ul>
+</li>
+<li><strong>工作原理</strong>：<ol>
+<li>把文本转成 Unicode 字符序列</li>
+<li>使用 BPE 或 Unigram 算法学习子词单元</li>
+<li>可以反向解码回原始文本（包括空格）</li>
+</ol>
+</li>
+<li><strong>典型应用</strong>：Llama、T5、mT5 等模型</li>
+</ul>
+<p><strong>Unigram-LM（语言模型分词）</strong>：</p>
+<ul>
+<li><strong>核心改进</strong>：不是从下往上合并（BPE），而是<strong>从上往下拆分</strong></li>
+<li><strong>为什么更好</strong>：<ul>
+<li>基于<strong>概率模型</strong>，选择最可能的分词方式</li>
+<li>对<strong>非英语文本</strong>（中文、阿拉伯文等）更稳健</li>
+<li>可以处理<strong>多分词候选</strong>，选择最优解</li>
+</ul>
+</li>
+<li><strong>工作原理</strong>：<ol>
+<li>先初始化一个大的词表（包含所有可能的子词）</li>
+<li>用语言模型计算每个子词的概率</li>
+<li>逐步移除概率最低的子词，直到词表达到目标大小</li>
+<li>分词时选择<strong>概率乘积最大</strong>的分词方案</li>
+</ol>
+</li>
+<li><strong>典型应用</strong>：Claude（Anthropic）、ALBERT 等模型</li>
+</ul>
+<p><strong>三种方案对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>BPE</th>
+<th>SentencePiece</th>
+<th>Unigram-LM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>方向</td>
+<td>自下而上合并</td>
+<td>可配合 BPE&#x2F;Unigram</td>
+<td>自上而下拆分</td>
+</tr>
+<tr>
+<td>多语言支持</td>
+<td>一般</td>
+<td>优秀</td>
+<td>优秀</td>
+</tr>
+<tr>
+<td>需要空格</td>
+<td>是</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>概率模型</td>
+<td>否</td>
+<td>可选</td>
+<td>是</td>
+</tr>
+<tr>
+<td>训练复杂度</td>
+<td>低</td>
+<td>中</td>
+<td>高</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="🔢-二、数字语言：Embedding（向量化）"><a href="#🔢-二、数字语言：Embedding（向量化）" class="headerlink" title="🔢 二、数字语言：Embedding（向量化）"></a>🔢 二、数字语言：Embedding（向量化）</h1><p>Token 是符号，计算机不理解，所以必须转成数字 → <strong>向量（Vector）</strong>。</p>
+<h2 id="1-什么是-Embedding？"><a href="#1-什么是-Embedding？" class="headerlink" title="1. 什么是 Embedding？"></a>1. 什么是 Embedding？</h2><p>Embedding &#x3D; 一个 <strong>高维浮点数向量</strong></p>
+<p>如：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">[0.12, -0.98, 1.23, ... 共 4096 个数字]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>它的意义是：</p>
+<blockquote>
+<p><strong>把 Token 映射到一个可计算的空间，使相似词距离更近。</strong></p>
+</blockquote>
+<p>例：</p>
+<ul>
+<li><p>“国王” 和 “皇帝” 的向量距离很近</p>
+</li>
+<li><p>“猫” 和 “狗” 的方向接近但不完全重叠</p>
+</li>
+<li><p>“国王 - 男人 + 女人 ≈ 女王”</p>
+</li>
+</ul>
+<p>这不是巧合，而是模型从海量文本中学到的语义结构。</p>
+<hr>
+<h2 id="2-Embedding-不是一种，而是三种（很重要）"><a href="#2-Embedding-不是一种，而是三种（很重要）" class="headerlink" title="2. Embedding 不是一种，而是三种（很重要）"></a>2. Embedding 不是一种，而是三种（很重要）</h2><h3 id="✔-1-Token-Embedding（词嵌入）"><a href="#✔-1-Token-Embedding（词嵌入）" class="headerlink" title="✔ (1) Token Embedding（词嵌入）"></a>✔ (1) Token Embedding（词嵌入）</h3><p><strong>是什么</strong>：</p>
+<p>Token Embedding 是<strong>每个 Token 对应的语义向量</strong>，是模型理解词汇含义的基础。</p>
+<p><strong>工作原理</strong>：</p>
+<ol>
+<li>模型有一个<strong>词表（Vocabulary）</strong>，比如包含 50,000 个 Token</li>
+<li>每个 Token 都有一个<strong>固定的向量表示</strong>（通常是 <a href="#vector-dimension">4096 维或 768 维</a>）</li>
+<li>输入文本时，模型通过<strong>查表</strong>的方式，把每个 Token 转换成对应的向量</li>
+</ol>
+<p><strong>例子</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入：&quot;我喜欢苹果&quot;
+Token 化：[&quot;我&quot;, &quot;喜欢&quot;, &quot;苹果&quot;]
+↓ Token Embedding 查表
+向量：
+  &quot;我&quot;    → [0.12, -0.45, 0.78, ...]
+  &quot;喜欢&quot;  → [0.34, 0.21, -0.56, ...]
+  &quot;苹果&quot;  → [-0.12, 0.89, 0.23, ...]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>关键点</strong>：</p>
+<ul>
+<li>这是<strong>模型的第一层</strong>，所有 Token 进入模型前都要经过这一步</li>
+<li>这些向量是<strong>训练时学习到的</strong>，相似词（如”苹果”和”水果”）的向量距离更近</li>
+<li>同一个 Token 在不同位置<strong>向量相同</strong>（不考虑上下文）</li>
+</ul>
+<hr>
+<h3 id="✔-2-Position-Embedding（位置编码）"><a href="#✔-2-Position-Embedding（位置编码）" class="headerlink" title="✔ (2) Position Embedding（位置编码）"></a>✔ (2) Position Embedding（位置编码）</h3><p><strong>为什么需要</strong>：</p>
+<p>Transformer 使用<strong>并行处理</strong>，所有 Token 同时输入，<strong>没有天然的顺序概念</strong>。</p>
+<p>但语言是有顺序的！”猫吃鱼” ≠ “鱼吃猫”</p>
+<p><strong>工作原理</strong>：</p>
+<p>Position Embedding 给每个<strong>位置</strong>（第 1 个、第 2 个…）分配一个<strong>固定的向量</strong>，加到 Token Embedding 上。</p>
+<p><strong>例子</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入：&quot;我喜欢苹果&quot;
+Token Embedding：
+  &quot;我&quot;    → [0.12, -0.45, 0.78, ...]
+  &quot;喜欢&quot;  → [0.34, 0.21, -0.56, ...]
+  &quot;苹果&quot;  → [-0.12, 0.89, 0.23, ...]
+
+Position Embedding：
+  位置 0  → [0.01, 0.02, 0.03, ...]  (正弦&#x2F;余弦编码)
+  位置 1  → [0.02, 0.04, 0.06, ...]
+  位置 2  → [0.03, 0.06, 0.09, ...]
+
+最终输入 &#x3D; Token Embedding + Position Embedding
+  &quot;我&quot;    → [0.12, -0.45, 0.78, ...] + [0.01, 0.02, 0.03, ...]
+  &quot;喜欢&quot;  → [0.34, 0.21, -0.56, ...] + [0.02, 0.04, 0.06, ...]
+  &quot;苹果&quot;  → [-0.12, 0.89, 0.23, ...] + [0.03, 0.06, 0.09, ...]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>两种实现方式</strong>：</p>
+<ul>
+<li><strong>绝对位置编码</strong>（原始 Transformer）：用数学公式（正弦&#x2F;余弦）生成固定位置向量</li>
+<li><strong>相对位置编码</strong>（现代模型如 GPT-3）：可学习的参数，更灵活</li>
+</ul>
+<p><strong>关键点</strong>：</p>
+<ul>
+<li>没有 Position Embedding，模型无法区分”我喜欢你”和”你喜欢我”</li>
+<li>位置信息会<strong>贯穿整个模型</strong>，影响 <a href="#self-attention">Self-Attention</a> 的计算</li>
+</ul>
+<blockquote>
+<p><strong>什么是 Self-Attention？</strong>（简单理解）</p>
+<p>Self-Attention 是让模型”看懂上下文”的核心机制。它让每个词（Token）能够<strong>关注句子中其他相关的词</strong>。</p>
+<p>例如在句子”小明把苹果递给小红，她接住了”中，Self-Attention 帮助模型理解”她”应该指向前面的”小红”，而不是”小明”。</p>
+<p>位置信息在 Self-Attention 中很重要，因为模型需要知道哪些词是相邻的、哪些词在前面，才能正确建立词与词之间的关系。</p>
+<p>详细说明请参考本文 <a href="#self-attention">第四部分：Self-Attention</a>。</p>
+</blockquote>
+<hr>
+<h3 id="✔-3-Sentence-Embedding（句子嵌入）"><a href="#✔-3-Sentence-Embedding（句子嵌入）" class="headerlink" title="✔ (3) Sentence Embedding（句子嵌入）"></a>✔ (3) Sentence Embedding（句子嵌入）</h3><p><strong>是什么</strong>：</p>
+<p>Sentence Embedding 是<strong>整个句子或段落的单一向量表示</strong>，用于捕获整体语义。</p>
+<p><strong>与 Token Embedding 的区别</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Token Embedding</th>
+<th>Sentence Embedding</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>粒度</td>
+<td>单个 Token</td>
+<td>整个句子&#x2F;段落</td>
+</tr>
+<tr>
+<td>数量</td>
+<td>每个 Token 一个</td>
+<td>每个句子一个</td>
+</tr>
+<tr>
+<td>用途</td>
+<td>模型内部计算</td>
+<td>外部应用（搜索、相似度）</td>
+</tr>
+<tr>
+<td>生成方式</td>
+<td>查表</td>
+<td>通过模型计算（平均、CLS token、特殊层）</td>
+</tr>
+</tbody></table>
+<p><strong>工作原理</strong>：</p>
+<p>有几种常见方法：</p>
+<ol>
+<li><p><strong>平均池化</strong>：把句子中所有 Token 的向量<strong>求平均</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">&quot;我喜欢苹果&quot; → 平均([&quot;我&quot;, &quot;喜欢&quot;, &quot;苹果&quot;]的向量)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+</li>
+<li><p><strong>CLS Token</strong>：BERT 等模型在句子开头加一个特殊 Token <code>[CLS]</code>，它的最终向量代表整个句子</p>
+</li>
+<li><p><strong>特殊层</strong>：模型最后一层专门输出句子级别的向量</p>
+</li>
+</ol>
+<p><strong>实际应用场景</strong>：</p>
+<ul>
+<li><p><strong>RAG（检索增强生成）</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">用户问题 → Sentence Embedding → 在向量数据库中搜索相似文档<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+</li>
+<li><p><strong>语义搜索</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">搜索&quot;如何学习 Python&quot; → 找到包含&quot;Python 教程&quot;、&quot;编程入门&quot;的文档<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+</li>
+<li><p><strong>文本聚类</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">把相似主题的文章自动分组<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+</li>
+<li><p><strong>推荐系统</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">根据用户历史文本的 Sentence Embedding，推荐相似内容<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure></li>
+</ul>
+<p><strong>例子</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 伪代码示例</span>
+sentence <span class="token operator">=</span> <span class="token string">"我喜欢吃苹果"</span>
+token_embeddings <span class="token operator">=</span> <span class="token punctuation">[</span>embed<span class="token punctuation">(</span><span class="token string">"我"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> embed<span class="token punctuation">(</span><span class="token string">"喜欢"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> embed<span class="token punctuation">(</span><span class="token string">"吃"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> embed<span class="token punctuation">(</span><span class="token string">"苹果"</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+sentence_embedding <span class="token operator">=</span> mean<span class="token punctuation">(</span>token_embeddings<span class="token punctuation">)</span>  <span class="token comment"># 或使用其他方法</span>
+
+<span class="token comment"># 现在可以用这个向量做相似度计算</span>
+similarity <span class="token operator">=</span> cosine_distance<span class="token punctuation">(</span>sentence_embedding<span class="token punctuation">,</span> other_sentence_embedding<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>关键点</strong>：</p>
+<ul>
+<li>Sentence Embedding 是<strong>从 Token Embedding 衍生出来的</strong>，不是独立存在的</li>
+<li>它主要用于<strong>模型外部</strong>的应用，而不是模型内部的推理过程</li>
+<li>不同模型生成 Sentence Embedding 的方法不同，效果也不同</li>
+</ul>
+<hr>
+<p><strong>总结对比</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>Embedding 类型</th>
+<th>作用</th>
+<th>使用阶段</th>
+<th>典型维度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Token Embedding</td>
+<td>表示词汇语义</td>
+<td>模型输入层</td>
+<td>4096 &#x2F; 768</td>
+</tr>
+<tr>
+<td>Position Embedding</td>
+<td>表示位置信息</td>
+<td>模型输入层（与 Token 相加）</td>
+<td>4096 &#x2F; 768</td>
+</tr>
+<tr>
+<td>Sentence Embedding</td>
+<td>表示句子语义</td>
+<td>模型输出后</td>
+<td>4096 &#x2F; 768</td>
+</tr>
+</tbody></table>
+<p>这部分常被新手混淆，理解它们的区别对后续学习 RAG、Agent 等应用至关重要。</p>
+<hr>
+<h2 id="3-为什么-Embedding-是-LLM-的”灵魂”？"><a href="#3-为什么-Embedding-是-LLM-的”灵魂”？" class="headerlink" title="3. 为什么 Embedding 是 LLM 的”灵魂”？"></a>3. 为什么 Embedding 是 LLM 的”灵魂”？</h2><p>因为模型所有计算都围绕向量进行：</p>
+<ol>
+<li><p>输入 Token → 查 Embedding</p>
+</li>
+<li><p>Transformer 对所有向量进行矩阵计算</p>
+</li>
+<li><p>输出向量 → 映射为 Token 概率 → 选择最高概率输出</p>
+</li>
+</ol>
+<p>总结一句话：</p>
+<blockquote>
+<p><strong>Embedding 决定模型知道什么；Transformer 决定模型怎样使用这些知识。</strong></p>
+</blockquote>
+<hr>
+<h1 id="🏗️-三、核心架构：Transformer"><a href="#🏗️-三、核心架构：Transformer" class="headerlink" title="🏗️ 三、核心架构：Transformer"></a>🏗️ 三、核心架构：Transformer</h1><p>Transformer 是 Google 2017 年提出的架构（论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762"><em>Attention Is All You Need</em></a>）。</p>
+<p>它为什么革命性？</p>
+<p>因为它解决了 <a href="#rnn-lstm">RNN&#x2F;LSTM</a> 的两大痛点：</p>
+<ul>
+<li><p><strong>不能并行（必须顺序处理）</strong></p>
+</li>
+<li><p><strong>难以记住长距离依赖</strong></p>
+</li>
+</ul>
+<p>Transformer 则完全相反：</p>
+<ul>
+<li><strong>一次性处理所有 Token，能看到更长的上下文。</strong></li>
+</ul>
+<blockquote>
+<p><strong>什么是 RNN&#x2F;LSTM？</strong>（简单理解）</p>
+<p><strong>RNN（循环神经网络）</strong> 和 <strong>LSTM（长短期记忆网络）</strong> 是 Transformer 出现之前，处理序列数据（如文本）的主流模型。</p>
+<p><strong>它们的特点</strong>：</p>
+<ul>
+<li><strong>顺序处理</strong>：必须一个词一个词地处理，不能同时处理所有词<ul>
+<li>就像读文章必须从左到右逐字阅读，不能一眼看完</li>
+</ul>
+</li>
+<li><strong>记忆有限</strong>：虽然能记住一些上下文，但距离太远的词容易”忘记”<ul>
+<li>就像人读很长的文章，前面的内容可能记不清了</li>
+</ul>
+</li>
+</ul>
+<p><strong>为什么这成为问题？</strong></p>
+<ul>
+<li><strong>速度慢</strong>：必须顺序处理，无法利用 GPU 的并行计算能力</li>
+<li><strong>理解受限</strong>：长句子中，前面的词对后面的影响会逐渐减弱</li>
+</ul>
+<p><strong>Transformer 的突破</strong>：</p>
+<ul>
+<li>✅ <strong>并行处理</strong>：所有词同时输入，充分利用 GPU 算力</li>
+<li>✅ <strong>长距离依赖</strong>：通过 Self-Attention 机制，能直接关注到句子中任意位置的词</li>
+</ul>
+<p>这就是为什么 Transformer 能成为现代 LLM 的基础架构。</p>
+</blockquote>
+<hr>
+<h2 id="Transformer-的三种架构"><a href="#Transformer-的三种架构" class="headerlink" title="Transformer 的三种架构"></a>Transformer 的三种架构</h2><p>Transformer 主要有三种架构：</p>
+<h3 id="1-Encoder-Only（只用编码器）"><a href="#1-Encoder-Only（只用编码器）" class="headerlink" title="1. Encoder-Only（只用编码器）"></a>1. Encoder-Only（只用编码器）</h3><p><strong>用途</strong>：文本分类、情感分析、问答等<strong>理解类任务</strong></p>
+<p><strong>结构</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入 → Encoder → 输出（分类&#x2F;分析结果）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>只使用 Transformer 的 <strong>Encoder 部分</strong></li>
+<li><strong>双向理解</strong>：能看到整个输入序列（左右两侧）</li>
+<li>主要用于理解文本，不生成新文本</li>
+</ul>
+<p><strong>典型应用</strong>：<a href="#bert-t5">BERT</a></p>
+<hr>
+<h3 id="2-Encoder-Decoder（编码器-解码器）"><a href="#2-Encoder-Decoder（编码器-解码器）" class="headerlink" title="2. Encoder-Decoder（编码器-解码器）"></a>2. Encoder-Decoder（编码器-解码器）</h3><p><strong>用途</strong>：翻译、摘要等需要”理解输入 + 生成输出”的任务</p>
+<p><strong>结构</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入 → Encoder（理解） → Decoder（生成） → 输出<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>使用完整的 <strong>Encoder + Decoder</strong> 结构</li>
+<li>Encoder：能看到整个输入序列（双向）</li>
+<li>Decoder：生成时只能看到左侧已生成的内容（单向）</li>
+</ul>
+<p><strong>典型应用</strong>：<a href="#bert-t5">T5</a></p>
+<blockquote>
+<p><strong>“整个输入序列” vs “左侧已生成的内容”是什么意思？</strong></p>
+<p>这是理解 Encoder 和 Decoder 的关键区别，用例子说明：</p>
+<p><strong>场景：翻译任务 “I love apples” → “我喜欢苹果”</strong></p>
+<p><strong>Encoder（理解阶段）</strong>：</p>
+<ul>
+<li>输入：”I love apples”（整个句子已经存在）</li>
+<li>Encoder 能<strong>同时看到所有词</strong>：<code>I</code>、<code>love</code>、<code>apples</code></li>
+<li>可以<strong>双向理解</strong>：理解 <code>love</code> 时，能看到前面的 <code>I</code> 和后面的 <code>apples</code></li>
+<li>就像读一篇文章，可以前后翻看，理解整体意思</li>
+</ul>
+<p><strong>Decoder（生成阶段）</strong>：</p>
+<ul>
+<li>生成过程是<strong>逐步的</strong>，每次只生成一个词</li>
+<li>生成第 1 个词”我”时：只能看到输入 “I love apples”（来自 Encoder）</li>
+<li>生成第 2 个词”喜欢”时：只能看到 “我”（已生成）+ 输入 “I love apples”</li>
+<li>生成第 3 个词”苹果”时：只能看到 “我喜欢”（已生成）+ 输入 “I love apples”</li>
+<li><strong>不能看到未来</strong>：生成”喜欢”时，还不知道后面会生成”苹果”</li>
+<li>就像写文章，只能看到已经写好的部分，不能看到还没写的内容</li>
+</ul>
+<p><strong>关键区别</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>能看到什么</th>
+<th>比喻</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Encoder</td>
+<td>整个输入序列（所有词同时存在）</td>
+<td>读完整篇文章</td>
+</tr>
+<tr>
+<td>Decoder</td>
+<td>左侧已生成的内容（逐步生成，不能看未来）</td>
+<td>写文章，只能看已写部分</td>
+</tr>
+</tbody></table>
+<p>这就是为什么 Encoder 是”双向”的（能看到左右两侧），而 Decoder 是”单向”的（只能看到左侧）。</p>
+</blockquote>
+<hr>
+<h3 id="3-Decoder-Only（现代-LLM-主流）"><a href="#3-Decoder-Only（现代-LLM-主流）" class="headerlink" title="3. Decoder-Only（现代 LLM 主流）"></a>3. Decoder-Only（现代 LLM 主流）</h3><p><strong>用途</strong>：文本生成、对话、代码生成等</p>
+<p><strong>结构</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入 → Decoder → 输出<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p><strong>特点</strong>：</p>
+<ul>
+<li>只有 Decoder 部分</li>
+<li>生成时只能看到左侧内容（单向）</li>
+<li>通过自回归方式逐个生成 Token</li>
+</ul>
+<p><strong>典型应用</strong>：GPT 系列、Llama、Claude</p>
+<p><strong>为什么 Decoder-Only 成为主流？</strong></p>
+<ul>
+<li>✅ <strong>更适合生成任务</strong>：自回归生成更自然</li>
+<li>✅ <strong>架构更简单</strong>：只需要一个组件</li>
+<li>✅ <strong>训练更高效</strong>：统一的任务（预测下一个 Token）</li>
+</ul>
+<hr>
+<h2 id="Transformer-Block-的核心组件"><a href="#Transformer-Block-的核心组件" class="headerlink" title="Transformer Block 的核心组件"></a>Transformer Block 的核心组件</h2><p>一个 Transformer Block（层）就像是一个”处理单元”，它会对输入的向量进行一系列操作，让模型更好地理解文本。</p>
+<h3 id="Transformer-Block-包含什么？"><a href="#Transformer-Block-包含什么？" class="headerlink" title="Transformer Block 包含什么？"></a>Transformer Block 包含什么？</h3><p>一个 Transformer Block 通常包含 4 个核心组件：</p>
+<ol>
+<li><strong>Self-Attention</strong>：让每个 Token 关注其他 Token（详见 <a href="#self-attention">第四部分</a>）</li>
+<li><strong>Feed-Forward Network (FFN)</strong>：对每个 Token 的向量进行非线性变换</li>
+<li><strong>残差连接（Residual Connection）</strong>：把输入直接加到输出上，帮助训练</li>
+<li><strong>Layer Normalization</strong>：归一化，稳定训练过程</li>
+</ol>
+<h3 id="工作流程（用例子理解）"><a href="#工作流程（用例子理解）" class="headerlink" title="工作流程（用例子理解）"></a>工作流程（用例子理解）</h3><p>假设我们处理句子”我喜欢苹果”，看看一个 Transformer Block 是如何工作的：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入：&quot;我&quot;、&quot;喜欢&quot;、&quot;苹果&quot; 的向量
+  ↓
+【步骤 1】Self-Attention（关注其他 Token）
+  - &quot;我&quot; 关注 &quot;喜欢&quot; 和 &quot;苹果&quot;
+  - &quot;喜欢&quot; 关注 &quot;我&quot; 和 &quot;苹果&quot;
+  - &quot;苹果&quot; 关注 &quot;我&quot; 和 &quot;喜欢&quot;
+  - 结果：每个词都带上了上下文信息
+  ↓
+【步骤 2】残差连接 + LayerNorm
+  - 残差连接：把原始输入加回来（防止信息丢失）
+  - LayerNorm：归一化（让数值更稳定）
+  ↓
+【步骤 3】FFN（非线性变换）
+  - 对每个词的向量进行复杂的数学变换
+  - 增加模型的表达能力
+  ↓
+【步骤 4】残差连接 + LayerNorm
+  - 再次把输入加回来
+  - 再次归一化
+  ↓
+输出：处理后的向量（传给下一层）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="每个组件的作用（通俗解释）"><a href="#每个组件的作用（通俗解释）" class="headerlink" title="每个组件的作用（通俗解释）"></a>每个组件的作用（通俗解释）</h3><h4 id="1-Self-Attention（自注意力）"><a href="#1-Self-Attention（自注意力）" class="headerlink" title="1. Self-Attention（自注意力）"></a>1. Self-Attention（自注意力）</h4><p><strong>作用</strong>：让每个词”看到”句子中其他相关的词</p>
+<p><strong>例子</strong>：</p>
+<ul>
+<li>在”小明把苹果递给小红，她接住了”中</li>
+<li>“她”通过 Self-Attention 知道应该关注”小红”</li>
+<li>这样模型就能理解”她”指的是谁</li>
+</ul>
+<p><strong>比喻</strong>：就像读文章时，遇到代词会回头看前面提到的内容</p>
+<hr>
+<h4 id="2-Feed-Forward-Network-FFN-（前馈网络）"><a href="#2-Feed-Forward-Network-FFN-（前馈网络）" class="headerlink" title="2. Feed-Forward Network (FFN)（前馈网络）"></a>2. Feed-Forward Network (FFN)（前馈网络）</h4><p><strong>作用</strong>：对每个词的向量进行”深度加工”，增加模型的表达能力</p>
+<p><strong>通俗理解</strong>：</p>
+<ul>
+<li>Self-Attention 让词之间建立了关系</li>
+<li>FFN 则对每个词本身进行”升级改造”</li>
+<li>就像给每个词增加了更丰富的”特征”</li>
+</ul>
+<p><strong>例子</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入向量：[0.1, 0.2, 0.3, ...]
+  ↓ FFN 处理
+输出向量：[0.5, -0.3, 0.8, ...]  （数值变了，但保留了语义）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>比喻</strong>：就像给照片加滤镜，虽然样子变了，但内容还是那个内容，只是更”好看”了</p>
+<hr>
+<h4 id="3-残差连接（Residual-Connection）"><a href="#3-残差连接（Residual-Connection）" class="headerlink" title="3. 残差连接（Residual Connection）"></a>3. 残差连接（Residual Connection）</h4><p><strong>作用</strong>：把输入直接加到输出上，防止信息在传递过程中丢失</p>
+<p><strong>工作原理</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">原始输入：X
+经过处理：Y &#x3D; Self-Attention(X) 或 Y &#x3D; FFN(X)
+残差连接：输出 &#x3D; X + Y  （把原始输入加回来）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>为什么需要？</strong></p>
+<ul>
+<li><strong>防止信息丢失</strong>：深层网络中，信息可能在传递过程中逐渐丢失</li>
+<li><strong>帮助训练</strong>：让模型更容易学习，梯度能更好地传播</li>
+<li><strong>保留原始信息</strong>：即使处理后的结果不好，至少还保留了原始输入</li>
+</ul>
+<p><strong>比喻</strong>：就像写文章时保留草稿，即使修改后不满意，还能回到原来的版本</p>
+<p><strong>实际例子</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入：&quot;我&quot; 的向量 &#x3D; [0.1, 0.2, 0.3]
+经过 Self-Attention 后 &#x3D; [0.5, 0.6, 0.7]
+残差连接后 &#x3D; [0.1, 0.2, 0.3] + [0.5, 0.6, 0.7] &#x3D; [0.6, 0.8, 1.0]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h4 id="4-Layer-Normalization（层归一化）"><a href="#4-Layer-Normalization（层归一化）" class="headerlink" title="4. Layer Normalization（层归一化）"></a>4. Layer Normalization（层归一化）</h4><p><strong>作用</strong>：把向量中的数值”标准化”，让训练更稳定</p>
+<p><strong>通俗理解</strong>：</p>
+<ul>
+<li>神经网络中，数值可能会变得很大或很小</li>
+<li>LayerNorm 把数值调整到合适的范围</li>
+<li>就像把音量调到一个合适的水平</li>
+</ul>
+<p><strong>工作原理</strong>（简化）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入向量：[100, -50, 200, ...]  （数值很大，不稳定）
+  ↓ LayerNorm
+输出向量：[0.5, -0.3, 0.8, ...]  （数值标准化，稳定）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>为什么需要？</strong></p>
+<ul>
+<li><strong>稳定训练</strong>：防止数值过大或过小导致训练失败</li>
+<li><strong>加速收敛</strong>：让模型更快找到最优解</li>
+<li><strong>提高性能</strong>：让模型表现更好</li>
+</ul>
+<p><strong>比喻</strong>：就像调节空调温度，让环境保持在一个舒适的范围内</p>
+<hr>
+<h3 id="为什么需要这些组件？（总结）"><a href="#为什么需要这些组件？（总结）" class="headerlink" title="为什么需要这些组件？（总结）"></a>为什么需要这些组件？（总结）</h3><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+<th>比喻</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Self-Attention</td>
+<td>理解上下文关系</td>
+<td>读文章时回头看相关内容</td>
+</tr>
+<tr>
+<td>FFN</td>
+<td>增加表达能力</td>
+<td>给照片加滤镜，增强效果</td>
+</tr>
+<tr>
+<td>残差连接</td>
+<td>防止信息丢失</td>
+<td>保留草稿，防止丢失原始信息</td>
+</tr>
+<tr>
+<td>LayerNorm</td>
+<td>稳定训练</td>
+<td>调节温度，保持稳定</td>
+</tr>
+</tbody></table>
+<h3 id="多层堆叠的效果"><a href="#多层堆叠的效果" class="headerlink" title="多层堆叠的效果"></a>多层堆叠的效果</h3><p>现代 GPT 模型通常堆叠 <strong>几十到上百层</strong>这样的 Transformer Block。</p>
+<p><strong>为什么需要这么多层？</strong></p>
+<ul>
+<li><strong>第 1 层</strong>：学习简单的词与词之间的关系</li>
+<li><strong>第 10 层</strong>：学习更复杂的语法结构</li>
+<li><strong>第 50 层</strong>：学习深层的语义和逻辑关系</li>
+<li><strong>第 100 层</strong>：学习非常抽象和高级的模式</li>
+</ul>
+<p>每一层都在前一层的基础上，提取更高级的特征，最终让模型能够理解复杂的语言。</p>
+<p><strong>比喻</strong>：就像盖房子，每一层都在前一层的基础上建造，最终建成高楼大厦。</p>
+<hr>
+<h1 id="🔍-四、Self-Attention：让模型”看懂上下文”的关键"><a href="#🔍-四、Self-Attention：让模型”看懂上下文”的关键" class="headerlink" title="🔍 四、Self-Attention：让模型”看懂上下文”的关键"></a>🔍 四、Self-Attention：让模型”看懂上下文”的关键<a id="self-attention"></a></h1><h2 id="1-什么是-Self-Attention？"><a href="#1-什么是-Self-Attention？" class="headerlink" title="1. 什么是 Self-Attention？"></a>1. 什么是 Self-Attention？</h2><p>一句话解释：</p>
+<blockquote>
+<p><strong>让每个 Token 计算它应该关注句子中其他哪些 Token。</strong></p>
+</blockquote>
+<p>例：</p>
+<blockquote>
+<p>“小明把苹果递给小红，她接住了。”</p>
+</blockquote>
+<p>“她”到底指谁？</p>
+<p>Self-Attention 能算出它更依赖 “小红”。</p>
+<hr>
+<h2 id="2-Self-Attention-的内部细节（通俗解释）"><a href="#2-Self-Attention-的内部细节（通俗解释）" class="headerlink" title="2. Self-Attention 的内部细节（通俗解释）"></a>2. Self-Attention 的内部细节（通俗解释）</h2><p>每个 Token 会生成三个向量：</p>
+<ul>
+<li><p><strong>Q（Query）</strong>：我想找谁？</p>
+</li>
+<li><p><strong>K（Key）</strong>：别人能被匹配吗？</p>
+</li>
+<li><p><strong>V（Value）</strong>：别人的信息是什么？</p>
+</li>
+</ul>
+<p>过程如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">注意力分数 &#x3D; Q · K^T
+
+权重 &#x3D; Softmax(注意力分数)
+
+输出 &#x3D; 权重 × V<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>这就是 Self-Attention，数学优雅，效果惊人。</p>
+<hr>
+<h2 id="3-Multi-Head-Attention（多头注意力）"><a href="#3-Multi-Head-Attention（多头注意力）" class="headerlink" title="3. Multi-Head Attention（多头注意力）"></a>3. Multi-Head Attention（多头注意力）</h2><p><strong>什么是 Multi-Head？</strong></p>
+<p>实际应用中，模型不是只做一次 Self-Attention，而是<strong>同时做多次</strong>，每次关注不同的”方面”。</p>
+<p><strong>例子</strong>：</p>
+<p>在句子”小明把苹果递给小红，她接住了”中：</p>
+<ul>
+<li><strong>Head 1</strong>：关注”语法关系”（”她”是主语）</li>
+<li><strong>Head 2</strong>：关注”语义关系”（”她”指向前面的”小红”）</li>
+<li><strong>Head 3</strong>：关注”位置关系”（”她”在”小红”后面）</li>
+<li><strong>Head 4</strong>：关注”动作关系”（”接住”和”递给”相关）</li>
+</ul>
+<p><strong>工作原理</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入向量
+  ↓
+分成多个 Head（如 8 个、16 个）
+  ↓
+每个 Head 独立计算 Self-Attention
+  ↓
+把所有 Head 的结果拼接起来
+  ↓
+输出向量<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>为什么需要多个 Head？</strong></p>
+<ul>
+<li>✅ <strong>关注不同方面</strong>：每个 Head 可以学习不同类型的依赖关系</li>
+<li>✅ <strong>表达能力更强</strong>：多个视角比单一视角更全面</li>
+<li>✅ <strong>并行计算</strong>：多个 Head 可以同时计算，不增加太多时间</li>
+</ul>
+<p><strong>典型配置</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>Head 数量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GPT-2</td>
+<td>12 个</td>
+<td>中等模型</td>
+</tr>
+<tr>
+<td>GPT-3</td>
+<td>96 个</td>
+<td>大模型</td>
+</tr>
+<tr>
+<td>Llama-2</td>
+<td>32 个</td>
+<td>开源大模型</td>
+</tr>
+</tbody></table>
+<p><strong>注意</strong>：Head 数量不是越多越好，太多会导致训练不稳定，需要根据模型大小平衡。</p>
+<hr>
+<h1 id="🔁-五、Transformer-的完整计算流程（极简心智图）"><a href="#🔁-五、Transformer-的完整计算流程（极简心智图）" class="headerlink" title="🔁 五、Transformer 的完整计算流程（极简心智图）"></a>🔁 五、Transformer 的完整计算流程（极简心智图）</h1><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Token → Embedding
+
+↓ 加位置编码
+
+Q&#x2F;K&#x2F;V 生成
+
+↓ Self-Attention
+
+带上下文的向量
+
+↓ FFN（前馈网络）
+
+↓ 残差连接 + LayerNorm
+
+输出给下一层
+
+（重复几十层）
+
+↓
+
+最终向量 → Softmax → 预测下一个 Token<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h1 id="🚩-六、几个常见误区（一定要懂）"><a href="#🚩-六、几个常见误区（一定要懂）" class="headerlink" title="🚩 六、几个常见误区（一定要懂）"></a>🚩 六、几个常见误区（一定要懂）</h1><h3 id="❌-误解-1：LLM-是”理解语言”的"><a href="#❌-误解-1：LLM-是”理解语言”的" class="headerlink" title="❌ 误解 1：LLM 是”理解语言”的"></a>❌ 误解 1：LLM 是”理解语言”的</h3><p>✔ 真相：它只是学习”哪些 Token 后面最容易跟哪些 Token”。</p>
+<h3 id="❌-误解-2：Transformer-看到的是”整句”"><a href="#❌-误解-2：Transformer-看到的是”整句”" class="headerlink" title="❌ 误解 2：Transformer 看到的是”整句”"></a>❌ 误解 2：Transformer 看到的是”整句”</h3><p>✔ 真相：GPT（Decoder-only）只能看到<strong>左侧 Token</strong>，右侧是被 Mask 掉的。</p>
+<h3 id="❌-误解-3：Embedding-Sentence-Embedding"><a href="#❌-误解-3：Embedding-Sentence-Embedding" class="headerlink" title="❌ 误解 3：Embedding &#x3D; Sentence Embedding"></a>❌ 误解 3：Embedding &#x3D; Sentence Embedding</h3><p>✔ 真相：二者完全不同。</p>
+<h3 id="❌-误解-4：Attention-越多越好"><a href="#❌-误解-4：Attention-越多越好" class="headerlink" title="❌ 误解 4：Attention 越多越好"></a>❌ 误解 4：Attention 越多越好</h3><p>✔ 真相：太多头会训练不稳定，模型设计都有平衡。</p>
+<hr>
+<h1 id="📚-七、延伸阅读（含可直接访问链接）"><a href="#📚-七、延伸阅读（含可直接访问链接）" class="headerlink" title="📚 七、延伸阅读（含可直接访问链接）"></a>📚 七、延伸阅读（含可直接访问链接）</h1><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h2 id="🔬-Transformer-核心"><a href="#🔬-Transformer-核心" class="headerlink" title="🔬 Transformer 核心"></a>🔬 Transformer 核心</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762"><strong>Attention Is All You Need（原始论文）</strong></a>：Transformer 架构的开山之作，Google 2017 年发表。适合有一定数学基础的读者，详细介绍了 Self-Attention 机制和完整架构。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-transformer/"><strong>Illustrated Transformer（图解 Transformer）</strong></a>：Jay Alammar 的经典图解文章，用可视化方式解释 Transformer 的工作原理。<strong>强烈推荐新手阅读</strong>，比论文更容易理解。</p>
+</li>
+</ul>
+<h2 id="🔤-Tokenization（分词）"><a href="#🔤-Tokenization（分词）" class="headerlink" title="🔤 Tokenization（分词）"></a>🔤 Tokenization（分词）</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1508.07909"><strong>BPE 论文（Byte Pair Encoding）</strong></a>：BPE 算法的原始论文，解释了如何通过统计方法构建子词词表。适合想深入了解分词原理的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/google/sentencepiece"><strong>SentencePiece（Google 开源工具）</strong></a>：Google 开源的统一分词框架，支持 BPE 和 Unigram 算法。适合需要实际使用分词工具的开发者。</p>
+</li>
+</ul>
+<h2 id="🔢-Embedding（向量化）"><a href="#🔢-Embedding（向量化）" class="headerlink" title="🔢 Embedding（向量化）"></a>🔢 Embedding（向量化）</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1301.3781"><strong>Word2Vec 论文</strong></a>：Word2Vec 的经典论文，介绍了如何将词汇映射到向量空间。虽然较老，但思想仍然重要。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-word2vec/"><strong>Illustrated Word2Vec（图解 Word2Vec）</strong></a>：同样是 Jay Alammar 的图解文章，用可视化方式解释 Word2Vec 的工作原理。<strong>适合新手</strong>。</p>
+</li>
+</ul>
+<h2 id="🛠️-Transformer-LLM-实战"><a href="#🛠️-Transformer-LLM-实战" class="headerlink" title="🛠️ Transformer&#x2F;LLM 实战"></a>🛠️ Transformer&#x2F;LLM 实战</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://huggingface.co/learn/nlp-course"><strong>Hugging Face NLP Course（NLP 课程）</strong></a>：Hugging Face 官方的免费 NLP 课程，从基础到进阶，包含大量实践代码。<strong>强烈推荐</strong>，适合想动手实践的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://poloclub.github.io/transformer-explainer/"><strong>Transformer Explainer（可视化工具）</strong></a>：交互式可视化工具，可以动态查看 Transformer 内部的计算过程。适合想直观理解模型工作原理的读者。</p>
+</li>
+</ul>
+<h2 id="🔄-RNN-LSTM（Transformer-的前身）"><a href="#🔄-RNN-LSTM（Transformer-的前身）" class="headerlink" title="🔄 RNN&#x2F;LSTM（Transformer 的前身）"></a>🔄 RNN&#x2F;LSTM（Transformer 的前身）</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/"><strong>Understanding LSTM Networks（LSTM 详解）</strong></a>：Christopher Olah 的经典博客文章，用图解方式深入浅出地解释 LSTM。<strong>强烈推荐</strong>，即使不深入研究 RNN，也能帮助你理解为什么需要 Transformer。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/"><strong>The Unreasonable Effectiveness of RNNs（RNN 应用）</strong></a>：Andrej Karpathy 的博客文章，展示了 RNN 在文本生成等任务上的强大能力。适合想了解 RNN 实际应用的读者。</p>
+</li>
+</ul>
+<h2 id="🤖-BERT-和-T5"><a href="#🤖-BERT-和-T5" class="headerlink" title="🤖 BERT 和 T5"></a>🤖 BERT 和 T5</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1810.04805"><strong>BERT 论文</strong></a>：BERT 的原始论文，介绍了双向编码器的预训练方法。适合想深入了解 BERT 原理的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1910.10683"><strong>T5 论文</strong></a>：T5 的原始论文，提出了”文本到文本”的统一框架。适合想了解 Encoder-Decoder 架构的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-bert/"><strong>The Illustrated BERT（BERT 图解）</strong></a>：Jay Alammar 的 BERT 图解文章，用可视化方式解释 BERT 的工作原理。<strong>适合新手</strong>，比论文更容易理解。</p>
+</li>
+</ul>
+<h2 id="🏗️-模型架构对比"><a href="#🏗️-模型架构对比" class="headerlink" title="🏗️ 模型架构对比"></a>🏗️ 模型架构对比</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-gpt2/"><strong>The GPT Architecture（GPT 架构详解）</strong></a>：Jay Alammar 的 GPT-2 图解文章，详细解释了 Decoder-Only 架构。<strong>强烈推荐</strong>，帮助理解现代 LLM 的架构。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://nlp.seas.harvard.edu/annotated-transformer/"><strong>The Annotated Transformer（带注释的实现）</strong></a>：哈佛大学提供的 Transformer 完整实现，每行代码都有详细注释。<strong>适合想深入理解代码实现的读者</strong>，是学习 Transformer 实现的最佳材料。</p>
+</li>
+</ul>
+<h2 id="💻-代码实践"><a href="#💻-代码实践" class="headerlink" title="💻 代码实践"></a>💻 代码实践</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/huggingface/transformers"><strong>Transformers 库（Hugging Face）</strong></a>：Hugging Face 的官方 Transformers 库，提供了几乎所有主流模型的实现。<strong>必备工具</strong>，实际开发中几乎都会用到。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://huggingface.co/blog/fine-tune-gpt2"><strong>From Zero to Hero: Fine-tuning GPT-2（GPT-2 微调教程）</strong></a>：Hugging Face 官方的 GPT-2 微调教程，从零开始教你如何微调模型。<strong>适合想动手实践的读者</strong>。</p>
+</li>
+</ul>
+<h2 id="🇨🇳-中文资源"><a href="#🇨🇳-中文资源" class="headerlink" title="🇨🇳 中文资源"></a>🇨🇳 中文资源</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=ugWDIIOHtPA"><strong>李宏毅机器学习课程 - Transformer</strong></a>：台湾大学李宏毅教授的机器学习课程，Transformer 部分讲解清晰，有中文字幕。<strong>适合中文读者</strong>，视频形式更容易理解。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_attention-mechanisms/transformer.html"><strong>动手学深度学习（Transformer 章节）</strong></a>：中文开源教材《动手学深度学习》的 Transformer 章节，包含理论讲解和实践代码。<strong>适合中文读者</strong>，内容全面。</p>
+</li>
+</ul>
+<hr>
+<h1 id="💡-扩展：什么是向量维度？"><a href="#💡-扩展：什么是向量维度？" class="headerlink" title="💡 扩展：什么是向量维度？"></a>💡 扩展：什么是向量维度？<a id="vector-dimension"></a></h1><p>在文章中多次提到”4096 维”或”768 维”，这到底是什么意思？</p>
+<h2 id="什么是维度？"><a href="#什么是维度？" class="headerlink" title="什么是维度？"></a>什么是维度？</h2><p><strong>维度（Dimension）<strong>就是向量的</strong>长度</strong>，也就是向量中包含多少个数字。</p>
+<p><strong>例子</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">一维向量（1 个数字）：[3.14]
+二维向量（2 个数字）：[1.2, 3.4]
+三维向量（3 个数字）：[1.2, 3.4, 5.6]
+...
+4096 维向量（4096 个数字）：[0.12, -0.45, 0.78, ..., 共 4096 个数字]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="为什么是-4096-或-768？"><a href="#为什么是-4096-或-768？" class="headerlink" title="为什么是 4096 或 768？"></a>为什么是 4096 或 768？</h2><p>这些数字是模型的<strong>超参数</strong>，在训练前就设定好的：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>Embedding 维度</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GPT-3</td>
+<td>12288 维</td>
+<td>非常大的模型</td>
+</tr>
+<tr>
+<td>GPT-4</td>
+<td>4096 维</td>
+<td>大模型常用</td>
+</tr>
+<tr>
+<td>BERT-base</td>
+<td>768 维</td>
+<td>中等模型</td>
+</tr>
+<tr>
+<td>BERT-large</td>
+<td>1024 维</td>
+<td>较大模型</td>
+</tr>
+<tr>
+<td>Llama-2</td>
+<td>4096 维</td>
+<td>开源大模型</td>
+</tr>
+</tbody></table>
+<p><strong>为什么不同模型维度不同？</strong></p>
+<ul>
+<li><p><strong>维度越大</strong>：</p>
+<ul>
+<li>✅ 能表达更丰富的语义信息</li>
+<li>✅ 模型容量更大，性能通常更好</li>
+<li>❌ 计算量更大，需要更多内存和算力</li>
+</ul>
+</li>
+<li><p><strong>维度越小</strong>：</p>
+<ul>
+<li>✅ 计算更快，占用内存更少</li>
+<li>❌ 表达能力有限，可能丢失细节</li>
+</ul>
+</li>
+</ul>
+<h2 id="维度在数学上意味着什么？"><a href="#维度在数学上意味着什么？" class="headerlink" title="维度在数学上意味着什么？"></a>维度在数学上意味着什么？</h2><p>想象一下：</p>
+<ul>
+<li><strong>2 维空间</strong>：平面，可以用 (x, y) 表示一个点</li>
+<li><strong>3 维空间</strong>：立体，可以用 (x, y, z) 表示一个点</li>
+<li><strong>768 维空间</strong>：超空间，可以用 768 个数字表示一个”点”（即一个 Token）</li>
+</ul>
+<p><strong>关键理解</strong>：</p>
+<blockquote>
+<p>每个 Token 的 Embedding 向量，就是在这个高维空间中的一个”点”。</p>
+<p>相似的词（如”苹果”和”水果”）在这个空间中的距离很近。</p>
+<p>不相关的词（如”苹果”和”汽车”）距离很远。</p>
+</blockquote>
+<h2 id="实际例子"><a href="#实际例子" class="headerlink" title="实际例子"></a>实际例子</h2><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 伪代码示例</span>
+<span class="token string">"苹果"</span> 的 Embedding <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0.12</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">0.45</span><span class="token punctuation">,</span> <span class="token number">0.78</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> 共 <span class="token number">768</span> 个数字<span class="token punctuation">]</span>
+<span class="token string">"水果"</span> 的 Embedding <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0.15</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">0.42</span><span class="token punctuation">,</span> <span class="token number">0.81</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> 共 <span class="token number">768</span> 个数字<span class="token punctuation">]</span>
+<span class="token string">"汽车"</span> 的 Embedding <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">0.89</span><span class="token punctuation">,</span> <span class="token number">0.23</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">0.56</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">,</span> 共 <span class="token number">768</span> 个数字<span class="token punctuation">]</span>
+
+<span class="token comment"># 计算距离</span>
+distance<span class="token punctuation">(</span><span class="token string">"苹果"</span><span class="token punctuation">,</span> <span class="token string">"水果"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0.05</span>  <span class="token comment"># 很近</span>
+distance<span class="token punctuation">(</span><span class="token string">"苹果"</span><span class="token punctuation">,</span> <span class="token string">"汽车"</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">1.87</span>  <span class="token comment"># 很远</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="为什么不能太小也不能太大？"><a href="#为什么不能太小也不能太大？" class="headerlink" title="为什么不能太小也不能太大？"></a>为什么不能太小也不能太大？</h2><ul>
+<li><p><strong>太小（如 64 维）</strong>：</p>
+<ul>
+<li>信息压缩过度，很多词会”挤在一起”，难以区分</li>
+<li>就像用 10 个颜色画一幅画，细节会丢失</li>
+</ul>
+</li>
+<li><p><strong>太大（如 100000 维）</strong>：</p>
+<ul>
+<li>计算成本极高，训练和推理都很慢</li>
+<li>可能过拟合，学到的很多维度是冗余的</li>
+</ul>
+</li>
+<li><p><strong>合适（768-4096 维）</strong>：</p>
+<ul>
+<li>在表达能力和计算效率之间取得平衡</li>
+<li>经过大量实验验证，是当前的最佳实践</li>
+</ul>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>维度 &#x3D; 向量中数字的个数</strong></li>
+<li><strong>4096 维 &#x3D; 向量包含 4096 个浮点数</strong></li>
+<li><strong>维度越大，表达能力越强，但计算成本也越高</strong></li>
+<li><strong>不同模型选择不同维度，是性能与效率的权衡</strong></li>
+</ul>
+<p>理解维度概念后，你就能更好地理解为什么模型需要这么大的参数量，以及为什么不同模型的 Embedding 维度会不同。</p>
+<hr>
+<h1 id="💡-扩展：什么是-RNN-LSTM？"><a href="#💡-扩展：什么是-RNN-LSTM？" class="headerlink" title="💡 扩展：什么是 RNN&#x2F;LSTM？"></a>💡 扩展：什么是 RNN&#x2F;LSTM？<a id="rnn-lstm"></a></h1><p>在文章中提到 Transformer 解决了 RNN&#x2F;LSTM 的痛点，那么 RNN 和 LSTM 到底是什么？</p>
+<h2 id="什么是-RNN（循环神经网络）？"><a href="#什么是-RNN（循环神经网络）？" class="headerlink" title="什么是 RNN（循环神经网络）？"></a>什么是 RNN（循环神经网络）？</h2><p><strong>RNN（Recurrent Neural Network）</strong> 是处理序列数据（如文本、语音）的经典神经网络架构。</p>
+<p><strong>核心特点</strong>：</p>
+<ul>
+<li><strong>有记忆能力</strong>：每个时刻的处理结果会传递给下一个时刻</li>
+<li><strong>顺序处理</strong>：必须一个词一个词地按顺序处理，不能并行</li>
+</ul>
+<p><strong>工作原理（简化）</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">时刻 1：处理&quot;我&quot; → 输出结果1 + 隐藏状态1
+时刻 2：处理&quot;喜欢&quot; → 使用隐藏状态1 + &quot;喜欢&quot; → 输出结果2 + 隐藏状态2
+时刻 3：处理&quot;苹果&quot; → 使用隐藏状态2 + &quot;苹果&quot; → 输出结果3 + 隐藏状态3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>问题</strong>：</p>
+<ul>
+<li>❌ <strong>梯度消失</strong>：当句子很长时，前面的信息在传递过程中会逐渐”衰减”，后面的词很难记住前面的内容</li>
+<li>❌ <strong>无法并行</strong>：必须等前一个词处理完才能处理下一个，无法利用 GPU 的并行计算能力</li>
+</ul>
+<h2 id="什么是-LSTM（长短期记忆网络）？"><a href="#什么是-LSTM（长短期记忆网络）？" class="headerlink" title="什么是 LSTM（长短期记忆网络）？"></a>什么是 LSTM（长短期记忆网络）？</h2><p><strong>LSTM（Long Short-Term Memory）</strong> 是 RNN 的改进版本，专门解决 RNN 的”记忆问题”。</p>
+<p><strong>核心改进</strong>：</p>
+<ul>
+<li>✅ <strong>更好的记忆机制</strong>：通过”门控”机制，可以选择性地记住或忘记信息</li>
+<li>✅ <strong>解决梯度消失</strong>：能记住更长的序列信息</li>
+</ul>
+<p><strong>但仍有问题</strong>：</p>
+<ul>
+<li>❌ <strong>仍然无法并行</strong>：还是必须顺序处理</li>
+<li>❌ <strong>计算复杂</strong>：比 RNN 更复杂，训练更慢</li>
+</ul>
+<h2 id="RNN-LSTM-vs-Transformer"><a href="#RNN-LSTM-vs-Transformer" class="headerlink" title="RNN&#x2F;LSTM vs Transformer"></a>RNN&#x2F;LSTM vs Transformer</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>RNN&#x2F;LSTM</th>
+<th>Transformer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>处理方式</td>
+<td>顺序处理（一个接一个）</td>
+<td>并行处理（同时处理所有词）</td>
+</tr>
+<tr>
+<td>长距离依赖</td>
+<td>困难（信息会衰减）</td>
+<td>优秀（Self-Attention 直接关注任意位置）</td>
+</tr>
+<tr>
+<td>训练速度</td>
+<td>慢（无法并行）</td>
+<td>快（充分利用 GPU）</td>
+</tr>
+<tr>
+<td>计算复杂度</td>
+<td>低（但效果有限）</td>
+<td>高（但效果好）</td>
+</tr>
+</tbody></table>
+<h2 id="实际例子-1"><a href="#实际例子-1" class="headerlink" title="实际例子"></a>实际例子</h2><p><strong>处理句子：”小明把苹果递给小红，她接住了。”</strong></p>
+<ul>
+<li><p><strong>RNN&#x2F;LSTM</strong>：</p>
+<ul>
+<li>处理”她”时，可能已经”忘记”了前面的”小红”</li>
+<li>需要依赖隐藏状态传递，但信息会衰减</li>
+</ul>
+</li>
+<li><p><strong>Transformer</strong>：</p>
+<ul>
+<li>通过 Self-Attention，”她”可以直接”看到”并关注前面的”小红”</li>
+<li>不需要依赖隐藏状态传递，信息不会衰减</li>
+</ul>
+</li>
+</ul>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>RNN&#x2F;LSTM</strong>：Transformer 出现前的序列模型，有记忆但无法并行，长距离依赖困难</li>
+<li><strong>Transformer</strong>：革命性架构，并行处理 + Self-Attention，解决了 RNN&#x2F;LSTM 的痛点</li>
+<li><strong>现代 LLM</strong>：几乎都基于 Transformer，因为它更快、更强、更灵活</li>
+</ul>
+<p>理解 RNN&#x2F;LSTM 的局限性，能帮助你更好地理解为什么 Transformer 如此重要，以及它为什么能成为现代 AI 的基础架构。</p>
+<hr>
+<h1 id="💡-扩展：什么是-BERT-和-T5？"><a href="#💡-扩展：什么是-BERT-和-T5？" class="headerlink" title="💡 扩展：什么是 BERT 和 T5？"></a>💡 扩展：什么是 BERT 和 T5？<a id="bert-t5"></a></h1><p>在文章中提到 BERT 和 T5 作为 Transformer 架构的典型应用，它们到底是什么？</p>
+<h2 id="什么是-BERT？"><a href="#什么是-BERT？" class="headerlink" title="什么是 BERT？"></a>什么是 BERT？</h2><p><strong>BERT（Bidirectional Encoder Representations from Transformers）</strong> 是 Google 在 2018 年发布的模型，是 Transformer Encoder 架构的典型代表。</p>
+<h3 id="核心特点"><a href="#核心特点" class="headerlink" title="核心特点"></a>核心特点</h3><ul>
+<li><strong>架构</strong>：只使用 Transformer 的 <strong>Encoder 部分</strong></li>
+<li><strong>双向理解</strong>：能同时看到句子中<strong>左右两侧</strong>的所有词</li>
+<li><strong>预训练 + 微调</strong>：先在大量文本上预训练，然后在特定任务上微调</li>
+</ul>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p><strong>预训练阶段</strong>（学习语言知识）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入：&quot;我喜欢[MASK]苹果&quot;
+BERT 的任务：预测 [MASK] 位置应该是什么词
+答案：可能是&quot;吃&quot;、&quot;买&quot;、&quot;摘&quot;等<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>通过这种方式，BERT 学会了：</p>
+<ul>
+<li>词汇的语义</li>
+<li>词与词之间的关系</li>
+<li>句子的语法结构</li>
+</ul>
+<p><strong>微调阶段</strong>（应用到具体任务）：</p>
+<ul>
+<li><strong>文本分类</strong>：判断一段文本的情感（正面&#x2F;负面）</li>
+<li><strong>问答</strong>：根据文章回答问题</li>
+<li><strong>命名实体识别</strong>：找出文本中的人名、地名等</li>
+</ul>
+<h3 id="为什么重要？"><a href="#为什么重要？" class="headerlink" title="为什么重要？"></a>为什么重要？</h3><ul>
+<li>✅ <strong>双向理解</strong>：比单向模型（如 GPT）更适合理解任务</li>
+<li>✅ <strong>预训练模型</strong>：可以在特定任务上快速微调，不需要从头训练</li>
+<li>✅ <strong>开源</strong>：推动了 NLP 领域的发展</li>
+</ul>
+<h3 id="典型应用"><a href="#典型应用" class="headerlink" title="典型应用"></a>典型应用</h3><ul>
+<li>搜索引擎（理解用户查询意图）</li>
+<li>文本分类系统（垃圾邮件检测、情感分析）</li>
+<li>信息抽取（从文本中提取结构化信息）</li>
+</ul>
+<hr>
+<h2 id="什么是-T5？"><a href="#什么是-T5？" class="headerlink" title="什么是 T5？"></a>什么是 T5？</h2><p><strong>T5（Text-To-Text Transfer Transformer）</strong> 是 Google 在 2019 年发布的模型，使用完整的 Encoder-Decoder 架构。</p>
+<h3 id="核心特点-1"><a href="#核心特点-1" class="headerlink" title="核心特点"></a>核心特点</h3><ul>
+<li><strong>架构</strong>：完整的 <strong>Encoder-Decoder</strong> 结构</li>
+<li><strong>统一框架</strong>：把所有 NLP 任务都转化为”文本到文本”的形式</li>
+<li><strong>既能理解又能生成</strong>：可以处理理解和生成两类任务</li>
+</ul>
+<h3 id="工作原理-1"><a href="#工作原理-1" class="headerlink" title="工作原理"></a>工作原理</h3><p><strong>统一的任务格式</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">翻译：    输入：&quot;translate English to German: The house is wonderful.&quot;
+         输出：&quot;Das Haus ist wunderbar.&quot;
+
+摘要：    输入：&quot;summarize: 长篇文章...&quot;
+         输出：&quot;摘要内容...&quot;
+
+问答：    输入：&quot;question: 问题内容 context: 文章内容&quot;
+         输出：&quot;答案内容&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>工作流程</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">输入文本 → Encoder（理解）→ Decoder（生成）→ 输出文本<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="为什么重要？-1"><a href="#为什么重要？-1" class="headerlink" title="为什么重要？"></a>为什么重要？</h3><ul>
+<li>✅ <strong>统一框架</strong>：一个模型可以处理多种任务</li>
+<li>✅ <strong>灵活性强</strong>：既能理解又能生成</li>
+<li>✅ <strong>效果好</strong>：在多个任务上达到当时的最佳性能</li>
+</ul>
+<h3 id="典型应用-1"><a href="#典型应用-1" class="headerlink" title="典型应用"></a>典型应用</h3><ul>
+<li><strong>机器翻译</strong>：中英文翻译</li>
+<li><strong>文本摘要</strong>：长文本压缩为短摘要</li>
+<li><strong>文本改写</strong>：改写句子保持原意</li>
+<li><strong>对话系统</strong>：生成回复</li>
+</ul>
+<hr>
+<h2 id="BERT-vs-T5-vs-GPT"><a href="#BERT-vs-T5-vs-GPT" class="headerlink" title="BERT vs T5 vs GPT"></a>BERT vs T5 vs GPT</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>BERT</th>
+<th>T5</th>
+<th>GPT（Decoder-Only）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>架构</td>
+<td>Encoder-only</td>
+<td>Encoder-Decoder</td>
+<td>Decoder-only</td>
+</tr>
+<tr>
+<td>方向</td>
+<td>双向（能看到整个输入）</td>
+<td>双向理解 + 单向生成</td>
+<td>单向（只能看到左侧）</td>
+</tr>
+<tr>
+<td>主要用途</td>
+<td>理解任务</td>
+<td>理解 + 生成任务</td>
+<td>生成任务</td>
+</tr>
+<tr>
+<td>能否生成文本</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>典型任务</td>
+<td>分类、问答、NER</td>
+<td>翻译、摘要、改写</td>
+<td>对话、代码生成</td>
+</tr>
+<tr>
+<td>预训练方式</td>
+<td>Masked LM</td>
+<td>文本到文本</td>
+<td>自回归生成</td>
+</tr>
+</tbody></table>
+<h2 id="现代发展"><a href="#现代发展" class="headerlink" title="现代发展"></a>现代发展</h2><p>虽然 BERT 和 T5 都是重要的里程碑，但现代 LLM 的主流是 <strong>Decoder-Only 架构</strong>（如 GPT、Llama、Claude），因为：</p>
+<ul>
+<li>✅ <strong>更适合生成任务</strong>：自回归生成更自然</li>
+<li>✅ <strong>架构更简单</strong>：只需要一个组件</li>
+<li>✅ <strong>训练更高效</strong>：统一的任务（预测下一个 Token）</li>
+</ul>
+<p>但 BERT 和 T5 的思想（预训练、微调、统一框架）仍然影响着现代 LLM 的发展。</p>
+<h2 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>BERT</strong>：Encoder-only，双向理解，适合理解类任务（分类、问答）</li>
+<li><strong>T5</strong>：Encoder-Decoder，既能理解又能生成，适合需要理解+生成的任务（翻译、摘要）</li>
+<li><strong>GPT 系列</strong>：Decoder-only，单向生成，适合生成类任务（对话、代码生成）</li>
+</ul>
+<p>理解这些模型的区别，能帮助你更好地理解 Transformer 架构的不同应用场景，以及为什么现代 LLM 选择了 Decoder-Only 架构。</p>
+<hr>
+<h1 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h1><p>第二篇将带你理解：</p>
+<blockquote>
+<p>为什么模型能理解你的提示？</p>
+</blockquote>
+<blockquote>
+<p>什么是 Prompt？</p>
+</blockquote>
+<blockquote>
+<p>什么是上下文学习（In-Context Learning）？</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" class="print-no-link">#大语言模型</a>
+      
+        <a href="/fluid-blog/tags/Transformer/" class="print-no-link">#Transformer</a>
+      
+        <a href="/fluid-blog/tags/Token/" class="print-no-link">#Token</a>
+      
+        <a href="/fluid-blog/tags/Embedding/" class="print-no-link">#Embedding</a>
+      
+        <a href="/fluid-blog/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🧠 主题1｜LLM 工作原理深度解析：Token、向量、Transformer，到底在算什么？</div>
+      <div>https://linn0813.github.io/2025/12/02/2025-12-02-llm-working-principle-token-embedding-transformer/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/03/2025-12-03-llm-prompt-context-in-context-learning/" title="🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧠 主题2｜理解 LLM 的&#34;语言&#34;：Prompt、上下文与 In‑Context Learning</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/11/29/2025-11-29-llm-agent-core-concepts-guide/" title="🚀 告别浅尝辄止：《🧠 LLM/Agent 从入门到精通：告别浅尝辄止》系列开篇">
+                        <span class="hidden-mobile">🚀 告别浅尝辄止：《🧠 LLM/Agent 从入门到精通：告别浅尝辄止》系列开篇</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

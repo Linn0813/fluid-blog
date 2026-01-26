@@ -1,0 +1,1331 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="LLM, 模型评估, 模型选型, GPT-4, Claude, Llama, 参数量, 推理速度, 开源模型, 闭源模型, 成本对比">
+  
+    <meta name="description" content="全面对比主流 LLM 模型：从参数量、推理速度、成本到适用场景，帮你根据实际需求选择最合适的模型，平衡性能、成本和可控性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🧠 主题5｜评估与选型：参数量、推理速度、开源&#x2F;闭源模型对比">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/09/2025-12-09-llm-model-evaluation-selection/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="全面对比主流 LLM 模型：从参数量、推理速度、成本到适用场景，帮你根据实际需求选择最合适的模型，平衡性能、成本和可控性">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/llm-model-evaluation-selection.png">
+<meta property="article:published_time" content="2025-12-09T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.631Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="Claude">
+<meta property="article:tag" content="GPT-4">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="模型评估">
+<meta property="article:tag" content="模型选型">
+<meta property="article:tag" content="Llama">
+<meta property="article:tag" content="开源模型">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/llm-model-evaluation-selection.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-09 16:00" pubdate>
+          2025年12月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><strong>这是<a href="/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/">《🧠 LLM&#x2F;Agent 从入门到精通：告别浅尝辄止》</a>系列第 5 篇</strong></p>
+</blockquote>
+<blockquote>
+<p>上一篇我们深入解析了 RAG 机制，构建了抗幻觉的知识增强系统。</p>
+</blockquote>
+<blockquote>
+<p>本篇，我们将全面对比主流 LLM 模型，从参数量、推理速度、成本到适用场景，帮你根据实际需求选择最合适的模型。</p>
+</blockquote>
+<hr>
+<h2 id="🚀-导言-—-选择合适的模型，事半功倍"><a href="#🚀-导言-—-选择合适的模型，事半功倍" class="headerlink" title="🚀 导言 — 选择合适的模型，事半功倍"></a>🚀 导言 — 选择合适的模型，事半功倍</h2><p>在前四篇中，我们掌握了 LLM 的工作原理、Prompt 工程技巧和 RAG 机制。</p>
+<p>但当你真正要做一个项目时，会发现一个关键问题：</p>
+<blockquote>
+<p><strong>市面上有这么多模型，GPT-4、Claude、Llama、Gemini… 我该选哪个？</strong><br><strong>参数量越大越好吗？</strong><br><strong>开源和闭源模型有什么区别？</strong><br><strong>如何平衡性能、成本和可控性？</strong></p>
+</blockquote>
+<p>选择合适的模型，能让你的项目事半功倍；选错了，可能既浪费成本又达不到效果。</p>
+<p>本篇将从<strong>参数量、推理速度、成本、能力、适用场景</strong>等多个维度，全面对比主流 LLM 模型，帮你做出明智的选择。</p>
+<hr>
+<h2 id="📊-一、评估模型的五大核心维度"><a href="#📊-一、评估模型的五大核心维度" class="headerlink" title="📊 一、评估模型的五大核心维度"></a>📊 一、评估模型的五大核心维度</h2><p>在选择模型之前，我们需要理解评估模型的五大核心维度：</p>
+<h3 id="1-1-参数量（Parameters）"><a href="#1-1-参数量（Parameters）" class="headerlink" title="1.1 参数量（Parameters）"></a>1.1 参数量（Parameters）</h3><p><strong>定义</strong>：模型中的可训练参数数量，通常以 B（Billion，十亿）为单位。</p>
+<p><strong>理解</strong>：</p>
+<ul>
+<li><strong>参数量 ≈ 模型容量</strong>：参数量越大，模型能”记住”和”理解”的信息越多</li>
+<li><strong>但并非越大越好</strong>：参数量越大，训练和推理成本越高</li>
+</ul>
+<p><strong>常见参数量级</strong>：</p>
+<ul>
+<li><strong>小型模型</strong>：1B-7B（如 Llama-2-7B）</li>
+<li><strong>中型模型</strong>：7B-70B（如 Llama-2-70B、GPT-3.5）</li>
+<li><strong>大型模型</strong>：70B+（如 GPT-4、Claude-3）</li>
+</ul>
+<blockquote>
+<p>💡 <strong>关键理解</strong>：参数量是模型能力的<strong>上限</strong>，但不等于实际能力。训练数据质量、训练方法同样重要。</p>
+</blockquote>
+<h3 id="1-2-推理速度（Inference-Speed）"><a href="#1-2-推理速度（Inference-Speed）" class="headerlink" title="1.2 推理速度（Inference Speed）"></a>1.2 推理速度（Inference Speed）</h3><p><strong>定义</strong>：模型生成 Token 的速度，通常以 <strong>Tokens&#x2F;秒</strong> 或 <strong>Tokens&#x2F;秒&#x2F;用户</strong> 衡量。</p>
+<p><strong>影响因素</strong>：</p>
+<ul>
+<li><strong>模型大小</strong>：参数量越大，推理越慢</li>
+<li><strong>硬件</strong>：GPU 性能、显存大小</li>
+<li><strong>优化技术</strong>：量化、剪枝、KV Cache 等</li>
+</ul>
+<p><strong>实际体验</strong>：</p>
+<ul>
+<li><strong>实时对话</strong>：需要 &gt; 20 Tokens&#x2F;秒</li>
+<li><strong>批量处理</strong>：可以接受较慢速度，但需要可预测的延迟</li>
+</ul>
+<h3 id="1-3-成本（Cost）"><a href="#1-3-成本（Cost）" class="headerlink" title="1.3 成本（Cost）"></a>1.3 成本（Cost）</h3><p><strong>成本构成</strong>：</p>
+<ul>
+<li><strong>API 调用成本</strong>：按 Token 计费（输入 + 输出）</li>
+<li><strong>自部署成本</strong>：GPU 硬件、电费、运维成本</li>
+<li><strong>开发成本</strong>：集成难度、调试时间</li>
+</ul>
+<p><strong>成本对比</strong>（大致估算，实际价格可能变化）：</p>
+<ul>
+<li><strong>GPT-4</strong>：$0.03&#x2F;1K 输入 Token，$0.06&#x2F;1K 输出 Token（高）</li>
+<li><strong>GPT-3.5 Turbo</strong>：$0.0015&#x2F;1K 输入 Token，$0.002&#x2F;1K 输出 Token（低）</li>
+<li><strong>Claude 3.5 Sonnet</strong>：$0.003&#x2F;1K 输入 Token，$0.015&#x2F;1K 输出 Token（中）</li>
+<li><strong>开源模型（自部署）</strong>：硬件成本 + 电费，无 API 费用（但需要技术投入）</li>
+</ul>
+<h3 id="1-4-能力（Capabilities）"><a href="#1-4-能力（Capabilities）" class="headerlink" title="1.4 能力（Capabilities）"></a>1.4 能力（Capabilities）</h3><p><strong>核心能力维度</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>说明</th>
+<th>评估方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>语言理解</strong></td>
+<td>理解复杂指令、上下文、多轮对话</td>
+<td>复杂 Prompt 测试</td>
+</tr>
+<tr>
+<td><strong>代码能力</strong></td>
+<td>代码生成、调试、解释</td>
+<td>编程任务测试</td>
+</tr>
+<tr>
+<td><strong>推理能力</strong></td>
+<td>逻辑推理、数学计算、多步推理</td>
+<td>推理题测试</td>
+</tr>
+<tr>
+<td><strong>知识广度</strong></td>
+<td>通用知识、专业知识覆盖</td>
+<td>知识问答测试</td>
+</tr>
+<tr>
+<td><strong>多语言能力</strong></td>
+<td>中文、英文等多语言支持</td>
+<td>多语言任务测试</td>
+</tr>
+<tr>
+<td><strong>长上下文</strong></td>
+<td>处理长文档、长对话</td>
+<td>长文本理解测试</td>
+</tr>
+</tbody></table>
+<h3 id="1-5-可控性（Control）"><a href="#1-5-可控性（Control）" class="headerlink" title="1.5 可控性（Control）"></a>1.5 可控性（Control）</h3><p><strong>可控性维度</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>闭源模型</th>
+<th>开源模型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数据隐私</strong></td>
+<td>数据发送到云端</td>
+<td>可以本地部署，数据不出本地</td>
+</tr>
+<tr>
+<td><strong>定制能力</strong></td>
+<td>无法修改模型</td>
+<td>可以 Fine-Tuning、修改模型</td>
+</tr>
+<tr>
+<td><strong>成本控制</strong></td>
+<td>按使用量付费</td>
+<td>一次性硬件投入</td>
+</tr>
+<tr>
+<td><strong>依赖风险</strong></td>
+<td>依赖服务商</td>
+<td>完全自主可控</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🔍-二、主流模型全面对比"><a href="#🔍-二、主流模型全面对比" class="headerlink" title="🔍 二、主流模型全面对比"></a>🔍 二、主流模型全面对比</h2><h3 id="2-1-闭源模型（API-服务）"><a href="#2-1-闭源模型（API-服务）" class="headerlink" title="2.1 闭源模型（API 服务）"></a>2.1 闭源模型（API 服务）</h3><hr>
+<h3 id="🤖-GPT-4-GPT-4-Turbo"><a href="#🤖-GPT-4-GPT-4-Turbo" class="headerlink" title="🤖 GPT-4 &#x2F; GPT-4 Turbo"></a>🤖 GPT-4 &#x2F; GPT-4 Turbo</h3><p><strong>提供商</strong>：OpenAI | <strong>类型</strong>：闭源 API</p>
+<p><strong>基本信息</strong>：</p>
+<ul>
+<li><strong>参数量</strong>：未公开（估计 1T+）</li>
+<li><strong>上下文窗口</strong>：128k Token（GPT-4 Turbo）</li>
+<li><strong>成本</strong>：$0.03&#x2F;1K 输入 Token，$0.06&#x2F;1K 输出 Token（高）</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>能力最强</strong>：在大多数任务上表现最佳</li>
+<li>✅ <strong>生态完善</strong>：API 稳定、文档完善、社区支持好</li>
+<li>✅ <strong>Function Calling</strong>：原生支持工具调用</li>
+<li>✅ <strong>长上下文</strong>：128k Token 支持处理长文档</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>成本高</strong>：API 调用费用较高</li>
+<li>❌ <strong>速度中等</strong>：推理速度不如 GPT-3.5</li>
+<li>❌ <strong>数据隐私</strong>：数据需要发送到 OpenAI 服务器</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>对能力要求高的复杂任务</li>
+<li>需要长上下文处理</li>
+<li>需要 Function Calling 的 Agent 应用</li>
+<li>预算充足的项目</li>
+</ul>
+<hr>
+<h3 id="⚡-GPT-3-5-Turbo"><a href="#⚡-GPT-3-5-Turbo" class="headerlink" title="⚡ GPT-3.5 Turbo"></a>⚡ GPT-3.5 Turbo</h3><p><strong>提供商</strong>：OpenAI | <strong>类型</strong>：闭源 API</p>
+<p><strong>基本信息</strong>：</p>
+<ul>
+<li><strong>参数量</strong>：未公开（估计 175B）</li>
+<li><strong>上下文窗口</strong>：16k Token</li>
+<li><strong>成本</strong>：$0.0015&#x2F;1K 输入 Token，$0.002&#x2F;1K 输出 Token（低）</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>成本低</strong>：API 费用是 GPT-4 的 1&#x2F;20</li>
+<li>✅ <strong>速度快</strong>：推理速度比 GPT-4 快</li>
+<li>✅ <strong>能力够用</strong>：对于大多数常见任务足够</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>能力有限</strong>：复杂推理、代码生成能力不如 GPT-4</li>
+<li>❌ <strong>上下文短</strong>：16k Token 限制</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>对成本敏感的项目</li>
+<li>简单对话、文本生成任务</li>
+<li>需要快速响应的场景</li>
+<li>大规模批量处理</li>
+</ul>
+<hr>
+<h3 id="🛡️-Claude-3-Claude-3-5-Sonnet"><a href="#🛡️-Claude-3-Claude-3-5-Sonnet" class="headerlink" title="🛡️ Claude 3 &#x2F; Claude 3.5 Sonnet"></a>🛡️ Claude 3 &#x2F; Claude 3.5 Sonnet</h3><p><strong>提供商</strong>：Anthropic | <strong>类型</strong>：闭源 API</p>
+<p><strong>基本信息</strong>：</p>
+<ul>
+<li><strong>参数量</strong>：未公开</li>
+<li><strong>上下文窗口</strong>：200k Token（Claude 3.5）</li>
+<li><strong>成本</strong>：$0.003&#x2F;1K 输入 Token，$0.015&#x2F;1K 输出 Token（中）</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>长上下文</strong>：200k Token，适合处理超长文档</li>
+<li>✅ <strong>安全性好</strong>：Anthropic 注重 AI 安全</li>
+<li>✅ <strong>能力接近 GPT-4</strong>：在部分任务上甚至更好</li>
+<li>✅ <strong>工具使用</strong>：支持工具调用</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>成本较高</strong>：比 GPT-3.5 贵，接近 GPT-4</li>
+<li>❌ <strong>生态相对较小</strong>：社区和工具支持不如 OpenAI</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>需要处理超长文档（如整本书、大量代码）</li>
+<li>对安全性要求高的场景</li>
+<li>需要高质量输出的任务</li>
+</ul>
+<hr>
+<h3 id="🌟-Gemini-Pro-Gemini-Ultra"><a href="#🌟-Gemini-Pro-Gemini-Ultra" class="headerlink" title="🌟 Gemini Pro &#x2F; Gemini Ultra"></a>🌟 Gemini Pro &#x2F; Gemini Ultra</h3><p><strong>提供商</strong>：Google | <strong>类型</strong>：闭源 API</p>
+<p><strong>基本信息</strong>：</p>
+<ul>
+<li><strong>参数量</strong>：未公开</li>
+<li><strong>上下文窗口</strong>：1M Token（Gemini 1.5 Pro）</li>
+<li><strong>成本</strong>：比 GPT-4 便宜（具体价格请查看 Google 官方）</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>超长上下文</strong>：1M Token，可以处理整本书</li>
+<li>✅ <strong>多模态</strong>：原生支持图像、视频理解</li>
+<li>✅ <strong>成本相对较低</strong>：比 GPT-4 便宜</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>能力不稳定</strong>：在某些任务上表现不如 GPT-4</li>
+<li>❌ <strong>生态较新</strong>：工具和社区支持不如 OpenAI</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>需要处理超长文档</li>
+<li>多模态任务（图像、视频理解）</li>
+<li>对成本敏感但需要长上下文的场景</li>
+</ul>
+<hr>
+<h2 id="2-2-开源模型（可自部署）"><a href="#2-2-开源模型（可自部署）" class="headerlink" title="2.2 开源模型（可自部署）"></a>2.2 开源模型（可自部署）</h2><hr>
+<h3 id="🦙-Llama-2-Llama-3"><a href="#🦙-Llama-2-Llama-3" class="headerlink" title="🦙 Llama 2 &#x2F; Llama 3"></a>🦙 Llama 2 &#x2F; Llama 3</h3><p><strong>提供商</strong>：Meta | <strong>类型</strong>：开源模型（需自部署）</p>
+<p><strong>基本信息</strong>：</p>
+<ul>
+<li><strong>参数量</strong>：7B、13B、70B（Llama 2）；8B、70B（Llama 3）</li>
+<li><strong>上下文窗口</strong>：4k Token（Llama 2）、8k Token（Llama 3）</li>
+<li><strong>成本</strong>：硬件成本 + 电费，无 API 费用</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>完全开源</strong>：可以本地部署，数据不出本地</li>
+<li>✅ <strong>可定制</strong>：可以 Fine-Tuning、修改模型</li>
+<li>✅ <strong>成本可控</strong>：一次性硬件投入，无 API 费用</li>
+<li>✅ <strong>社区活跃</strong>：大量优化和工具支持</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>能力有限</strong>：不如 GPT-4、Claude</li>
+<li>❌ <strong>部署复杂</strong>：需要 GPU 硬件和技术支持</li>
+<li>❌ <strong>上下文短</strong>：4k-8k Token 限制</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>对数据隐私要求高</li>
+<li>需要定制模型</li>
+<li>大规模部署，API 成本过高</li>
+<li>有 GPU 资源和技术团队</li>
+</ul>
+<hr>
+<h3 id="🚀-Mistral-7B-Mixtral-8x7B"><a href="#🚀-Mistral-7B-Mixtral-8x7B" class="headerlink" title="🚀 Mistral 7B &#x2F; Mixtral 8x7B"></a>🚀 Mistral 7B &#x2F; Mixtral 8x7B</h3><p><strong>提供商</strong>：Mistral AI | <strong>类型</strong>：开源模型（需自部署）</p>
+<p><strong>基本信息</strong>：</p>
+<ul>
+<li><strong>参数量</strong>：7B（Mistral）、8x7B（Mixtral，MoE 架构）</li>
+<li><strong>上下文窗口</strong>：32k Token（Mistral）、32k Token（Mixtral）</li>
+<li><strong>成本</strong>：硬件成本 + 电费，无 API 费用</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>性能好</strong>：7B 模型性能接近 13B 模型</li>
+<li>✅ <strong>长上下文</strong>：32k Token，比 Llama 长</li>
+<li>✅ <strong>MoE 架构</strong>：Mixtral 使用混合专家模型，效率高</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>能力仍有限</strong>：不如大型闭源模型</li>
+<li>❌ <strong>需要部署</strong>：需要 GPU 资源</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>需要长上下文的开源方案</li>
+<li>对性能要求较高的开源场景</li>
+<li>有 GPU 资源</li>
+</ul>
+<hr>
+<h3 id="🇨🇳-Qwen-2-Qwen-2-5"><a href="#🇨🇳-Qwen-2-Qwen-2-5" class="headerlink" title="🇨🇳 Qwen 2 &#x2F; Qwen 2.5"></a>🇨🇳 Qwen 2 &#x2F; Qwen 2.5</h3><p><strong>提供商</strong>：阿里巴巴 | <strong>类型</strong>：开源模型（需自部署）</p>
+<p><strong>基本信息</strong>：</p>
+<ul>
+<li><strong>参数量</strong>：0.5B、1.5B、7B、14B、72B</li>
+<li><strong>上下文窗口</strong>：32k Token</li>
+<li><strong>成本</strong>：硬件成本 + 电费，无 API 费用</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ <strong>中文能力强</strong>：针对中文优化，中文表现好</li>
+<li>✅ <strong>多尺寸</strong>：从 0.5B 到 72B，选择灵活</li>
+<li>✅ <strong>长上下文</strong>：32k Token</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ <strong>英文能力相对较弱</strong>：主要针对中文优化</li>
+<li>❌ <strong>需要部署</strong>：需要 GPU 资源</li>
+</ul>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>中文为主的应用</li>
+<li>需要中文优化的场景</li>
+<li>有 GPU 资源</li>
+</ul>
+<hr>
+<h2 id="🎯-三、选型决策指南"><a href="#🎯-三、选型决策指南" class="headerlink" title="🎯 三、选型决策指南"></a>🎯 三、选型决策指南</h2><h3 id="3-1-根据任务复杂度选择"><a href="#3-1-根据任务复杂度选择" class="headerlink" title="3.1 根据任务复杂度选择"></a>3.1 根据任务复杂度选择</h3><table>
+<thead>
+<tr>
+<th>任务复杂度</th>
+<th>推荐模型</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>简单任务</strong>（文本生成、简单问答）</td>
+<td>GPT-3.5 Turbo</td>
+<td>成本低、速度快、能力够用</td>
+</tr>
+<tr>
+<td><strong>中等任务</strong>（代码生成、复杂推理）</td>
+<td>GPT-4 &#x2F; Claude 3.5</td>
+<td>能力更强，能处理复杂任务</td>
+</tr>
+<tr>
+<td><strong>复杂任务</strong>（多步推理、Agent 应用）</td>
+<td>GPT-4 Turbo</td>
+<td>能力最强，支持 Function Calling</td>
+</tr>
+<tr>
+<td><strong>超长文档</strong>（整本书、大量代码）</td>
+<td>Claude 3.5 &#x2F; Gemini 1.5</td>
+<td>长上下文支持</td>
+</tr>
+</tbody></table>
+<h3 id="3-2-根据成本预算选择"><a href="#3-2-根据成本预算选择" class="headerlink" title="3.2 根据成本预算选择"></a>3.2 根据成本预算选择</h3><table>
+<thead>
+<tr>
+<th>预算水平</th>
+<th>推荐方案</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>预算充足</strong></td>
+<td>GPT-4 &#x2F; Claude 3.5</td>
+<td>能力最强，成本可接受</td>
+</tr>
+<tr>
+<td><strong>预算中等</strong></td>
+<td>GPT-3.5 Turbo &#x2F; Gemini Pro</td>
+<td>平衡成本和能力</td>
+</tr>
+<tr>
+<td><strong>预算有限</strong></td>
+<td>开源模型（自部署）</td>
+<td>一次性投入，长期成本低</td>
+</tr>
+<tr>
+<td><strong>大规模部署</strong></td>
+<td>开源模型（自部署）</td>
+<td>API 成本过高，自部署更经济</td>
+</tr>
+</tbody></table>
+<h3 id="3-3-根据数据隐私要求选择"><a href="#3-3-根据数据隐私要求选择" class="headerlink" title="3.3 根据数据隐私要求选择"></a>3.3 根据数据隐私要求选择</h3><table>
+<thead>
+<tr>
+<th>隐私要求</th>
+<th>推荐方案</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>数据可上云</strong></td>
+<td>闭源模型 API</td>
+<td>使用方便，能力强</td>
+</tr>
+<tr>
+<td><strong>数据需本地</strong></td>
+<td>开源模型（自部署）</td>
+<td>数据不出本地，完全可控</td>
+</tr>
+<tr>
+<td><strong>混合方案</strong></td>
+<td>敏感数据用开源，非敏感用 API</td>
+<td>平衡隐私和成本</td>
+</tr>
+</tbody></table>
+<h3 id="3-4-根据技术能力选择"><a href="#3-4-根据技术能力选择" class="headerlink" title="3.4 根据技术能力选择"></a>3.4 根据技术能力选择</h3><table>
+<thead>
+<tr>
+<th>技术能力</th>
+<th>推荐方案</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>技术团队强</strong></td>
+<td>开源模型（自部署）</td>
+<td>可以优化、定制模型</td>
+</tr>
+<tr>
+<td><strong>技术团队弱</strong></td>
+<td>闭源模型 API</td>
+<td>使用简单，无需维护</td>
+</tr>
+<tr>
+<td><strong>快速原型</strong></td>
+<td>GPT-3.5 Turbo</td>
+<td>快速验证想法</td>
+</tr>
+<tr>
+<td><strong>生产环境</strong></td>
+<td>根据需求选择</td>
+<td>考虑稳定性、成本、能力</td>
+</tr>
+</tbody></table>
+<h3 id="3-5-综合决策矩阵"><a href="#3-5-综合决策矩阵" class="headerlink" title="3.5 综合决策矩阵"></a>3.5 综合决策矩阵</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐模型</th>
+<th>关键因素</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>快速原型开发</strong></td>
+<td>GPT-3.5 Turbo</td>
+<td>成本低、速度快</td>
+</tr>
+<tr>
+<td><strong>生产环境（高要求）</strong></td>
+<td>GPT-4 Turbo</td>
+<td>能力最强、稳定性好</td>
+</tr>
+<tr>
+<td><strong>处理超长文档</strong></td>
+<td>Claude 3.5 &#x2F; Gemini 1.5</td>
+<td>长上下文支持</td>
+</tr>
+<tr>
+<td><strong>数据隐私敏感</strong></td>
+<td>Llama 3 &#x2F; Qwen 2</td>
+<td>可本地部署</td>
+</tr>
+<tr>
+<td><strong>中文为主</strong></td>
+<td>Qwen 2 &#x2F; GPT-4</td>
+<td>中文优化</td>
+</tr>
+<tr>
+<td><strong>大规模部署</strong></td>
+<td>开源模型（自部署）</td>
+<td>成本可控</td>
+</tr>
+<tr>
+<td><strong>Agent 应用</strong></td>
+<td>GPT-4 Turbo</td>
+<td>Function Calling 支持好</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="💡-四、实战建议"><a href="#💡-四、实战建议" class="headerlink" title="💡 四、实战建议"></a>💡 四、实战建议</h2><h3 id="4-1-混合使用策略"><a href="#4-1-混合使用策略" class="headerlink" title="4.1 混合使用策略"></a>4.1 混合使用策略</h3><p><strong>不要只用一个模型</strong>，根据任务特点选择：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 混合使用策略示例（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">select_model</span><span class="token punctuation">(</span>task_type<span class="token punctuation">,</span> data_sensitive<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> data_sensitive<span class="token punctuation">:</span>
+        <span class="token comment"># 敏感数据用本地模型</span>
+        <span class="token keyword">return</span> local_model  <span class="token comment"># 如 Llama 3</span>
+    
+    <span class="token keyword">if</span> task_type <span class="token operator">==</span> <span class="token string">"simple"</span><span class="token punctuation">:</span>
+        <span class="token comment"># 简单任务用便宜模型</span>
+        <span class="token keyword">return</span> gpt35_turbo
+    
+    <span class="token keyword">elif</span> task_type <span class="token operator">==</span> <span class="token string">"complex"</span><span class="token punctuation">:</span>
+        <span class="token comment"># 复杂任务用强模型</span>
+        <span class="token keyword">return</span> gpt4_turbo
+    
+    <span class="token keyword">elif</span> task_type <span class="token operator">==</span> <span class="token string">"long_context"</span><span class="token punctuation">:</span>
+        <span class="token comment"># 长文档用长上下文模型</span>
+        <span class="token keyword">return</span> claude_35
+    
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> gpt4_turbo  <span class="token comment"># 默认</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="4-2-成本优化技巧"><a href="#4-2-成本优化技巧" class="headerlink" title="4.2 成本优化技巧"></a>4.2 成本优化技巧</h3><ol>
+<li><strong>使用缓存</strong>：相同查询缓存结果，避免重复调用</li>
+<li><strong>批量处理</strong>：批量请求比单个请求更高效</li>
+<li><strong>选择合适的模型</strong>：简单任务不用强模型</li>
+<li><strong>优化 Prompt</strong>：减少 Token 消耗（见<a href="/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/2025-12-04-llm-prompt-engineering-practices/#2-token-%E6%88%90%E6%9C%AC%E4%BC%98%E5%8C%96%E5%9C%A8%E4%BF%9D%E8%AF%81%E6%95%88%E6%9E%9C%E7%9A%84%E5%90%8C%E6%97%B6%E5%87%8F%E5%B0%91%E6%B6%88%E8%80%97">第3篇</a>）</li>
+<li><strong>使用流式输出</strong>：对于长文本生成，使用流式输出提升用户体验</li>
+</ol>
+<h3 id="4-3-性能测试"><a href="#4-3-性能测试" class="headerlink" title="4.3 性能测试"></a>4.3 性能测试</h3><p><strong>选择模型前，先做性能测试</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 性能测试示例（伪代码）</span>
+
+<span class="token keyword">def</span> <span class="token function">benchmark_models</span><span class="token punctuation">(</span>task<span class="token punctuation">,</span> models<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    results <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span> model <span class="token keyword">in</span> models<span class="token punctuation">:</span>
+        <span class="token comment"># 测试能力</span>
+        accuracy <span class="token operator">=</span> test_accuracy<span class="token punctuation">(</span>model<span class="token punctuation">,</span> task<span class="token punctuation">)</span>
+        <span class="token comment"># 测试速度</span>
+        speed <span class="token operator">=</span> test_speed<span class="token punctuation">(</span>model<span class="token punctuation">,</span> task<span class="token punctuation">)</span>
+        <span class="token comment"># 测试成本</span>
+        cost <span class="token operator">=</span> estimate_cost<span class="token punctuation">(</span>model<span class="token punctuation">,</span> task<span class="token punctuation">)</span>
+        
+        results<span class="token punctuation">[</span>model<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">"accuracy"</span><span class="token punctuation">:</span> accuracy<span class="token punctuation">,</span>
+            <span class="token string">"speed"</span><span class="token punctuation">:</span> speed<span class="token punctuation">,</span>
+            <span class="token string">"cost"</span><span class="token punctuation">:</span> cost<span class="token punctuation">,</span>
+            <span class="token string">"score"</span><span class="token punctuation">:</span> calculate_score<span class="token punctuation">(</span>accuracy<span class="token punctuation">,</span> speed<span class="token punctuation">,</span> cost<span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    
+    <span class="token comment"># 选择综合得分最高的模型</span>
+    best_model <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>results<span class="token punctuation">,</span> key<span class="token operator">=</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> results<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">"score"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> best_model<span class="token punctuation">,</span> results<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="🔍-总结：模型选型的核心原则"><a href="#🔍-总结：模型选型的核心原则" class="headerlink" title="🔍 总结：模型选型的核心原则"></a>🔍 总结：模型选型的核心原则</h2><p>选择合适的模型，需要平衡多个因素：</p>
+<table>
+<thead>
+<tr>
+<th>因素</th>
+<th>权重</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>任务需求</strong></td>
+<td>高</td>
+<td>根据任务复杂度选择合适能力的模型</td>
+</tr>
+<tr>
+<td><strong>成本预算</strong></td>
+<td>高</td>
+<td>在预算范围内选择最佳模型</td>
+</tr>
+<tr>
+<td><strong>数据隐私</strong></td>
+<td>中</td>
+<td>敏感数据优先考虑开源模型</td>
+</tr>
+<tr>
+<td><strong>技术能力</strong></td>
+<td>中</td>
+<td>根据团队技术能力选择部署方案</td>
+</tr>
+<tr>
+<td><strong>长期维护</strong></td>
+<td>低</td>
+<td>考虑长期维护成本</td>
+</tr>
+</tbody></table>
+<p><strong>核心原则</strong>：</p>
+<ol>
+<li><strong>没有最好的模型，只有最合适的模型</strong></li>
+<li><strong>先做性能测试，再决定</strong></li>
+<li><strong>可以混合使用，不同任务用不同模型</strong></li>
+<li><strong>成本优化很重要，但不要牺牲关键能力</strong></li>
+</ol>
+<blockquote>
+<p>💡 <strong>关键理解</strong>：模型选型是一个<strong>权衡过程</strong>，需要在能力、成本、可控性之间找到平衡点。理解每个模型的特点，根据实际需求选择，才能让项目事半功倍。</p>
+</blockquote>
+<hr>
+<h2 id="📚-延伸阅读（含可直接访问链接）"><a href="#📚-延伸阅读（含可直接访问链接）" class="headerlink" title="📚 延伸阅读（含可直接访问链接）"></a>📚 延伸阅读（含可直接访问链接）</h2><p>以下资源按主题分类，每个资源都附有简要说明，帮助你选择合适的学习材料。</p>
+<h3 id="📊-模型评估与基准测试"><a href="#📊-模型评估与基准测试" class="headerlink" title="📊 模型评估与基准测试"></a>📊 模型评估与基准测试</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/openai/evals"><strong>OpenAI Evals（评估框架）</strong></a>：OpenAI 开源的模型评估框架。<strong>强烈推荐</strong>，适合需要系统评估模型的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard"><strong>Hugging Face Open LLM Leaderboard（模型排行榜）</strong></a>：开源模型的性能排行榜。适合需要选择开源模型的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://chat.lmsys.org/"><strong>LMSYS Chatbot Arena（模型对比平台）</strong></a>：通过用户投票对比不同模型的能力。适合想直观了解模型差异的读者。</p>
+</li>
+</ul>
+<h3 id="🔍-模型对比与分析"><a href="#🔍-模型对比与分析" class="headerlink" title="🔍 模型对比与分析"></a>🔍 模型对比与分析</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2303.08774"><strong>GPT-4 Technical Report（GPT-4 技术报告）</strong></a>：GPT-4 的官方技术报告。<strong>必读</strong>，适合想了解 GPT-4 能力的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.anthropic.com/claude"><strong>Claude 3 Model Card（Claude 3 模型卡片）</strong></a>：Claude 3 的官方模型卡片。适合想了解 Claude 3 的读者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2307.09288"><strong>Llama 2 Paper（Llama 2 论文）</strong></a>：Llama 2 的原始论文。适合想了解开源模型的读者。</p>
+</li>
+</ul>
+<h3 id="💰-成本对比与分析"><a href="#💰-成本对比与分析" class="headerlink" title="💰 成本对比与分析"></a>💰 成本对比与分析</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://openai.com/pricing"><strong>OpenAI Pricing（OpenAI 定价）</strong></a>：OpenAI 的官方定价页面。适合需要了解 API 成本的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.anthropic.com/pricing"><strong>Anthropic Pricing（Anthropic 定价）</strong></a>：Anthropic 的官方定价页面。适合需要了解 Claude API 成本的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://platform.openai.com/usage"><strong>模型成本计算器</strong></a>：OpenAI 的成本计算器。适合需要估算成本的开发者。</p>
+</li>
+</ul>
+<h3 id="🛠️-开源模型部署"><a href="#🛠️-开源模型部署" class="headerlink" title="🛠️ 开源模型部署"></a>🛠️ 开源模型部署</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/ggerganov/llama.cpp"><strong>Llama.cpp（Llama 量化部署）</strong></a>：Llama 模型的量化部署工具。适合需要在 CPU 或边缘设备上部署的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/vllm-project/vllm"><strong>vLLM（高性能推理）</strong></a>：高性能 LLM 推理框架。适合需要高性能推理的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://ollama.ai/"><strong>Ollama（本地模型运行）</strong></a>：简单的本地模型运行工具。适合想快速体验开源模型的开发者。</p>
+</li>
+</ul>
+<h3 id="🇨🇳-中文模型资源"><a href="#🇨🇳-中文模型资源" class="headerlink" title="🇨🇳 中文模型资源"></a>🇨🇳 中文模型资源</h3><ul>
+<li><p><a target="_blank" rel="noopener" href="https://qwenlm.github.io/"><strong>Qwen 官方文档</strong></a>：Qwen 模型的官方文档。适合需要中文模型的开发者。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/THUDM/ChatGLM3"><strong>ChatGLM 官方文档</strong></a>：ChatGLM 模型的官方文档。适合需要中文对话模型的开发者。</p>
+</li>
+</ul>
+<hr>
+<h2 id="🔔-下一篇预告"><a href="#🔔-下一篇预告" class="headerlink" title="🔔 下一篇预告"></a>🔔 下一篇预告</h2><p>完成了 <strong>Part I: LLM 基础认知与 Prompt 工程</strong> 的学习，我们已经掌握了”模型是大脑”的核心知识。</p>
+<p>接下来，我们将进入 <strong>Part II: Agent 核心架构与决策机制</strong>，揭秘 LLM 如何进化为自主决策工具。</p>
+<p><strong>第 6 篇将深入 Agent 架构</strong>：</p>
+<blockquote>
+<p><strong>《主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？》</strong></p>
+</blockquote>
+<ul>
+<li>Agent 是如何从 LLM 进化而来的？</li>
+<li>感知、规划、行动 → Agentic Loop 的全流程是什么？</li>
+<li>如何构建一个完整的 Agent 系统？</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/Claude/" class="print-no-link">#Claude</a>
+      
+        <a href="/fluid-blog/tags/GPT-4/" class="print-no-link">#GPT-4</a>
+      
+        <a href="/fluid-blog/tags/LLM/" class="print-no-link">#LLM</a>
+      
+        <a href="/fluid-blog/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/" class="print-no-link">#模型评估</a>
+      
+        <a href="/fluid-blog/tags/%E6%A8%A1%E5%9E%8B%E9%80%89%E5%9E%8B/" class="print-no-link">#模型选型</a>
+      
+        <a href="/fluid-blog/tags/Llama/" class="print-no-link">#Llama</a>
+      
+        <a href="/fluid-blog/tags/%E5%BC%80%E6%BA%90%E6%A8%A1%E5%9E%8B/" class="print-no-link">#开源模型</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比</div>
+      <div>https://linn0813.github.io/2025/12/09/2025-12-09-llm-model-evaluation-selection/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/10/2025-12-10-llm-agent-concept-overview/" title="🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/08/2025-12-08-llm-rag-deep-integration/" title="🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合">
+                        <span class="hidden-mobile">🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

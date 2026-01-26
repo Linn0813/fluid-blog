@@ -1,0 +1,1312 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="软件测试,测试博客,自动化测试,测试开发,测试经验">
+  
+    <meta name="description" content="分享软件测试学习、实战经验和踩坑历程">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Linn&#39;s Blog">
+<meta property="og:url" content="https://linn0813.github.io/page/3/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="分享软件测试学习、实战经验和踩坑历程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="软件测试,测试博客,自动化测试,测试开发,测试经验">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="下雨就不想上班，出太阳也不想上班"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/22/2025-12-22-llm-agent-security-governance/" target="_self">
+          <img src="/fluid-blog/img/llm-agent-security-governance.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🔒 主题13｜Agent 安全治理：日志、审计、可观测性与安全审计">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/22/2025-12-22-llm-agent-security-governance/" target="_self">
+          🔒 主题13｜Agent 安全治理：日志、审计、可观测性与安全审计
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/22/2025-12-22-llm-agent-security-governance/" target="_self">
+        <div>
+          深入解析 Agent 安全治理：从日志记录、审计追踪到可观测性，掌握如何监控和管理 Agent 的行为，确保安全可控
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-22 18:00" pubdate>
+              2025-12-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/Security/">#Security</a>
+            
+              <a href="/fluid-blog/tags/Governance/">#Governance</a>
+            
+              <a href="/fluid-blog/tags/Logging/">#Logging</a>
+            
+              <a href="/fluid-blog/tags/Observability/">#Observability</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/21/2025-12-21-llm-agent-spec-design/" target="_self">
+          <img src="/fluid-blog/img/llm-agent-spec-design.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/21/2025-12-21-llm-agent-spec-design/" target="_self">
+          📐 主题12｜Spec 设计：用 Schema 限制 Agent 输出，提升稳定性
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/21/2025-12-21-llm-agent-spec-design/" target="_self">
+        <div>
+          深入解析 Agent Spec 设计：从 JSON Schema 到 Pydantic，掌握如何用 Schema 限制 Agent 输出，提升稳定性和可控性
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-21 18:00" pubdate>
+              2025-12-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/Pydantic/">#Pydantic</a>
+            
+              <a href="/fluid-blog/tags/Schema/">#Schema</a>
+            
+              <a href="/fluid-blog/tags/Spec/">#Spec</a>
+            
+              <a href="/fluid-blog/tags/JSON-Schema/">#JSON Schema</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/20/2025-12-20-llm-agent-framework-comparison/" target="_self">
+          <img src="/fluid-blog/img/llm-agent-framework-comparison.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/20/2025-12-20-llm-agent-framework-comparison/" target="_self">
+          🏗️ 主题11｜Agent 框架对比：LangChain、AutoGPT、LlamaIndex 深度解析
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/20/2025-12-20-llm-agent-framework-comparison/" target="_self">
+        <div>
+          深入对比主流 Agent 框架：LangChain、AutoGPT、LlamaIndex，掌握各框架的特点、优缺点和适用场景，帮你选择合适的框架
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-20 18:00" pubdate>
+              2025-12-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/LangChain/">#LangChain</a>
+            
+              <a href="/fluid-blog/tags/AutoGPT/">#AutoGPT</a>
+            
+              <a href="/fluid-blog/tags/LlamaIndex/">#LlamaIndex</a>
+            
+              <a href="/fluid-blog/tags/%E6%A1%86%E6%9E%B6%E5%AF%B9%E6%AF%94/">#框架对比</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/19/2025-12-19-llm-agent-task-planning/" target="_self">
+          <img src="/fluid-blog/img/llm-agent-task-planning.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/19/2025-12-19-llm-agent-task-planning/" target="_self">
+          🎯 主题10｜任务规划：Agent 如何把复杂任务拆成可执行步骤？
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/19/2025-12-19-llm-agent-task-planning/" target="_self">
+        <div>
+          深入解析 Agent 任务规划：从任务分解、子任务生成到 Self-Correction，掌握如何让 Agent 把复杂任务拆成可执行步骤
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-19 18:00" pubdate>
+              2025-12-19
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/Task-Planning/">#Task Planning</a>
+            
+              <a href="/fluid-blog/tags/%E4%BB%BB%E5%8A%A1%E8%A7%84%E5%88%92/">#任务规划</a>
+            
+              <a href="/fluid-blog/tags/%E4%BB%BB%E5%8A%A1%E5%88%86%E8%A7%A3/">#任务分解</a>
+            
+              <a href="/fluid-blog/tags/Self-Correction/">#Self-Correction</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/18/2025-12-18-llm-agent-tool-system/" target="_self">
+          <img src="/fluid-blog/img/llm-agent-tool-system.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/18/2025-12-18-llm-agent-tool-system/" target="_self">
+          🛠️ 主题9｜Agent 工具系统：Function Calling 与外部世界连接
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/18/2025-12-18-llm-agent-tool-system/" target="_self">
+        <div>
+          深入解析 Agent 工具系统：从 Function Calling 机制、工具封装规范化设计到安全权限治理，让 Agent 拥有连接外部世界的能力
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-18 18:00" pubdate>
+              2025-12-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/Tools/">#Tools</a>
+            
+              <a href="/fluid-blog/tags/Function-Calling/">#Function Calling</a>
+            
+              <a href="/fluid-blog/tags/%E5%B7%A5%E5%85%B7%E7%B3%BB%E7%BB%9F/">#工具系统</a>
+            
+              <a href="/fluid-blog/tags/Executor/">#Executor</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/17/2025-12-17-llm-agent-memory-management/" target="_self">
+          <img src="/fluid-blog/img/llm-agent-memory-management.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/17/2025-12-17-llm-agent-memory-management/" target="_self">
+          🧠 主题8｜Agent 记忆管理：打造长期且健忘的智能体
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/17/2025-12-17-llm-agent-memory-management/" target="_self">
+        <div>
+          深入解析 Agent 的记忆管理：从分层记忆架构、短期记忆管理策略到长期记忆存储检索，打造长期且健忘的智能体系统
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-17 18:00" pubdate>
+              2025-12-17
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/Memory/">#Memory</a>
+            
+              <a href="/fluid-blog/tags/Context-Window/">#Context Window</a>
+            
+              <a href="/fluid-blog/tags/%E8%AE%B0%E5%BF%86%E7%AE%A1%E7%90%86/">#记忆管理</a>
+            
+              <a href="/fluid-blog/tags/%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93/">#向量数据库</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/16/2025-12-16-llm-agent-decision-engine/" target="_self">
+          <img src="/fluid-blog/img/llm-agent-decision-engine.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/16/2025-12-16-llm-agent-decision-engine/" target="_self">
+          🧠 主题7｜决策引擎 ReAct：代码级拆解 Agent 推理与工具调用
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/16/2025-12-16-llm-agent-decision-engine/" target="_self">
+        <div>
+          深入解析 Agent 的决策引擎：代码级拆解 ReAct 范式，掌握如何设计 Prompt 模板、实现工具调用和错误处理，对比 Self-Ask 和 Tree of Thoughts 等策略
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-16 18:00" pubdate>
+              2025-12-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/ReAct/">#ReAct</a>
+            
+              <a href="/fluid-blog/tags/Self-Ask/">#Self-Ask</a>
+            
+              <a href="/fluid-blog/tags/Tree-of-Thoughts/">#Tree-of-Thoughts</a>
+            
+              <a href="/fluid-blog/tags/%E5%86%B3%E7%AD%96%E5%BC%95%E6%93%8E/">#决策引擎</a>
+            
+              <a href="/fluid-blog/tags/%E6%80%9D%E7%BB%B4%E9%93%BE/">#思维链</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/10/2025-12-10-llm-agent-concept-overview/" target="_self">
+          <img src="/fluid-blog/img/llm-agent-concept-overview.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/10/2025-12-10-llm-agent-concept-overview/" target="_self">
+          🧠 主题6｜Agent 从 LLM 进化而来：为什么需要 Agent？
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/10/2025-12-10-llm-agent-concept-overview/" target="_self">
+        <div>
+          系统理解 Agent 的本质：从 LLM 到智能体的进化路径，深入解析 Agent 的核心构成、生命周期和关键模块，构建完整的 Agent 系统架构
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-10 18:00" pubdate>
+              2025-12-10
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/%E6%99%BA%E8%83%BD%E4%BD%93/">#智能体</a>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/Memory/">#Memory</a>
+            
+              <a href="/fluid-blog/tags/Agentic-Loop/">#Agentic Loop</a>
+            
+              <a href="/fluid-blog/tags/Planner/">#Planner</a>
+            
+              <a href="/fluid-blog/tags/Tools/">#Tools</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/09/2025-12-09-llm-model-evaluation-selection/" target="_self">
+          <img src="/fluid-blog/img/llm-model-evaluation-selection.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/09/2025-12-09-llm-model-evaluation-selection/" target="_self">
+          🧠 主题5｜评估与选型：参数量、推理速度、开源/闭源模型对比
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/09/2025-12-09-llm-model-evaluation-selection/" target="_self">
+        <div>
+          全面对比主流 LLM 模型：从参数量、推理速度、成本到适用场景，帮你根据实际需求选择最合适的模型，平衡性能、成本和可控性
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-09 16:00" pubdate>
+              2025-12-09
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/Claude/">#Claude</a>
+            
+              <a href="/fluid-blog/tags/GPT-4/">#GPT-4</a>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/">#模型评估</a>
+            
+              <a href="/fluid-blog/tags/%E6%A8%A1%E5%9E%8B%E9%80%89%E5%9E%8B/">#模型选型</a>
+            
+              <a href="/fluid-blog/tags/Llama/">#Llama</a>
+            
+              <a href="/fluid-blog/tags/%E5%BC%80%E6%BA%90%E6%A8%A1%E5%9E%8B/">#开源模型</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/08/2025-12-08-llm-rag-deep-integration/" target="_self">
+          <img src="/fluid-blog/img/llm-rag-deep-integration.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/08/2025-12-08-llm-rag-deep-integration/" target="_self">
+          🧠 主题4｜解决&#34;幻觉&#34;：RAG机制与外部知识融合
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/08/2025-12-08-llm-rag-deep-integration/" target="_self">
+        <div>
+          深入解析 RAG 机制：从三阶段工作流、核心组件到进阶优化策略，构建高精度、可追溯的知识增强系统，突破 LLM 的知识时效性和幻觉问题
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-08 18:00" pubdate>
+              2025-12-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Agent/">#Agent</a>
+            
+              <a href="/fluid-blog/tags/RAG/">#RAG</a>
+            
+              <a href="/fluid-blog/tags/Embedding/">#Embedding</a>
+            
+              <a href="/fluid-blog/tags/%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90/">#检索增强生成</a>
+            
+              <a href="/fluid-blog/tags/Vector-Database/">#Vector Database</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/fluid-blog/2025/12/04/2025-12-04-llm-prompt-engineering-practices/" target="_self">
+          <img src="/fluid-blog/img/llm-prompt-engineering-practices.png" srcset="/fluid-blog/img/loading.gif" lazyload alt="🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/fluid-blog/2025/12/04/2025-12-04-llm-prompt-engineering-practices/" target="_self">
+          🧠 主题3｜Prompt 工程实战：三大核心技巧与结构化输出
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/fluid-blog/2025/12/04/2025-12-04-llm-prompt-engineering-practices/" target="_self">
+        <div>
+          Prompt 工程实战指南：掌握明确角色、思维链进阶和结构化输出三大核心技巧，实现稳定、可解析的高质量输出
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-12-04 18:00" pubdate>
+              2025-12-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/AI%E4%B8%8E%E7%A0%94%E7%A9%B6/" class="category-chain-item">AI与研究</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/fluid-blog/tags/LLM/">#LLM</a>
+            
+              <a href="/fluid-blog/tags/Prompt%E5%B7%A5%E7%A8%8B/">#Prompt工程</a>
+            
+              <a href="/fluid-blog/tags/Chain-of-Thought/">#Chain-of-Thought</a>
+            
+              <a href="/fluid-blog/tags/ReAct/">#ReAct</a>
+            
+              <a href="/fluid-blog/tags/Schema/">#Schema</a>
+            
+              <a href="/fluid-blog/tags/%E7%BB%93%E6%9E%84%E5%8C%96%E8%BE%93%E5%87%BA/">#结构化输出</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/fluid-blog/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/fluid-blog/">1</a><a class="page-number" href="/fluid-blog/page/2/#board">2</a><span class="page-number current">3</span><a class="page-number" href="/fluid-blog/page/4/#board">4</a><a class="page-number" href="/fluid-blog/page/5/#board">5</a><span class="space">&hellip;</span><a class="page-number" href="/fluid-blog/page/10/#board">10</a><a class="extend next" rel="next" href="/fluid-blog/page/4/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

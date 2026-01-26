@@ -1,0 +1,1502 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="数据库, MySQL, PostgreSQL, Redis, MongoDB, DynamoDB, NoSQL, OLAP, 向量数据库, 图数据库, DDB, 数据库选型">
+  
+    <meta name="description" content="系统梳理当下主流数据库类型，从关系型数据库、NoSQL到新兴的向量数据库，帮你建立完整的数据库世界观地图，理解每一类数据库的本质、应用场景和技术特点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🗄️ 一文看懂当下主流数据库：从关系型、NoSQL 到 DDB &#x2F; DynamoDB 的全景认知地图">
+<meta property="og:url" content="https://linn0813.github.io/2025/12/28/2025-12-28-database-complete-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="系统梳理当下主流数据库类型，从关系型数据库、NoSQL到新兴的向量数据库，帮你建立完整的数据库世界观地图，理解每一类数据库的本质、应用场景和技术特点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/database-guide.png">
+<meta property="article:published_time" content="2025-12-28T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.881Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="NoSQL">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="MongoDB">
+<meta property="article:tag" content="DynamoDB">
+<meta property="article:tag" content="数据架构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/database-guide.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🗄️ 一文看懂当下主流数据库：从关系型、NoSQL 到 DDB / DynamoDB 的全景认知地图 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🗄️ 一文看懂当下主流数据库：从关系型、NoSQL 到 DDB / DynamoDB 的全景认知地图"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-28 20:00" pubdate>
+          2025年12月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          51 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🗄️ 一文看懂当下主流数据库：从关系型、NoSQL 到 DDB / DynamoDB 的全景认知地图</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>在技术博客、架构图、技术分享中，我们经常看到一长串数据库名词：</p>
+<blockquote>
+<p>MySQL、PostgreSQL、Redis、MongoDB、ClickHouse、Elasticsearch、Neo4j、Milvus、TiDB、DynamoDB、DDB、华为 V5……</p>
+</blockquote>
+<p>很多人用过其中一两个，却很难回答一个更本质的问题：</p>
+<p><strong>现在到底有多少”数据库类型”？</strong><br><strong>以及：为什么有些东西”看起来像数据库”，却又不像 MySQL 那样清晰？</strong></p>
+<p>这篇文章的目标不是教你语法，也不是选型细节，而是：</p>
+<blockquote>
+<p><strong>帮你建立一张”数据库世界观地图”——</strong><br><strong>知道每一类数据库、每一种叫法，究竟解决什么问题、处在什么层级。</strong></p>
+</blockquote>
+<hr>
+<h2 id="一、数据库的本质：我们到底在解决什么问题？"><a href="#一、数据库的本质：我们到底在解决什么问题？" class="headerlink" title="一、数据库的本质：我们到底在解决什么问题？"></a>一、数据库的本质：我们到底在解决什么问题？</h2><p>抛开所有名词，数据库本质只回答三件事：</p>
+<h3 id="1-数据如何存"><a href="#1-数据如何存" class="headerlink" title="1. 数据如何存"></a>1. <strong>数据如何存</strong></h3><ul>
+<li><strong>结构化数据</strong>：有固定格式，如表格数据（用户表、订单表）</li>
+<li><strong>半结构化数据</strong>：有结构但不固定，如 JSON、XML</li>
+<li><strong>非结构化数据</strong>：无固定格式，如文本、图片、视频</li>
+</ul>
+<h3 id="2-数据如何查"><a href="#2-数据如何查" class="headerlink" title="2. 数据如何查"></a>2. <strong>数据如何查</strong></h3><ul>
+<li><strong>精确查询</strong>：根据主键或唯一标识查询单条记录</li>
+<li><strong>范围查询</strong>：查询某个范围内的数据</li>
+<li><strong>聚合分析</strong>：统计、求和、分组等分析操作</li>
+<li><strong>全文搜索</strong>：在文本内容中搜索关键词</li>
+<li><strong>相似度搜索</strong>：找到相似的数据（如向量相似度）</li>
+</ul>
+<h3 id="3-数据如何扩展"><a href="#3-数据如何扩展" class="headerlink" title="3. 数据如何扩展"></a>3. <strong>数据如何扩展</strong></h3><ul>
+<li><strong>并发能力</strong>：同时处理多少请求</li>
+<li><strong>存储容量</strong>：能存多少数据</li>
+<li><strong>分布式</strong>：如何跨多台机器存储和查询</li>
+<li><strong>高可用</strong>：如何保证服务不中断</li>
+</ul>
+<p><strong>所有数据库的差异，本质都是在这三点上的取舍。</strong></p>
+<hr>
+<h2 id="二、关系型数据库（RDBMS）：最经典、最稳妥的一类"><a href="#二、关系型数据库（RDBMS）：最经典、最稳妥的一类" class="headerlink" title="二、关系型数据库（RDBMS）：最经典、最稳妥的一类"></a>二、关系型数据库（RDBMS）：最经典、最稳妥的一类</h2><h3 id="全称：-Relational-Database-Management-System"><a href="#全称：-Relational-Database-Management-System" class="headerlink" title="全称： Relational Database Management System"></a><strong>全称：</strong> Relational Database Management System</h3><h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a><strong>核心概念</strong></h3><p>关系型数据库基于 <strong>关系模型</strong> （Relational Model），数据以 <strong>表（Table）</strong> 的形式组织，表由 <strong>行（Row）</strong> 和 <strong>列（Column）</strong> 组成。</p>
+<h3 id="代表数据库"><a href="#代表数据库" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h3><ul>
+<li><strong>MySQL</strong>：最流行的开源关系型数据库，适合中小型应用</li>
+<li><strong>PostgreSQL</strong>：功能最强大的开源数据库，支持复杂查询和扩展</li>
+<li><strong>Oracle</strong>：企业级数据库，功能强大但商业授权</li>
+<li><strong>SQL Server</strong>：微软的数据库产品，与 Windows 生态集成好</li>
+</ul>
+<h3 id="核心特征"><a href="#核心特征" class="headerlink" title="核心特征"></a><strong>核心特征</strong></h3><ul>
+<li><strong>表结构（Schema）</strong>：数据必须符合预定义的表结构</li>
+<li><strong>SQL 语言</strong>：使用标准化的 SQL 语言操作数据</li>
+<li><strong>ACID 事务</strong>：保证数据一致性的四个特性<ul>
+<li><strong>Atomicity（原子性）</strong>：事务要么全部成功，要么全部失败</li>
+<li><strong>Consistency（一致性）</strong>：事务前后数据保持一致</li>
+<li><strong>Isolation（隔离性）</strong>：并发事务互不干扰</li>
+<li><strong>Durability（持久性）</strong>：事务提交后数据永久保存</li>
+</ul>
+</li>
+<li><strong>关系约束</strong>：外键、唯一约束、非空约束等</li>
+</ul>
+<h3 id="为什么重要"><a href="#为什么重要" class="headerlink" title="为什么重要"></a><strong>为什么重要</strong></h3><p>关系型数据库是<strong>业务系统的”真账本”</strong>，几乎所有核心业务数据都存储在关系型数据库中。它提供了最强的数据一致性和事务保证，是金融、电商、企业系统的基础。</p>
+<h3 id="适合场景"><a href="#适合场景" class="headerlink" title="适合场景"></a><strong>适合场景</strong></h3><ul>
+<li><strong>业务系统核心数据</strong>：用户、订单、账户、支付</li>
+<li><strong>需要强一致性</strong>：账户余额、库存数量</li>
+<li><strong>复杂查询</strong>：多表关联、复杂业务逻辑</li>
+<li><strong>事务处理</strong>：需要保证数据一致性的操作</li>
+</ul>
+<h3 id="局限"><a href="#局限" class="headerlink" title="局限"></a><strong>局限</strong></h3><ul>
+<li><strong>横向扩展困难</strong>：难以通过增加机器来提升性能</li>
+<li><strong>不擅长海量分析</strong>：聚合查询性能有限</li>
+<li><strong>Schema 变更成本高</strong>：修改表结构需要停机或复杂迁移</li>
+<li><strong>不适合非结构化数据</strong>：存储 JSON、文本等不够灵活</li>
+</ul>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a><strong>代码示例</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- 创建用户表</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> users <span class="token punctuation">(</span>
+    id <span class="token keyword">INT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token keyword">AUTO_INCREMENT</span><span class="token punctuation">,</span>
+    username <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span> <span class="token keyword">UNIQUE</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    email <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span>
+    created_at <span class="token keyword">TIMESTAMP</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">CURRENT_TIMESTAMP</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- 插入数据</span>
+<span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> users <span class="token punctuation">(</span>username<span class="token punctuation">,</span> email<span class="token punctuation">)</span> <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token string">'alice'</span><span class="token punctuation">,</span> <span class="token string">'alice@example.com'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- 查询数据</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> users <span class="token keyword">WHERE</span> username <span class="token operator">=</span> <span class="token string">'alice'</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- 事务示例</span>
+<span class="token keyword">BEGIN</span><span class="token punctuation">;</span>
+<span class="token keyword">UPDATE</span> accounts <span class="token keyword">SET</span> balance <span class="token operator">=</span> balance <span class="token operator">-</span> <span class="token number">100</span> <span class="token keyword">WHERE</span> user_id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword">UPDATE</span> accounts <span class="token keyword">SET</span> balance <span class="token operator">=</span> balance <span class="token operator">+</span> <span class="token number">100</span> <span class="token keyword">WHERE</span> user_id <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span class="token keyword">COMMIT</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>👉 <strong>一句话总结：业务系统的”真账本”，几乎永远离不开关系型数据库。</strong></p>
+</blockquote>
+<hr>
+<h2 id="三、NoSQL-数据库：为扩展性而生的一大类"><a href="#三、NoSQL-数据库：为扩展性而生的一大类" class="headerlink" title="三、NoSQL 数据库：为扩展性而生的一大类"></a>三、NoSQL 数据库：为扩展性而生的一大类</h2><h3 id="全称：-Not-Only-SQL"><a href="#全称：-Not-Only-SQL" class="headerlink" title="全称： Not Only SQL"></a><strong>全称：</strong> Not Only SQL</h3><h3 id="核心概念-1"><a href="#核心概念-1" class="headerlink" title="核心概念"></a><strong>核心概念</strong></h3><p>NoSQL &#x3D; <strong>Not Only SQL</strong>，不是不用 SQL，而是不被 SQL 限制。NoSQL 数据库放弃了关系型数据库的一些特性（如 ACID 事务、固定 Schema），换取了更好的扩展性和性能。</p>
+<h3 id="为什么需要-NoSQL"><a href="#为什么需要-NoSQL" class="headerlink" title="为什么需要 NoSQL"></a><strong>为什么需要 NoSQL</strong></h3><ul>
+<li><strong>大数据量</strong>：关系型数据库难以处理 PB 级数据</li>
+<li><strong>高并发</strong>：需要支持百万级 QPS</li>
+<li><strong>灵活 Schema</strong>：业务快速迭代，数据结构经常变化</li>
+<li><strong>分布式</strong>：需要跨多台机器存储和查询</li>
+</ul>
+<hr>
+<h3 id="1️⃣-Key-Value-数据库"><a href="#1️⃣-Key-Value-数据库" class="headerlink" title="1️⃣ Key-Value 数据库"></a><strong>1️⃣ Key-Value 数据库</strong></h3><h4 id="全称：-Key-Value-Store"><a href="#全称：-Key-Value-Store" class="headerlink" title="全称： Key-Value Store"></a><strong>全称：</strong> Key-Value Store</h4><h4 id="代表数据库-1"><a href="#代表数据库-1" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h4><ul>
+<li><strong>Redis</strong>：内存型 Key-Value 数据库，性能极高</li>
+<li><strong>Memcached</strong>：简单的内存缓存</li>
+<li><strong>DynamoDB</strong>：AWS 的托管 Key-Value 数据库</li>
+<li><strong>Etcd</strong>：分布式配置存储</li>
+</ul>
+<h4 id="核心特点"><a href="#核心特点" class="headerlink" title="核心特点"></a><strong>核心特点</strong></h4><ul>
+<li><strong>数据结构</strong>：Key → Value，最简单的数据模型</li>
+<li><strong>查询方式</strong>：只能通过 Key 查询，不支持复杂查询</li>
+<li><strong>性能</strong>：查询路径极短，性能极高</li>
+<li><strong>用途</strong>：缓存、Session、分布式锁、计数器</li>
+</ul>
+<h4 id="详细解释"><a href="#详细解释" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h4><p>Key-Value 数据库是最简单的 NoSQL 数据库，数据以键值对的形式存储。就像字典一样，通过 Key 直接找到 Value，没有复杂的查询逻辑。</p>
+<p><strong>Redis 示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> redis
+
+r <span class="token operator">=</span> redis<span class="token punctuation">.</span>Redis<span class="token punctuation">(</span>host<span class="token operator">=</span><span class="token string">'localhost'</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">6379</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 设置值</span>
+r<span class="token punctuation">.</span><span class="token builtin">set</span><span class="token punctuation">(</span><span class="token string">'user:1:name'</span><span class="token punctuation">,</span> <span class="token string">'Alice'</span><span class="token punctuation">)</span>
+r<span class="token punctuation">.</span><span class="token builtin">set</span><span class="token punctuation">(</span><span class="token string">'user:1:email'</span><span class="token punctuation">,</span> <span class="token string">'alice@example.com'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 获取值</span>
+name <span class="token operator">=</span> r<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'user:1:name'</span><span class="token punctuation">)</span>  <span class="token comment"># b'Alice'</span>
+
+<span class="token comment"># 计数器</span>
+r<span class="token punctuation">.</span>incr<span class="token punctuation">(</span><span class="token string">'page:views'</span><span class="token punctuation">)</span>  <span class="token comment"># 自增</span>
+views <span class="token operator">=</span> r<span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token string">'page:views'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>DynamoDB 示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> boto3
+
+dynamodb <span class="token operator">=</span> boto3<span class="token punctuation">.</span>resource<span class="token punctuation">(</span><span class="token string">'dynamodb'</span><span class="token punctuation">)</span>
+table <span class="token operator">=</span> dynamodb<span class="token punctuation">.</span>Table<span class="token punctuation">(</span><span class="token string">'Users'</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 写入数据</span>
+table<span class="token punctuation">.</span>put_item<span class="token punctuation">(</span>
+    Item<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+        <span class="token string">'user_id'</span><span class="token punctuation">:</span> <span class="token string">'123'</span><span class="token punctuation">,</span>
+        <span class="token string">'username'</span><span class="token punctuation">:</span> <span class="token string">'alice'</span><span class="token punctuation">,</span>
+        <span class="token string">'email'</span><span class="token punctuation">:</span> <span class="token string">'alice@example.com'</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># 查询数据</span>
+response <span class="token operator">=</span> table<span class="token punctuation">.</span>get_item<span class="token punctuation">(</span>Key<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">'user_id'</span><span class="token punctuation">:</span> <span class="token string">'123'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h4><ul>
+<li><strong>缓存</strong>：缓存热点数据，减少数据库压力</li>
+<li><strong>Session 存储</strong>：存储用户会话信息</li>
+<li><strong>分布式锁</strong>：实现分布式系统的互斥</li>
+<li><strong>计数器</strong>：实时统计、点赞数、浏览量</li>
+<li><strong>消息队列</strong>：简单的消息队列（Redis List）</li>
+</ul>
+<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h4><ul>
+<li>✅ <strong>优点</strong>：性能极高、简单易用、支持丰富的数据结构（Redis）</li>
+<li>❌ <strong>缺点</strong>：不支持复杂查询、数据关系难以表达、内存限制（Redis）</li>
+</ul>
+<blockquote>
+<p>👉 <strong>Redis 是”内存里的瑞士军刀”</strong><br>👉 <strong>DynamoDB 是”云上的 Key-Value 数据库”</strong></p>
+</blockquote>
+<hr>
+<h3 id="2️⃣-文档型数据库（Document-DB）"><a href="#2️⃣-文档型数据库（Document-DB）" class="headerlink" title="2️⃣ 文档型数据库（Document DB）"></a><strong>2️⃣ 文档型数据库（Document DB）</strong></h3><h4 id="全称：-Document-Database"><a href="#全称：-Document-Database" class="headerlink" title="全称： Document Database"></a><strong>全称：</strong> Document Database</h4><h4 id="代表数据库-2"><a href="#代表数据库-2" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h4><ul>
+<li><strong>MongoDB</strong>：最流行的文档数据库</li>
+<li><strong>CouchDB</strong>：支持多主复制的文档数据库</li>
+<li><strong>Firestore</strong>：Google 的文档数据库</li>
+</ul>
+<h4 id="核心特点-1"><a href="#核心特点-1" class="headerlink" title="核心特点"></a><strong>核心特点</strong></h4><ul>
+<li><strong>数据结构</strong>：JSON &#x2F; BSON 文档，类似嵌套的 JSON 对象</li>
+<li><strong>Schema 灵活</strong>：每个文档可以有不同结构</li>
+<li><strong>查询能力</strong>：支持复杂查询，但不如 SQL 强大</li>
+<li><strong>适合场景</strong>：内容管理、配置数据、快速迭代的业务</li>
+</ul>
+<h4 id="详细解释-1"><a href="#详细解释-1" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h4><p>文档数据库将数据存储为文档（通常是 JSON 格式），每个文档可以有不同的结构。这比关系型数据库更灵活，适合数据结构经常变化的场景。</p>
+<p><strong>MongoDB 示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 插入文档</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">insertOne</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">username</span><span class="token operator">:</span> <span class="token string">"alice"</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">email</span><span class="token operator">:</span> <span class="token string">"alice@example.com"</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">profile</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">age</span><span class="token operator">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">city</span><span class="token operator">:</span> <span class="token string">"Beijing"</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">tags</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"developer"</span><span class="token punctuation">,</span> <span class="token string">"python"</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 查询文档</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">findOne</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> <span class="token literal-property property">username</span><span class="token operator">:</span> <span class="token string">"alice"</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 复杂查询</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token string-property property">"profile.age"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token literal-property property">$gt</span><span class="token operator">:</span> <span class="token number">20</span> <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">tags</span><span class="token operator">:</span> <span class="token string">"developer"</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h4><ul>
+<li><strong>内容管理系统</strong>：博客、CMS、Wiki</li>
+<li><strong>用户配置</strong>：用户偏好、个性化设置</li>
+<li><strong>日志存储</strong>：应用日志、操作日志</li>
+<li><strong>快速原型</strong>：业务模型快速迭代</li>
+</ul>
+<h4 id="优缺点-1"><a href="#优缺点-1" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h4><ul>
+<li>✅ <strong>优点</strong>：Schema 灵活、开发快速、支持嵌套数据</li>
+<li>❌ <strong>缺点</strong>：事务支持弱、复杂查询性能差、数据冗余</li>
+</ul>
+<hr>
+<h3 id="3️⃣-列族数据库（Wide-Column）"><a href="#3️⃣-列族数据库（Wide-Column）" class="headerlink" title="3️⃣ 列族数据库（Wide-Column）"></a><strong>3️⃣ 列族数据库（Wide-Column）</strong></h3><h4 id="全称：-Wide-Column-Store-Column-Family-Database"><a href="#全称：-Wide-Column-Store-Column-Family-Database" class="headerlink" title="全称： Wide-Column Store &#x2F; Column Family Database"></a><strong>全称：</strong> Wide-Column Store &#x2F; Column Family Database</h4><h4 id="代表数据库-3"><a href="#代表数据库-3" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h4><ul>
+<li><strong>HBase</strong>：基于 HDFS 的列族数据库</li>
+<li><strong>Cassandra</strong>：分布式列族数据库</li>
+<li><strong>ScyllaDB</strong>：高性能 Cassandra 替代品</li>
+</ul>
+<h4 id="核心特点-2"><a href="#核心特点-2" class="headerlink" title="核心特点"></a><strong>核心特点</strong></h4><ul>
+<li><strong>数据模型</strong>：按列族存储，类似”超级宽表”</li>
+<li><strong>高写入吞吐</strong>：适合大量写入场景</li>
+<li><strong>天然分布式</strong>：设计时就考虑分布式</li>
+<li><strong>适合场景</strong>：日志、时间序列、IoT 数据</li>
+</ul>
+<h4 id="详细解释-2"><a href="#详细解释-2" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h4><p>列族数据库将数据按列族（Column Family）组织，而不是按行。这就像把 Excel 表格转置，按列存储。这种设计让写入性能极高，适合大量写入的场景。</p>
+<p><strong>HBase 数据模型：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Row Key    | Column Family:cf1          | Column Family:cf2
+           | col1    | col2    | col3    | col1    | col2
+-----------|---------|---------|---------|---------|--------
+user:001   | value1  | value2  | value3  | value4  | value5
+user:002   | value6  | value7  | value8  | value9  | value10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h4><ul>
+<li><strong>日志存储</strong>：应用日志、访问日志</li>
+<li><strong>时间序列数据</strong>：监控指标、传感器数据</li>
+<li><strong>IoT 数据</strong>：设备上报数据</li>
+<li><strong>消息系统</strong>：消息存储和查询</li>
+</ul>
+<h4 id="优缺点-2"><a href="#优缺点-2" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h4><ul>
+<li>✅ <strong>优点</strong>：写入性能极高、天然分布式、适合大数据量</li>
+<li>❌ <strong>缺点</strong>：查询复杂、不支持复杂事务、学习成本高</li>
+</ul>
+<hr>
+<h2 id="四、分析型数据库（OLAP）：为”看数据”而生"><a href="#四、分析型数据库（OLAP）：为”看数据”而生" class="headerlink" title="四、分析型数据库（OLAP）：为”看数据”而生"></a>四、分析型数据库（OLAP）：为”看数据”而生</h2><h3 id="全称：-Online-Analytical-Processing"><a href="#全称：-Online-Analytical-Processing" class="headerlink" title="全称： Online Analytical Processing"></a><strong>全称：</strong> Online Analytical Processing</h3><h3 id="核心概念-2"><a href="#核心概念-2" class="headerlink" title="核心概念"></a><strong>核心概念</strong></h3><p>OLAP 与 OLTP（Online Transaction Processing，在线事务处理）不同：</p>
+<ul>
+<li><strong>OLTP</strong>：处理日常业务操作，如下单、支付（写多读少）</li>
+<li><strong>OLAP</strong>：处理数据分析查询，如统计、报表（读多写少）</li>
+</ul>
+<h3 id="代表数据库-4"><a href="#代表数据库-4" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h3><ul>
+<li><strong>ClickHouse</strong>：列式存储，分析查询极快</li>
+<li><strong>Doris</strong>：百度开源的 OLAP 数据库</li>
+<li><strong>Greenplum</strong>：基于 PostgreSQL 的 MPP 数据库</li>
+<li><strong>Snowflake</strong>：云原生的数据仓库</li>
+</ul>
+<h3 id="核心特点-3"><a href="#核心特点-3" class="headerlink" title="核心特点"></a><strong>核心特点</strong></h3><ul>
+<li><strong>列式存储</strong>：按列存储数据，而不是按行</li>
+<li><strong>聚合查询快</strong>：SUM、COUNT、GROUP BY 等操作极快</li>
+<li><strong>压缩率高</strong>：相同类型的数据压缩效果好</li>
+<li><strong>不适合频繁更新</strong>：写入性能较差</li>
+</ul>
+<h3 id="为什么需要-OLAP"><a href="#为什么需要-OLAP" class="headerlink" title="为什么需要 OLAP"></a><strong>为什么需要 OLAP</strong></h3><p>当数据量达到 TB 甚至 PB 级别时，关系型数据库的聚合查询会变得非常慢。OLAP 数据库通过列式存储和并行计算，让分析查询快几个数量级。</p>
+<h3 id="列式存储-vs-行式存储"><a href="#列式存储-vs-行式存储" class="headerlink" title="列式存储 vs 行式存储"></a><strong>列式存储 vs 行式存储</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">行式存储（OLTP）：
+Row1: [id:1, name:Alice, age:25, city:Beijing]
+Row2: [id:2, name:Bob, age:30, city:Shanghai]
+Row3: [id:3, name:Charlie, age:28, city:Beijing]
+
+列式存储（OLAP）：
+Column id:    [1, 2, 3]
+Column name:  [Alice, Bob, Charlie]
+Column age:   [25, 30, 28]
+Column city:  [Beijing, Shanghai, Beijing]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>优势：</strong></p>
+<ul>
+<li>查询只需要读取需要的列</li>
+<li>相同类型的数据压缩效果好</li>
+<li>聚合操作（SUM、AVG）可以并行计算</li>
+</ul>
+<h3 id="应用场景-3"><a href="#应用场景-3" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h3><ul>
+<li><strong>数据仓库</strong>：企业数据仓库、BI 分析</li>
+<li><strong>实时分析</strong>：实时报表、Dashboard</li>
+<li><strong>日志分析</strong>：分析大量日志数据</li>
+<li><strong>用户行为分析</strong>：用户画像、行为统计</li>
+</ul>
+<h3 id="代码示例-1"><a href="#代码示例-1" class="headerlink" title="代码示例"></a><strong>代码示例</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token comment">-- ClickHouse 示例</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> user_events <span class="token punctuation">(</span>
+    user_id UInt64<span class="token punctuation">,</span>
+    event_type String<span class="token punctuation">,</span>
+    event_time <span class="token keyword">DateTime</span><span class="token punctuation">,</span>
+    properties String
+<span class="token punctuation">)</span> <span class="token keyword">ENGINE</span> <span class="token operator">=</span> MergeTree<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> <span class="token punctuation">(</span>user_id<span class="token punctuation">,</span> event_time<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- 分析查询</span>
+<span class="token keyword">SELECT</span> 
+    event_type<span class="token punctuation">,</span>
+    <span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">as</span> cnt<span class="token punctuation">,</span>
+    uniq<span class="token punctuation">(</span>user_id<span class="token punctuation">)</span> <span class="token keyword">as</span> users
+<span class="token keyword">FROM</span> user_events
+<span class="token keyword">WHERE</span> event_time <span class="token operator">>=</span> today<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">7</span>
+<span class="token keyword">GROUP</span> <span class="token keyword">BY</span> event_type
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> cnt <span class="token keyword">DESC</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>👉 <strong>一句话：OLTP 管”做事”，OLAP 管”看事”。</strong></p>
+</blockquote>
+<hr>
+<h2 id="五、搜索引擎型数据库：查”内容”，不是查字段"><a href="#五、搜索引擎型数据库：查”内容”，不是查字段" class="headerlink" title="五、搜索引擎型数据库：查”内容”，不是查字段"></a>五、搜索引擎型数据库：查”内容”，不是查字段</h2><h3 id="代表数据库-5"><a href="#代表数据库-5" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h3><ul>
+<li><strong>Elasticsearch</strong>：最流行的搜索引擎</li>
+<li><strong>OpenSearch</strong>：Elasticsearch 的开源分支</li>
+<li><strong>Solr</strong>：Apache 的搜索引擎</li>
+</ul>
+<h3 id="核心特点-4"><a href="#核心特点-4" class="headerlink" title="核心特点"></a><strong>核心特点</strong></h3><ul>
+<li><strong>倒排索引</strong>：建立词到文档的映射，而不是文档到词</li>
+<li><strong>全文搜索</strong>：在文本内容中搜索关键词</li>
+<li><strong>模糊匹配</strong>：支持拼写错误、同义词</li>
+<li><strong>相关性排序</strong>：根据相关性排序结果</li>
+</ul>
+<h3 id="详细解释-3"><a href="#详细解释-3" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h3><p>搜索引擎数据库的核心是<strong>倒排索引</strong>（Inverted Index）。传统索引是”文档 → 词”，倒排索引是”词 → 文档”，这样搜索时可以直接找到包含关键词的文档。</p>
+<p><strong>倒排索引示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">文档1: &quot;I love Python&quot;
+文档2: &quot;Python is great&quot;
+文档3: &quot;I love Java&quot;
+
+倒排索引：
+&quot;i&quot;      → [文档1, 文档3]
+&quot;love&quot;   → [文档1, 文档3]
+&quot;python&quot; → [文档1, 文档2]
+&quot;is&quot;     → [文档2]
+&quot;great&quot;  → [文档2]
+&quot;java&quot;   → [文档3]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="为什么需要搜索引擎"><a href="#为什么需要搜索引擎" class="headerlink" title="为什么需要搜索引擎"></a><strong>为什么需要搜索引擎</strong></h3><p>关系型数据库的 LIKE 查询性能很差，无法支持全文搜索、模糊匹配、相关性排序等需求。搜索引擎专门解决这些问题。</p>
+<h3 id="应用场景-4"><a href="#应用场景-4" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h3><ul>
+<li><strong>全文搜索</strong>：网站搜索、内容搜索</li>
+<li><strong>日志分析</strong>：ELK Stack（Elasticsearch + Logstash + Kibana）</li>
+<li><strong>商品搜索</strong>：电商网站的商品搜索</li>
+<li><strong>内容推荐</strong>：根据内容相似度推荐</li>
+</ul>
+<h3 id="代码示例-2"><a href="#代码示例-2" class="headerlink" title="代码示例"></a><strong>代码示例</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> elasticsearch <span class="token keyword">import</span> Elasticsearch
+
+es <span class="token operator">=</span> Elasticsearch<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'localhost:9200'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 创建索引</span>
+es<span class="token punctuation">.</span>indices<span class="token punctuation">.</span>create<span class="token punctuation">(</span>index<span class="token operator">=</span><span class="token string">'articles'</span><span class="token punctuation">,</span> body<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+    <span class="token string">'mappings'</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">'properties'</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">'title'</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token string">'type'</span><span class="token punctuation">:</span> <span class="token string">'text'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+            <span class="token string">'content'</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token string">'type'</span><span class="token punctuation">:</span> <span class="token string">'text'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+            <span class="token string">'author'</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token string">'type'</span><span class="token punctuation">:</span> <span class="token string">'keyword'</span><span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 插入文档</span>
+es<span class="token punctuation">.</span>index<span class="token punctuation">(</span>index<span class="token operator">=</span><span class="token string">'articles'</span><span class="token punctuation">,</span> body<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+    <span class="token string">'title'</span><span class="token punctuation">:</span> <span class="token string">'Python 入门教程'</span><span class="token punctuation">,</span>
+    <span class="token string">'content'</span><span class="token punctuation">:</span> <span class="token string">'Python 是一种高级编程语言...'</span><span class="token punctuation">,</span>
+    <span class="token string">'author'</span><span class="token punctuation">:</span> <span class="token string">'Alice'</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 搜索</span>
+result <span class="token operator">=</span> es<span class="token punctuation">.</span>search<span class="token punctuation">(</span>index<span class="token operator">=</span><span class="token string">'articles'</span><span class="token punctuation">,</span> body<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+    <span class="token string">'query'</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">'match'</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+            <span class="token string">'content'</span><span class="token punctuation">:</span> <span class="token string">'Python 编程'</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<blockquote>
+<p>👉 <strong>它更像”可查询的数据索引系统”，而不是传统意义上的数据库。</strong></p>
+</blockquote>
+<hr>
+<h2 id="六、图数据库：关系本身就是数据"><a href="#六、图数据库：关系本身就是数据" class="headerlink" title="六、图数据库：关系本身就是数据"></a>六、图数据库：关系本身就是数据</h2><h3 id="代表数据库-6"><a href="#代表数据库-6" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h3><ul>
+<li><strong>Neo4j</strong>：最流行的图数据库</li>
+<li><strong>JanusGraph</strong>：分布式图数据库</li>
+<li><strong>ArangoDB</strong>：多模型数据库（支持图）</li>
+</ul>
+<h3 id="核心特点-5"><a href="#核心特点-5" class="headerlink" title="核心特点"></a><strong>核心特点</strong></h3><ul>
+<li><strong>数据模型</strong>：节点（Node）+ 边（Edge）+ 属性（Property）</li>
+<li><strong>关系查询</strong>：高效查询节点间的关系</li>
+<li><strong>图遍历</strong>：快速遍历图的路径</li>
+<li><strong>适合场景</strong>：社交网络、推荐系统、知识图谱</li>
+</ul>
+<h3 id="详细解释-4"><a href="#详细解释-4" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h3><p>图数据库将数据存储为图结构，节点表示实体，边表示关系。这种模型非常适合表达复杂的关系网络。</p>
+<p><strong>图数据库示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">节点：
+- User(id:1, name:Alice)
+- User(id:2, name:Bob)
+- Movie(id:1, title:Titanic)
+
+边：
+- (User:1) -[:FRIENDS_WITH]-&gt; (User:2)
+- (User:1) -[:LIKES]-&gt; (Movie:1)
+- (User:2) -[:LIKES]-&gt; (Movie:1)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="为什么需要图数据库"><a href="#为什么需要图数据库" class="headerlink" title="为什么需要图数据库"></a><strong>为什么需要图数据库</strong></h3><p>关系型数据库用 JOIN 查询关系，当关系深度增加时，性能急剧下降。图数据库专门优化了关系查询，可以高效地查询多度关系。</p>
+<p><strong>查询示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-cypher" data-language="cypher"><code class="language-cypher"><span class="token comment">// Neo4j Cypher 查询语言</span>
+<span class="token comment">// 查找 Alice 的朋友的朋友喜欢的电影</span>
+<span class="token keyword">MATCH</span> <span class="token punctuation">(</span>alice<span class="token operator">:</span><span class="token class-name">User</span> <span class="token punctuation">&#123;</span>name<span class="token operator">:</span> <span class="token string">'Alice'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token punctuation">[</span><span class="token operator">:</span><span class="token relationship property">FRIENDS_WITH</span><span class="token punctuation">]</span><span class="token operator">-></span><span class="token punctuation">(</span>friend<span class="token punctuation">)</span><span class="token operator">-</span><span class="token punctuation">[</span><span class="token operator">:</span><span class="token relationship property">FRIENDS_WITH</span><span class="token punctuation">]</span><span class="token operator">-></span><span class="token punctuation">(</span>friendOfFriend<span class="token punctuation">)</span><span class="token operator">-</span><span class="token punctuation">[</span><span class="token operator">:</span><span class="token relationship property">LIKES</span><span class="token punctuation">]</span><span class="token operator">-></span><span class="token punctuation">(</span>movie<span class="token punctuation">)</span>
+<span class="token keyword">RETURN</span> <span class="token keyword">DISTINCT</span> movie<span class="token punctuation">.</span>title<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="应用场景-5"><a href="#应用场景-5" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h3><ul>
+<li><strong>社交网络</strong>：好友关系、关注关系</li>
+<li><strong>推荐系统</strong>：基于关系的推荐</li>
+<li><strong>知识图谱</strong>：实体关系查询</li>
+<li><strong>风控系统</strong>：关系链分析、反欺诈</li>
+</ul>
+<h3 id="优缺点-3"><a href="#优缺点-3" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><ul>
+<li>✅ <strong>优点</strong>：关系查询极快、表达复杂关系直观</li>
+<li>❌ <strong>缺点</strong>：不适合简单查询、学习成本高、生态不如关系型数据库</li>
+</ul>
+<hr>
+<h2 id="七、时间序列数据库（TSDB）"><a href="#七、时间序列数据库（TSDB）" class="headerlink" title="七、时间序列数据库（TSDB）"></a>七、时间序列数据库（TSDB）</h2><h3 id="全称：-Time-Series-Database"><a href="#全称：-Time-Series-Database" class="headerlink" title="全称： Time Series Database"></a><strong>全称：</strong> Time Series Database</h3><h3 id="代表数据库-7"><a href="#代表数据库-7" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h3><ul>
+<li><strong>InfluxDB</strong>：专门的时间序列数据库</li>
+<li><strong>Prometheus TSDB</strong>：Prometheus 的时序存储</li>
+<li><strong>TimescaleDB</strong>：基于 PostgreSQL 的时序数据库</li>
+</ul>
+<h3 id="核心特点-6"><a href="#核心特点-6" class="headerlink" title="核心特点"></a><strong>核心特点</strong></h3><ul>
+<li><strong>时间是第一维度</strong>：数据按时间组织</li>
+<li><strong>高写入性能</strong>：支持大量时间序列数据写入</li>
+<li><strong>生命周期管理</strong>：自动删除过期数据</li>
+<li><strong>压缩优化</strong>：针对时间序列数据优化压缩</li>
+</ul>
+<h3 id="详细解释-5"><a href="#详细解释-5" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h3><p>时间序列数据库专门存储按时间顺序排列的数据，如监控指标、传感器数据、股票价格等。数据通常有固定的时间间隔（如每秒、每分钟）。</p>
+<p><strong>数据模型：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">时间序列：
+timestamp          | metric_name | value
+2024-01-01 10:00:00 | cpu_usage  | 45.2
+2024-01-01 10:00:01 | cpu_usage  | 46.1
+2024-01-01 10:00:02 | cpu_usage  | 44.8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="应用场景-6"><a href="#应用场景-6" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h3><ul>
+<li><strong>监控系统</strong>：服务器监控、应用监控</li>
+<li><strong>IoT 数据</strong>：传感器数据、设备数据</li>
+<li><strong>金融数据</strong>：股票价格、交易数据</li>
+<li><strong>日志分析</strong>：按时间分析日志</li>
+</ul>
+<h3 id="代码示例-3"><a href="#代码示例-3" class="headerlink" title="代码示例"></a><strong>代码示例</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> influxdb_client <span class="token keyword">import</span> InfluxDBClient
+
+client <span class="token operator">=</span> InfluxDBClient<span class="token punctuation">(</span>url<span class="token operator">=</span><span class="token string">"http://localhost:8086"</span><span class="token punctuation">,</span> token<span class="token operator">=</span><span class="token string">"token"</span><span class="token punctuation">)</span>
+write_api <span class="token operator">=</span> client<span class="token punctuation">.</span>write_api<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 写入数据</span>
+point <span class="token operator">=</span> Point<span class="token punctuation">(</span><span class="token string">"cpu_usage"</span><span class="token punctuation">)</span>\
+    <span class="token punctuation">.</span>tag<span class="token punctuation">(</span><span class="token string">"host"</span><span class="token punctuation">,</span> <span class="token string">"server1"</span><span class="token punctuation">)</span>\
+    <span class="token punctuation">.</span>field<span class="token punctuation">(</span><span class="token string">"value"</span><span class="token punctuation">,</span> <span class="token number">45.2</span><span class="token punctuation">)</span>\
+    <span class="token punctuation">.</span>time<span class="token punctuation">(</span>datetime<span class="token punctuation">.</span>utcnow<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+write_api<span class="token punctuation">.</span>write<span class="token punctuation">(</span>bucket<span class="token operator">=</span><span class="token string">"monitoring"</span><span class="token punctuation">,</span> record<span class="token operator">=</span>point<span class="token punctuation">)</span>
+
+<span class="token comment"># 查询数据</span>
+query <span class="token operator">=</span> <span class="token string">'from(bucket:"monitoring") |> range(start: -1h) |> filter(fn: (r) => r._measurement == "cpu_usage")'</span>
+result <span class="token operator">=</span> client<span class="token punctuation">.</span>query_api<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>query<span class="token punctuation">(</span>query<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="八、向量数据库：AI-时代的新物种"><a href="#八、向量数据库：AI-时代的新物种" class="headerlink" title="八、向量数据库：AI 时代的新物种"></a>八、向量数据库：AI 时代的新物种</h2><h3 id="代表数据库-8"><a href="#代表数据库-8" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h3><ul>
+<li><strong>Milvus</strong>：开源向量数据库</li>
+<li><strong>Pinecone</strong>：托管的向量数据库</li>
+<li><strong>Weaviate</strong>：向量搜索引擎</li>
+<li><strong>FAISS</strong>：Facebook 的向量相似度搜索库</li>
+</ul>
+<h3 id="核心能力"><a href="#核心能力" class="headerlink" title="核心能力"></a><strong>核心能力</strong></h3><ul>
+<li><strong>存储向量</strong>：存储高维向量（Embedding）</li>
+<li><strong>相似度搜索</strong>：快速找到相似的向量</li>
+<li><strong>语义检索</strong>：基于语义相似度的搜索</li>
+<li><strong>AI 应用</strong>：RAG、推荐系统、图像搜索</li>
+</ul>
+<h3 id="详细解释-6"><a href="#详细解释-6" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h3><p>向量数据库专门存储和查询向量数据（通常是 AI 模型生成的 Embedding）。它使用向量相似度算法（如余弦相似度、欧氏距离）来找到相似的向量。</p>
+<p><strong>向量搜索示例：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pymilvus <span class="token keyword">import</span> connections<span class="token punctuation">,</span> Collection
+
+<span class="token comment"># 连接 Milvus</span>
+connections<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">,</span> host<span class="token operator">=</span><span class="token string">"localhost"</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token string">"19530"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 创建集合</span>
+collection <span class="token operator">=</span> Collection<span class="token punctuation">(</span><span class="token string">"embeddings"</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 插入向量</span>
+vectors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">,</span> <span class="token number">0.3</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0.4</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0.6</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+collection<span class="token punctuation">.</span>insert<span class="token punctuation">(</span>vectors<span class="token punctuation">)</span>
+
+<span class="token comment"># 相似度搜索</span>
+search_vectors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0.15</span><span class="token punctuation">,</span> <span class="token number">0.25</span><span class="token punctuation">,</span> <span class="token number">0.35</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+results <span class="token operator">=</span> collection<span class="token punctuation">.</span>search<span class="token punctuation">(</span>
+    data<span class="token operator">=</span>search_vectors<span class="token punctuation">,</span>
+    anns_field<span class="token operator">=</span><span class="token string">"vector"</span><span class="token punctuation">,</span>
+    param<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"metric_type"</span><span class="token punctuation">:</span> <span class="token string">"L2"</span><span class="token punctuation">,</span> <span class="token string">"params"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token string">"nprobe"</span><span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    limit<span class="token operator">=</span><span class="token number">10</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="为什么需要向量数据库"><a href="#为什么需要向量数据库" class="headerlink" title="为什么需要向量数据库"></a><strong>为什么需要向量数据库</strong></h3><p>AI 应用（如 RAG、推荐系统）需要存储和搜索大量的向量数据。传统数据库无法高效地进行向量相似度搜索，向量数据库专门优化了这个问题。</p>
+<h3 id="应用场景-7"><a href="#应用场景-7" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h3><ul>
+<li><strong>RAG 系统</strong>：存储文档向量，实现语义检索</li>
+<li><strong>推荐系统</strong>：基于向量相似度推荐</li>
+<li><strong>图像搜索</strong>：以图搜图</li>
+<li><strong>语义搜索</strong>：基于语义的文本搜索</li>
+</ul>
+<blockquote>
+<p>👉 <strong>一句话：向量数据库是 AI 系统的”长期记忆”。</strong></p>
+</blockquote>
+<hr>
+<h2 id="九、新一代分布式数据库：试图”什么都要”"><a href="#九、新一代分布式数据库：试图”什么都要”" class="headerlink" title="九、新一代分布式数据库：试图”什么都要”"></a>九、新一代分布式数据库：试图”什么都要”</h2><h3 id="代表数据库-9"><a href="#代表数据库-9" class="headerlink" title="代表数据库"></a><strong>代表数据库</strong></h3><ul>
+<li><strong>TiDB</strong>：兼容 MySQL 的分布式数据库</li>
+<li><strong>CockroachDB</strong>：兼容 PostgreSQL 的分布式数据库</li>
+<li><strong>YugabyteDB</strong>：兼容 PostgreSQL 和 Cassandra</li>
+</ul>
+<h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a><strong>目标</strong></h3><ul>
+<li><strong>SQL 兼容</strong>：支持标准 SQL</li>
+<li><strong>分布式</strong>：自动分片、自动扩容</li>
+<li><strong>高可用</strong>：自动故障恢复</li>
+<li><strong>强一致性</strong>：支持 ACID 事务</li>
+</ul>
+<h3 id="详细解释-7"><a href="#详细解释-7" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h3><p>新一代分布式数据库试图同时拥有关系型数据库的 SQL 能力和 NoSQL 数据库的扩展能力。它们通过分布式架构实现横向扩展，同时保持 SQL 接口和 ACID 事务。</p>
+<p><strong>TiDB 架构：</strong></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">应用层
+  ↓
+TiDB Server (SQL 层，无状态)
+  ↓
+TiKV (存储层，分布式 KV)
+  ↓
+PD (调度层，元数据管理)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="为什么需要"><a href="#为什么需要" class="headerlink" title="为什么需要"></a><strong>为什么需要</strong></h3><p>传统关系型数据库难以横向扩展，NoSQL 数据库不支持 SQL 和复杂事务。新一代分布式数据库试图兼顾两者。</p>
+<h3 id="现实挑战"><a href="#现实挑战" class="headerlink" title="现实挑战"></a><strong>现实挑战</strong></h3><ul>
+<li><strong>架构复杂</strong>：需要管理多个组件</li>
+<li><strong>运维成本高</strong>：需要专业的运维团队</li>
+<li><strong>性能权衡</strong>：分布式带来延迟和一致性权衡</li>
+<li><strong>生态不成熟</strong>：工具和生态不如传统数据库</li>
+</ul>
+<h3 id="应用场景-8"><a href="#应用场景-8" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h3><ul>
+<li><strong>大规模业务系统</strong>：需要 SQL 和扩展性</li>
+<li><strong>多租户 SaaS</strong>：需要数据隔离和扩展</li>
+<li><strong>全球化应用</strong>：需要多地部署</li>
+</ul>
+<hr>
+<h2 id="十、到这里为止，都是”数据库引擎”"><a href="#十、到这里为止，都是”数据库引擎”" class="headerlink" title="十、到这里为止，都是”数据库引擎”"></a>十、到这里为止，都是”数据库引擎”</h2><h3 id="那-DDB、华为-V5、DynamoDB-又是什么？"><a href="#那-DDB、华为-V5、DynamoDB-又是什么？" class="headerlink" title="那 DDB、华为 V5、DynamoDB 又是什么？"></a><strong>那 DDB、华为 V5、DynamoDB 又是什么？</strong></h3><p>这是很多人真正困惑的地方。我们需要理解<strong>数据库的分层架构</strong>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">【应用层】
+   ↓
+【数据库平台&#x2F;治理层】← DDB、华为 V5 在这里
+   ↓
+【数据库引擎层】← MySQL、DynamoDB、Redis 在这里
+   ↓
+【存储层】<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="十一、DynamoDB：原生分布式数据库（引擎层）"><a href="#十一、DynamoDB：原生分布式数据库（引擎层）" class="headerlink" title="十一、DynamoDB：原生分布式数据库（引擎层）"></a>十一、DynamoDB：原生分布式数据库（引擎层）</h2><h3 id="全称：-Amazon-DynamoDB"><a href="#全称：-Amazon-DynamoDB" class="headerlink" title="全称： Amazon DynamoDB"></a><strong>全称：</strong> Amazon DynamoDB</h3><h3 id="详细解释-8"><a href="#详细解释-8" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h3><p><strong>DynamoDB 是一个真正的数据库产品</strong>，由 AWS 提供，是一个<strong>数据库引擎</strong>。</p>
+<h3 id="核心特点-7"><a href="#核心特点-7" class="headerlink" title="核心特点"></a><strong>核心特点</strong></h3><ul>
+<li><strong>Key-Value &#x2F; Wide-Column</strong>：支持两种数据模型</li>
+<li><strong>Serverless</strong>：无需管理服务器，按使用量付费</li>
+<li><strong>自动分区</strong>：自动分片，无需手动管理</li>
+<li><strong>高可用</strong>：多可用区部署，自动故障转移</li>
+<li><strong>全球表</strong>：支持多区域复制</li>
+</ul>
+<h3 id="技术背景"><a href="#技术背景" class="headerlink" title="技术背景"></a><strong>技术背景</strong></h3><p>DynamoDB 源自著名的 <strong>Dynamo 论文</strong>（2007 年 Amazon 发表），核心设计理念是：</p>
+<blockquote>
+<p><strong>牺牲复杂查询，换取极致可用性和扩展性。</strong></p>
+</blockquote>
+<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a><strong>数据模型</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># DynamoDB 表结构</span>
+Table<span class="token punctuation">:</span> Users
+Primary Key<span class="token punctuation">:</span> user_id <span class="token punctuation">(</span>String<span class="token punctuation">)</span>
+Attributes<span class="token punctuation">:</span>
+  <span class="token operator">-</span> username <span class="token punctuation">(</span>String<span class="token punctuation">)</span>
+  <span class="token operator">-</span> email <span class="token punctuation">(</span>String<span class="token punctuation">)</span>
+  <span class="token operator">-</span> created_at <span class="token punctuation">(</span>Number<span class="token punctuation">)</span>
+
+<span class="token comment"># 写入数据</span>
+table<span class="token punctuation">.</span>put_item<span class="token punctuation">(</span>
+    Item<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+        <span class="token string">'user_id'</span><span class="token punctuation">:</span> <span class="token string">'123'</span><span class="token punctuation">,</span>
+        <span class="token string">'username'</span><span class="token punctuation">:</span> <span class="token string">'alice'</span><span class="token punctuation">,</span>
+        <span class="token string">'email'</span><span class="token punctuation">:</span> <span class="token string">'alice@example.com'</span><span class="token punctuation">,</span>
+        <span class="token string">'created_at'</span><span class="token punctuation">:</span> <span class="token number">1704067200</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment"># 查询数据（只能通过主键或索引）</span>
+response <span class="token operator">=</span> table<span class="token punctuation">.</span>get_item<span class="token punctuation">(</span>Key<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">'user_id'</span><span class="token punctuation">:</span> <span class="token string">'123'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a><strong>适用场景</strong></h3><ul>
+<li><strong>高并发应用</strong>：需要支持百万级 QPS</li>
+<li><strong>Serverless 应用</strong>：与 Lambda 函数配合</li>
+<li><strong>全球应用</strong>：需要多区域部署</li>
+<li><strong>简单数据模型</strong>：Key-Value 或简单的宽表</li>
+</ul>
+<h3 id="优缺点-4"><a href="#优缺点-4" class="headerlink" title="优缺点"></a><strong>优缺点</strong></h3><ul>
+<li>✅ <strong>优点</strong>：Serverless、自动扩展、高可用、全球部署</li>
+<li>❌ <strong>缺点</strong>：查询能力有限、成本较高、厂商锁定</li>
+</ul>
+<p>📌 <strong>DynamoDB 属于：数据库引擎层的 NoSQL 数据库</strong></p>
+<hr>
+<h2 id="十二、DDB：不是数据库，而是”数据库平台层”"><a href="#十二、DDB：不是数据库，而是”数据库平台层”" class="headerlink" title="十二、DDB：不是数据库，而是”数据库平台层”"></a>十二、DDB：不是数据库，而是”数据库平台层”</h2><h3 id="全称：-Distributed-Database-Service-分布式数据库服务"><a href="#全称：-Distributed-Database-Service-分布式数据库服务" class="headerlink" title="全称： Distributed Database Service &#x2F; 分布式数据库服务"></a><strong>全称：</strong> Distributed Database Service &#x2F; 分布式数据库服务</h3><h3 id="详细解释-9"><a href="#详细解释-9" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h3><p><strong>DDB 不是数据库引擎，而是数据库平台&#x2F;治理层</strong>。它通常是一个中间件或服务层，提供数据库的统一访问、分库分表、高可用等功能。</p>
+<h3 id="架构层次"><a href="#架构层次" class="headerlink" title="架构层次"></a><strong>架构层次</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">应用层
+  ↓
+DDB 访问层 &#x2F; 治理层  ← DDB 在这里
+  ├── 分库分表路由
+  ├── 读写分离
+  ├── 连接池管理
+  ├── 监控告警
+  └── 统一配置
+  ↓
+MySQL &#x2F; PostgreSQL  ← 真正的数据库引擎<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a><strong>核心功能</strong></h3><ul>
+<li><strong>分库分表</strong>：自动将数据分散到多个数据库</li>
+<li><strong>路由</strong>：根据规则路由查询到正确的数据库</li>
+<li><strong>读写分离</strong>：读请求路由到从库，写请求路由到主库</li>
+<li><strong>高可用</strong>：自动故障转移、主从切换</li>
+<li><strong>统一管理</strong>：统一的配置、监控、运维</li>
+</ul>
+<h3 id="为什么需要-DDB"><a href="#为什么需要-DDB" class="headerlink" title="为什么需要 DDB"></a><strong>为什么需要 DDB</strong></h3><p>当单个数据库无法支撑业务时，需要：</p>
+<ol>
+<li><strong>分库分表</strong>：将数据分散到多个数据库</li>
+<li><strong>读写分离</strong>：提升读性能</li>
+<li><strong>高可用</strong>：保证服务不中断</li>
+</ol>
+<p>DDB 将这些能力封装成服务，让应用无需关心底层细节。</p>
+<h3 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a><strong>实现方式</strong></h3><ul>
+<li><strong>中间件方式</strong>：如 ShardingSphere、MyCat</li>
+<li><strong>代理方式</strong>：如 ProxySQL、MaxScale</li>
+<li><strong>SDK 方式</strong>：在应用层实现路由逻辑</li>
+</ul>
+<h3 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a><strong>关键点</strong></h3><ul>
+<li>DDB <strong>不定义数据模型</strong>：底层仍然是 MySQL、PostgreSQL 等</li>
+<li>DDB <strong>不替代数据库引擎</strong>：它只是管理和路由</li>
+<li>DDB 解决的是：<strong>如何规模化、统一地使用数据库</strong></li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a><strong>示例</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 使用 DDB SDK（伪代码）</span>
+<span class="token keyword">from</span> ddb <span class="token keyword">import</span> DDBClient
+
+client <span class="token operator">=</span> DDBClient<span class="token punctuation">(</span>config<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+    <span class="token string">'sharding_key'</span><span class="token punctuation">:</span> <span class="token string">'user_id'</span><span class="token punctuation">,</span>
+    <span class="token string">'databases'</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'db1'</span><span class="token punctuation">,</span> <span class="token string">'db2'</span><span class="token punctuation">,</span> <span class="token string">'db3'</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 写入数据（自动路由到正确的数据库）</span>
+client<span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token string">'users'</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>
+    <span class="token string">'user_id'</span><span class="token punctuation">:</span> <span class="token number">12345</span><span class="token punctuation">,</span>
+    <span class="token string">'username'</span><span class="token punctuation">:</span> <span class="token string">'alice'</span><span class="token punctuation">,</span>
+    <span class="token string">'email'</span><span class="token punctuation">:</span> <span class="token string">'alice@example.com'</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 查询数据（自动路由）</span>
+user <span class="token operator">=</span> client<span class="token punctuation">.</span>query<span class="token punctuation">(</span><span class="token string">'users'</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token string">'user_id'</span><span class="token punctuation">:</span> <span class="token number">12345</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h2 id="十三、华为-V5：工程代际，而非数据库类型"><a href="#十三、华为-V5：工程代际，而非数据库类型" class="headerlink" title="十三、华为 V5：工程代际，而非数据库类型"></a>十三、华为 V5：工程代际，而非数据库类型</h2><h3 id="详细解释-10"><a href="#详细解释-10" class="headerlink" title="详细解释"></a><strong>详细解释</strong></h3><p><strong>“V5”不是数据库分类，而是华为内部基础平台&#x2F;数据平台的第五代成熟方案代号</strong>。</p>
+<h3 id="通常包含"><a href="#通常包含" class="headerlink" title="通常包含"></a><strong>通常包含</strong></h3><ul>
+<li><strong>数据库</strong>：如 GaussDB（华为的数据库产品）</li>
+<li><strong>存储</strong>：分布式存储系统</li>
+<li><strong>中间件</strong>：消息队列、缓存等</li>
+<li><strong>高可用与容灾</strong>：备份、恢复、容灾方案</li>
+<li><strong>运维平台</strong>：监控、告警、自动化运维</li>
+</ul>
+<h3 id="本质"><a href="#本质" class="headerlink" title="本质"></a><strong>本质</strong></h3><p>它更接近 <strong>“数据库基础设施体系”</strong> 或 <strong>“数据平台”</strong>，而不是单一的数据库产品。</p>
+<h3 id="类似概念"><a href="#类似概念" class="headerlink" title="类似概念"></a><strong>类似概念</strong></h3><ul>
+<li><strong>阿里云数据库服务</strong>：RDS、PolarDB、AnalyticDB</li>
+<li><strong>腾讯云数据库服务</strong>：CDB、TDSQL</li>
+<li><strong>AWS 数据库服务</strong>：RDS、DynamoDB、Aurora</li>
+</ul>
+<p>这些都是<strong>数据库平台&#x2F;服务层</strong>，提供数据库的统一管理和服务化能力。</p>
+<hr>
+<h2 id="十四、把所有名词放回同一张地图"><a href="#十四、把所有名词放回同一张地图" class="headerlink" title="十四、把所有名词放回同一张地图"></a>十四、把所有名词放回同一张地图</h2><h3 id="数据库分层架构全景图"><a href="#数据库分层架构全景图" class="headerlink" title="数据库分层架构全景图"></a><strong>数据库分层架构全景图</strong></h3><figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">┌─────────────────────────────────────────┐
+│  应用层                                  │
+│  (业务代码、API、服务)                    │
+└─────────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────────┐
+│  数据库平台&#x2F;治理层                        │
+│  • DDB (分布式数据库服务)                 │
+│  • 华为 V5 数据平台                      │
+│  • 阿里云数据库服务                      │
+│  • 内部 XDB &#x2F; 数据库服务                 │
+│  (分库分表、路由、高可用、监控)           │
+└─────────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────────┐
+│  数据库引擎层                             │
+│  ┌─────────────┬─────────────┬────────┐ │
+│  │ 关系型数据库  │ NoSQL 数据库 │ 其他   │ │
+│  ├─────────────┼─────────────┼────────┤ │
+│  │ MySQL       │ Redis       │ ES     │ │
+│  │ PostgreSQL  │ MongoDB     │ Neo4j  │ │
+│  │ Oracle      │ DynamoDB    │ Milvus │ │
+│  │ SQL Server  │ HBase       │ ...    │ │
+│  └─────────────┴─────────────┴────────┘ │
+└─────────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────────┐
+│  存储层                                  │
+│  (磁盘、SSD、分布式存储)                  │
+└─────────────────────────────────────────┘<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="分类总结表"><a href="#分类总结表" class="headerlink" title="分类总结表"></a><strong>分类总结表</strong></h3><table>
+<thead>
+<tr>
+<th>层级</th>
+<th>代表产品</th>
+<th>本质</th>
+<th>解决的问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>平台&#x2F;治理层</strong></td>
+<td>DDB、华为 V5</td>
+<td>数据库服务化</td>
+<td>如何规模化使用数据库</td>
+</tr>
+<tr>
+<td><strong>引擎层-关系型</strong></td>
+<td>MySQL、PostgreSQL</td>
+<td>数据库引擎</td>
+<td>结构化数据、ACID 事务</td>
+</tr>
+<tr>
+<td><strong>引擎层-Key-Value</strong></td>
+<td>Redis、DynamoDB</td>
+<td>数据库引擎</td>
+<td>高性能缓存、简单查询</td>
+</tr>
+<tr>
+<td><strong>引擎层-文档型</strong></td>
+<td>MongoDB</td>
+<td>数据库引擎</td>
+<td>灵活 Schema、JSON 数据</td>
+</tr>
+<tr>
+<td><strong>引擎层-列族</strong></td>
+<td>HBase、Cassandra</td>
+<td>数据库引擎</td>
+<td>大数据量写入</td>
+</tr>
+<tr>
+<td><strong>引擎层-OLAP</strong></td>
+<td>ClickHouse、Doris</td>
+<td>数据库引擎</td>
+<td>分析查询、数据仓库</td>
+</tr>
+<tr>
+<td><strong>引擎层-搜索引擎</strong></td>
+<td>Elasticsearch</td>
+<td>数据库引擎</td>
+<td>全文搜索、日志分析</td>
+</tr>
+<tr>
+<td><strong>引擎层-图数据库</strong></td>
+<td>Neo4j</td>
+<td>数据库引擎</td>
+<td>关系查询、图遍历</td>
+</tr>
+<tr>
+<td><strong>引擎层-时序</strong></td>
+<td>InfluxDB</td>
+<td>数据库引擎</td>
+<td>时间序列数据</td>
+</tr>
+<tr>
+<td><strong>引擎层-向量</strong></td>
+<td>Milvus</td>
+<td>数据库引擎</td>
+<td>向量相似度搜索</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>👉 <strong>混乱感，来自”跨层比较”。</strong><br>👉 <strong>理解了分层，就能同时看懂 MySQL 和 Milvus、DynamoDB 和 DDB。</strong></p>
+</blockquote>
+<hr>
+<h2 id="十五、数据库选型指南"><a href="#十五、数据库选型指南" class="headerlink" title="十五、数据库选型指南"></a>十五、数据库选型指南</h2><h3 id="选型原则"><a href="#选型原则" class="headerlink" title="选型原则"></a><strong>选型原则</strong></h3><ol>
+<li><strong>数据模型</strong>：结构化 → 关系型，JSON → 文档型，Key-Value → Redis</li>
+<li><strong>查询需求</strong>：复杂查询 → 关系型，简单查询 → NoSQL，搜索 → ES</li>
+<li><strong>性能需求</strong>：高并发 → Redis，大数据量 → 分布式数据库</li>
+<li><strong>一致性需求</strong>：强一致性 → 关系型，最终一致性 → NoSQL</li>
+<li><strong>扩展需求</strong>：单机 → MySQL，分布式 → TiDB、DynamoDB</li>
+</ol>
+<h3 id="常见组合"><a href="#常见组合" class="headerlink" title="常见组合"></a><strong>常见组合</strong></h3><ul>
+<li><strong>业务系统</strong>：MySQL（主库）+ Redis（缓存）</li>
+<li><strong>大数据分析</strong>：MySQL（业务数据）+ ClickHouse（分析）</li>
+<li><strong>搜索系统</strong>：MySQL（结构化数据）+ Elasticsearch（搜索）</li>
+<li><strong>AI 应用</strong>：PostgreSQL（业务数据）+ Milvus（向量）</li>
+<li><strong>日志系统</strong>：Elasticsearch（日志存储和搜索）</li>
+</ul>
+<hr>
+<h2 id="结语：数据库不是越来越乱，而是越来越分层"><a href="#结语：数据库不是越来越乱，而是越来越分层" class="headerlink" title="结语：数据库不是越来越乱，而是越来越分层"></a>结语：数据库不是越来越乱，而是越来越分层</h2><p>你看到的不是”数据库爆炸”，而是：</p>
+<blockquote>
+<p><strong>数据库世界正在从</strong><br><strong>“一个软件”</strong><br><strong>进化成</strong><br><strong>“一整套数据基础设施”。</strong></p>
+</blockquote>
+<p>理解了这一点，你就能同时看懂：</p>
+<ul>
+<li>MySQL 和 Milvus（不同引擎层）</li>
+<li>DynamoDB 和 DDB（引擎层 vs 平台层）</li>
+<li>华为 V5 和数据库平台（平台层概念）</li>
+</ul>
+<p>而不再被名字迷惑。</p>
+<hr>
+<h3 id="💡-延伸阅读"><a href="#💡-延伸阅读" class="headerlink" title="💡 延伸阅读"></a>💡 延伸阅读</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/">MySQL 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://redis.io/docs/">Redis 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.mongodb.com/docs/">MongoDB 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/dynamodb/">DynamoDB 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://milvus.io/docs">向量数据库 Milvus</a></li>
+</ul>
+<hr>
+<p><strong>如果你觉得这篇文章有用，欢迎收藏！下次看到数据库名词时，拿出来对照一下，就能快速理解它的定位和用途。</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="category-chain-item">🐍 全栈开发底座：Python 进阶与前后端工程化</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%90%8D-%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E5%BA%95%E5%BA%A7%EF%BC%9APython-%E8%BF%9B%E9%98%B6%E4%B8%8E%E5%89%8D%E5%90%8E%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0%E4%B8%8E%E8%A1%8C%E4%B8%9A%E8%B6%8B%E5%8A%BF/" class="category-chain-item">技术学习与行业趋势</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/MySQL/" class="print-no-link">#MySQL</a>
+      
+        <a href="/fluid-blog/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#数据库</a>
+      
+        <a href="/fluid-blog/tags/NoSQL/" class="print-no-link">#NoSQL</a>
+      
+        <a href="/fluid-blog/tags/Redis/" class="print-no-link">#Redis</a>
+      
+        <a href="/fluid-blog/tags/MongoDB/" class="print-no-link">#MongoDB</a>
+      
+        <a href="/fluid-blog/tags/DynamoDB/" class="print-no-link">#DynamoDB</a>
+      
+        <a href="/fluid-blog/tags/%E6%95%B0%E6%8D%AE%E6%9E%B6%E6%9E%84/" class="print-no-link">#数据架构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🗄️ 一文看懂当下主流数据库：从关系型、NoSQL 到 DDB / DynamoDB 的全景认知地图</div>
+      <div>https://linn0813.github.io/2025/12/28/2025-12-28-database-complete-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/29/2025-12-29-time-format-complete-guide/" title="⏰ 时间格式全科普：从 ISO 到 UNIX 时间戳，从理论到实践">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">⏰ 时间格式全科普：从 ISO 到 UNIX 时间戳，从理论到实践</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/12/27/2025-12-27-llm-agent-glossary/" title="📚 工具篇｜LLM/Agent 系列术语速查手册">
+                        <span class="hidden-mobile">📚 工具篇｜LLM/Agent 系列术语速查手册</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,837 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="UAT, 用户验收测试, 业务验收, 项目流程, 测试科普, QA vs UAT">
+  
+    <meta name="description" content="系统介绍 UAT 验收测试的概念、价值、与 QA 的区别，以及在项目流程中的重要作用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🌟 UAT 验收是什么？——一次项目流程升级带来的思考与科普">
+<meta property="og:url" content="https://linn0813.github.io/2025/11/15/2025-11-15-uat-acceptance-testing-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="系统介绍 UAT 验收测试的概念、价值、与 QA 的区别，以及在项目流程中的重要作用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/uat-test.png">
+<meta property="article:published_time" content="2025-11-15T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.876Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="UAT">
+<meta property="article:tag" content="验收测试">
+<meta property="article:tag" content="用户验收">
+<meta property="article:tag" content="项目流程">
+<meta property="article:tag" content="测试科普">
+<meta property="article:tag" content="业务验收">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/uat-test.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🌟 UAT 验收是什么？——一次项目流程升级带来的思考与科普 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🌟 UAT 验收是什么？——一次项目流程升级带来的思考与科普"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-11-15 20:00" pubdate>
+          2025年11月15日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🌟 UAT 验收是什么？——一次项目流程升级带来的思考与科普</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>最近我们公司对项目流程做了一次调整，新增了一个重要节点：<strong>UAT 验收</strong>。<br>为了更好地理解这个概念，我自己系统学习了一遍，也顺便整理成这篇博客，既是记录，也希望对看到这篇文章的你有所帮助。</p>
+<hr>
+<h2 id="🎯-什么是-UAT？"><a href="#🎯-什么是-UAT？" class="headerlink" title="🎯 什么是 UAT？"></a>🎯 什么是 UAT？</h2><p>UAT，全称 <strong>User Acceptance Testing</strong>，中文叫：</p>
+<ul>
+<li>用户验收测试</li>
+<li>业务验收测试</li>
+<li>受理测试</li>
+<li>验收测试</li>
+</ul>
+<p>它是软件上线前的<strong>最后一个测试阶段</strong>，由真正的<strong>业务使用者或代表</strong>来执行，目的只有一个：</p>
+<blockquote>
+<p><strong>确认系统是否能在真实业务场景中正常使用、符合预期，并决定是否上线。</strong></p>
+</blockquote>
+<p>这和我们常说的 QA 测试是完全不同的。</p>
+<hr>
+<h2 id="🧩-UAT-到底解决了什么问题？"><a href="#🧩-UAT-到底解决了什么问题？" class="headerlink" title="🧩 UAT 到底解决了什么问题？"></a>🧩 UAT 到底解决了什么问题？</h2><p>测试人员会把功能点、逻辑、边界条件等都测得非常完整精准，但有一个问题：<br><strong>业务团队未必真正看过”做出来的东西”。</strong></p>
+<p>比如：</p>
+<ul>
+<li>字段名对业务是不是友好？</li>
+<li>流程是不是符合真实的工作模式？</li>
+<li>是否符合线下&#x2F;场景&#x2F;运营流程中的「实际习惯」？</li>
+<li>报表数据是不是他们”能用、敢用”的？</li>
+<li>多系统链路是否真的跑通业务逻辑？</li>
+</ul>
+<p>QA 的职责是验证”按需求实现”，而业务的职责是判断”是否满足我们的实际需求”。</p>
+<p>所以 UAT 的价值就在于：<strong>在上线前，给业务一次真实把关的机会。</strong></p>
+<hr>
+<h2 id="🔎-QA-vs-UAT：到底有什么区别？"><a href="#🔎-QA-vs-UAT：到底有什么区别？" class="headerlink" title="🔎 QA vs UAT：到底有什么区别？"></a>🔎 QA vs UAT：到底有什么区别？</h2><p>作为测试同学，我们经常被问：”既然 QA 已经测过了，为什么还需要 UAT？”</p>
+<p>一句话概括：</p>
+<blockquote>
+<p><strong>QA 测”实现是否正确”，UAT 测”业务是否满意”。</strong></p>
+</blockquote>
+<p>更直观的对比：</p>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>项目系统测试（QA）</th>
+<th>UAT 验收（业务方）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>关注点</strong></td>
+<td>功能正确性、逻辑完整性</td>
+<td>业务价值、流程合理性</td>
+</tr>
+<tr>
+<td><strong>样式</strong></td>
+<td>细粒度、覆盖式测试</td>
+<td>场景式、流程化使用</td>
+</tr>
+<tr>
+<td><strong>执行者</strong></td>
+<td>测试工程师</td>
+<td>产品、运营、业务、使用部门</td>
+</tr>
+<tr>
+<td><strong>找的问题</strong></td>
+<td>Bug、异常流程</td>
+<td>流程不顺、规则冲突、使用不便</td>
+</tr>
+<tr>
+<td><strong>上线关系</strong></td>
+<td>技术质量门槛</td>
+<td>业务决策门槛</td>
+</tr>
+</tbody></table>
+<p>两个阶段关注点完全不同，因此没有谁能替代谁。</p>
+<hr>
+<h2 id="🧱-为什么-UAT-一定要业务方来做？"><a href="#🧱-为什么-UAT-一定要业务方来做？" class="headerlink" title="🧱 为什么 UAT 一定要业务方来做？"></a>🧱 为什么 UAT 一定要业务方来做？</h2><p>UAT 是<strong>业务方的”确认上线”仪式</strong>。</p>
+<p>❌ QA 无法判断：</p>
+<ul>
+<li>✔ 这个按钮名字对运营是否友好</li>
+<li>✔ 这个时间显示是否符合行业规范</li>
+<li>✔ 这个业务流程是否符合 SOP</li>
+<li>✔ 这个规则能不能在实际场景跑得起来</li>
+<li>✔ 这个报表数据能不能给老板看</li>
+</ul>
+<p>这些只有业务自己最清楚。</p>
+<hr>
+<h2 id="🧭-UAT-在整个项目流程中的位置"><a href="#🧭-UAT-在整个项目流程中的位置" class="headerlink" title="🧭 UAT 在整个项目流程中的位置"></a>🧭 UAT 在整个项目流程中的位置</h2><p>随着公司流程的改进，我们的项目结构大致变成了这样：</p>
+<p><strong>需求设计 → 开发 → QA 系统测试 → 预发布 → UAT 验收 → 上线</strong></p>
+<p>可以看到：</p>
+<ul>
+<li>QA 已经保证了系统功能和质量稳定</li>
+<li>UAT 是确保系统能”真正用于业务”</li>
+</ul>
+<p>它属于<strong>上线前的最后一道闸口</strong>。</p>
+<hr>
+<h2 id="📝-UAT-验收一般做什么？"><a href="#📝-UAT-验收一般做什么？" class="headerlink" title="📝 UAT 验收一般做什么？"></a>📝 UAT 验收一般做什么？</h2><p>当业务执行 UAT 时，通常会关注：</p>
+<h3 id="1-关键业务流程是否可用"><a href="#1-关键业务流程是否可用" class="headerlink" title="1. 关键业务流程是否可用"></a>1. 关键业务流程是否可用</h3><p>一条业务主链，从头到尾是否顺畅。</p>
+<h3 id="2-真实使用场景是否满足"><a href="#2-真实使用场景是否满足" class="headerlink" title="2. 真实使用场景是否满足"></a>2. 真实使用场景是否满足</h3><p>例如预约、审批、投放、计算规则等。</p>
+<h3 id="3-跨系统联动是否正常"><a href="#3-跨系统联动是否正常" class="headerlink" title="3. 跨系统联动是否正常"></a>3. 跨系统联动是否正常</h3><p>例如数据驱动、推送、自动化流程。</p>
+<h3 id="4-权限、角色、配置是否合理"><a href="#4-权限、角色、配置是否合理" class="headerlink" title="4. 权限、角色、配置是否合理"></a>4. 权限、角色、配置是否合理</h3><h3 id="5-报表、统计、监控是否准确"><a href="#5-报表、统计、监控是否准确" class="headerlink" title="5. 报表、统计、监控是否准确"></a>5. 报表、统计、监控是否准确</h3><h3 id="6-文案、字段名、展示是否符合业务习惯"><a href="#6-文案、字段名、展示是否符合业务习惯" class="headerlink" title="6. 文案、字段名、展示是否符合业务习惯"></a>6. 文案、字段名、展示是否符合业务习惯</h3><h3 id="7-性能体验是否能满足实际工作"><a href="#7-性能体验是否能满足实际工作" class="headerlink" title="7. 性能体验是否能满足实际工作"></a>7. 性能体验是否能满足实际工作</h3><p>不像 QA 要做”覆盖式”测试，UAT 更像”业务沉浸式体验”。</p>
+<hr>
+<h2 id="🧨-UAT-不通过怎么办？"><a href="#🧨-UAT-不通过怎么办？" class="headerlink" title="🧨 UAT 不通过怎么办？"></a>🧨 UAT 不通过怎么办？</h2><p>大部分公司都会这样处理：</p>
+<ol>
+<li><strong>记录问题</strong></li>
+<li><strong>开发修复</strong></li>
+<li><strong>QA 回归</strong></li>
+<li><strong>业务再次确认</strong></li>
+<li><strong>再次 UAT</strong></li>
+<li><strong>最终决定能否上线</strong></li>
+</ol>
+<p>一句话：<strong>UAT 的通过，是上线的必要条件。</strong></p>
+<hr>
+<h2 id="💡-UAT-的一些扩展知识（小科普）"><a href="#💡-UAT-的一些扩展知识（小科普）" class="headerlink" title="💡 UAT 的一些扩展知识（小科普）"></a>💡 UAT 的一些扩展知识（小科普）</h2><h3 id="➊-UAT-会找-bug-吗？"><a href="#➊-UAT-会找-bug-吗？" class="headerlink" title="➊ UAT 会找 bug 吗？"></a>➊ UAT 会找 bug 吗？</h3><p>会，但主要是流程、业务逻辑、使用体验相关。</p>
+<h3 id="➋-UAT-会新增需求吗？"><a href="#➋-UAT-会新增需求吗？" class="headerlink" title="➋ UAT 会新增需求吗？"></a>➋ UAT 会新增需求吗？</h3><p>通常不建议，但实际项目中经常会出现业务反馈：</p>
+<ul>
+<li>“这个流程看起来不太合理”</li>
+<li>“这个字段能不能改成 xxx”</li>
+</ul>
+<p>这属于<strong>验收阶段需求变更</strong>，需要谨慎控制。</p>
+<h3 id="➌-UAT-是不是只要业务随便点点就算通过？"><a href="#➌-UAT-是不是只要业务随便点点就算通过？" class="headerlink" title="➌ UAT 是不是只要业务随便点点就算通过？"></a>➌ UAT 是不是只要业务随便点点就算通过？</h3><p><strong>不是。</strong></p>
+<p>需要有：</p>
+<ul>
+<li>验收用例</li>
+<li>验收结果记录</li>
+<li>验收意见</li>
+<li>验收人确认</li>
+</ul>
+<p>越规范，质量越有保障。</p>
+<hr>
+<h2 id="📦-写在最后：为什么这次流程升级值得记录？"><a href="#📦-写在最后：为什么这次流程升级值得记录？" class="headerlink" title="📦 写在最后：为什么这次流程升级值得记录？"></a>📦 写在最后：为什么这次流程升级值得记录？</h2><p>这次项目流程新增 UAT 环节，对公司而言是：</p>
+<ul>
+<li>提升交付质量的关键措施</li>
+<li>让业务拥有更多话语权</li>
+<li>减少”上线后才发现和预期不一致”的风险</li>
+<li>建立更严谨的发布标准</li>
+<li>让测试和开发的工作更加可控</li>
+</ul>
+<p>对我自己来说，这也是一个很好理解项目完整生命周期的契机。<br>也希望这篇文章能够帮到正在了解 UAT，或正经历流程升级的你。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/" class="category-chain-item">🎨 职场进阶与测试思维：从小白到资深</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%8E%A8-%E8%81%8C%E5%9C%BA%E8%BF%9B%E9%98%B6%E4%B8%8E%E6%B5%8B%E8%AF%95%E6%80%9D%E7%BB%B4%EF%BC%9A%E4%BB%8E%E5%B0%8F%E7%99%BD%E5%88%B0%E8%B5%84%E6%B7%B1/%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E4%B8%8E%E7%90%86%E8%AE%BA/" class="category-chain-item">测试基础与理论</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/UAT/" class="print-no-link">#UAT</a>
+      
+        <a href="/fluid-blog/tags/%E9%AA%8C%E6%94%B6%E6%B5%8B%E8%AF%95/" class="print-no-link">#验收测试</a>
+      
+        <a href="/fluid-blog/tags/%E7%94%A8%E6%88%B7%E9%AA%8C%E6%94%B6/" class="print-no-link">#用户验收</a>
+      
+        <a href="/fluid-blog/tags/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/" class="print-no-link">#项目流程</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E7%A7%91%E6%99%AE/" class="print-no-link">#测试科普</a>
+      
+        <a href="/fluid-blog/tags/%E4%B8%9A%E5%8A%A1%E9%AA%8C%E6%94%B6/" class="print-no-link">#业务验收</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🌟 UAT 验收是什么？——一次项目流程升级带来的思考与科普</div>
+      <div>https://linn0813.github.io/2025/11/15/2025-11-15-uat-acceptance-testing-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年11月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/11/16/2025-11-16-pe-engineer-role-explained/" title="🔧 什么是 PE 工程师？从 AI 智能体项目的一个评论聊起">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🔧 什么是 PE 工程师？从 AI 智能体项目的一个评论聊起</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/11/01/2025-11-01-cursor-models-20-upgrade/" title="🚀 Cursor 模型全解析与 2.0 升级深度解读">
+                        <span class="hidden-mobile">🚀 Cursor 模型全解析与 2.0 升级深度解读</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

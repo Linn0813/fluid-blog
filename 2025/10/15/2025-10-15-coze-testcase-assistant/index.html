@@ -1,0 +1,929 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="Coze, 测试用例, 智能体, 测试工具, AI助手">
+  
+    <meta name="description" content="手把手教你用Coze平台零代码搭建专属测试用例编写助手，从需求明确到配置优化，助力测试工作提效">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🤖 手把手教你用Coze打造专属测试用例编写助手">
+<meta property="og:url" content="https://linn0813.github.io/2025/10/15/2025-10-15-coze-testcase-assistant/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="手把手教你用Coze平台零代码搭建专属测试用例编写助手，从需求明确到配置优化，助力测试工作提效">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/coze-testcase-assistant.png">
+<meta property="article:published_time" content="2025-10-15T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:15:00.875Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="测试工具">
+<meta property="article:tag" content="测试用例">
+<meta property="article:tag" content="Coze">
+<meta property="article:tag" content="AI助手">
+<meta property="article:tag" content="智能体">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/coze-testcase-assistant.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🤖 手把手教你用Coze打造专属测试用例编写助手 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="🤖 手把手教你用Coze打造专属测试用例编写助手"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-15 23:00" pubdate>
+          2025年10月15日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          36 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">🤖 手把手教你用Coze打造专属测试用例编写助手</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🤖-手把手教你用Coze打造专属测试用例编写助手"><a href="#🤖-手把手教你用Coze打造专属测试用例编写助手" class="headerlink" title="🤖 手把手教你用Coze打造专属测试用例编写助手"></a>🤖 手把手教你用Coze打造专属测试用例编写助手</h1><p>你是否曾为重复编写测试用例而头痛不已？纠结措辞、排列顺序，还要保证覆盖全面符合规范，效率始终提不上去？💢 最近发现Coze平台支持零代码搭建智能体，我便萌生了打造专属测试用例助手的想法！经过一番摸索，真的成功搭建出来了！今天就把整个搭建过程分享给大家，希望能帮到有同样需求的测试同行～✨</p>
+<h2 id="📋-一、前期准备：明确需求与工具基础"><a href="#📋-一、前期准备：明确需求与工具基础" class="headerlink" title="📋 一、前期准备：明确需求与工具基础"></a>📋 一、前期准备：明确需求与工具基础</h2><p>正式搭建前，需先明确两个关键前提，确保智能体方向精准：</p>
+<ul>
+<li><p><strong>明确智能体定位</strong>：结合我个人需求，我把目标锁定为”轻量高效的测试用例生成助手”——不需要复杂功能，核心是能根据输入的需求描述，自动输出含”编号、名称、步骤、预期结果、优先级”的规范表格，还要支持等价类划分、边界值分析这些我们常用的测试方法。</p>
+</li>
+<li><p><strong>Coze平台基础</strong>：访问<a target="_blank" rel="noopener" href="https://www.coze.cn/">Coze官网</a>注册Coze账号后，我先花半小时熟悉了控制台界面，发现”智能体管理””知识库””插件市场”是核心模块，后续搭建基本围绕这三块展开，操作逻辑比想象中简单。😊</p>
+</li>
+</ul>
+<h2 id="🚀-二、Step1：创建智能体框架"><a href="#🚀-二、Step1：创建智能体框架" class="headerlink" title="🚀 二、Step1：创建智能体框架"></a>🚀 二、Step1：创建智能体框架</h2><p>首先进入Coze控制台，点击左侧导航栏”智能体”→”创建智能体”，按以下推荐配置填写基础信息：</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>推荐设置</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>智能体名称</td>
+<td>TestCaseGen-助手</td>
+<td>简洁明了，突出”测试用例生成”核心功能，当然自己喜欢更重要</td>
+</tr>
+<tr>
+<td>描述</td>
+<td>根据需求自动生成规范测试用例，支持功能测试、接口测试场景</td>
+<td>让用户快速识别智能体用途与适用范围</td>
+</tr>
+<tr>
+<td>创建方式</td>
+<td>标准创建</td>
+<td>从零搭建，灵活控制各模块配置细节</td>
+</tr>
+<tr>
+<td>模型选择</td>
+<td>豆包-Pro或DeepSeek-R1-Tool</td>
+<td>豆包-Pro中文理解更优，DeepSeek-R1-Tool支持插件调用，按需选择</td>
+</tr>
+<tr>
+<td>意图识别训练</td>
+<td>添加”功能测试需求””接口测试需求”等意图类别</td>
+<td>上传10-20条典型需求样本，提升智能体对需求类型的识别准确率</td>
+</tr>
+<tr>
+<td>会话记忆长度</td>
+<td>5-10轮</td>
+<td>确保智能体能关联历史对话中的需求补充信息，避免重复提问</td>
+</tr>
+<tr>
+<td>默认回复模板</td>
+<td>“正在根据您的需求生成测试用例，请稍候…若长时间无响应，可尝试简化需求描述”</td>
+<td>提升用户等待体验，减少无效询问</td>
+</tr>
+</tbody></table>
+<p>所有配置填写完毕后点击”创建”，一个基础的智能体框架即搭建完成。✅</p>
+<h2 id="🧠-三、Step2：核心配置——系统提示词设计"><a href="#🧠-三、Step2：核心配置——系统提示词设计" class="headerlink" title="🧠 三、Step2：核心配置——系统提示词设计"></a>🧠 三、Step2：核心配置——系统提示词设计</h2><p>系统提示词是智能体的”行为准则”，直接决定其输出质量。进入智能体的”配置”→”系统提示词”页面，按以下模板填写（可根据团队内部测试规范调整细节）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none"># Role: 专业测试用例生成助手
+- author: 你的名称
+- version: 1.0
+- language: 中文
+- description: 专注于软件测试用例生成的AI助手，基于用户提供的需求输出规范、全面的测试用例
+
+# Goals:
+1. 精准解析需求中的功能点、输入输出规则、边界条件及潜在风险点
+2. 运用等价类划分、边界值分析、场景法等测试方法设计覆盖全面的用例
+3. 输出格式统一为Markdown表格，包含【测试用例编号、名称、步骤、预期结果、优先级】
+4. 对模糊或不明确的需求主动提示用户补充，严禁编造信息
+
+# Skills:
+## 需求分析能力
+- 能准确提取需求中的核心功能（如&quot;用户注册&quot;&quot;订单支付&quot;）
+- 精准识别约束条件（如&quot;用户名长度3-20字符&quot;&quot;密码含字母+数字&quot;）
+- 清晰区分正常场景与异常场景（如&quot;必填项为空&quot;&quot;输入非法字符&quot;）
+
+## 用例设计规范
+- 优先级划分标准：高（核心功能&#x2F;主流程）、中（次要功能）、低（边缘场景）
+- 测试步骤描述：每步操作需具体可执行，避免模糊表述（如&quot;点击【注册】按钮&quot;而非&quot;点击按钮&quot;）
+- 预期结果要求：与需求强关联，具备可验证性（如&quot;提示&#39;注册成功&#39;并跳转登录页&quot;而非&quot;注册正常&quot;）
+
+# Constraints:
+- 仅处理与测试用例生成相关的需求，对无关话题直接拒绝
+- 若需求缺少关键信息（如无输入限制说明），需在输出中标注&quot;待确认：xxx&quot;
+- 生成的用例需去重，避免重复覆盖同一测试场景
+
+# 示例：
+用户需求：用户注册功能，用户名3-20字符（不能含特殊符号），密码6-16字符（含字母+数字）
+输出：
+| 测试用例编号 | 测试用例名称       | 测试步骤                                  | 预期结果                          | 优先级 |
+|--------------|--------------------|-------------------------------------------|-----------------------------------|--------|
+| TC-REG-001   | 正常注册           | 1. 输入用户名&quot;test01&quot;，密码&quot;Test123&quot;；2. 点击【注册】按钮 | 注册成功，跳转至登录页            | 高     |
+| TC-REG-002   | 用户名含特殊符号   | 1. 输入用户名&quot;test#01&quot;，密码&quot;Test123&quot;；2. 点击【注册】按钮 | 提示&quot;用户名不能含特殊符号&quot;        | 高     |
+| TC-REG-003   | 密码长度不足6位    | 1. 输入用户名&quot;test01&quot;，密码&quot;Te123&quot;；2. 点击【注册】按钮   | 提示&quot;密码长度需6-16字符&quot;          | 高     |<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>提示词配置完成后点击”保存”，此时智能体已具备基础的测试用例生成逻辑。💡</p>
+<h2 id="🔧-四、Step3：增强能力——知识库与插件配置"><a href="#🔧-四、Step3：增强能力——知识库与插件配置" class="headerlink" title="🔧 四、Step3：增强能力——知识库与插件配置"></a>🔧 四、Step3：增强能力——知识库与插件配置</h2><p>为让智能体更贴合团队实际工作场景，可通过”知识库”和”插件”两大模块增强其专业性与易用性：</p>
+<h3 id="1-知识库：上传测试规范与历史用例"><a href="#1-知识库：上传测试规范与历史用例" class="headerlink" title="1. 知识库：上传测试规范与历史用例"></a>1. 知识库：上传测试规范与历史用例</h3><p>进入”知识库”→”新建知识库”，命名为”测试用例规范库”，上传团队内部的《测试用例编写规范》《常见功能测试点汇总》《接口测试 checklist》等文档（支持PDF、Word、TXT格式）。上传完成后，在智能体配置页开启”知识库关联”，选择该规范库。配置后，智能体生成用例时会自动参考团队标准，输出更符合内部要求的内容。📚</p>
+<h3 id="2-插件：扩展文件处理能力"><a href="#2-插件：扩展文件处理能力" class="headerlink" title="2. 插件：扩展文件处理能力"></a>2. 插件：扩展文件处理能力</h3><p>若团队习惯以文档形式提交需求（如Excel需求清单、Word需求说明），可在”插件市场”搜索并添加”文件读取插件”。添加后在智能体”工作流”中设置触发逻辑：当用户上传需求文档时，自动调用”文件读取插件”解析内容，将结构化文本传入大模型生成用例，无需手动复制粘贴需求，进一步提升操作效率。💪</p>
+<h3 id="3-工作流可视化设计：构建测试用例生成流水线"><a href="#3-工作流可视化设计：构建测试用例生成流水线" class="headerlink" title="3. 工作流可视化设计：构建测试用例生成流水线"></a>3. 工作流可视化设计：构建测试用例生成流水线</h3><p>Coze的工作流模块支持拖拽式节点编排，可针对测试用例生成场景设计标准化流程。以”需求文档→用例生成→格式校验→导出”全流程自动化为例，具体配置步骤如下：</p>
+<ol>
+<li><p><strong>开始节点</strong>：定义输入参数（如”需求文档路径””测试类型””优先级规则”），设置参数校验规则（如必填项标记、文件格式限制）；</p>
+</li>
+<li><p><strong>文档解析节点</strong>：调用”文件读取插件”，配置解析范围（如指定Excel中的”需求详情”工作表），输出结构化文本；</p>
+</li>
+<li><p><strong>用例生成节点</strong>：接入大模型，将系统提示词与解析后的需求文本拼接作为输入，设置输出格式为Markdown表格；</p>
+</li>
+<li><p><strong>格式校验节点</strong>：添加”文本处理插件”，编写正则表达式校验测试用例编号（如”TC-XXX-001”格式）、优先级字段（仅允许”高&#x2F;中&#x2F;低”）；</p>
+</li>
+<li><p><strong>条件分支节点</strong>：若校验通过，进入”导出节点”；若失败，返回错误提示并标记问题位置（如”第3条用例优先级格式错误”）；</p>
+</li>
+<li><p><strong>导出节点</strong>：调用”文件生成插件”，将测试用例表格导出为Excel或CSV格式，支持自定义文件名（如”测试用例_${当前日期}.xlsx”）。</p>
+</li>
+</ol>
+<p>通过工作流设计，可将测试用例生成的多步操作串联自动化，尤其适合批量处理需求文档的场景。配置完成后可保存为模板，后续只需修改输入参数（如需求文档路径），即可快速复用流程。🔄</p>
+<h2 id="✅-五、Step4：测试与优化智能体"><a href="#✅-五、Step4：测试与优化智能体" class="headerlink" title="✅ 五、Step4：测试与优化智能体"></a>✅ 五、Step4：测试与优化智能体</h2><p>配置完成后，进入智能体的”测试”页面，输入不同场景的需求进行验证，例如：</p>
+<blockquote>
+<p>需求：电商购物车结算功能，支持选择商品数量（1-99件），可使用优惠券（满100减10，满200减30），结算时需填写收货地址（必填）。</p>
+</blockquote>
+<p>观察输出用例是否覆盖”正常结算””数量超限””必填项为空””优惠券规则”等核心场景。若存在覆盖遗漏，可返回”系统提示词”补充约束（如增加”需覆盖优惠券组合使用场景”）；若格式不统一，可在提示词中明确”表格列宽保持一致，步骤描述不超过5步”等要求。🔍</p>
+<h3 id="1-日志分析：定位问题根源"><a href="#1-日志分析：定位问题根源" class="headerlink" title="1. 日志分析：定位问题根源"></a>1. 日志分析：定位问题根源</h3><p>进入智能体的”运营中心”→”对话日志”，可查看每轮交互的详细数据，精准定位优化方向：</p>
+<ul>
+<li><p><strong>意图识别日志</strong>：检查用户需求是否被正确归类（如”接口测试需求”是否误判为”功能测试需求”），若识别准确率低于85%，需补充对应意图的训练样本（如新增10条接口测试需求案例）；</p>
+</li>
+<li><p><strong>插件调用日志</strong>：查看文件解析、格式校验等插件的调用状态，若出现”超时”或”解析失败”，需调整插件参数（如延长超时时间至60秒、提升文件大小限制至50MB）；</p>
+</li>
+<li><p><strong>输出质量日志</strong>：通过”用户反馈”标记（如”有用&#x2F;无用”）统计用例合格率，对”无用”案例分析根因（如需求理解偏差、格式错误），针对性优化提示词或知识库；</p>
+</li>
+</ul>
+<h3 id="2-A-B测试：优化提示词效果"><a href="#2-A-B测试：优化提示词效果" class="headerlink" title="2. A&#x2F;B测试：优化提示词效果"></a>2. A&#x2F;B测试：优化提示词效果</h3><p>针对核心测试场景，可设计多版提示词进行A&#x2F;B测试，筛选最优方案：</p>
+<table>
+<thead>
+<tr>
+<th>测试版本</th>
+<th>提示词差异</th>
+<th>测试指标</th>
+<th>推荐场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>版本A</td>
+<td>强调”全面性”，要求覆盖所有正常&#x2F;异常场景</td>
+<td>用例数量、异常场景覆盖率</td>
+<td>新功能上线测试、复杂业务场景</td>
+</tr>
+<tr>
+<td>版本B</td>
+<td>强调”简洁性”，要求步骤描述不超过3步</td>
+<td>用例可读性、执行效率</td>
+<td>回归测试、快速验证场景</td>
+</tr>
+</tbody></table>
+<p>通过Coze的”版本管理”功能切换不同提示词版本，收集20-30组测试数据后，结合”用例覆盖率””执行便捷性”等指标，选择综合表现更优的版本作为默认配置。📊</p>
+<h3 id="3-用户反馈闭环：持续迭代优化"><a href="#3-用户反馈闭环：持续迭代优化" class="headerlink" title="3. 用户反馈闭环：持续迭代优化"></a>3. 用户反馈闭环：持续迭代优化</h3><p>启用Coze的”用户反馈系统”，在智能体回复底部添加”用例质量评价”交互按钮（如”符合需求&#x2F;需优化&#x2F;无关”），构建持续迭代闭环：</p>
+<ul>
+<li><p>对于”需优化”的反馈，自动触发工单系统，记录用户补充的修改意见（如”缺少性能测试指标用例””步骤描述不清晰”）；</p>
+</li>
+<li><p>每周汇总反馈数据，提炼高频问题（如”边界值场景覆盖不足””优先级划分不精准”），针对性更新系统提示词或知识库内容；</p>
+</li>
+<li><p>将优化后的智能体版本发布至”测试环境”，邀请3-5名团队成员进行内部验证，通过后再推送到”生产环境”正式使用；</p>
+</li>
+</ul>
+<h2 id="🎉-六、最终效果与使用建议"><a href="#🎉-六、最终效果与使用建议" class="headerlink" title="🎉 六、最终效果与使用建议"></a>🎉 六、最终效果与使用建议</h2><p>经过以上步骤，专属测试用例编写助手即搭建完成！实际使用流程非常简单：</p>
+<ol>
+<li>在Coze聊天界面输入需求文本，或上传需求文档；</li>
+<li>智能体自动解析并生成测试用例表格；</li>
+<li>根据实际场景微调用例（如补充项目特有字段），即可直接使用。</li>
+</ol>
+<h3 id="多平台部署：扩展使用场景"><a href="#多平台部署：扩展使用场景" class="headerlink" title="多平台部署：扩展使用场景"></a>多平台部署：扩展使用场景</h3><p>利用Coze的多平台部署能力，可将智能体集成到团队常用协作工具中，打破使用场景限制：</p>
+<ul>
+<li><p><strong>飞书&#x2F;企业微信</strong>：通过”机器人”插件完成部署，支持在群聊中@智能体并发送需求，实时生成测试用例；</p>
+</li>
+<li><p><strong>Jira&#x2F;禅道</strong>：通过API接口对接，当需求工单状态变更为”测试设计”时，自动触发智能体生成用例并同步至工单备注栏；</p>
+</li>
+<li><p><strong>网页嵌入</strong>：生成iframe嵌入代码，添加到团队内部Wiki或测试平台，方便测试人员随时访问使用；</p>
+</li>
+</ul>
+<blockquote>
+<p>💡 小贴士：定期将团队新增的测试场景、规范更新到知识库，智能体的输出会越来越精准哦！</p>
+</blockquote>
+<h2 id="🔒-七、团队协作必备：安全与权限管理"><a href="#🔒-七、团队协作必备：安全与权限管理" class="headerlink" title="🔒 七、团队协作必备：安全与权限管理"></a>🔒 七、团队协作必备：安全与权限管理</h2><p>当多个测试人员共用智能体时，需做好权限与数据安全管控，避免敏感信息泄露或误操作：</p>
+<h3 id="1-角色权限细分"><a href="#1-角色权限细分" class="headerlink" title="1. 角色权限细分"></a>1. 角色权限细分</h3><p>进入Coze”团队管理”→”权限设置”，为智能体配置不同角色：</p>
+<ul>
+<li><p><strong>管理员</strong>：拥有全部权限（修改配置、删除智能体、管理知识库），适合团队负责人；</p>
+</li>
+<li><p><strong>编辑者</strong>：可修改提示词、调整工作流，但无法删除核心模块，适合测试组长；</p>
+</li>
+<li><p><strong>使用者</strong>：仅能发起对话生成用例，无修改权限，适合普通测试人员。</p>
+</li>
+</ul>
+<h3 id="2-数据安全保障"><a href="#2-数据安全保障" class="headerlink" title="2. 数据安全保障"></a>2. 数据安全保障</h3><p>针对测试用例中的敏感信息（如接口密钥、用户隐私数据）：</p>
+<ul>
+<li><p>开启Coze”数据加密存储”功能，确保对话日志和知识库文档加密保存；</p>
+</li>
+<li><p>在系统提示词中添加”禁止输出任何敏感信息，若需求含密钥&#x2F;账号等内容，自动替换为’[敏感信息已脱敏]’”的约束；</p>
+</li>
+<li><p>设置”对话日志保留时长”（如30天），到期自动清理，减少数据泄露风险。</p>
+</li>
+</ul>
+<h2 id="⚠️-八、常见问题与异常处理"><a href="#⚠️-八、常见问题与异常处理" class="headerlink" title="⚠️ 八、常见问题与异常处理"></a>⚠️ 八、常见问题与异常处理</h2><p>使用过程中可能遇到以下问题，提前掌握解决方法能提升体验：</p>
+<table>
+<thead>
+<tr>
+<th>常见问题</th>
+<th>排查步骤</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>需求描述模糊时，智能体输出用例不精准</td>
+<td>1. 检查提示词是否有”追问模糊需求”的规则；2. 查看对话日志中意图识别结果</td>
+<td>在提示词”Workflow”中添加”若需求含’可能’’大概’等模糊表述，先反问用户确认核心规则（如’请明确用户名是否允许中文？’）”</td>
+</tr>
+<tr>
+<td>插件调用时提示”无权限访问文件”</td>
+<td>1. 检查插件授权范围；2. 确认文件存储路径是否在团队共享空间内</td>
+<td>在”插件管理”中重新授权，勾选”允许访问团队共享文件”，并将需求文档上传至指定共享目录</td>
+</tr>
+<tr>
+<td>大模型生成用例超时</td>
+<td>1. 查看需求文本长度；2. 检查模型参数配置</td>
+<td>简化需求描述（拆分长需求为多个短需求），在模型配置中将”最大生成时长”从默认30秒调整为60秒</td>
+</tr>
+</tbody></table>
+<h2 id="🔮-九、进阶技巧：提升智能体效率"><a href="#🔮-九、进阶技巧：提升智能体效率" class="headerlink" title="🔮 九、进阶技巧：提升智能体效率"></a>🔮 九、进阶技巧：提升智能体效率</h2><h3 id="1-自定义变量复用"><a href="#1-自定义变量复用" class="headerlink" title="1. 自定义变量复用"></a>1. 自定义变量复用</h3><p>在工作流中创建自定义变量（如”${项目前缀}””${测试负责人}”），统一管理常用信息。例如将测试用例编号规则设为”${项目前缀}-TC-001”，后续只需修改变量值，即可批量更新用例编号格式。</p>
+<h3 id="2-测试用例模板库"><a href="#2-测试用例模板库" class="headerlink" title="2. 测试用例模板库"></a>2. 测试用例模板库</h3><p>在知识库中建立”模板库”，按测试类型（功能测试、接口测试、性能测试）分类存储用例模板。当用户输入”生成接口测试用例”时，智能体可直接调用对应模板，确保输出结构统一。</p>
+<hr>
+<p>用Coze搭建测试用例助手，既能将测试人员从重复的用例编写工作中解放出来，又能保证输出内容的规范性与全面性。按照本文步骤动手实践，很快就能拥有一款贴合团队需求的AI测试搭档，让测试工作效率再上一个台阶！🚀</p>
+<p>最后，为大家分享我搭建好的智能体链接：<a target="_blank" rel="noopener" href="https://www.coze.cn/s/gTPXBBiDAKQ/">测试用例编写助手</a>，欢迎大家多多使用！若在使用过程中遇到任何问题，欢迎在评论区留言，我会根据反馈进行改进～</p>
+<p>📝 <strong>文章至此结束</strong> 感谢阅读！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/" class="category-chain-item">🧠 LLM/Agent 从入门到精通：告别浅尝辄止</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%A7%A0-LLM-Agent-%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E7%B2%BE%E9%80%9A%EF%BC%9A%E5%91%8A%E5%88%AB%E6%B5%85%E5%B0%9D%E8%BE%84%E6%AD%A2/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%B7%A5%E5%85%B7%E5%BC%80%E5%8F%91/" class="category-chain-item">自动化测试与工具开发</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" class="print-no-link">#测试工具</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/" class="print-no-link">#测试用例</a>
+      
+        <a href="/fluid-blog/tags/Coze/" class="print-no-link">#Coze</a>
+      
+        <a href="/fluid-blog/tags/AI%E5%8A%A9%E6%89%8B/" class="print-no-link">#AI助手</a>
+      
+        <a href="/fluid-blog/tags/%E6%99%BA%E8%83%BD%E4%BD%93/" class="print-no-link">#智能体</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🤖 手把手教你用Coze打造专属测试用例编写助手</div>
+      <div>https://linn0813.github.io/2025/10/15/2025-10-15-coze-testcase-assistant/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/10/21/2025-10-21-llm-agent-guide/" title="🧠 LLM 与智能体（Agent）知识记录">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🧠 LLM 与智能体（Agent）知识记录</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/10/14/2025-10-14-serialization-deep-dive/" title="深入理解「可序列化」：开发与测试都绕不开的隐形规则">
+                        <span class="hidden-mobile">深入理解「可序列化」：开发与测试都绕不开的隐形规则</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

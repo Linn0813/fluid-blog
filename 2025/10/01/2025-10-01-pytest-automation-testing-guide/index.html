@@ -1,0 +1,1383 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="pytest, 自动化测试, Python测试, 测试框架, 学习笔记, Python">
+  
+    <meta name="description" content="全面的Pytest自动化测试框架学习笔记，从基础概念到高级特性，结合实战经验，助你快速掌握Python测试利器。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="🚀 Pytest自动化测试框架入门到实战：我的学习笔记与实战经验">
+<meta property="og:url" content="https://linn0813.github.io/2025/10/01/2025-10-01-pytest-automation-testing-guide/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="全面的Pytest自动化测试框架学习笔记，从基础概念到高级特性，结合实战经验，助你快速掌握Python测试利器。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/pytest.png">
+<meta property="article:published_time" content="2025-10-01T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.625Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="自动化测试">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="pytest">
+<meta property="article:tag" content="测试框架">
+<meta property="article:tag" content="Python测试">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/pytest.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>🚀 Pytest自动化测试框架入门到实战：我的学习笔记与实战经验 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="从基础到高级，从理论到实践，全面掌握Python测试利器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-01 18:00" pubdate>
+          2025年10月1日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从基础到高级，从理论到实践，全面掌握Python测试利器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="🚀-Pytest自动化测试框架入门到实战：我的学习笔记与实战经验"><a href="#🚀-Pytest自动化测试框架入门到实战：我的学习笔记与实战经验" class="headerlink" title="🚀 Pytest自动化测试框架入门到实战：我的学习笔记与实战经验"></a>🚀 Pytest自动化测试框架入门到实战：我的学习笔记与实战经验</h1><p>😊 大家好！最近我系统学习了pytest自动化测试框架！作为一名测试工程师，掌握一个高效的测试框架对提高工作效率至关重要。今天我就把这段时间的学习笔记和实战经验整理出来，希望能帮助到正在学习或准备学习自动化测试的朋友们！</p>
+<p>📚 本文基于白月黑羽编程的pytest自动化测试框架系列课程，强烈推荐给想系统学习的同学：</p>
+<ul>
+<li><strong>视频课程</strong>：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1bV41167a4?vd_source=65c2968c09490f4b218154711916b4d8">pytest自动化测试框架 - 哔哩哔哩</a></li>
+<li><strong>图文教程</strong>：<a target="_blank" rel="noopener" href="https://www.byhy.net/auto/pyatframework/pytest-01/">pytest框架 - 白月黑羽官网</a></li>
+</ul>
+<h2 id="🌟-一、为什么选择Pytest？"><a href="#🌟-一、为什么选择Pytest？" class="headerlink" title="🌟 一、为什么选择Pytest？"></a>🌟 一、为什么选择Pytest？</h2><p>在开始学习之前，我也对比了市面上几种主流的Python测试框架，最终选择pytest是因为它真的太香了！</p>
+<h3 id="✅-pytest的核心优势"><a href="#✅-pytest的核心优势" class="headerlink" title="✅ pytest的核心优势"></a>✅ pytest的核心优势</h3><ul>
+<li><strong>简单易用</strong>：函数式的测试编写方式，告别繁琐的样板代码</li>
+<li><strong>智能发现</strong>：自动识别测试文件和函数，无需手动注册</li>
+<li><strong>插件生态</strong>：拥有800+插件，几乎能满足所有测试需求</li>
+<li><strong>强大断言</strong>：原生assert语句，失败时自动显示上下文信息</li>
+<li><strong>参数化测试</strong>：一行代码实现多组数据测试，大幅减少重复代码</li>
+<li><strong>兼容性好</strong>：支持运行unittest和nose编写的测试</li>
+<li><strong>fixture机制</strong>：比传统setup&#x2F;teardown更灵活的资源管理方案</li>
+</ul>
+<h3 id="💡-个人体验"><a href="#💡-个人体验" class="headerlink" title="💡 个人体验"></a>💡 个人体验</h3><p>作为一个从unittest转向pytest的测试工程师，最直观的感受就是：</p>
+<blockquote>
+<p><strong>代码量减少了，测试效率提高了，维护成本降低了！</strong></p>
+</blockquote>
+<p>之前写unittest测试时，总是要写很多继承和 setUp&#x2F;tearDown 方法，而pytest让测试代码变得更加简洁和专注于测试逻辑本身。</p>
+<h2 id="📦-二、环境搭建：从零开始"><a href="#📦-二、环境搭建：从零开始" class="headerlink" title="📦 二、环境搭建：从零开始"></a>📦 二、环境搭建：从零开始</h2><h3 id="2-1-基础安装"><a href="#2-1-基础安装" class="headerlink" title="2.1 基础安装"></a>2.1 基础安装</h3><p>安装pytest非常简单，一条pip命令搞定：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装pytest</span>
+pip <span class="token function">install</span> pytest
+
+<span class="token comment"># 验证安装</span>
+pytest <span class="token parameter variable">--version</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="2-2-推荐插件安装"><a href="#2-2-推荐插件安装" class="headerlink" title="2.2 推荐插件安装"></a>2.2 推荐插件安装</h3><p>在实际项目中，我推荐安装以下几个常用插件，它们能极大提升测试效率：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 生成美观的HTML测试报告</span>
+pip <span class="token function">install</span> pytest-html
+
+<span class="token comment"># 并行执行测试，大幅提升测试速度</span>
+pip <span class="token function">install</span> pytest-xdist
+
+<span class="token comment"># 提供mock功能，方便模拟依赖</span>
+pip <span class="token function">install</span> pytest-mock
+
+<span class="token comment"># 测试覆盖率统计</span>
+pip <span class="token function">install</span> pytest-cov<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="🔧-环境配置小技巧"><a href="#🔧-环境配置小技巧" class="headerlink" title="🔧 环境配置小技巧"></a>🔧 环境配置小技巧</h3><p>为了让团队协作更顺畅，我通常会在项目根目录创建一个<code>requirements-test.txt</code>文件，将所有测试依赖都列在里面：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">pytest==7.4.0
+pytest-html==3.2.0
+pytest-xdist==3.3.1
+pytest-mock==3.10.0
+pytest-cov==4.1.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>这样团队成员就可以通过<code>pip install -r requirements-test.txt</code>一键安装所有依赖了！</p>
+<h2 id="🔍-三、快速上手：第一个测试用例"><a href="#🔍-三、快速上手：第一个测试用例" class="headerlink" title="🔍 三、快速上手：第一个测试用例"></a>🔍 三、快速上手：第一个测试用例</h2><h3 id="3-1-测试用例结构"><a href="#3-1-测试用例结构" class="headerlink" title="3.1 测试用例结构"></a>3.1 测试用例结构</h3><p>pytest的测试用例结构非常简洁，让我们来看一个简单的例子：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># test_math.py</span>
+<span class="token keyword">def</span> <span class="token function">add</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""一个简单的加法函数"""</span>
+    <span class="token keyword">return</span> x <span class="token operator">+</span> y
+
+<span class="token keyword">def</span> <span class="token function">test_add_positive</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试正数相加"""</span>
+    result <span class="token operator">=</span> add<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> result <span class="token operator">==</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"2 + 3 应该等于 5，但得到的是 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>result<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>
+
+<span class="token keyword">def</span> <span class="token function">test_add_negative</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试负数相加"""</span>
+    result <span class="token operator">=</span> add<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> result <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"-1 + (-2) 应该等于 -3，但得到的是 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>result<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span>
+
+<span class="token keyword">def</span> <span class="token function">test_add_mixed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试正负混合相加"""</span>
+    result <span class="token operator">=</span> add<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> result <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"5 + (-3) 应该等于 2，但得到的是 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>result<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="3-2-命名规则（重点！）"><a href="#3-2-命名规则（重点！）" class="headerlink" title="3.2 命名规则（重点！）"></a>3.2 命名规则（重点！）</h3><p>pytest通过特定的命名规则来自动发现测试用例：</p>
+<ul>
+<li><strong>文件名</strong>：以<code>test_</code>开头或以<code>_test</code>结尾（如<code>test_login.py</code>或<code>login_test.py</code>）</li>
+<li><strong>测试函数</strong>：以<code>test_</code>开头</li>
+<li><strong>测试类</strong>：以<code>Test</code>开头，并且不能包含<code>__init__</code>方法</li>
+<li><strong>测试方法</strong>：类中以<code>test_</code>开头的方法</li>
+</ul>
+<h3 id="3-3-运行测试"><a href="#3-3-运行测试" class="headerlink" title="3.3 运行测试"></a>3.3 运行测试</h3><p>运行pytest测试有多种方式，我总结了几个最常用的：</p>
+<h4 id="🏃‍♂️-基本运行"><a href="#🏃‍♂️-基本运行" class="headerlink" title="🏃‍♂️ 基本运行"></a>🏃‍♂️ 基本运行</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 运行当前目录下所有测试</span>
+pytest
+
+<span class="token comment"># 运行特定文件</span>
+pytest test_math.py
+
+<span class="token comment"># 运行特定函数</span>
+pytest test_math.py::test_add_positive<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="📊-详细输出"><a href="#📊-详细输出" class="headerlink" title="📊 详细输出"></a>📊 详细输出</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 详细模式：显示每个测试的执行情况</span>
+pytest <span class="token parameter variable">-v</span>
+
+<span class="token comment"># 显示print输出</span>
+pytest <span class="token parameter variable">-s</span>
+
+<span class="token comment"># 组合使用</span>
+pytest <span class="token parameter variable">-vs</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="📈-生成报告"><a href="#📈-生成报告" class="headerlink" title="📈 生成报告"></a>📈 生成报告</h4><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 生成HTML报告</span>
+pytest <span class="token parameter variable">--html</span><span class="token operator">=</span>report.html<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="💻-我的第一个pytest实战"><a href="#💻-我的第一个pytest实战" class="headerlink" title="💻 我的第一个pytest实战"></a>💻 我的第一个pytest实战</h3><p>记得第一次使用pytest时，我把一个使用unittest编写的测试模块转换成了pytest风格，代码量减少了近40%！这让我深刻体会到了pytest的简洁之美。</p>
+<h2 id="🔧-四、深入理解Fixture：pytest的灵魂"><a href="#🔧-四、深入理解Fixture：pytest的灵魂" class="headerlink" title="🔧 四、深入理解Fixture：pytest的灵魂"></a>🔧 四、深入理解Fixture：pytest的灵魂</h2><p>Fixture是pytest最强大的特性之一，它提供了灵活的资源管理方案。我认为理解并熟练使用fixture是掌握pytest的关键！</p>
+<h3 id="4-1-Fixture基础"><a href="#4-1-Fixture基础" class="headerlink" title="4.1 Fixture基础"></a>4.1 Fixture基础</h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pytest
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>fixture</span>
+<span class="token keyword">def</span> <span class="token function">sample_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""提供测试数据的fixture"""</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"准备测试数据..."</span><span class="token punctuation">)</span>
+    data <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
+    <span class="token keyword">yield</span> data  <span class="token comment"># 返回测试数据给测试函数</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"清理测试数据..."</span><span class="token punctuation">)</span>
+    <span class="token comment"># yield之后的代码会在测试结束后执行（无论成功失败）</span>
+
+<span class="token keyword">def</span> <span class="token function">test_sum</span><span class="token punctuation">(</span>sample_data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""使用fixture提供的数据进行测试"""</span>
+    <span class="token keyword">assert</span> <span class="token builtin">sum</span><span class="token punctuation">(</span>sample_data<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">15</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="4-2-Fixture的作用域"><a href="#4-2-Fixture的作用域" class="headerlink" title="4.2 Fixture的作用域"></a>4.2 Fixture的作用域</h3><p>fixture可以定义不同的作用域，控制其初始化和清理的时机：</p>
+<table>
+<thead>
+<tr>
+<th>作用域</th>
+<th>说明</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>function</code></td>
+<td>每个测试函数执行一次（默认）</td>
+<td>测试数据准备</td>
+</tr>
+<tr>
+<td><code>class</code></td>
+<td>每个测试类执行一次</td>
+<td>类级别共享资源</td>
+</tr>
+<tr>
+<td><code>module</code></td>
+<td>每个模块执行一次</td>
+<td>模块级共享资源</td>
+</tr>
+<tr>
+<td><code>session</code></td>
+<td>整个测试会话执行一次</td>
+<td>数据库连接、API客户端</td>
+</tr>
+</tbody></table>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>fixture</span><span class="token punctuation">(</span>scope<span class="token operator">=</span><span class="token string">"module"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">db_connection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""数据库连接fixture，整个模块共享"""</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"建立数据库连接"</span><span class="token punctuation">)</span>
+    conn <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"status"</span><span class="token punctuation">:</span> <span class="token string">"connected"</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">yield</span> conn
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"关闭数据库连接"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="4-3-Conftest-py：共享fixture的最佳实践"><a href="#4-3-Conftest-py：共享fixture的最佳实践" class="headerlink" title="4.3 Conftest.py：共享fixture的最佳实践"></a>4.3 Conftest.py：共享fixture的最佳实践</h3><p><code>conftest.py</code>是pytest的一个特殊文件，用于存放共享的fixture和hook函数。我在项目中经常这样使用它：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># conftest.py</span>
+<span class="token keyword">import</span> pytest
+<span class="token keyword">import</span> requests
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>fixture</span><span class="token punctuation">(</span>scope<span class="token operator">=</span><span class="token string">"session"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">api_client</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""API测试客户端fixture"""</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"初始化API客户端"</span><span class="token punctuation">)</span>
+    client <span class="token operator">=</span> requests<span class="token punctuation">.</span>Session<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    client<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>update<span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"Content-Type"</span><span class="token punctuation">:</span> <span class="token string">"application/json"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    client<span class="token punctuation">.</span>base_url <span class="token operator">=</span> <span class="token string">"https://api.example.com"</span>
+    <span class="token keyword">yield</span> client
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"关闭API客户端"</span><span class="token punctuation">)</span>
+    client<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>fixture</span>
+<span class="token keyword">def</span> <span class="token function">auth_headers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""认证头信息fixture"""</span>
+    <span class="token keyword">return</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"Authorization"</span><span class="token punctuation">:</span> <span class="token string">"Bearer token123"</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="📝-实战经验分享"><a href="#📝-实战经验分享" class="headerlink" title="📝 实战经验分享"></a>📝 实战经验分享</h3><p>在实际项目中，我通常会创建多个fixture来管理不同的资源：</p>
+<ul>
+<li><code>setup_database()</code>: 初始化测试数据库</li>
+<li><code>mock_user()</code>: 提供测试用户数据</li>
+<li><code>mock_api()</code>: 模拟外部API响应</li>
+<li><code>browser()</code>: Web UI测试的浏览器实例</li>
+</ul>
+<p>这种模块化的fixture设计让测试代码更加清晰和易于维护！</p>
+<h2 id="🎯-五、灵活的测试选择与执行"><a href="#🎯-五、灵活的测试选择与执行" class="headerlink" title="🎯 五、灵活的测试选择与执行"></a>🎯 五、灵活的测试选择与执行</h2><p>在大型项目中，我们通常不需要每次都运行所有测试。pytest提供了多种方式来选择特定的测试用例。</p>
+<h3 id="5-1-精确选择测试"><a href="#5-1-精确选择测试" class="headerlink" title="5.1 精确选择测试"></a>5.1 精确选择测试</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 按模块选择</span>
+pytest tests/test_auth.py
+
+<span class="token comment"># 按目录选择</span>
+pytest tests/api/
+
+<span class="token comment"># 按函数选择</span>
+pytest tests/test_auth.py::test_login_success
+
+<span class="token comment"># 按类和方法选择</span>
+pytest tests/test_user.py::TestUserProfile::test_update_profile<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="5-2-使用-k参数模糊匹配"><a href="#5-2-使用-k参数模糊匹配" class="headerlink" title="5.2 使用-k参数模糊匹配"></a>5.2 使用-k参数模糊匹配</h3><figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 运行名称包含login的所有测试</span>
+pytest <span class="token parameter variable">-k</span> <span class="token string">"login"</span>
+
+<span class="token comment"># 运行名称包含login但不包含invalid的测试</span>
+pytest <span class="token parameter variable">-k</span> <span class="token string">"login and not invalid"</span>
+
+<span class="token comment"># 运行名称包含login或register的测试</span>
+pytest <span class="token parameter variable">-k</span> <span class="token string">"login or register"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="5-3-使用标记（mark）组织测试"><a href="#5-3-使用标记（mark）组织测试" class="headerlink" title="5.3 使用标记（mark）组织测试"></a>5.3 使用标记（mark）组织测试</h3><p>标记是pytest中组织和分类测试的强大工具，我在项目中大量使用它：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pytest
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>smoke</span>  <span class="token comment"># 冒烟测试标记</span>
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>critical</span>  <span class="token comment"># 关键功能标记</span>
+<span class="token keyword">def</span> <span class="token function">test_login</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""登录功能冒烟测试"""</span>
+    <span class="token keyword">assert</span> <span class="token boolean">True</span>
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>regression</span>  <span class="token comment"># 回归测试标记</span>
+<span class="token keyword">def</span> <span class="token function">test_user_profile</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""用户资料回归测试"""</span>
+    <span class="token keyword">assert</span> <span class="token boolean">True</span>
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>slow</span>  <span class="token comment"># 慢测试标记</span>
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>expensive</span>  <span class="token comment"># 资源密集型测试标记</span>
+<span class="token keyword">def</span> <span class="token function">test_large_data_import</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""大数据导入测试"""</span>
+    <span class="token keyword">assert</span> <span class="token boolean">True</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>然后在项目根目录创建<code>pytest.ini</code>文件注册这些标记：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token section"><span class="token punctuation">[</span><span class="token section-name selector">pytest</span><span class="token punctuation">]</span></span>
+<span class="token key attr-name">markers</span> <span class="token punctuation">=</span>
+    smoke: 冒烟测试用例
+    regression: 回归测试用例
+    critical: 关键功能测试
+    slow: 执行时间较长的测试
+    expensive: 资源密集型测试
+    integration: 集成测试用例<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>运行特定标记的测试：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 运行冒烟测试</span>
+pytest <span class="token parameter variable">-m</span> smoke
+
+<span class="token comment"># 运行冒烟和关键功能测试</span>
+pytest <span class="token parameter variable">-m</span> <span class="token string">"smoke or critical"</span>
+
+<span class="token comment"># 运行回归测试但排除慢测试</span>
+pytest <span class="token parameter variable">-m</span> <span class="token string">"regression and not slow"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="💡-工作流建议"><a href="#💡-工作流建议" class="headerlink" title="💡 工作流建议"></a>💡 工作流建议</h3><p>在团队协作中，我建议这样组织测试：</p>
+<ol>
+<li>提交代码前：运行<code>pytest -m smoke</code>确保基本功能正常</li>
+<li>每日构建：运行<code>pytest -m &quot;smoke or critical&quot;</code></li>
+<li>夜间构建：运行所有测试<code>pytest</code></li>
+<li>发布前：运行<code>pytest -m regression</code>进行全面回归</li>
+</ol>
+<p>这样既能保证代码质量，又能提高开发效率！</p>
+<h2 id="🔄-六、数据驱动测试：让测试更高效"><a href="#🔄-六、数据驱动测试：让测试更高效" class="headerlink" title="🔄 六、数据驱动测试：让测试更高效"></a>🔄 六、数据驱动测试：让测试更高效</h2><p>数据驱动测试是自动化测试的核心思想之一，pytest通过<code>@pytest.mark.parametrize</code>装饰器提供了优雅的支持。</p>
+<h3 id="6-1-基本参数化"><a href="#6-1-基本参数化" class="headerlink" title="6.1 基本参数化"></a>6.1 基本参数化</h3><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pytest
+
+<span class="token keyword">def</span> <span class="token function">add</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> x <span class="token operator">+</span> y
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>parametrize</span><span class="token punctuation">(</span><span class="token string">"a, b, expected"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span>        <span class="token comment"># 正数相加</span>
+    <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span>     <span class="token comment"># 负数相加</span>
+    <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span>        <span class="token comment"># 零值测试</span>
+    <span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">,</span> <span class="token number">3000</span><span class="token punctuation">)</span>  <span class="token comment"># 大数测试</span>
+<span class="token punctuation">]</span><span class="token punctuation">,</span> ids<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"positive"</span><span class="token punctuation">,</span> <span class="token string">"negative"</span><span class="token punctuation">,</span> <span class="token string">"zero"</span><span class="token punctuation">,</span> <span class="token string">"large_numbers"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">test_add</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""使用多组数据测试加法函数"""</span>
+    result <span class="token operator">=</span> add<span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> result <span class="token operator">==</span> expected<span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>a<span class="token punctuation">&#125;</span></span><span class="token string"> + </span><span class="token interpolation"><span class="token punctuation">&#123;</span>b<span class="token punctuation">&#125;</span></span><span class="token string"> 应该等于 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>expected<span class="token punctuation">&#125;</span></span><span class="token string">，但得到的是 </span><span class="token interpolation"><span class="token punctuation">&#123;</span>result<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="6-2-复杂数据结构的参数化"><a href="#6-2-复杂数据结构的参数化" class="headerlink" title="6.2 复杂数据结构的参数化"></a>6.2 复杂数据结构的参数化</h3><p>对于更复杂的测试场景，我们可以使用字典或对象作为测试数据：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>parametrize</span><span class="token punctuation">(</span><span class="token string">"user_data, is_valid"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"testuser"</span><span class="token punctuation">,</span> <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"test@example.com"</span><span class="token punctuation">,</span> <span class="token string">"password"</span><span class="token punctuation">:</span> <span class="token string">"Pass123!"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">""</span><span class="token punctuation">,</span> <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"test@example.com"</span><span class="token punctuation">,</span> <span class="token string">"password"</span><span class="token punctuation">:</span> <span class="token string">"Pass123!"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"testuser"</span><span class="token punctuation">,</span> <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"invalid-email"</span><span class="token punctuation">,</span> <span class="token string">"password"</span><span class="token punctuation">:</span> <span class="token string">"Pass123!"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token boolean">False</span><span class="token punctuation">)</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">test_user_registration</span><span class="token punctuation">(</span>user_data<span class="token punctuation">,</span> is_valid<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试用户注册功能"""</span>
+    <span class="token comment"># 这里是测试逻辑</span>
+    <span class="token keyword">if</span> is_valid<span class="token punctuation">:</span>
+        <span class="token comment"># 验证有效用户注册成功</span>
+        <span class="token keyword">pass</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token comment"># 验证无效用户被正确拒绝</span>
+        <span class="token keyword">pass</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="6-3-从外部文件加载数据"><a href="#6-3-从外部文件加载数据" class="headerlink" title="6.3 从外部文件加载数据"></a>6.3 从外部文件加载数据</h3><p>在实际项目中，我通常会将测试数据存储在外部文件中，这样更易于维护：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> yaml
+<span class="token keyword">import</span> json
+<span class="token keyword">import</span> pytest
+
+<span class="token comment"># 从YAML文件加载数据</span>
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>parametrize</span><span class="token punctuation">(</span><span class="token string">"test_data"</span><span class="token punctuation">,</span> yaml<span class="token punctuation">.</span>safe_load<span class="token punctuation">(</span><span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"test_data.yaml"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">test_from_yaml</span><span class="token punctuation">(</span>test_data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""从YAML文件加载测试数据"""</span>
+    a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> expected <span class="token operator">=</span> test_data
+    <span class="token keyword">assert</span> a <span class="token operator">+</span> b <span class="token operator">==</span> expected
+
+<span class="token comment"># 从JSON文件加载数据</span>
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>parametrize</span><span class="token punctuation">(</span><span class="token string">"test_data"</span><span class="token punctuation">,</span> json<span class="token punctuation">.</span>load<span class="token punctuation">(</span><span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"test_data.json"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">test_from_json</span><span class="token punctuation">(</span>test_data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""从JSON文件加载测试数据"""</span>
+    a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> expected <span class="token operator">=</span> test_data
+    <span class="token keyword">assert</span> a <span class="token operator">+</span> b <span class="token operator">==</span> expected<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>测试数据文件示例（test_data.yaml）：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
+<span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span>
+<span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">-1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="💻-我的数据驱动实战经验"><a href="#💻-我的数据驱动实战经验" class="headerlink" title="💻 我的数据驱动实战经验"></a>💻 我的数据驱动实战经验</h3><p>在一个API测试项目中，我使用参数化测试实现了对几十种不同API响应的验证，只用了不到100行代码！这比为每个响应编写单独的测试节省了大量时间。</p>
+<p>关键是，当API规范更新时，我只需要更新测试数据文件，而不需要修改测试代码本身，大大降低了维护成本。</p>
+<h2 id="🚨-七、异常测试与特殊断言"><a href="#🚨-七、异常测试与特殊断言" class="headerlink" title="🚨 七、异常测试与特殊断言"></a>🚨 七、异常测试与特殊断言</h2><h3 id="7-1-测试异常抛出"><a href="#7-1-测试异常抛出" class="headerlink" title="7.1 测试异常抛出"></a>7.1 测试异常抛出</h3><p>在测试中，我们经常需要验证代码在特定情况下会抛出预期的异常：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pytest
+
+<span class="token keyword">def</span> <span class="token function">divide</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""除法函数"""</span>
+    <span class="token keyword">return</span> x <span class="token operator">/</span> y
+
+<span class="token keyword">def</span> <span class="token function">test_divide_by_zero</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试除以零应该抛出ZeroDivisionError"""</span>
+    <span class="token keyword">with</span> pytest<span class="token punctuation">.</span>raises<span class="token punctuation">(</span>ZeroDivisionError<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        divide<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">test_divide_by_zero_message</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试异常消息是否符合预期"""</span>
+    <span class="token keyword">with</span> pytest<span class="token punctuation">.</span>raises<span class="token punctuation">(</span>ZeroDivisionError<span class="token punctuation">,</span> <span class="token keyword">match</span><span class="token operator">=</span><span class="token string">"division by zero"</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        divide<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="7-2-测试警告"><a href="#7-2-测试警告" class="headerlink" title="7.2 测试警告"></a>7.2 测试警告</h3><p>对于会发出警告的代码，我们可以使用<code>pytest.warns</code>：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pytest
+<span class="token keyword">import</span> warnings
+
+<span class="token keyword">def</span> <span class="token function">deprecated_function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""已弃用的函数"""</span>
+    warnings<span class="token punctuation">.</span>warn<span class="token punctuation">(</span><span class="token string">"This function is deprecated"</span><span class="token punctuation">,</span> DeprecationWarning<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token number">42</span>
+
+<span class="token keyword">def</span> <span class="token function">test_deprecated_function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试弃用警告"""</span>
+    <span class="token keyword">with</span> pytest<span class="token punctuation">.</span>warns<span class="token punctuation">(</span>DeprecationWarning<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        result <span class="token operator">=</span> deprecated_function<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">assert</span> result <span class="token operator">==</span> <span class="token number">42</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="7-3-标记预期失败的测试"><a href="#7-3-标记预期失败的测试" class="headerlink" title="7.3 标记预期失败的测试"></a>7.3 标记预期失败的测试</h3><p>对于已知问题或尚未实现的功能，我们可以标记测试为预期失败：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pytest
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>xfail</span><span class="token punctuation">(</span>reason<span class="token operator">=</span><span class="token string">"功能尚未实现"</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">test_not_implemented_feature</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试尚未实现的功能"""</span>
+    <span class="token comment"># 这个测试预期会失败</span>
+    <span class="token keyword">assert</span> <span class="token boolean">False</span>
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>mark<span class="token punctuation">.</span>xfail</span><span class="token punctuation">(</span>raises<span class="token operator">=</span>ZeroDivisionError<span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">test_divide_by_zero_expected</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""预期会抛出ZeroDivisionError的测试"""</span>
+    <span class="token number">1</span> <span class="token operator">/</span> <span class="token number">0</span>  <span class="token comment"># 这个测试会通过，因为我们预期它会抛出ZeroDivisionError</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="🔍-八、实用调试技巧"><a href="#🔍-八、实用调试技巧" class="headerlink" title="🔍 八、实用调试技巧"></a>🔍 八、实用调试技巧</h2><h3 id="8-1-打印调试"><a href="#8-1-打印调试" class="headerlink" title="8.1 打印调试"></a>8.1 打印调试</h3><p>最基本的调试方法是使用print语句输出中间变量的值：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">test_with_print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""使用print进行调试"""</span>
+    data <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"测试数据: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>data<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    total <span class="token operator">=</span> <span class="token builtin">sum</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"计算结果: </span><span class="token interpolation"><span class="token punctuation">&#123;</span>total<span class="token punctuation">&#125;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> total <span class="token operator">==</span> <span class="token number">15</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>运行时使用<code>-s</code>参数显示print输出：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pytest <span class="token parameter variable">-s</span> test_file.py<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h3 id="8-2-使用断点调试"><a href="#8-2-使用断点调试" class="headerlink" title="8.2 使用断点调试"></a>8.2 使用断点调试</h3><p>Python的pdb调试器是一个强大的工具：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">test_with_pdb</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""使用pdb进行调试"""</span>
+    a <span class="token operator">=</span> <span class="token number">1</span>
+    b <span class="token operator">=</span> <span class="token number">2</span>
+    <span class="token keyword">import</span> pdb<span class="token punctuation">;</span> pdb<span class="token punctuation">.</span>set_trace<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 设置断点</span>
+    result <span class="token operator">=</span> a <span class="token operator">+</span> b
+    <span class="token keyword">assert</span> result <span class="token operator">==</span> <span class="token number">3</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="8-3-IDE集成调试"><a href="#8-3-IDE集成调试" class="headerlink" title="8.3 IDE集成调试"></a>8.3 IDE集成调试</h3><p>对于日常开发，我强烈推荐使用PyCharm或VSCode的集成调试功能：</p>
+<ol>
+<li>在代码中设置断点</li>
+<li>右键点击测试函数，选择”Debug”</li>
+<li>使用单步执行、变量查看等功能进行调试</li>
+</ol>
+<h3 id="8-4-失败时立即停止"><a href="#8-4-失败时立即停止" class="headerlink" title="8.4 失败时立即停止"></a>8.4 失败时立即停止</h3><p>当我们修复问题时，通常希望在第一个失败的测试处停止，以便快速定位和解决问题：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 在第一个失败处停止，并显示详细信息</span>
+pytest <span class="token parameter variable">-xvs</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="💡-我的调试心得"><a href="#💡-我的调试心得" class="headerlink" title="💡 我的调试心得"></a>💡 我的调试心得</h3><p>在实际工作中，我发现以下调试流程非常有效：</p>
+<ol>
+<li>首先使用<code>pytest -xvs</code>快速定位失败的测试</li>
+<li>分析失败信息，判断可能的原因</li>
+<li>使用print语句输出关键变量的值</li>
+<li>对于复杂问题，使用IDE的调试器进行单步调试</li>
+<li>修复问题后，再次运行测试验证</li>
+</ol>
+<h2 id="🏗️-九、实际项目中的最佳实践"><a href="#🏗️-九、实际项目中的最佳实践" class="headerlink" title="🏗️ 九、实际项目中的最佳实践"></a>🏗️ 九、实际项目中的最佳实践</h2><h3 id="9-1-推荐的项目结构"><a href="#9-1-推荐的项目结构" class="headerlink" title="9.1 推荐的项目结构"></a>9.1 推荐的项目结构</h3><p>一个良好的测试项目结构对于团队协作至关重要，我推荐这样组织：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">my_project&#x2F;
+├── src&#x2F;                # 源代码目录
+│   └── my_package&#x2F;     # 被测包
+├── tests&#x2F;              # 测试目录
+│   ├── conftest.py     # 共享的fixture和hooks
+│   ├── fixtures&#x2F;       # 自定义fixture模块
+│   │   ├── __init__.py
+│   │   ├── api_fixtures.py
+│   │   └── db_fixtures.py
+│   ├── data&#x2F;           # 测试数据目录
+│   │   ├── test_cases.yaml
+│   │   └── mock_responses&#x2F;
+│   ├── unit&#x2F;           # 单元测试
+│   │   ├── __init__.py
+│   │   └── test_utils.py
+│   ├── integration&#x2F;    # 集成测试
+│   │   ├── __init__.py
+│   │   └── test_api_integration.py
+│   └── e2e&#x2F;            # 端到端测试
+│       ├── __init__.py
+│       └── test_user_flow.py
+├── requirements.txt    # 生产依赖
+├── requirements-test.txt  # 测试依赖
+└── pytest.ini          # pytest配置文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="9-2-API测试实战案例"><a href="#9-2-API测试实战案例" class="headerlink" title="9.2 API测试实战案例"></a>9.2 API测试实战案例</h3><p>以下是我在实际项目中使用pytest进行API测试的简化示例：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># tests/integration/test_auth_api.py</span>
+<span class="token keyword">import</span> pytest
+<span class="token keyword">import</span> json
+
+<span class="token keyword">def</span> <span class="token function">test_login_success</span><span class="token punctuation">(</span>api_client<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试成功登录"""</span>
+    <span class="token comment"># 准备测试数据</span>
+    payload <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"valid_user"</span><span class="token punctuation">,</span>
+        <span class="token string">"password"</span><span class="token punctuation">:</span> <span class="token string">"valid_password"</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token comment"># 发送请求</span>
+    response <span class="token operator">=</span> api_client<span class="token punctuation">.</span>post<span class="token punctuation">(</span>
+        <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>api_client<span class="token punctuation">.</span>base_url<span class="token punctuation">&#125;</span></span><span class="token string">/auth/login"</span></span><span class="token punctuation">,</span>
+        json<span class="token operator">=</span>payload
+    <span class="token punctuation">)</span>
+    
+    <span class="token comment"># 验证响应</span>
+    <span class="token keyword">assert</span> response<span class="token punctuation">.</span>status_code <span class="token operator">==</span> <span class="token number">200</span>
+    data <span class="token operator">=</span> response<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> <span class="token string">"access_token"</span> <span class="token keyword">in</span> data
+    <span class="token keyword">assert</span> data<span class="token punctuation">[</span><span class="token string">"user"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">"username"</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"valid_user"</span>
+
+<span class="token keyword">def</span> <span class="token function">test_login_invalid_credentials</span><span class="token punctuation">(</span>api_client<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试无效凭据登录"""</span>
+    payload <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"invalid_user"</span><span class="token punctuation">,</span>
+        <span class="token string">"password"</span><span class="token punctuation">:</span> <span class="token string">"wrong_password"</span>
+    <span class="token punctuation">&#125;</span>
+    
+    response <span class="token operator">=</span> api_client<span class="token punctuation">.</span>post<span class="token punctuation">(</span>
+        <span class="token string-interpolation"><span class="token string">f"</span><span class="token interpolation"><span class="token punctuation">&#123;</span>api_client<span class="token punctuation">.</span>base_url<span class="token punctuation">&#125;</span></span><span class="token string">/auth/login"</span></span><span class="token punctuation">,</span>
+        json<span class="token operator">=</span>payload
+    <span class="token punctuation">)</span>
+    
+    <span class="token keyword">assert</span> response<span class="token punctuation">.</span>status_code <span class="token operator">==</span> <span class="token number">401</span>
+    data <span class="token operator">=</span> response<span class="token punctuation">.</span>json<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> data<span class="token punctuation">[</span><span class="token string">"error"</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"Invalid credentials"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="9-3-数据库测试实战"><a href="#9-3-数据库测试实战" class="headerlink" title="9.3 数据库测试实战"></a>9.3 数据库测试实战</h3><p>对于需要访问数据库的测试，我通常使用fixture来管理测试数据库：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># conftest.py</span>
+<span class="token keyword">import</span> pytest
+<span class="token keyword">import</span> sqlite3
+
+<span class="token decorator annotation punctuation">@pytest<span class="token punctuation">.</span>fixture</span>
+<span class="token keyword">def</span> <span class="token function">test_db</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""提供测试数据库连接"""</span>
+    <span class="token comment"># 创建内存数据库</span>
+    conn <span class="token operator">=</span> sqlite3<span class="token punctuation">.</span>connect<span class="token punctuation">(</span><span class="token string">":memory:"</span><span class="token punctuation">)</span>
+    cursor <span class="token operator">=</span> conn<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 创建测试表</span>
+    cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span><span class="token triple-quoted-string string">"""CREATE TABLE users (
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
+                   name TEXT NOT NULL,
+                   email TEXT NOT NULL UNIQUE
+                   )"""</span><span class="token punctuation">)</span>
+    
+    <span class="token comment"># 插入测试数据</span>
+    cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>
+        <span class="token string">"INSERT INTO users (name, email) VALUES (?, ?)"</span><span class="token punctuation">,</span>
+        <span class="token punctuation">(</span><span class="token string">"Test User"</span><span class="token punctuation">,</span> <span class="token string">"test@example.com"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+    conn<span class="token punctuation">.</span>commit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">yield</span> conn
+    
+    <span class="token comment"># 清理资源</span>
+    conn<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># tests/unit/test_user_repository.py</span>
+<span class="token keyword">def</span> <span class="token function">test_get_user_by_email</span><span class="token punctuation">(</span>test_db<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试通过邮箱获取用户"""</span>
+    cursor <span class="token operator">=</span> test_db<span class="token punctuation">.</span>cursor<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    cursor<span class="token punctuation">.</span>execute<span class="token punctuation">(</span>
+        <span class="token string">"SELECT * FROM users WHERE email = ?"</span><span class="token punctuation">,</span>
+        <span class="token punctuation">(</span><span class="token string">"test@example.com"</span><span class="token punctuation">,</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+    user <span class="token operator">=</span> cursor<span class="token punctuation">.</span>fetchone<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">assert</span> user <span class="token keyword">is</span> <span class="token keyword">not</span> <span class="token boolean">None</span>
+    <span class="token keyword">assert</span> user<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"Test User"</span>
+    <span class="token keyword">assert</span> user<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">"test@example.com"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="📝-实战经验总结"><a href="#📝-实战经验总结" class="headerlink" title="📝 实战经验总结"></a>📝 实战经验总结</h3><p>在实际项目中，我总结了以下几点pytest使用经验：</p>
+<ol>
+<li><strong>fixture命名要清晰</strong>：使用描述性的名称，表明其用途</li>
+<li><strong>合理使用作用域</strong>：避免不必要的资源初始化和清理</li>
+<li><strong>参数化测试数据</strong>：减少重复代码，提高测试覆盖率</li>
+<li><strong>使用标记组织测试</strong>：方便在不同场景下选择合适的测试集</li>
+<li><strong>编写有意义的断言消息</strong>：失败时更容易定位问题</li>
+<li><strong>保持测试独立性</strong>：避免测试之间的相互依赖</li>
+</ol>
+<h2 id="🚀-十、进阶功能与推荐插件"><a href="#🚀-十、进阶功能与推荐插件" class="headerlink" title="🚀 十、进阶功能与推荐插件"></a>🚀 十、进阶功能与推荐插件</h2><h3 id="10-1-并行测试：pytest-xdist"><a href="#10-1-并行测试：pytest-xdist" class="headerlink" title="10.1 并行测试：pytest-xdist"></a>10.1 并行测试：pytest-xdist</h3><p>对于大型项目，并行测试可以显著提高测试速度：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 使用4个进程并行执行测试</span>
+pytest <span class="token parameter variable">-n</span> <span class="token number">4</span>
+
+<span class="token comment"># 自动检测CPU核心数并并行执行</span>
+pytest <span class="token parameter variable">-n</span> auto<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="10-2-测试覆盖率：pytest-cov"><a href="#10-2-测试覆盖率：pytest-cov" class="headerlink" title="10.2 测试覆盖率：pytest-cov"></a>10.2 测试覆盖率：pytest-cov</h3><p>测试覆盖率可以帮助我们了解代码的测试情况：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 测量覆盖率并在终端显示</span>
+pytest <span class="token parameter variable">--cov</span><span class="token operator">=</span>my_package
+
+<span class="token comment"># 生成HTML覆盖率报告</span>
+pytest <span class="token parameter variable">--cov</span><span class="token operator">=</span>my_package --cov-report<span class="token operator">=</span>html<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="10-3-参数化增强：pytest-cases"><a href="#10-3-参数化增强：pytest-cases" class="headerlink" title="10.3 参数化增强：pytest-cases"></a>10.3 参数化增强：pytest-cases</h3><p>提供更强大的参数化功能：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> pytest_cases <span class="token keyword">import</span> parametrize_with_cases
+
+<span class="token keyword">def</span> <span class="token function">case_positive_numbers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span>
+
+<span class="token keyword">def</span> <span class="token function">case_negative_numbers</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">3</span>
+
+<span class="token decorator annotation punctuation">@parametrize_with_cases</span><span class="token punctuation">(</span><span class="token string">"a, b, expected"</span><span class="token punctuation">,</span> cases<span class="token operator">=</span><span class="token punctuation">[</span>case_positive_numbers<span class="token punctuation">,</span> case_negative_numbers<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">test_with_cases</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> expected<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">assert</span> a <span class="token operator">+</span> b <span class="token operator">==</span> expected<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="10-4-性能测试：pytest-benchmark"><a href="#10-4-性能测试：pytest-benchmark" class="headerlink" title="10.4 性能测试：pytest-benchmark"></a>10.4 性能测试：pytest-benchmark</h3><p>用于基准测试和性能比较：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">test_my_function</span><span class="token punctuation">(</span>benchmark<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""测试函数性能"""</span>
+    result <span class="token operator">=</span> benchmark<span class="token punctuation">(</span>my_function<span class="token punctuation">)</span>
+    <span class="token keyword">assert</span> result <span class="token keyword">is</span> <span class="token keyword">not</span> <span class="token boolean">None</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="10-5-常用插件汇总"><a href="#10-5-常用插件汇总" class="headerlink" title="10.5 常用插件汇总"></a>10.5 常用插件汇总</h3><table>
+<thead>
+<tr>
+<th>插件名称</th>
+<th>功能描述</th>
+<th>推荐指数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pytest-html</td>
+<td>生成HTML测试报告</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>pytest-xdist</td>
+<td>并行执行测试</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>pytest-cov</td>
+<td>测试覆盖率统计</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>pytest-mock</td>
+<td>Mock功能支持</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>pytest-benchmark</td>
+<td>基准测试支持</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>pytest-selenium</td>
+<td>Web UI测试集成</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>pytest-ordering</td>
+<td>控制测试执行顺序</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td>pytest-django</td>
+<td>Django项目集成</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>pytest-asyncio</td>
+<td>异步测试支持</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>pytest-dotenv</td>
+<td>环境变量管理</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+</tbody></table>
+<h2 id="💖-学习心得与总结"><a href="#💖-学习心得与总结" class="headerlink" title="💖 学习心得与总结"></a>💖 学习心得与总结</h2><p>学习pytest的这段时间，我收获颇丰。从最初的简单使用，到现在能够熟练应用其各种高级特性，pytest不仅提高了我的测试效率，也让我对软件测试有了更深的理解。</p>
+<h3 id="🎯-核心收获"><a href="#🎯-核心收获" class="headerlink" title="🎯 核心收获"></a>🎯 核心收获</h3><ol>
+<li><strong>测试的本质是验证</strong>：好的测试应该清晰地表达预期行为</li>
+<li><strong>代码质量至关重要</strong>：测试代码和生产代码一样需要维护</li>
+<li><strong>自动化是提高效率的关键</strong>：合理使用自动化测试可以大幅提高开发效率和软件质量</li>
+<li><strong>工具是手段而非目的</strong>：选择合适的工具并正确使用才是最重要的</li>
+</ol>
+<h3 id="📚-功能模块推荐工具汇总"><a href="#📚-功能模块推荐工具汇总" class="headerlink" title="📚 功能模块推荐工具汇总"></a>📚 功能模块推荐工具汇总</h3><table>
+<thead>
+<tr>
+<th>功能模块</th>
+<th>推荐工具或写法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>断言方式</td>
+<td><code>assert</code> + 详细消息</td>
+<td>失败时自动输出上下文信息，便于调试</td>
+</tr>
+<tr>
+<td>数据驱动</td>
+<td><code>@pytest.mark.parametrize</code></td>
+<td>多组数据自动生成测试用例，减少重复代码</td>
+</tr>
+<tr>
+<td>环境准备</td>
+<td><code>@pytest.fixture</code></td>
+<td>灵活的资源管理，支持多种作用域</td>
+</tr>
+<tr>
+<td>报告输出</td>
+<td><code>pytest-html</code></td>
+<td>生成美观的HTML格式测试报告</td>
+</tr>
+<tr>
+<td>分组执行</td>
+<td><code>-m</code> 和 <code>-k</code> 参数</td>
+<td>按标记或名称灵活选择测试用例</td>
+</tr>
+<tr>
+<td>并发运行</td>
+<td><code>pytest-xdist</code></td>
+<td>并行执行测试，显著提高测试速度</td>
+</tr>
+<tr>
+<td>测试覆盖率</td>
+<td><code>pytest-cov</code></td>
+<td>测量代码覆盖率，指导测试完善</td>
+</tr>
+<tr>
+<td>性能测试</td>
+<td><code>pytest-benchmark</code></td>
+<td>进行基准测试，监控性能变化</td>
+</tr>
+</tbody></table>
+<h3 id="🚩-未来学习方向"><a href="#🚩-未来学习方向" class="headerlink" title="🚩 未来学习方向"></a>🚩 未来学习方向</h3><ol>
+<li><strong>深入研究pytest插件开发</strong>：开发团队专用的测试插件</li>
+<li><strong>结合CI&#x2F;CD流程</strong>：将自动化测试更好地集成到持续集成流程中</li>
+<li><strong>探索AI辅助测试</strong>：利用AI技术优化测试用例设计和缺陷分析</li>
+<li><strong>性能测试进阶</strong>：学习更专业的性能测试工具和方法</li>
+</ol>
+<h3 id="📣-最后的话"><a href="#📣-最后的话" class="headerlink" title="📣 最后的话"></a>📣 最后的话</h3><p>自动化测试是一个持续学习和实践的过程。pytest作为一个功能强大、设计优雅的测试框架，为我们提供了强大的支持。但最重要的还是我们的测试思维和方法论。</p>
+<p>希望这篇文章能帮助到正在学习自动化测试的朋友们！如果你有任何问题或建议，欢迎在评论区留言讨论。让我们一起在软件测试的道路上不断进步！</p>
+<hr>
+<p>📝 <em>本文整理：基于白月黑羽编程的pytest课程学习笔记，结合个人实战经验进行了扩展和总结。</em></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/" class="category-chain-item">⚙️ 自动化测试工程化：工具、实战与体系建设</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%E2%9A%99%EF%B8%8F-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%8C%96%EF%BC%9A%E5%B7%A5%E5%85%B7%E3%80%81%E5%AE%9E%E6%88%98%E4%B8%8E%E4%BD%93%E7%B3%BB%E5%BB%BA%E8%AE%BE/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E4%BD%93%E7%B3%BB/" class="category-chain-item">自动化测试体系</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/" class="print-no-link">#自动化测试</a>
+      
+        <a href="/fluid-blog/tags/Python/" class="print-no-link">#Python</a>
+      
+        <a href="/fluid-blog/tags/pytest/" class="print-no-link">#pytest</a>
+      
+        <a href="/fluid-blog/tags/%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" class="print-no-link">#测试框架</a>
+      
+        <a href="/fluid-blog/tags/Python%E6%B5%8B%E8%AF%95/" class="print-no-link">#Python测试</a>
+      
+        <a href="/fluid-blog/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="print-no-link">#学习笔记</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>🚀 Pytest自动化测试框架入门到实战：我的学习笔记与实战经验</div>
+      <div>https://linn0813.github.io/2025/10/01/2025-10-01-pytest-automation-testing-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/10/02/2025-10-02-pytest-advanced-features-guide/" title="🔍 Pytest高级特性实战：从码尚教育课程中学到的进阶技巧">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">🔍 Pytest高级特性实战：从码尚教育课程中学到的进阶技巧</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/08/28/2025-08-28-DQL-log-query/" title="🚀 OpenSearch Dashboards 日志查询全攻略：DQL 技巧与测试实战经验分享">
+                        <span class="hidden-mobile">🚀 OpenSearch Dashboards 日志查询全攻略：DQL 技巧与测试实战经验分享</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

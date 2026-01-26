@@ -1,0 +1,877 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/fluid-blog/img/favicon.jpg">
+  <link rel="icon" href="/fluid-blog/img/favicon.jpg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yuxiaoling">
+  <meta name="keywords" content="数据分析, SACA课程, 神策分析师认证, 数据采集, 数据模型, 指标体系, 事件设计">
+  
+    <meta name="description" content="记录SACA（神策分析师认证）课程第二章的学习内容，深入探讨数据采集基础，包括数据基础结构、指标体系搭建、事件设计思路、数据上线和呈现等，同时包含相关考试题目及解析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SA分析师认证课程 - 第二章 了解数据采集基础📚">
+<meta property="og:url" content="https://linn0813.github.io/2025/05/22/2025-05-22-SACA-chapter2/index.html">
+<meta property="og:site_name" content="Linn&#39;s Blog">
+<meta property="og:description" content="记录SACA（神策分析师认证）课程第二章的学习内容，深入探讨数据采集基础，包括数据基础结构、指标体系搭建、事件设计思路、数据上线和呈现等，同时包含相关考试题目及解析。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://linn0813.github.io/fluid-blog/img/SACA-chapter2.png">
+<meta property="article:published_time" content="2025-05-22T09:49:57.000Z">
+<meta property="article:modified_time" content="2026-01-21T04:03:44.615Z">
+<meta property="article:author" content="yuxiaoling">
+<meta property="article:tag" content="数据分析">
+<meta property="article:tag" content="SACA课程">
+<meta property="article:tag" content="神策分析师认证">
+<meta property="article:tag" content="数据采集">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://linn0813.github.io/fluid-blog/img/SACA-chapter2.png">
+  
+  
+  
+    <meta name="msvalidate.01" content="C0AF818C725A2A1E112A1537E1064EA8" />
+  
+  <title>SA分析师认证课程 - 第二章 了解数据采集基础📚 - Linn&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/fluid-blog/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/fluid-blog/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/fluid-blog/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"linn0813.github.io","root":"/fluid-blog/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/fluid-blog/search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/fluid-blog/js/utils.js" ></script>
+  <script  src="/fluid-blog/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/fluid-blog/">
+      <strong>Linn&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/qa/" target="_self">
+                <i class="iconfont icon-chat-fill"></i>
+                <span>知识库问答</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/fluid-blog/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于笔者</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/fluid-blog/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SA分析师认证课程 - 第二章 了解数据采集基础📚"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-22 17:49" pubdate>
+          2025年5月22日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SA分析师认证课程 - 第二章 了解数据采集基础📚</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="SA分析师认证课程-第二章-了解数据采集基础📚"><a href="#SA分析师认证课程-第二章-了解数据采集基础📚" class="headerlink" title="SA分析师认证课程 - 第二章 了解数据采集基础📚"></a>SA分析师认证课程 - 第二章 了解数据采集基础📚</h1><p>在第一章的学习中，我们踏入了数据分析的大门，了解了数据分析的基本概念、流程和方法。如今，我们来到了第二章——了解数据采集基础。<br>数据采集是数据分析的源头，它的准确性和完整性直接影响着后续分析的质量。就像建造高楼大厦，稳固的地基是关键，而数据采集就是数据分析这座大厦的坚实根基💪。<br>在SACA（Sensors Analytics Certification - Analyst，神策分析师认证）课程的这个章节里，我们将深入学习数据采集的相关知识，为成为优秀的分析师继续努力前行🚀！<br>如果你对SACA课程还不太了解，可以点击<a target="_blank" rel="noopener" href="https://school.sensorsdata.cn/">神策学堂</a>查看更多详情，这里有专业的课程体系和丰富的学习资源，能帮助你在数据分析的道路上越走越远。</p>
+<h2 id="第二章课堂笔记"><a href="#第二章课堂笔记" class="headerlink" title="第二章课堂笔记"></a>第二章课堂笔记</h2><h3 id="一、课程核心内容回顾"><a href="#一、课程核心内容回顾" class="headerlink" title="一、课程核心内容回顾"></a>一、课程核心内容回顾</h3><h4 id="（一）数据基础结构"><a href="#（一）数据基础结构" class="headerlink" title="（一）数据基础结构"></a>（一）数据基础结构</h4><h5 id="1-用户行为记录"><a href="#1-用户行为记录" class="headerlink" title="1. 用户行为记录"></a>1. 用户行为记录</h5><ul>
+<li>在神策分析中，使用事件模型（Event模型）描述用户行为，涵盖事件（Event）和用户（User）。</li>
+<li>一个完整的事件包含Who（参与事件的用户）、When（事件发生时间）、Where（事件发生地点）、How（用户触发事件的方式）、What（用户所做事件的具体内容）等关键因素。</li>
+<li>例如，购买事件可能需记录商品名称、数量、金额等字段。每个用户还有各种属性，如年龄、性别、会员等级等。</li>
+</ul>
+<h5 id="2-数据模型"><a href="#2-数据模型" class="headerlink" title="2. 数据模型"></a>2. 数据模型</h5><ul>
+<li>神策有三个数据模型，即event实体、user实体和item实体。<ul>
+<li>Event实体指用户在某个时间点、某个地方，以某种方式完成了某个具体的事情；</li>
+<li>User实体是用户的长期属性；</li>
+<li>Item实体对Event - User模型进行补充。</li>
+</ul>
+</li>
+<li>Event模型能提供比传统PV模型更全面具体的信息，可满足精细化分析需求，且仍可完成PV统计。</li>
+<li>相关文章：<a target="_blank" rel="noopener" href="https://school.sensorsdata.cn/articleDetail?articleId=2312">【数据分析】多维事件模型详解之 Event 模型、User 实体、 Item 实体</a></li>
+</ul>
+<h5 id="3-事件和属性概念"><a href="#3-事件和属性概念" class="headerlink" title="3. 事件和属性概念"></a>3. 事件和属性概念</h5><ul>
+<li><strong>事件</strong>：用于记录用户的每一个行为，如浏览、点击、离开、停留等。有预置事件和自定义事件，预置事件如$pageview（SWeb浏览页面）等，自定义事件如“浏览商品详情页”等，每个事件都有对应的属性。</li>
+<li><strong>属性</strong>：用来描述行为、用户的动作、状态、信息。分为公共属性（所有事件携带的属性）、自定义“事件”属性（描述事件发生时的信息）、自定义“用户”属性和预置属性（以$开头，描述用户信息）。预置属性包含distinct_id（用户ID）、time（时间）、$app_version（应用的版本）等众多字段。</li>
+</ul>
+<h5 id="4-用户关联"><a href="#4-用户关联" class="headerlink" title="4. 用户关联"></a>4. 用户关联</h5><ul>
+<li><strong>简易用户关联</strong>：有一对一和多对一两种方案。<ul>
+<li>一对一方案是一个设备ID关联一个登录ID；</li>
+<li>多对一方案是多个设备ID关联一个登录ID。</li>
+</ul>
+</li>
+<li><strong>全域用户关联</strong>：可将同一用户的不同ID打通，支持自由关联和解绑。<ul>
+<li>业务ID可分为设备ID、特定生态的ID、业务相关的标识三类，不同类型的ID稳定性和生命周期不同。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：<ul>
+<li>用户关联一对一：可贯通一个用户在一个设备上注册前后的行为；</li>
+<li>用户关联多对一：可贯通一个用户在多个设备上进行登录；</li>
+<li>全域用户关联适用于业务触 много、拉通相互独立的多业务线的用户数据的场景。</li>
+</ul>
+</li>
+<li><strong>相关文章</strong>：<ul>
+<li><a target="_blank" rel="noopener" href="https://manual.sensorsdata.cn/sa/docs/tech_knowledge_user/v0204">标识用户——简易用户关联（IDM 2.0 &amp; IDM 1.0）-神策分析 帮助中心 | 数据分析使用手册</a></li>
+<li><a target="_blank" rel="noopener" href="https://manual.sensorsdata.cn/sa/docs/tech_knowledge_user_idm3/v0300">标识用户——全域用户关联-神策分析 帮助中心 | 数据分析使用手册</a>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="（二）指标体系搭建"><a href="#（二）指标体系搭建" class="headerlink" title="（二）指标体系搭建"></a>（二）指标体系搭建</h4><h5 id="1-指标体系介绍"><a href="#1-指标体系介绍" class="headerlink" title="1. 指标体系介绍"></a>1. 指标体系介绍</h5><ul>
+<li>指标是反映某一个业务现象或业务场景的量化特征。</li>
+<li>指标体系是由若干个反映企业业务情况数量特征的相对独立又相互联系的统计指标所组成的有机整体。</li>
+<li>搭建指标体系可统一公司口径、提升组织效率、了解业务现状、科学决策业务。</li>
+<li>好的指标体系分为描述现状、分析现状、预测未来、改善未来四个层次。</li>
+</ul>
+<h5 id="2-搭建步骤（OKF模型-关键因素分解法）"><a href="#2-搭建步骤（OKF模型-关键因素分解法）" class="headerlink" title="2. 搭建步骤（OKF模型 关键因素分解法）"></a>2. 搭建步骤（OKF模型 关键因素分解法）</h5><ul>
+<li><strong>明确业务目标（北极星指标）</strong>：<ul>
+<li>考虑产品定位和核心价值、行业发展阶段、产品阶段等维度选取。</li>
+<li>如电商公司在特定阶段，第一目标可能是营收型指标，如GMV。</li>
+</ul>
+</li>
+<li><strong>拆解关键因素</strong>：<ul>
+<li>通过乘法和加法进行拆解。</li>
+<li>如GMV &#x3D; 购买人数 * 客单价 &#x3D; 访问人数 * 购买转化 * 笔单价 * 复购率。</li>
+<li>拆解需符合业务主流程、对上级指标有解释力、有优化可能性且足够重要。</li>
+</ul>
+</li>
+<li><strong>罗列业务度量</strong>：各部门收到拆解目标后，梳理用户旅程，明确策略和具体执行动作，根据用户行为确定节点和触点并加以影响。</li>
+</ul>
+<h5 id="3-相关文章："><a href="#3-相关文章：" class="headerlink" title="3. 相关文章："></a>3. 相关文章：</h5><ul>
+<li><a target="_blank" rel="noopener" href="https://manual.sensorsdata.cn/sa/docs/data_table_creation_indicators/v0205">指标管理 - 神策分析 帮助中心 | 数据分析使用手册</a>。</li>
+</ul>
+<h4 id="（三）事件设计思路"><a href="#（三）事件设计思路" class="headerlink" title="（三）事件设计思路"></a>（三）事件设计思路</h4><h5 id="1-从需求指标逆向推导事件"><a href="#1-从需求指标逆向推导事件" class="headerlink" title="1. 从需求指标逆向推导事件"></a>1. 从需求指标逆向推导事件</h5><ul>
+<li><strong>指标指导事件</strong>：根据业务目标确定需要关注的指标，进而确定相关事件。<ul>
+<li>基于业务需求确定事件，根据业务流程和用户关键行为来设计事件。</li>
+<li>例如在电商网购流程中，可将浏览商品、加入购物车、支付订单等每一个步骤设置为一个事件。想得到日活数，需设置启动App事件；想得到日注册数，要设置用户注册事件；想得到日订单数，则设置用户下单事件。</li>
+</ul>
+</li>
+<li><strong>丰富事件属性</strong>：为事件添加合适的属性，以便更全面地分析数据。<ul>
+<li>为事件添加属性：不同的事件需要记录不同的信息，这些信息就是事件属性。</li>
+<li>比如对于“购买”类型的事件，可能需要记录商品名称、商品类型、购买数量、购买金额、付款方式等字段；对于“搜索”类型的事件，可能需要记录搜索关键词、搜索类型等。应该采集哪些事件，以及每个事件采集哪些事件属性，完全取决于产品形态以及分析需求。</li>
+</ul>
+</li>
+<li><strong>查缺补漏</strong>：检查事件和属性是否完整、合理，确保能满足分析需求。<ul>
+<li>聚合处理事件：神策分析在做埋点需求设计时，针对所有类似的触发机制和场景的事件，会做聚合处理。</li>
+<li>例如将“APP页面浏览”作为一个事件，通过增加“页面名称”这个属性来区分究竟浏览的是哪个具体的页面，这样可使企业的事件量通常维持在30 - 50个左右，配以归类机制，极大方便企业进行事件管理，给业务人员带来极强的易用性。</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-采集方法"><a href="#2-采集方法" class="headerlink" title="2. 采集方法"></a>2. 采集方法</h5><ul>
+<li><strong>全埋点</strong>：可以自动采集用户的一些基本行为数据，无需手动进行大量的埋点操作。</li>
+<li><strong>可视化埋点</strong>：通过可视化的界面进行埋点设置，降低了埋点的技术门槛。</li>
+<li><strong>日志导入</strong>：可以将服务器日志等数据导入到神策系统中。</li>
+<li><strong>代码埋点</strong>：允许开发人员通过编写代码的方式，精确地采集特定的用户行为数据。</li>
+</ul>
+<h4 id="（四）数据上线"><a href="#（四）数据上线" class="headerlink" title="（四）数据上线"></a>（四）数据上线</h4><h5 id="1-数据接入："><a href="#1-数据接入：" class="headerlink" title="1. 数据接入："></a>1. 数据接入：</h5><p>神策分析支持多种数据接入方式，包括客户端（如iOS、安卓、Web／H5、微信小程序）采集、服务器日志采集、业务数据库采集、历史数据导入以及对接CRM、ERP等第三方系统数据。还提供了客户端SDK、服务端SDK、外部数据导入工具及API导入等方式。例如客户端采集主要用于分析UV、PV、点击量等基本指标；服务器日志采集具有更强的采集能力，能更好地支撑精细化分析场景。</p>
+<h5 id="2-数据校验："><a href="#2-数据校验：" class="headerlink" title="2. 数据校验："></a>2. 数据校验：</h5><p>数据采集发送到神策平台后，需要确保采集的数据准确无误。检测事件是否齐全，保证没有遗漏重要的用户行为事件；检查属性是否缺失，确保每个事件的相关属性都被完整记录；对比行为触发的次数与测试时记录的是否一致，验证数据的准确性；确认触发行为的用户和时间是否记录正确，保证数据的关联性和时效性。</p>
+<h5 id="3-基础配置："><a href="#3-基础配置：" class="headerlink" title="3. 基础配置："></a>3. 基础配置：</h5><p>快速上手正式环境的基础配置，如元数据管理、账号权限管理等。元数据管理可对事件、属性等信息进行管理；账号权限管理可根据不同角色分配不同的操作权限，保障数据的安全性和使用规范性。</p>
+<h4 id="（五）数据呈现"><a href="#（五）数据呈现" class="headerlink" title="（五）数据呈现"></a>（五）数据呈现</h4><h5 id="1-图表介绍"><a href="#1-图表介绍" class="headerlink" title="1. 图表介绍"></a>1. 图表介绍</h5><ul>
+<li><strong>线形图</strong>：一般用以表达变化趋势。</li>
+<li><strong>柱形图</strong>：一般用以表示总值的变化。</li>
+<li><strong>饼状图</strong>：一般用以表示各属性的占比量。</li>
+<li><strong>表格</strong>：一般用于单属性多个值时的展示。</li>
+<li><strong>留存图</strong>：一般用以表示用户的留存状况。</li>
+<li><strong>分布图</strong>：一般用以对用户的分层。</li>
+<li><strong>漏斗转化</strong>：一般用以表示流程中的转化率。</li>
+</ul>
+<h5 id="2-概览配置："><a href="#2-概览配置：" class="headerlink" title="2. 概览配置："></a>2. 概览配置：</h5><ul>
+<li>神策提供可视化组件用于直观、清晰地展示数据分析的过程与结果。</li>
+<li>在神策系统中，概览的创建方式有多种，除了直接新建添加外，还可以将常用的分析场景保存为书签，然后直接将书签添加到概览中，方便快速查看和使用。</li>
+</ul>
+<h5 id="3-报表"><a href="#3-报表" class="headerlink" title="3. 报表"></a>3. 报表</h5><ul>
+<li>报表是数据分析结果或看数思路的呈现，用于向读者传达清晰有效的数据信息和业务简介。</li>
+<li>报表支持拖拽调整大小和位置，有管理权限的报表可通过右上角“编辑报表”进入编辑页面调整内容和布局。可添加组件，编辑图表组件时可选择业务模型来配置图表，需注意实时类型的报表仅支持使用实时的业务模型，离线类型的报表仅支持使用离线的业务模型。</li>
+</ul>
+<h5 id="4-预置概览"><a href="#4-预置概览" class="headerlink" title="4. 预置概览"></a>4. 预置概览</h5><ul>
+<li>预置概览是基于神策数据全埋点和少量用户自定义自动生成的数据概览群，大体分为整体概况、用户获取、活跃与留存、事件转化、用户特征五类。</li>
+<li>可帮助系统全面地了解产品整体的健康情况，管理员可进行设置和修改，非管理员账号只有查看权限。</li>
+</ul>
+<h3 id="二、总结"><a href="#二、总结" class="headerlink" title="二、总结"></a>二、总结</h3><p>本次课程围绕数据基础结构、指标体系搭建、事件设计思路、数据上线和数据呈现等方面展开，通过课程内容和互联网扩展知识，我们深入了解了神策分析在用户行为分析、数据建模、用户关联以及指标体系构建等方面的原理和应用。在实际应用中，企业可根据自身业务需求和发展阶段，合理运用神策数据平台的各项功能，搭建有效的指标体系，实现数字化运营和增长。</p>
+<h2 id="第二章考试题目及解析"><a href="#第二章考试题目及解析" class="headerlink" title="第二章考试题目及解析"></a>第二章考试题目及解析</h2><h3 id="（AI生成，仅供参考）"><a href="#（AI生成，仅供参考）" class="headerlink" title="（AI生成，仅供参考）"></a>（AI生成，仅供参考）</h3><h2 id="一、单项选择题"><a href="#一、单项选择题" class="headerlink" title="一、单项选择题"></a>一、单项选择题</h2><ol>
+<li><p><strong>在神策分析中，描述用户行为的事件模型包含的两个核心实体是（ ）</strong>  </p>
+<ul>
+<li>A. 事件和物品  </li>
+<li>B. 事件和用户 ✅  </li>
+<li>C. 用户和物品  </li>
+<li>D. 以上都不对<br><strong>解析：</strong> 在神策分析中，使用事件模型（Event 模型）来描述用户在产品上的各种行为，该模型包括事件（Event）和用户（User）两个核心实体。</li>
+</ul>
+</li>
+<li><p><strong>神策分析采用的事件模型相比于传统的 PV 模型，优势在于（ ）</strong>  </p>
+<ul>
+<li>A. 只能完成 PV 统计  </li>
+<li>B. 无法满足精细化分析需求  </li>
+<li>C. 能提供更全面且具体的信息 ✅  </li>
+<li>D. 只能分析页面访问量<br><strong>解析：</strong> 神策分析采用的事件模型可以提供更全面且更具体的信息，满足产品和运营的精细化分析需求。</li>
+</ul>
+</li>
+<li><p><strong>以下哪种不属于业务 ID 的分类（ ）</strong>  </p>
+<ul>
+<li>A. 设备 ID  </li>
+<li>B. 特定生态的 ID  </li>
+<li>C. 临时 ID ✅  </li>
+<li>D. 业务相关的标识<br><strong>解析：</strong> 业务 ID 包括设备 ID、特定生态的 ID、业务相关的标识，临时 ID 不属于业务 ID 分类。</li>
+</ul>
+</li>
+<li><p><strong>搭建指标体系时，将企业第一目标拆解到各部门的方法是（ ）</strong>  </p>
+<ul>
+<li>A. 只能用乘法  </li>
+<li>B. 只能用加法  </li>
+<li>C. 用乘法和加法 ✅  </li>
+<li>D. 随机拆解<br><strong>解析：</strong> 拆解方式可以用乘法和加法，如 GMV &#x3D; 购买人数 × 客单价 &#x3D; 访问人数 × 购买转化 × 笔单价 × 复购率。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="二、多项选择题"><a href="#二、多项选择题" class="headerlink" title="二、多项选择题"></a>二、多项选择题</h2><ol>
+<li><p><strong>一个完整的事件（Event）包含的关键因素有（ ）</strong>  </p>
+<ul>
+<li>A. Who ✅  </li>
+<li>B. When ✅  </li>
+<li>C. Where ✅  </li>
+<li>D. How ✅  </li>
+<li>E. What ✅<br><strong>解析：</strong> 完整的事件包含 Who、When、Where、How、What 这些关键因素。</li>
+</ul>
+</li>
+<li><p><strong>神策数据根基平台的功能包括（ ）</strong>  </p>
+<ul>
+<li>A. 多源采集 ✅  </li>
+<li>B. 数据治理 ✅  </li>
+<li>C. 数据仓库 ✅  </li>
+<li>D. 智能引擎 ✅  </li>
+<li>E. 私有云平台 ✅<br><strong>解析：</strong> 神策数据根基平台具备“采、治、存、查、智”能力，包含上述所有功能。</li>
+</ul>
+</li>
+<li><p><strong>神策分析的功能有（ ）</strong>  </p>
+<ul>
+<li>A. 用户分析洞察 ✅  </li>
+<li>B. 市场获客优化 ✅  </li>
+<li>C. 产品监测运营 ✅  </li>
+<li>D. 企业经营分析 ✅<br><strong>解析：</strong> 神策分析支持用户分析洞察、市场获客优化、产品监测运营、企业经营分析等功能。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="三、简答题"><a href="#三、简答题" class="headerlink" title="三、简答题"></a>三、简答题</h2><h3 id="1-简述神策分析中用户关联的重要性及常见的关联方案。"><a href="#1-简述神策分析中用户关联的重要性及常见的关联方案。" class="headerlink" title="1. 简述神策分析中用户关联的重要性及常见的关联方案。"></a>1. 简述神策分析中用户关联的重要性及常见的关联方案。</h3><p><strong>答案：</strong>  重要性：选取合适的用户标识对于提高用户行为分析的准确性有非常大的影响，尤其是漏斗、留存、Session 等用户相关的分析功能。通过用户关联可以贯通一个用户在不同设备、不同阶段的行为数据，方便系统地进行用户行为分析。 常见关联方案：简易用户关联有一对一和多对一两种方案，一对一关联即一个设备 ID 关联一个登录 ID；多对一关联可使一个登录 ID 关联多个设备 ID。全域用户关联可以将同一用户的不同 ID 打通，支持用户标识之间的自由关联，同时直接解绑用户标识，明确了用户标识的语义，所有用户标识都需要先定义，再使用。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/fluid-blog/categories/%F0%9F%93%8A-SACA%E7%A5%9E%E7%AD%96%E5%88%86%E6%9E%90%E5%B8%88%E8%AE%A4%E8%AF%81%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0/" class="category-chain-item">📊 SACA神策分析师认证：数据分析实战笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/fluid-blog/categories/%F0%9F%93%8A-SACA%E7%A5%9E%E7%AD%96%E5%88%86%E6%9E%90%E5%B8%88%E8%AE%A4%E8%AF%81%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%E7%AC%94%E8%AE%B0/%E6%B5%8B%E8%AF%95%E7%9F%A5%E8%AF%86%E6%B2%89%E6%B7%80/" class="category-chain-item">测试知识沉淀</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/fluid-blog/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" class="print-no-link">#数据分析</a>
+      
+        <a href="/fluid-blog/tags/SACA%E8%AF%BE%E7%A8%8B/" class="print-no-link">#SACA课程</a>
+      
+        <a href="/fluid-blog/tags/%E7%A5%9E%E7%AD%96%E5%88%86%E6%9E%90%E5%B8%88%E8%AE%A4%E8%AF%81/" class="print-no-link">#神策分析师认证</a>
+      
+        <a href="/fluid-blog/tags/%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/" class="print-no-link">#数据采集</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SA分析师认证课程 - 第二章 了解数据采集基础📚</div>
+      <div>https://linn0813.github.io/2025/05/22/2025-05-22-SACA-chapter2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yuxiaoling</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/25/2025-05-25-SACA-chapter3/" title="SA分析师认证课程 - 第三章 建立数据分析思维💡">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SA分析师认证课程 - 第三章 建立数据分析思维💡</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/fluid-blog/2025/05/21/2025-05-21-build-blog/" title="Hexo和Markdown搭建个人博客教程🎈">
+                        <span class="hidden-mobile">Hexo和Markdown搭建个人博客教程🎈</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/fluid-blog/js/events.js" ></script>
+<script  src="/fluid-blog/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/fluid-blog/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://lib.baomitu.com/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/fluid-blog/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/fluid-blog/js/theme-switcher-ui.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/fluid-blog/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
